@@ -1,7 +1,7 @@
 import feedparser
 import os
-from urllib.parse import urlparse
-from .utils import HtmlCleaner
+
+from . import utils
 
 class WordpressBlog:
     def __init__(self, url, strip=[], max_pages=2000):
@@ -11,9 +11,9 @@ class WordpressBlog:
         max_pages: maximum number of RSS pages to fetch
         """
         self.feed_url = url + "/feed"
-        self.cleaner = HtmlCleaner(strip)
+        self.cleaner = utils.HtmlCleaner(strip)
         self.max_pages = max_pages
-        self.name = _get_file_name_for_feed(self.feed_url)
+        self.name = utils.url_to_filename(url)
 
     def fetch_entries(self):
         entries = []
@@ -33,13 +33,3 @@ class WordpressBlog:
                 text = entry["title"] + "\n\n" + content_text
                 entry["text"] = text
                 yield entry
-
-def _get_file_name_for_feed(feed_url):
-    url = urlparse(feed_url)
-    path = url.path.lstrip(os.path.sep).split(os.sep)
-    if len(path) > 0 and path[-1] == 'feed':
-        path = path[:-1]
-    if len(path) > 0 and path[-1] == '/':
-        path = path[:-1]
-
-    return "-".join([url.netloc] + [p for p in path])

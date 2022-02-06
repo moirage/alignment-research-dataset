@@ -1,6 +1,7 @@
 from pprint import pprint
 
 from .wp_blog import WordpressBlog
+from .medium_blog import MediumBlog
 
 BLOG_REGISTRY = [
     WordpressBlog("https://aiimpacts.org"),
@@ -19,6 +20,8 @@ BLOG_REGISTRY = [
     WordpressBlog("https://www.ibm.com/blogs/policy"),
     WordpressBlog("https://www.microsoft.com/en-us/research/blog"),
     WordpressBlog("https://www.yudkowsky.net", ["^\s*Download as PDF\n"]),
+    MediumBlog("https://ai-alignment.com", "2012-01-01"),
+    MediumBlog("https://towardsdatascience.com", "2010-11-21"),
 ]
 
 ALL_BLOGS = sorted([blog.name for blog in BLOG_REGISTRY])
