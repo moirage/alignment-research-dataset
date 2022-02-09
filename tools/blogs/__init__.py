@@ -22,6 +22,9 @@ BLOG_REGISTRY = [
     WordpressBlog("https://www.yudkowsky.net", ["^\s*Download as PDF\n"]),
     MediumBlog("https://ai-alignment.com", "2012-01-01"),
     MediumBlog("https://towardsdatascience.com", "2010-11-21"),
+    MediumBlog("https://deepmindsafetyresearch.medium.com/", "2018-09-27"),
+    MediumBlog("https://medium.com/@lucarade", "2018-04-28"),
+    MediumBlog("https://medium.com/partnership-on-ai", "2020-04-15"),
 ]
 
 ALL_BLOGS = sorted([blog.name for blog in BLOG_REGISTRY])
