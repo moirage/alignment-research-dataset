@@ -2,6 +2,10 @@ import bs4
 import jsonlines
 import os
 import re
+import time
+
+from urllib.parse import urlparse
+
 
 class EntryWriter:
     def __init__(self, name, path):
@@ -38,10 +42,13 @@ class EntryWriter:
         self.entry_idx += 1
 
 class HtmlCleaner:
-    def __init__(self, rgx_list):
+    def __init__(self, rgx_list=[]):
         """
         rgx_list: list of regexes to strip from the HTML
         """
+        if isinstance(rgx_list, str):
+            rgx_list = [rgx_list]
+
         self.regexes = [re.compile(r) for r in rgx_list]
 
     def clean(self, html):
@@ -51,3 +58,15 @@ class HtmlCleaner:
             text = rgx.sub("", text)
 
         return text
+
+def random_delay():
+    import random
+    time.sleep(random.randint(1, 10))
+
+def url_to_filename(url):
+    """
+    Convert a URL to a suitable filename.
+    """
+    url = urlparse(url)
+    path = url.path.lstrip(os.sep).rstrip(os.sep).split(os.sep)
+    return "-".join([url.netloc] + list(filter(None, path)))
