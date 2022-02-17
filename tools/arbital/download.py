@@ -101,8 +101,3 @@ def iter_arbital_pages(subset='ai_alignment', data_dir='data/arbital', progress=
     for alias in tqdm(get_arbital_page_aliases(subset, data_dir)):
         yield get_page(alias, subset, data_dir)
 
-
-for page in iter_arbital_pages(subset='math'):
-    pass
-    #print(page['title'])
-
