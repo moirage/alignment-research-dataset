@@ -6,6 +6,9 @@ __pycache__/
 # Data
 data/
 
+# Pandoc
+pandoc/
+
 # Environments
 .env
 .venv
