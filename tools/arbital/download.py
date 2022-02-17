@@ -5,8 +5,8 @@ import shlex
 import os
 
 
-def get_page(alias, data_dir):
-    fn = os.path.join(data_dir, f'arbital_{alias}.json')
+def get_page(alias, subset, data_dir):
+    fn = os.path.join(data_dir, f'arbital_{subset}_{alias}.json')
     if os.path.exists(fn):
         with open(fn, 'r') as f:
             data = json.load(f)
@@ -27,7 +27,7 @@ def get_page(alias, data_dir):
           --compressed
         """
         cmd = shlex.split(cmd)
-        out = subprocess.run(cmd, stdout=subprocess.PIPE).stdout
+        out = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         data = json.loads(out)
 
         if not os.path.exists(data_dir):
@@ -43,8 +43,8 @@ def get_page(alias, data_dir):
     }
 
 
-def get_arbital_page_aliases(data_dir):
-    fn = os.path.join(data_dir, f'arbital.json')
+def get_arbital_page_aliases(subset, data_dir):
+    fn = os.path.join(data_dir, f'arbital_{subset}.json')
     if os.path.exists(fn):
         with open(fn, 'r') as f:
             data = json.load(f)
@@ -59,13 +59,13 @@ def get_arbital_page_aliases(data_dir):
           -H 'sec-fetch-site: same-origin' \\
           -H 'sec-fetch-mode: cors' \\
           -H 'sec-fetch-dest: empty' \\
-          -H 'referer: https://arbital.com/explore/ai_alignment/' \\
+          -H 'referer: https://arbital.com/explore/{subset}/' \\
           -H 'accept-language: en-US,en;q=0.9' \\
-          --data-raw '{{"pageAlias":"ai_alignment"}}' \\
+          --data-raw '{{"pageAlias":"{subset}"}}' \\
           --compressed
         """
         cmd = shlex.split(cmd)
-        out = subprocess.run(cmd, stdout=subprocess.PIPE).stdout
+        out = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         data = json.loads(out)
 
         if not os.path.exists(data_dir):
@@ -76,9 +76,10 @@ def get_arbital_page_aliases(data_dir):
     return list(data['pages'].keys())
 
 
-def iter_arbital_pages(data_dir='data/arbital'):
+def iter_arbital_pages(subset='ai_alignment', data_dir='data/arbital', progress=True):
     """
     Returns a yields pages found on the arbital website, caching them into `data_dir`.
+    The subset must be 'ai_alignment', 'math', or 'rationality'.
     Each page has the following attributes:
 
         {
@@ -89,6 +90,19 @@ def iter_arbital_pages(data_dir='data/arbital'):
 
     """
 
-    for alias in get_arbital_page_aliases(data_dir):
-        yield get_page(alias, data_dir)
+    assert subset in ['ai_alignment', 'math', 'rationality']
+
+    if progress:
+        from tqdm import tqdm
+    else:
+        def tqdm(a):
+            return a
+
+    for alias in tqdm(get_arbital_page_aliases(subset, data_dir)):
+        yield get_page(alias, subset, data_dir)
+
+
+for page in iter_arbital_pages(subset='math'):
+    pass
+    #print(page['title'])
 
