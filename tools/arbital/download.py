@@ -4,12 +4,9 @@ import subprocess
 import shlex
 import os
 
-# is there a place for cached files yet?
-DATA_DIR = 'data/arbital'
 
-
-def get_page(alias):
-    fn = os.path.join(DATA_DIR, f'arbital_{alias}.json')
+def get_page(alias, data_dir):
+    fn = os.path.join(data_dir, f'arbital_{alias}.json')
     if os.path.exists(fn):
         with open(fn, 'r') as f:
             data = json.load(f)
@@ -33,8 +30,8 @@ def get_page(alias):
         out = subprocess.run(cmd, stdout=subprocess.PIPE).stdout
         data = json.loads(out)
 
-        if not os.path.exists(DATA_DIR):
-            os.makedirs(DATA_DIR, exist_ok=True)
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir, exist_ok=True)
         with open(fn, 'w') as f:
             f.write(json.dumps(data))
 
@@ -46,8 +43,8 @@ def get_page(alias):
     }
 
 
-def get_arbital_page_aliases():
-    fn = os.path.join(DATA_DIR, f'arbital.json')
+def get_arbital_page_aliases(data_dir):
+    fn = os.path.join(data_dir, f'arbital.json')
     if os.path.exists(fn):
         with open(fn, 'r') as f:
             data = json.load(f)
@@ -71,15 +68,27 @@ def get_arbital_page_aliases():
         out = subprocess.run(cmd, stdout=subprocess.PIPE).stdout
         data = json.loads(out)
 
-        if not os.path.exists(DATA_DIR):
-            os.makedirs(DATA_DIR, exist_ok=True)
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir, exist_ok=True)
         with open(fn, 'w') as f:
             f.write(json.dumps(data))
 
     return list(data['pages'].keys())
 
 
-def iter_pages():
-    for alias in tqdm(get_arbital_page_aliases()):
-        yield get_page(alias)
+def iter_arbital_pages(data_dir='data/arbital'):
+    """
+    Returns a yields pages found on the arbital website, caching them into `data_dir`.
+    Each page has the following attributes:
+
+        {
+            'title': str,  # title of the article
+            'text': str,  # text contents of the article
+            'pageCreatedAt': str,  # ISO formatted date string
+        }
+
+    """
+
+    for alias in get_arbital_page_aliases(data_dir):
+        yield get_page(alias, data_dir)
 
