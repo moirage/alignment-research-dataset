@@ -5,8 +5,19 @@ import shlex
 import os
 
 
-def get_page(alias, subset, data_dir):
-    fn = os.path.join(data_dir, f'arbital_{subset}_{alias}.json')
+ARBITAL_SUBSPACES = [
+    'ai_alignment',
+    'math',
+    'rationality',
+]
+
+
+def clean_page(page):
+    return page
+
+
+def get_page(alias, subspace, cache_dir):
+    fn = os.path.join(cache_dir, f'arbital_{subspace}_{alias}.json')
     if os.path.exists(fn):
         with open(fn, 'r') as f:
             data = json.load(f)
@@ -30,21 +41,22 @@ def get_page(alias, subset, data_dir):
         out = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         data = json.loads(out)
 
-        if not os.path.exists(data_dir):
-            os.makedirs(data_dir, exist_ok=True)
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir, exist_ok=True)
         with open(fn, 'w') as f:
             f.write(json.dumps(data))
 
     p = data['pages'][alias]
-    return {
+    return clean_page({
+        'alias': alias,
         'title': p['title'],
         'text': p['text'],
         'pageCreatedAt': p['pageCreatedAt'],
-    }
+    })
 
 
-def get_arbital_page_aliases(subset, data_dir):
-    fn = os.path.join(data_dir, f'arbital_{subset}.json')
+def get_arbital_page_aliases(subspace, cache_dir):
+    fn = os.path.join(cache_dir, f'arbital_{subspace}.json')
     if os.path.exists(fn):
         with open(fn, 'r') as f:
             data = json.load(f)
@@ -59,45 +71,19 @@ def get_arbital_page_aliases(subset, data_dir):
           -H 'sec-fetch-site: same-origin' \\
           -H 'sec-fetch-mode: cors' \\
           -H 'sec-fetch-dest: empty' \\
-          -H 'referer: https://arbital.com/explore/{subset}/' \\
+          -H 'referer: https://arbital.com/explore/{subspace}/' \\
           -H 'accept-language: en-US,en;q=0.9' \\
-          --data-raw '{{"pageAlias":"{subset}"}}' \\
+          --data-raw '{{"pageAlias":"{subspace}"}}' \\
           --compressed
         """
         cmd = shlex.split(cmd)
         out = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         data = json.loads(out)
 
-        if not os.path.exists(data_dir):
-            os.makedirs(data_dir, exist_ok=True)
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir, exist_ok=True)
         with open(fn, 'w') as f:
             f.write(json.dumps(data))
 
     return list(data['pages'].keys())
-
-
-def iter_arbital_pages(subset='ai_alignment', data_dir='data/arbital', progress=True):
-    """
-    Returns a yields pages found on the arbital website, caching them into `data_dir`.
-    The subset must be 'ai_alignment', 'math', or 'rationality'.
-    Each page has the following attributes:
-
-        {
-            'title': str,  # title of the article
-            'text': str,  # text contents of the article
-            'pageCreatedAt': str,  # ISO formatted date string
-        }
-
-    """
-
-    assert subset in ['ai_alignment', 'math', 'rationality']
-
-    if progress:
-        from tqdm import tqdm
-    else:
-        def tqdm(a):
-            return a
-
-    for alias in tqdm(get_arbital_page_aliases(subset, data_dir)):
-        yield get_page(alias, subset, data_dir)
 
