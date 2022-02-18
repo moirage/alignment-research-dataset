@@ -4,4 +4,7 @@ feedparser==6.0.8
 jsonlines==3.0.0
 requests==2.27.1
 wheel
+GitPython
+gdown
+pypandoc
 tqdm
