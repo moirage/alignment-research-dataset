@@ -27,13 +27,3 @@ BLOG_REGISTRY = [
     MediumBlog("https://medium.com/partnership-on-ai", "2020-04-15"),
 ]
 
-ALL_BLOGS = sorted([blog.name for blog in BLOG_REGISTRY])
-BLOG_MAP = dict([(blog.name, blog) for blog in BLOG_REGISTRY])
-
-def get_blog(blog_name):
-    try:
-        return BLOG_MAP[blog_name]
-    except KeyError as e:
-        print("Available blogs:")
-        pprint(ALL_BLOGS)
-        raise KeyError(f"Missing blog {blog_name}")
