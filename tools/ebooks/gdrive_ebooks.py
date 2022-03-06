@@ -91,8 +91,13 @@ class GDrive:
         self.AIS_scrape_local = os.listdir(self.local_out)
 
     def fetch(self):
+        print('Downloading everything...')
         self.pull_drom_gdrive()
+        print('Converting to text...')
         self.convert_to_txt()
+        print('Cleaning text...')
         self.clean_txt()
+        print('Converting to json...')
         self.jsonify_everything()
+        print('Merging into single json...')
         self.merge_everything()
