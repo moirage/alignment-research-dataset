@@ -6,7 +6,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from urllib.parse import urljoin
 
-from . import utils
+from align_data.common import utils
 
 class MediumBlog:
     """
