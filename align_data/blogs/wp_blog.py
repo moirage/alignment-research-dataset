@@ -16,7 +16,6 @@ class WordpressBlog:
         self.name = utils.url_to_filename(url)
 
     def fetch_entries(self):
-        entries = []
         last_title = ""
         for page in range(0, self.max_pages):
             paged_url="{}?paged={}".format(self.feed_url, page+1)

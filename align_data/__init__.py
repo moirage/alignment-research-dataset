@@ -1,6 +1,7 @@
 import align_data.blogs
+import align_data.ebooks
 
-DATASET_REGISTRY = blogs.BLOG_REGISTRY
+DATASET_REGISTRY = blogs.BLOG_REGISTRY + ebooks.EBOOK_REGISTRY
 
 ALL_DATASETS = sorted([dataset.name for dataset in DATASET_REGISTRY])
 DATASET_MAP = dict([(dataset.name, dataset) for dataset in DATASET_REGISTRY])

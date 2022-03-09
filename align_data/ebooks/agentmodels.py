@@ -9,7 +9,7 @@ class AgentModels:
         self.repo = repo
         self.name = 'agentmodels.org'
 
-    def fetch(self, to_path='data/ebooks'):
+    def fetch_entries(self, to_path='data/ebooks'):
         if not os.path.exists(to_path):
             os.makedirs(to_path)
         if not os.path.exists(to_path + '/agentmodels_markdown'):
@@ -17,7 +17,20 @@ class AgentModels:
         Repo.clone_from(self.repo, to_path+'/agentmodels.org') 
         os.system('mv ' + to_path +'/agentmodels.org/chapters/*.md ' + to_path + '/agentmodels_markdown')
         os.system('rm -rf ' + to_path + '/agentmodels.org')
+        full_book = ''
         for filename in glob.iglob(os.path.join(to_path + '/agentmodels_markdown', '*.md')):
-            os.rename(filename, filename[:-3] + '.txt')
+            with open(filename, 'r') as file:
+                full_book += file.read().replace('\n', '')
+        os.system('rm -rf ' + to_path)
+        metadata = {}
+        metadata['source'] = 'GitHub'
+        metadata['source_filetype'] = 'markdown'
+        metadata['converted_with'] = 'not converted'
+        metadata['book_title'] = 'Modeling Agents with Probabilistic Programs'
+        metadata['author'] = ['Owain Evans', 'Andreas Stuhlmüller', 'John Salvatier', 'Daniel Filan']
+        metadata['date_published'] = '2016'
+        metadata['text'] = full_book
+        yield metadata
+
         
     

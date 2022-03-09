@@ -1,7 +1,6 @@
 import ebooks
 import argparse
 import os
-import pypandoc
 from pypandoc.pandoc_download import download_pandoc
 
 def cmd_list(args):
