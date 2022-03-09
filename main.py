@@ -16,6 +16,14 @@ def cmd_fetch(args):
         for entry in align_data.get_dataset(args.name).fetch_entries():
             writer.write(entry)
 
+def cmd_fetch_all(args):
+    for name in align_data.ALL_DATASETS:
+        print(name)
+        if not os.path.exists(os.path.join(args.path, name + '.jsonl')):
+            with EntryWriter(name, args.path) as writer:
+                for entry in align_data.get_dataset(name).fetch_entries():
+                    writer.write(entry)
+
 def create_arg_parser():
     parser = argparse.ArgumentParser(description='Fetch datasets.')
     subparsers = parser.add_subparsers(title='commands',
@@ -29,6 +37,10 @@ def create_arg_parser():
     fetch_cmd.set_defaults(func=cmd_fetch)
     fetch_cmd.add_argument('name', help='Name of dataset to fetch.')
     fetch_cmd.add_argument('--path', default='data', help='Path to save datasets.')
+
+    fetch_all_cmd = subparsers.add_parser('fetch-all', help='Fetch all datasets.')
+    fetch_all_cmd.set_defaults(func=cmd_fetch_all)
+    fetch_all_cmd.add_argument('--path', default='data', help='Path to save datasets.')
 
     return parser
 

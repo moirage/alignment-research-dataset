@@ -17,6 +17,23 @@ class GDrive:
         if os.path.exists(os.getcwd()+'/pandoc/pandoc'):
             os.environ.setdefault('PYPANDOC_PANDOC', os.getcwd()+'/pandoc/pandoc')
 
+    def fetch_entries(self):
+        print('Downloading everything...')
+        self.pull_drom_gdrive()
+        print('Converting to text...')
+        self.convert_to_txt()
+        print('Cleaning text...')
+        self.clean_txt()
+        print('Converting to json...')
+        self.jsonify_everything()
+        #print('Merging into single json...')
+        #self.merge_everything()
+        for json_file in self.AIS_scrape_local:
+            with open(self.local_out + json_file) as json_open:
+                yield json.load(json_open)
+        os.system('rm -rf ' + self.local_out )
+
+
     def pull_drom_gdrive(self):
         gdown.download_folder(url=self.gdrive_adress, output=self.local_out, quiet=False)
         #os.system('mv ' + self.local_out + 'AIS_scrape/* ' + self.local_out)
@@ -40,7 +57,7 @@ class GDrive:
             if 'epub' in fName and not os.path.exists(self.local_out + newName):
                 os.rename( self.local_out + fName , self.local_out + 'tmp.epub')
                 # convert to plain text
-                output = pypandoc.convert_file(self.local_out + 'tmp.epub', 'plain',
+                _ = pypandoc.convert_file(self.local_out + 'tmp.epub', 'plain',
                                                outputfile=self.local_out + 'tmp.txt')
                 metadata = epub_meta.get_epub_metadata(self.local_out + 'tmp.epub')
                 metadata = self.augment_metadata(metadata)
@@ -66,17 +83,18 @@ class GDrive:
         self.AIS_scrape_local = os.listdir(self.local_out)
 
     def jsonify_everything(self):
-      for fName in self.AIS_scrape_local:
+        # convert everything into a dictionary and add metadata from epub
+        for fName in self.AIS_scrape_local:
             if 'txt' in fName:
               with open(self.local_out + fName[:-3] + 'json' , 'r') as json_file:
                 metadata = json.load(json_file)
               with open(self.local_out + fName , 'r') as text_file:
                 contents = text_file.read()
-              metadata["contents"] = contents
+              metadata["text"] = contents
               with open(self.local_out + fName[:-3] + 'json', 'w') as json_file:
                   json.dump(metadata, json_file)
               os.system('rm ' + self.local_out + fName)
-      self.AIS_scrape_local = os.listdir(self.local_out)
+        self.AIS_scrape_local = os.listdir(self.local_out)
                 
     def merge_everything(self):
         ebook_dict = {}
@@ -90,14 +108,4 @@ class GDrive:
               json.dump(ebook_dict, json_file)
         self.AIS_scrape_local = os.listdir(self.local_out)
 
-    def fetch(self):
-        print('Downloading everything...')
-        self.pull_drom_gdrive()
-        print('Converting to text...')
-        self.convert_to_txt()
-        print('Cleaning text...')
-        self.clean_txt()
-        print('Converting to json...')
-        self.jsonify_everything()
-        print('Merging into single json...')
-        self.merge_everything()
+    
