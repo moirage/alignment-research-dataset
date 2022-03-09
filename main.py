@@ -4,36 +4,37 @@ import os
 from collections import OrderedDict
 from urllib.parse import urlparse
 
-import blogs
-from blogs.utils import EntryWriter
+import align_data
+from align_data.common.utils import EntryWriter
 
 def cmd_list(args):
-    for name in blogs.ALL_BLOGS:
+    for name in align_data.ALL_DATASETS:
         print(name)
 
 def cmd_fetch(args):
     with EntryWriter(args.name, args.path) as writer:
-        for entry in blogs.get_blog(args.name).fetch_entries():
+        for entry in align_data.get_dataset(args.name).fetch_entries():
             writer.write(entry)
 
 def create_arg_parser():
-    parser = argparse.ArgumentParser(description='Fetch blog posts.')
+    parser = argparse.ArgumentParser(description='Fetch datasets.')
     subparsers = parser.add_subparsers(title='commands',
                                        description='valid commands',
                                        help='additional help')
 
-    list_cmd = subparsers.add_parser('list', help='List available blogs.')
+    list_cmd = subparsers.add_parser('list', help='List available datasets.')
     list_cmd.set_defaults(func=cmd_list)
 
-    fetch_cmd = subparsers.add_parser('fetch', help='Fetch blog posts.')
+    fetch_cmd = subparsers.add_parser('fetch', help='Fetch datasets.')
     fetch_cmd.set_defaults(func=cmd_fetch)
-    fetch_cmd.add_argument('name', help='Name of blog to fetch.')
-    fetch_cmd.add_argument('--path', default='data/blogs', help='Path to save blog posts.')
+    fetch_cmd.add_argument('name', help='Name of dataset to fetch.')
+    fetch_cmd.add_argument('--path', default='data', help='Path to save datasets.')
 
     return parser
 
 def main():
-    args = create_arg_parser().parse_args()
+    parser = create_arg_parser()
+    args = parser.parse_args()
 
     if getattr(args, 'func', None) is None:
         # No subcommand was given

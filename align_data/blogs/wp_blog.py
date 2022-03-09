@@ -1,7 +1,7 @@
 import feedparser
 import os
 
-from . import utils
+from align_data.common import utils
 
 class WordpressBlog:
     def __init__(self, url, strip=[], max_pages=2000):
