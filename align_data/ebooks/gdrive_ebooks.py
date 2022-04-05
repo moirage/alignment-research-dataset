@@ -9,15 +9,15 @@ class GDrive:
         self.gdrive_adress = gdrive_adress
         self.local_path = 'data/ebooks/'
         self.local_out = self.local_path + 'books_text/'
-        os.makedirs(self.local_path) if not os.path.exists(self.local_path) else ''
-        os.makedirs(self.local_out) if not os.path.exists(self.local_out) else ''
-        self.AIS_scrape_local = os.listdir(self.local_out)
+        self.AIS_scrape_local = os.listdir(self.local_out) if os.path.exists(self.local_path) else []
         self.weblink_pattern = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
-
         if os.path.exists(os.getcwd()+'/pandoc/pandoc'):
             os.environ.setdefault('PYPANDOC_PANDOC', os.getcwd()+'/pandoc/pandoc')
 
     def fetch_entries(self):
+        os.makedirs(self.local_path) if not os.path.exists(self.local_path) else ''
+        os.makedirs(self.local_out) if not os.path.exists(self.local_out) else ''
+
         print('Downloading everything...')
         self.pull_drom_gdrive()
         print('Converting to text...')
