@@ -10,6 +10,7 @@ out/
 outtxt/
 *.pkl
 *.tex
+error_log.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
