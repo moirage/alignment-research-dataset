@@ -21,6 +21,7 @@ class AlignmentNewsletter:
         n_threads=1,
     ):
         self.n_threads = n_threads
+        self.name = "alignment_newsletter"
         self.setup()
 
     def fetch_entries(self):
