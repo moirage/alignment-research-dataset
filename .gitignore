@@ -1,3 +1,16 @@
+tmp
+tmp2
+*.tar.gz
+*.tar
+done/
+errored/
+fallback_needed/
+files/
+out/
+outtxt/
+*.pkl
+*.tex
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
