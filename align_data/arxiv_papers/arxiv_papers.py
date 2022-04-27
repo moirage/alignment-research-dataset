@@ -14,7 +14,7 @@ import traceback
 from pathlib import Path
 import multiprocessing as mp
 import argparse
-from align_data.arxiv_papers.utils import *
+from align_data.common.utils import *
 import arxiv
 
 
