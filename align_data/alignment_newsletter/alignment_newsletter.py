@@ -209,7 +209,3 @@ class AlignmentNewsletter:
         )
         self.ws = wb["Sheet1"]
 
-
-if __name__ == "__main__":
-
-    AlignmentNewsletter(n_threads=mp.cpu_count()).fetch_entries()
