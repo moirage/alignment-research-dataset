@@ -276,12 +276,12 @@ class ArxivPapers:
                 else:
                     paper_id = paper_link
                 paper = next(arxiv.Search(id_list=[paper_id]).results())
-                sleep(1) # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
                 if (
                     self.citation_level != "0"
                     and paper.get_short_id()[:-2] in self.arxiv_dict.keys()
                 ):
                     print(f"Skipping {paper_id} because it is already in dictionary.")
+                    sleep(1) # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
                     continue
                 self.arxiv_dict[paper.get_short_id()[:-2]] = {
                     "source": "arxiv",
