@@ -4,11 +4,11 @@ import pandas as pd
 import openpyxl
 import requests
 import jsonlines
-from utils import *
+from align_data.common.utils import *
 import arxiv
 from bs4 import BeautifulSoup as bs
 from markdownify import MarkdownConverter
-from paper2json.tei2json import extract_body_as_markdown_from_tei
+from align_data.common.paper2json.tei2json import extract_body_as_markdown_from_tei
 from tqdm import tqdm
 import multiprocessing as mp
 import concurrent.futures
@@ -73,14 +73,15 @@ class AlignmentNewsletter:
 
         for i, entry in enumerate(alignment_newsletter_entry_list):
             i = str(i)
-            with jsonlines.open("data/alignment_newsletter.jsonl", "a") as writer:
-                writer.write(entry)
-            with open("data/alignment_newsletter.txt", "a") as f:
-                # Save the entry in plain text, mainly for debugging
-                text = (
-                    "    ".join(("\n" + entry["text"].lstrip()).splitlines(True)) + "\n"
-                )
-                f.write(f"[ENTRY {i}] {text}")
+            yield entry
+            # with jsonlines.open("data/alignment_newsletter.jsonl", "a") as writer:
+            #     writer.write(entry)
+            # with open("data/alignment_newsletter.txt", "a") as f:
+            #     # Save the entry in plain text, mainly for debugging
+            #     text = (
+            #         "    ".join(("\n" + entry["text"].lstrip()).splitlines(True)) + "\n"
+            #     )
+            #     f.write(f"[ENTRY {i}] {text}")
 
     def fetch_individual_entries(self, index, row):
         print(f"Processing entry {index}/{len(self.df)}")
