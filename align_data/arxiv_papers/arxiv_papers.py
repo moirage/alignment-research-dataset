@@ -16,6 +16,7 @@ import multiprocessing as mp
 import argparse
 from align_data.common.utils import *
 import arxiv
+import wget
 
 
 class ArxivPapers:
@@ -216,7 +217,7 @@ class ArxivPapers:
 
         self.main_tex_name_list = [f"{item}.tex" for item in main_tex_name_list]
 
-        sh("cp ai-alignment-papers.csv data/raw/csvs/ai-alignment-papers.csv")
+        wget.download("https://github.com/JayThibs/ai-safety-scrape/raw/main/ai-alignment-papers.csv", out="data/raw/csvs/ai-alignment-papers.csv")
 
     def download_arxiv_papers(
         self,
