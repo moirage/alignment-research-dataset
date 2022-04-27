@@ -2,6 +2,7 @@ import os
 import re
 import csv
 import json
+from time import sleep
 import jsonlines
 import chardet
 import pandas as pd
@@ -275,6 +276,7 @@ class ArxivPapers:
                 else:
                     paper_id = paper_link
                 paper = next(arxiv.Search(id_list=[paper_id]).results())
+                sleep(1) # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
                 if (
                     self.citation_level != "0"
                     and paper.get_short_id()[:-2] in self.arxiv_dict.keys()
@@ -311,8 +313,9 @@ class ArxivPapers:
             except:
                 incorrect_links_ids.append([paper_link, paper_id])
                 pass
-
+            
             try:
+                sleep(1)
                 if pdf:
                     paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
                 else:
