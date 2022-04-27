@@ -281,7 +281,7 @@ class ArxivPapers:
                     and paper.get_short_id()[:-2] in self.arxiv_dict.keys()
                 ):
                     print(f"Skipping {paper_id} because it is already in dictionary.")
-                    sleep(1) # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
+                    sleep(0.5) # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
                     continue
                 self.arxiv_dict[paper.get_short_id()[:-2]] = {
                     "source": "arxiv",
@@ -315,7 +315,7 @@ class ArxivPapers:
                 pass
             
             try:
-                sleep(1)
+                sleep(0.5)
                 if pdf:
                     paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
                 else:
@@ -775,7 +775,8 @@ class ArxivPapers:
         all_citations = {}
         for paper_id in self.arxiv_citations_dict.keys():
             for citation in self.arxiv_citations_dict[paper_id].keys():
-                all_citations[citation] = True
+                if citation not in self.arxiv_dict:
+                    all_citations[citation] = True
         all_citations = pd.DataFrame(list(all_citations.keys()))
         all_citations.to_csv(
             f"{self.PROCESSED_CSVS_DIR}/all_citations_level_{new_citation_level}.csv",
