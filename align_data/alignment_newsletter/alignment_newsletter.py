@@ -22,10 +22,10 @@ class AlignmentNewsletter:
     ):
         self.n_threads = n_threads
         self.name = "alignment_newsletter"
-        self.setup()
 
     def fetch_entries(self):
         print("Fetching alignment_newsletter entries")
+        self.setup()
         self.alignment_newsletter = {}
         # TODO: add multiprocessing
         # with concurrent.futures.ProcessPoolExecutor(self.n_threads) as executor:
