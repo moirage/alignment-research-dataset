@@ -47,10 +47,10 @@ class AlignmentNewsletter:
         for i, entry in enumerate(alignment_newsletter_entry_list):
             i = str(i)
             with jsonlines.open(
-                "data/alignment_newsletter_separate_summaries.jsonl", "a"
+                f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl", "a"
             ) as writer:
                 writer.write(entry)
-            with open("data/alignment_newsletter_separate_summaries.txt", "a") as f:
+            with open(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt", "a") as f:
                 # Save the entry in plain text, mainly for debugging
                 text = (
                     "    ".join(("\n" + entry["text"].lstrip()).splitlines(True)) + "\n"
@@ -189,24 +189,22 @@ class AlignmentNewsletter:
         }
 
     def setup(self):
-        sh("mkdir -p data/processed/alignment_newsletter")
-        if os.path.exists("data/alignment_newsletter.jsonl"):
-            print("Deleting old alignment_newsletter.jsonl")
-            os.remove("data/alignment_newsletter.jsonl")
-            os.remove("data/alignment_newsletter_separate_summaries.jsonl")
-        if os.path.exists("data/alignment_newsletter.txt"):
-            os.remove("data/alignment_newsletter.txt")
-            os.remove("data/alignment_newsletter_separate_summaries.txt")
+        self.PROJECT_DIR = os.getcwd()
+        sh(f"mkdir -p {self.PROJECT_DIR}/data/raw/alignment_newsletter")
+        if os.path.exists(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl"):
+            os.remove(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl")
+        if os.path.exists(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt"):
+            os.remove(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt")
         # put the alignment_newsletter.xlsx file in the raw/alignment_newsletter folder
         # download new excel file here: https://docs.google.com/spreadsheets/d/1PwWbWZ6FPqAgZWOoOcXM8N_tUCuxpEyMbN1NYYC02aM/edit#gid=0
-        if not os.path.exists("data/raw/alignment_newsletter/alignment_newsletter.xlsx"):
-            wget.download("https://github.com/JayThibs/ai-safety-scrape/raw/main/alignment_newsletter.xlsx", out="data/raw/alignment_newsletter/alignment_newsletter.xlsx")
+        if not os.path.exists(f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx"):
+            wget.download("https://github.com/JayThibs/ai-safety-scrape/raw/main/alignment_newsletter.xlsx", out=f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx")
         self.df = pd.read_excel(
-            "data/raw/alignment_newsletter/alignment_newsletter.xlsx"
+            f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx"
         )
         self.df["index"] = self.df.index
         wb = openpyxl.load_workbook(
-            "data/raw/alignment_newsletter/alignment_newsletter.xlsx"
+            f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx"
         )
         self.ws = wb["Sheet1"]
 
