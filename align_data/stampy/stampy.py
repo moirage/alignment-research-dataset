@@ -16,7 +16,7 @@ class Stampy():
         qa_entry = {}
         for i, question in enumerate(list(entries["results"].keys())):
             qa_entry[i] = entries["results"][question]
-            qa_entry[i]["question"] = question.split("to ")[1]
+            qa_entry[i]["question"] = ' '.join(question.split("to ")[1:])
             qa_entry[i]["answer"] = entries["results"][question]["printouts"]["Answer"]
             qa_entry[i]["text"] = "Question: " + qa_entry[i]["question"] + "\n\nAnswer: " + entries["results"][question]["printouts"]["Answer"][0]
             # if there is more than one answer, add the rest
