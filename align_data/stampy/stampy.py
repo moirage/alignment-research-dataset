@@ -18,10 +18,10 @@ class Stampy():
             qa_entry[i] = entries["results"][question]
             qa_entry[i]["question"] = question.split("to ")[1]
             qa_entry[i]["answer"] = entries["results"][question]["printouts"]["Answer"]
-            qa_entry[i]["text"] = "Question: " + qa_entry[i]["question"] + "\nAnswer: " + entries["results"][question]["printouts"]["Answer"][0]
+            qa_entry[i]["text"] = "Question: " + qa_entry[i]["question"] + "\n\nAnswer: " + entries["results"][question]["printouts"]["Answer"][0]
             # if there is more than one answer, add the rest
             for i in range(1, len(entries["results"][question]["printouts"]["Answer"])):
-                qa_entry[i]["text"] += f"\nAnswer {str(i)}: " + entries["results"][question]["printouts"]["Answer"][i]
+                qa_entry[i]["text"] += f"\n\nAnswer {str(i)}: " + entries["results"][question]["printouts"]["Answer"][i]
         for i in qa_entry.keys():
             entry = qa_entry[i]
             yield entry
