@@ -27,7 +27,7 @@ class AgentModels:
         metadata['source_filetype'] = 'markdown'
         metadata['converted_with'] = 'not converted'
         metadata['book_title'] = 'Modeling Agents with Probabilistic Programs'
-        metadata['author'] = ['Owain Evans', 'Andreas Stuhlmüller', 'John Salvatier', 'Daniel Filan']
+        metadata['authors'] = ['Owain Evans', 'Andreas Stuhlmüller', 'John Salvatier', 'Daniel Filan']
         metadata['date_published'] = '2016'
         metadata['text'] = full_book
         yield metadata

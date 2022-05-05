@@ -45,7 +45,6 @@ class GDrive:
         metadata['source_filetype'] = 'epub'
         metadata['converted_with'] = 'pandoc'
         metadata['book_title'] = metadata['title']
-        metadata['author'] = metadata['authors']
         metadata['date_published'] = metadata['publication_date']
         metadata['chapter_names'] = [chap['title'] for chap in metadata['toc']]
         metadata.pop('cover_image_content')
