@@ -74,12 +74,12 @@ class AlignmentNewsletter:
         for i, entry in alignment_newsletter_entry_list:
             yield entry
 
-    def fetch_individual_entries(self, index, row):
-        print(f"Processing entry {index}/{len(self.df)}")
+    def fetch_individual_entries(self, i, row):
+        print(f"Processing entry {i}/{len(self.df)}")
         try:
             # index starts at 2 because the row 1 is the header
-            paper_url = str(self.ws.cell(row=index + 2, column=3).hyperlink.target)
-            newsletter_url = str(self.ws.cell(row=index + 2, column=8).hyperlink.target)
+            paper_url = str(self.ws.cell(row=i + 2, column=3).hyperlink.target)
+            newsletter_url = str(self.ws.cell(row=i + 2, column=8).hyperlink.target)
             # print(newsletter_url)
         except:
             paper_url = ""
@@ -145,7 +145,7 @@ class AlignmentNewsletter:
             + "My opinion: "
             + str(row["My opinion"])
         )
-        self.alignment_newsletter[str(index)] = {
+        self.alignment_newsletter[i] = {
             "source": str(row["Venue"]),
             "newsletter_category": str(row["Category"]),
             "highlight": True if row["Highlight?"] == "Highlight" else False,
