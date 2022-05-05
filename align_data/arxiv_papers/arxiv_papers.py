@@ -84,17 +84,8 @@ class ArxivPapers:
             os.remove("data/arxiv_pandoc.txt")
 
         print("Converting arxiv_dict.json to arxiv.jsonl and arxiv.txt...")
-        for i, paper in enumerate(self.arxiv_list_of_dicts):
-            i = str(i)
+        for paper in self.arxiv_list_of_dicts:
             yield paper
-            # with jsonlines.open("data/arxiv_pandoc.jsonl", "a") as writer:
-            #     writer.write(paper)
-            # with open("data/arxiv_pandoc.txt", "a") as f:
-            #     # Save the entry in plain text, mainly for debugging
-            #     text = (
-            #         "    ".join(("\n" + paper["text"].lstrip()).splitlines(True)) + "\n"
-            #     )
-            #     f.write(f"[ENTRY {i}] {text}")
 
         # delete_unwanted_files = input(
         #     "Delete unwanted files (only keep .jsonl and main .txt files)? (y/n) "
@@ -127,7 +118,6 @@ class ArxivPapers:
         else:
             self.arxiv_dict = {}
 
-
         # Delete contents before starting?
         # This is useful when you are testing and want to start from scratch
         delete_contents = input("Delete data before starting? (y/n) ")
@@ -148,11 +138,6 @@ class ArxivPapers:
         )
         self.remove_empty_papers = "y"  # replace with input() later
 
-        # TODO: add option to remove empty papers
-        #
-        #
-        #
-        #
         if self.citation_level != "0":
             pass
 
