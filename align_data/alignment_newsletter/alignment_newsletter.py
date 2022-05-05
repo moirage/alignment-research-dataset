@@ -45,7 +45,6 @@ class AlignmentNewsletter:
 
         print("Creating jsonl and txt file...")
         for i, entry in enumerate(alignment_newsletter_entry_list):
-            i = str(i)
             with jsonlines.open(
                 f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl", "a"
             ) as writer:
@@ -55,7 +54,7 @@ class AlignmentNewsletter:
                 text = (
                     "    ".join(("\n" + entry["text"].lstrip()).splitlines(True)) + "\n"
                 )
-                f.write(f"[ENTRY {i}] {text}")
+                f.write(f"[ENTRY {str(i)}] {text}")
 
         # Creating new json for each individual newsletter rather than individual summary
         alignment_newsletter = {}
@@ -72,17 +71,8 @@ class AlignmentNewsletter:
         for entry in alignment_newsletter.keys():
             alignment_newsletter_entry_list.append(alignment_newsletter[entry])
 
-        for i, entry in enumerate(alignment_newsletter_entry_list):
-            i = str(i)
+        for i, entry in alignment_newsletter_entry_list:
             yield entry
-            # with jsonlines.open("data/alignment_newsletter.jsonl", "a") as writer:
-            #     writer.write(entry)
-            # with open("data/alignment_newsletter.txt", "a") as f:
-            #     # Save the entry in plain text, mainly for debugging
-            #     text = (
-            #         "    ".join(("\n" + entry["text"].lstrip()).splitlines(True)) + "\n"
-            #     )
-            #     f.write(f"[ENTRY {i}] {text}")
 
     def fetch_individual_entries(self, index, row):
         print(f"Processing entry {index}/{len(self.df)}")
