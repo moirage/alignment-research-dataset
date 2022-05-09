@@ -6,7 +6,7 @@ import re
 from bs4 import BeautifulSoup, NavigableString
 from markdownify import MarkdownConverter
 from typing import List, Dict, Tuple
-
+import json
 from .grobid_tei_paper import Paper
 
 from .grobid_util import parse_bib_entry, extract_paper_metadata_from_grobid_xml
@@ -867,3 +867,50 @@ def convert_tei_xml_file_to_s2orc_json(tei_file: str, pdf_hash: str = "") -> Pap
     soup = BeautifulSoup(open(tei_file, "rb").read(), "xml")
     paper = convert_tei_xml_soup_to_s2orc_json(soup, paper_id, pdf_hash)
     return paper
+
+
+def tei2json(input_file_path, output_file_path):
+    # open input file and check if it is a tei file
+    with open(input_file_path, 'r') as input_file:
+        input_file_content = input_file.read()
+        if not input_file_content.startswith('<?xml'):
+            return False
+    paper = convert_tei_xml_file_to_s2orc_json(input_file_path)
+    authors = paper.metadata.authors
+    authors = [x.first + ' ' + x.last for x in authors]
+    paper_json = paper.as_json()
+    paper_json = {
+        "source": "reports",
+        "source_filetype": "pdf",
+        "converted_with": "grobid",
+        "paper_version": str(paper.paper_id),
+        "post_title": paper.metadata.title,
+        "authors": authors,
+        "date_published": str(paper.metadata.year),
+        "data_last_modified": "",
+        "url": '',
+        "abstract": paper.raw_abstract_text,
+        "author_comment": '',
+        "journal_ref": paper.metadata.venue,
+        "doi": paper.metadata.doi,
+        "primary_category": '',
+        "categories": '',
+        "citation_level": '',
+        "main_tex_filename": "",
+        "text": paper.body_markdown,
+        "bibliography_bbl": "",
+        "bibliography_bib": paper_json["bib_entries"],
+        "source_file": str(input_file_path).split('/')[-1]
+    }
+
+    # save json to file
+    with open(output_file_path, 'w') as f:
+        json.dump(paper_json, f)
+
+
+def convert_folder_to_json(input_folder_path, output_folder_path):
+    for input_file_path in os.listdir(input_folder_path):
+        if input_file_path.endswith('.xml'):
+            output_file_path = input_file_path.replace('.xml', '.json')
+            output_file_path = os.path.join(output_folder_path, output_file_path)
+            tei2json(os.path.join(input_folder_path, input_file_path), output_file_path)
