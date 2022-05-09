@@ -146,7 +146,10 @@ class AlignmentNewsletter:
             + str(row["My opinion"])
         )
         self.alignment_newsletter[i] = {
-            "source": str(row["Venue"]),
+            "source": "alignment newsletter",
+            "source_filetype": "google sheets",
+            "converted_with": "not converted",
+            "venue": str(row["Venue"]),
             "newsletter_category": str(row["Category"]),
             "highlight": True if row["Highlight?"] == "Highlight" else False,
             "newsletter_number": str(row["Email"]),
