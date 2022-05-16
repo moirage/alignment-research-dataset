@@ -5,6 +5,7 @@ class LessWrong:
 
 
     def __init__(self):
+        self.name = "lesswrong"
         return
 
     def fetch_entries(self):
@@ -152,7 +153,7 @@ class LessWrong:
                     continue
                 try:
                     json_subcomment = self.recursive_comment(sub_comment_parent)
-                    json_comment["sub_comments"].append(json_subcomment)
+                    json_comment["comments"].append(json_subcomment)
                 except:
                     pass
         return json_comment
