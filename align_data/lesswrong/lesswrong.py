@@ -203,6 +203,10 @@ class LessWrong:
         for bold in soup.select("strong"):
             bold.insert(len(bold), "**")
             bold.insert(0, "**")
+        #raw latex support
+        for latex in soup.find_all("span", class_="mjx-math"):
+            latex.string = ""
+            latex.insert(0, latex.get("aria-label"))
         return  # insert is in-place, no need to return soup
 
     def urls_to_json_scrape(self, file_prefix, url_directory = ""):
