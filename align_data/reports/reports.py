@@ -17,7 +17,7 @@ class Reports:
         os.makedirs(self.local_out) if not os.path.exists(self.local_out) else ''
 
         print('Downloading everything...')
-        self.pull_drom_gdrive()
+        self.pull_from_gdrive()
         # unzip the downloaded folder
         print('Unzipping...')
         os.system('unzip -o ' + self.local_path + 'report_teis.zip -d ' + self.local_path)
@@ -34,6 +34,6 @@ class Reports:
         os.system('rm -rf ' + self.local_teis)
         os.system('rm -rf ' + self.local_out)
 
-    def pull_drom_gdrive(self):
+    def pull_from_gdrive(self):
         gdown.download(url=self.gdrive_adress, output=self.local_path+'report_teis.zip', quiet=False)
 

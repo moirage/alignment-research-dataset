@@ -5,9 +5,9 @@ from align_data.common.paper2json.tei2json import convert_folder_to_json
 
 
 class NonarxivPapers:
-    def __init__(self, gdrive_adress):
+    def __init__(self, gdrive_address):
         self.name = 'nonarxiv_papers'
-        self.gdrive_adress = gdrive_adress
+        self.gdrive_address = gdrive_address
         self.local_path = 'data/nonarxiv_papers/'
         self.local_teis = self.local_path + 'nonarxiv_teis/'
         self.local_out = self.local_path + 'nonarxiv_json/'
@@ -17,7 +17,7 @@ class NonarxivPapers:
         os.makedirs(self.local_out) if not os.path.exists(self.local_out) else ''
 
         print('Downloading everything...')
-        self.pull_drom_gdrive()
+        self.pull_from_gdrive()
         # unzip the downloaded folder
         print('Unzipping...')
         os.system('unzip -o ' + self.local_path + 'nonarxiv_teis.zip -d ' + self.local_path)
@@ -34,6 +34,6 @@ class NonarxivPapers:
         os.system('rm -rf ' + self.local_teis)
         os.system('rm -rf ' + self.local_out)
 
-    def pull_drom_gdrive(self):
-        gdown.download(url=self.gdrive_adress, output=self.local_path+'nonarxiv_teis.zip', quiet=False)
+    def pull_from_gdrive(self):
+        gdown.download(url=self.gdrive_address, output=self.local_path+'nonarxiv_teis.zip', quiet=False)
 
