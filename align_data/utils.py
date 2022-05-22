@@ -11,6 +11,7 @@ htmlformatter.ignore_links = True
 htmlformatter.ignore_images = True
 htmlformatter.body_width = 0
 
+
 class EntryWriter:
     def __init__(self, name, path):
         """
@@ -45,6 +46,7 @@ class EntryWriter:
 
         self.entry_idx += 1
 
+
 class HtmlCleaner:
     def __init__(self, rgx_list=[], target_list=[], DOTALL=False):
         """
@@ -54,21 +56,23 @@ class HtmlCleaner:
             rgx_list = [rgx_list]
 
         self.DOTALL = DOTALL
-        self.regexes = rgx_list if self.DOTALL else [re.compile(r) for r in rgx_list] 
+        self.regexes = rgx_list if self.DOTALL else [re.compile(r) for r in rgx_list]
         self.target_list = [""]*len(self.regexes) if len(target_list) == 0 else target_list
-            
+
     def clean(self, html, markdown=False):
         soup = bs4.BeautifulSoup(html, features="html.parser")
         text = htmlformatter.handle(html) if markdown else  soup.get_text()
-        
+
         for ii , rgx in enumerate(self.regexes):
             text = re.sub(rgx, self.target_list[ii], text, flags=re.DOTALL) if self.DOTALL else rgx.sub(self.target_list[ii], text)
 
         return text
 
+
 def random_delay():
     import random
     time.sleep(random.randint(1, 10))
+
 
 def url_to_filename(url):
     """

@@ -27,4 +27,3 @@ BLOG_REGISTRY = [
     OtherBlog("https://universalprior.substack.com/archive" , "post-preview-title" , True),
     OtherBlog("https://generative.ink/posts/" , "post-title" , False),
 ]
-

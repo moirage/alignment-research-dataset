@@ -1,14 +1,20 @@
 import bs4
+import logging
 import requests
+import typing
 
 from bs4 import BeautifulSoup
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from urllib.parse import urljoin
 
-from align_data.common import utils
+from align_data import templates, utils
 
-class MediumBlog:
+
+logger = logging.getLogger(__name__)
+
+
+class MediumBlog(templates.Dataset):
     """
     Fetches articles from a Medium blog.
 
@@ -30,29 +36,29 @@ class MediumBlog:
 
     def __init__(self, url, start_date_str):
         self.url = url
-        self.start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
-
         self.cleaner = utils.HtmlCleaner("Other articles you may find interesting:[.\n]*")
-        self.name = utils.url_to_filename(url)
-
+        self.start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
         self.is_first = True
 
-    def fetch_entries(self):
+    @property
+    def name(self) -> str:
+        return utils.url_to_filename(self.url)
+
+    def fetch_entries(self) -> typing.Iterable[dict]:
         if self._archive_exists():
-            print("Archive exists. Fetching entries from the archive.")
+            logger.info("Archive exists. Fetching entries from the archive.")
             return self._fetch_entries_from_archive()
-        else:
-            # Note: we are assuming that paging is not necessary in this case.
-            # We haven't yet seen an example of a medium blog where this is not the case.
-            print("Archive does not exist. Fetching entries from the main page only.")
-            response = requests.get(self.url, allow_redirects=True)
-            return self._get_entries_from_main(response)
+        # Note: we are assuming that paging is not necessary in this case.
+        # We haven't yet seen an example of a medium blog where this is not the case.
+        logger.info("Archive does not exist. Fetching entries from the main page only.")
+        response = requests.get(self.url, allow_redirects=True)
+        return self._get_entries_from_main(response)
 
     def _archive_exists(self):
         archive_url = "{}/archive".format(self.url)
         response = requests.get(archive_url, allow_redirects=False)
         if response.status_code != 200 and response.status_code != 404:
-            print("WARNING: Unexpected status code {} for {} (probing archive existence)".format(response.status_code, archive_url))
+            logger.warning("WARNING: Unexpected status code {} for {} (probing archive existence)".format(response.status_code, archive_url))
         return response.status_code == 200
 
     def _fetch_entries_from_archive(self):
@@ -70,7 +76,7 @@ class MediumBlog:
         day_url = "{0}/archive/{1}/{2:02d}/{3:02d}".format(self.url, year, month, day)
         year_url = "{}/archive/{}".format(self.url, year)
 
-        print("Fetching {}".format(day_url))
+        logger.info("Fetching {}".format(day_url))
         response = requests.get(day_url, allow_redirects=True)
         if response.url.startswith(day_url):
             # There are posts for this day. Fetch them and advance a day.
@@ -104,11 +110,13 @@ class MediumBlog:
             text = self.cleaner.clean(content)
 
             yield {
-                "article_url": article_url,
-                "title": self._to_text(title),
-                "subtitle": self._to_text(subtitle),
                 "content": content,
                 "text": text,
+                "metadata": {
+                    "article_url": article_url,
+                    "title": self._to_text(title),
+                    "subtitle": self._to_text(subtitle),
+                }
             }
 
     def _get_entries_from_main(self, response):
@@ -140,7 +148,7 @@ class MediumBlog:
             }
 
     def _get_article(self, url):
-        print("Fetching {}".format(url))
+        logger.info("Fetching {}".format(url))
         article = requests.get(url, allow_redirects=True)
         article_soup = BeautifulSoup(article.text, 'html.parser')
 

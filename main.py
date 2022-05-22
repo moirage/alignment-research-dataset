@@ -1,11 +1,13 @@
 import argparse
-import json
+import logging
 import os
-from collections import OrderedDict
-from urllib.parse import urlparse
-
 import align_data
-from align_data.common.utils import EntryWriter
+from align_data.utils import EntryWriter
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 
 def cmd_list(args):
     for name in align_data.ALL_DATASETS:
