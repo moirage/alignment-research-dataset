@@ -1,7 +1,9 @@
+from align_data.blogs.markdown_blogs import MarkdownBlogs
 from .wp_blog import WordpressBlog
 from .medium_blog import MediumBlog
 from .gwern_blog import GwernBlog
 from .other_blog import OtherBlog
+
 
 BLOG_REGISTRY = [
     WordpressBlog("https://aiimpacts.org"),
@@ -23,8 +25,10 @@ BLOG_REGISTRY = [
     MediumBlog("https://medium.com/@lucarade", "2018-04-28"),
     MediumBlog("https://medium.com/partnership-on-ai", "2020-04-15"),
     GwernBlog("https://www.gwern.net"),
-    OtherBlog("https://www.cold-takes.com/" , "u-permalink" , False),
-    OtherBlog("https://universalprior.substack.com/archive" , "post-preview-title" , True),
-    OtherBlog("https://generative.ink/posts/" , "post-title" , False),
+    OtherBlog("https://www.cold-takes.com/", "u-permalink", False),
+    OtherBlog(
+        "https://universalprior.substack.com/archive", "post-preview-title", True
+    ),
+    OtherBlog("https://generative.ink/posts/", "post-title", False),
+    MarkdownBlogs("https://drive.google.com/uc?id=17CLAtrWNp4WoRLRPyS1pb2K5IQuMtHIH"),
 ]
-
