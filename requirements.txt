@@ -1,4 +1,4 @@
--e git+https://github.com/JayThibs/alignment-research-dataset.git@f39f8634148628869c9b812ce399f805cf1dde27#egg=align_data
+-e git+https://github.com/JayThibs/alignment-research-dataset.git@014010f079c67e75027a7bb283476275a465eef9#egg=align_data
 appdirs==1.4.4
 appnope @ file:///Users/runner/miniforge3/conda-bld/appnope_1635819660018/work
 arxiv==1.4.2
@@ -12,7 +12,6 @@ bleach==5.0.0
 blis==0.7.5
 boto3==1.9.147
 botocore==1.12.253
-bs4==0.0.1
 catalogue==2.0.6
 certifi==2021.10.8
 cffi==1.15.0
@@ -103,12 +102,8 @@ smmap==5.0.0
 sniffio==1.2.0
 sortedcontainers==2.4.0
 soupsieve==2.3.1
-spacy==3.2.2
-spacy-legacy==3.0.8
-spacy-loggers==1.0.1
 srsly==2.4.2
 thinc==8.0.13
-tika==1.24
 tinycss2==1.1.1
 toml==0.10.2
 tomli==2.0.1
