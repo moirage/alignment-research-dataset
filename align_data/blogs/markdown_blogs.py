@@ -1,21 +1,28 @@
 import os
 import re
 import gdown
-import requests
 import json
 import jsonlines
 from align_data.common.utils import *
 from tqdm import tqdm
 
 
-class AudioTranscripts:
+class MarkdownBlogs:
     def __init__(
         self,
-        name,
         gdrive_address,
     ):
-        self.name = name
+        self.name = "markdown_blogs"
         self.gdrive_address = gdrive_address
+
+    """
+    Fetches articles from a blog where the posts are stored in markdown files on Google Drive.
+    This is useful for blogs where the author posts about alignment, but many other things as well.
+    Either store them manually yourself or ask them to send you markdown files of the post and store them in Gdrive.
+    Useful tip: MarkDownload is a browser extension that makes it easy to grab posts and clean them quickly.
+    If there are only a few dozen posts, it may be worth it to take 15 minutes to curate the alignment posts
+    and store the markdowns in Gdrive.
+    """
 
     def fetch_entries(self):
         print("Fetching alignment_newsletter entries")
@@ -73,4 +80,4 @@ class AudioTranscripts:
         gdown.download(url=self.gdrive_address, output="transcripts.zip", quiet=False)
 
     def pull_from_otter(self):
-        os.system("wget -O " + "otter_transcripts.zip " + self.gdrive_address)
+        os.system("wget -O " + "transcripts.zip " + self.gdrive_address)
