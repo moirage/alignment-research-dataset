@@ -68,6 +68,7 @@ venv.bak/
 
 # IDEs
 .idea
+launch.json
 
 # System files
 .DS_Store

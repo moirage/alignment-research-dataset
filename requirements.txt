@@ -8,3 +8,7 @@ GitPython
 gdown
 pypandoc
 tqdm
+epub_meta
+selenium
+webdriver-manager
+html2text
