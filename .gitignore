@@ -11,6 +11,7 @@ outtxt/
 *.pkl
 *.tex
 error_log.txt
+align_data/lesswrong/urls
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
