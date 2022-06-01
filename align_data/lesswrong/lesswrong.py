@@ -136,12 +136,12 @@ class LessWrong:
 
         json_comment = {
             "id": id,
-            "author": username,
+            "authors": username,
             "score": karma,
             "omega_karma": "",
             "votes": votes,
             "url": url,
-            "date": date,
+            "date_published": date,
             "text": text,
             "comments": [],
         }
@@ -287,8 +287,8 @@ class LessWrong:
                         {
                             "id": full_url_link.split("/")[4],
                             "title": post_title,
-                            "author": author,
-                            "date": date,
+                            "authors": author,
+                            "date_published": date,
                             "score": karma,
                             "omega_karma": "",
                             "votes": post_votes,
