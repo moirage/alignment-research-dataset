@@ -203,7 +203,10 @@ class ArxivPapers:
 
         self.main_tex_name_list = [f"{item}.tex" for item in main_tex_name_list]
 
-        wget.download("https://github.com/JayThibs/ai-safety-scrape/raw/main/ai-alignment-papers.csv", out="data/raw/csvs/ai-alignment-papers.csv")
+        wget.download(
+            "https://github.com/JayThibs/ai-safety-scrape/raw/main/ai-alignment-papers.csv",
+            out="data/raw/csvs/ai-alignment-papers.csv",
+        )
 
     def download_arxiv_papers(
         self,
@@ -266,14 +269,16 @@ class ArxivPapers:
                     and paper.get_short_id()[:-2] in self.arxiv_dict.keys()
                 ):
                     print(f"Skipping {paper_id} because it is already in dictionary.")
-                    sleep(0.5) # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
+                    sleep(
+                        0.5
+                    )  # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
                     continue
                 self.arxiv_dict[paper.get_short_id()[:-2]] = {
                     "source": "arxiv",
                     "source_filetype": "latex",
                     "converted_with": "pandoc",
                     "paper_version": str(paper.get_short_id()),
-                    "post_title": paper.title,
+                    "title": paper.title,
                     "authors": [str(x) for x in paper.authors],
                     "date_published": str(paper.published),
                     "data_last_modified": str(paper.updated),
@@ -298,7 +303,7 @@ class ArxivPapers:
             except:
                 incorrect_links_ids.append([paper_link, paper_id])
                 pass
-            
+
             try:
                 sleep(0.5)
                 if pdf:
@@ -1091,4 +1096,3 @@ class ArxivPapers:
             for row in reader:
                 ignore_dict[row[0]] = True
             return ignore_dict
-
