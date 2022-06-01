@@ -46,10 +46,14 @@ class AlignmentNewsletter:
         print("Creating jsonl and txt file...")
         for i, entry in enumerate(alignment_newsletter_entry_list):
             with jsonlines.open(
-                f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl", "a"
+                f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl",
+                "a",
             ) as writer:
                 writer.write(entry)
-            with open(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt", "a") as f:
+            with open(
+                f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt",
+                "a",
+            ) as f:
                 # Save the entry in plain text, mainly for debugging
                 text = (
                     "    ".join(("\n" + entry["text"].lstrip()).splitlines(True)) + "\n"
@@ -148,20 +152,22 @@ class AlignmentNewsletter:
         self.alignment_newsletter[i] = {
             "source": "alignment newsletter",
             "source_filetype": "google sheets",
-            "converted_with": "not converted",
-            "venue": str(row["Venue"]),
+            "converted_with": "python",
+            "venue": str(
+                row["Venue"]
+            ),  # arXiv, Distill, LessWrong, Alignment Forum, ICML 2018, etc
             "newsletter_category": str(row["Category"]),
             "highlight": True if row["Highlight?"] == "Highlight" else False,
             "newsletter_number": str(row["Email"]),
             "newsletter_url": str(newsletter_url),
             "summarizer": str(row["Summarizer"]),
-            "paper_summary": str(row["Summary"]),
+            "summary": str(row["Summary"]),
             "opinion": str(row["My opinion"]),
             "prerequisites": str(row["Prerequisites"]),
             "read_more": str(row["Read more"]),
             "paper_version": str(paper.get_short_id()) if abs != "" else None,
             "arxiv_id": str(arxiv_id),
-            "post_title": str(paper.title) if abs != "" else str(row["Title"]),
+            "title": str(paper.title) if abs != "" else str(row["Title"]),
             "authors": [str(x) for x in paper.authors]
             if abs != ""
             else str(row["Authors"]),
@@ -176,7 +182,7 @@ class AlignmentNewsletter:
             "categories": str(paper.categories) if abs != "" else "",
             "individual_summary": str(summary),
             "paper_text": str(markdown_text),
-            "text": newsletter_text,
+            "newsletter_text": newsletter_text,
             "bibliography_bbl": "",
             "bibliography_bib": "",
         }
@@ -184,14 +190,27 @@ class AlignmentNewsletter:
     def setup(self):
         self.PROJECT_DIR = os.getcwd()
         sh(f"mkdir -p {self.PROJECT_DIR}/data/raw/alignment_newsletter")
-        if os.path.exists(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl"):
-            os.remove(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl")
-        if os.path.exists(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt"):
-            os.remove(f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt")
+        if os.path.exists(
+            f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl"
+        ):
+            os.remove(
+                f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.jsonl"
+            )
+        if os.path.exists(
+            f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt"
+        ):
+            os.remove(
+                f"{self.PROJECT_DIR}/data/alignment_newsletter_separate_summaries.txt"
+            )
         # put the alignment_newsletter.xlsx file in the raw/alignment_newsletter folder
         # download new excel file here: https://docs.google.com/spreadsheets/d/1PwWbWZ6FPqAgZWOoOcXM8N_tUCuxpEyMbN1NYYC02aM/edit#gid=0
-        if not os.path.exists(f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx"):
-            wget.download("https://github.com/JayThibs/ai-safety-scrape/raw/main/alignment_newsletter.xlsx", out=f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx")
+        if not os.path.exists(
+            f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx"
+        ):
+            wget.download(
+                "https://github.com/JayThibs/ai-safety-scrape/raw/main/alignment_newsletter.xlsx",
+                out=f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx",
+            )
         self.df = pd.read_excel(
             f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx"
         )
@@ -200,4 +219,3 @@ class AlignmentNewsletter:
             f"{self.PROJECT_DIR}/data/raw/alignment_newsletter/alignment_newsletter.xlsx"
         )
         self.ws = wb["Sheet1"]
-
