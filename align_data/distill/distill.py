@@ -56,14 +56,14 @@ def distill2json(html):
     # build the json
     paper_json = {
         "source": "distill",
-        "source_filetype": "html",
+        "source_type": "html",
         "converted_with": "python",
         "title": title,
         "authors": authors,
         "date_published": str(date_published),
         "url": "",
         "abstract": abstract,
-        "journal_ref": "distill pub",
+        "journal_ref": "distill-pub",
         "doi": doi,
         "text": body,
         "bibliography_bib": references,

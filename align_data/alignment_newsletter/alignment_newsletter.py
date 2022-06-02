@@ -21,10 +21,10 @@ class AlignmentNewsletter:
         n_threads=1,
     ):
         self.n_threads = n_threads
-        self.name = "alignment_newsletter"
+        self.name = "alignment-newsletter"
 
     def fetch_entries(self):
-        print("Fetching alignment_newsletter entries")
+        print("Fetching alignment-newsletter entries")
         self.setup()
         self.alignment_newsletter = {}
         # TODO: add multiprocessing
@@ -150,8 +150,8 @@ class AlignmentNewsletter:
             + str(row["My opinion"])
         )
         self.alignment_newsletter[i] = {
-            "source": "alignment newsletter",
-            "source_filetype": "google sheets",
+            "source": self.name,
+            "source_type": "google-sheets",
             "converted_with": "python",
             "venue": str(
                 row["Venue"]

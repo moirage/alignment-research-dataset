@@ -114,6 +114,8 @@ class MediumBlog:
             text = self.cleaner.clean(content)
 
             yield {
+                "source": self.url,
+                "source_type": "medium_blog",
                 "url": article_url,
                 "title": self._to_text(title),
                 "subtitle": self._to_text(subtitle),
@@ -143,6 +145,8 @@ class MediumBlog:
             text = self.cleaner.clean(content)
 
             yield {
+                "source": self.url,
+                "source_type": "medium_blog",
                 "url": article_url,
                 "title": self._to_text(title),
                 "content": content,

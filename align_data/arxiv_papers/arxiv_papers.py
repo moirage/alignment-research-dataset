@@ -275,7 +275,7 @@ class ArxivPapers:
                     continue
                 self.arxiv_dict[paper.get_short_id()[:-2]] = {
                     "source": "arxiv",
-                    "source_filetype": "latex",
+                    "source_type": "latex",
                     "converted_with": "pandoc",
                     "paper_version": str(paper.get_short_id()),
                     "title": paper.title,
