@@ -51,6 +51,8 @@ class LessWrong:
         return url
 
     def get_all_links(self):
+        if not os.path.exists("align_data/lesswrong/urls"):
+            os.mkdir("align_data/lesswrong/urls/")
         today = datetime.datetime.today().strftime("%Y-%m-%d")
         url_for_today = "align_data/lesswrong/urls/" + today + "_links.txt"
         # check if there's a url_link for today, return if so
