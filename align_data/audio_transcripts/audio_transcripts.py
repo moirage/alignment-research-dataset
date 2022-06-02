@@ -34,7 +34,7 @@ class AudioTranscripts:
         print(f"Processing entry {i}/{len(self.num_entries)}")
 
         self.audio_transcripts[i] = {
-            "source": "audio_transcripts",
+            "source": "audio transcripts",
             "source_filetype": "audio",
             "audio_category": self.category,  # podcast, lecture, educational (Rob Miles),
             "converted_with": self.transcribed_with,
