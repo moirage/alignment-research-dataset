@@ -60,8 +60,6 @@ def main():
 
     args.func(args)
 
-    os.system("python merge_jsonl_files.py")
-
 
 if __name__ == "__main__":
     main()
