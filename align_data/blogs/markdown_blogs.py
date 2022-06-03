@@ -11,9 +11,15 @@ class MarkdownBlogs:
     def __init__(
         self,
         gdrive_address,
+        blog_name,
+        gdown_folder_name,
+        authors=None,
     ):
-        self.name = "markdown_blogs"
+        self.name = blog_name
         self.gdrive_address = gdrive_address
+        self.folder_name = gdown_folder_name
+        self.authors = ""
+        self.entries = {}
 
     """
     Fetches articles from a blog where the posts are stored in markdown files on Google Drive.
@@ -25,48 +31,58 @@ class MarkdownBlogs:
     """
 
     def fetch_entries(self):
-        print("Fetching alignment_newsletter entries")
+        print(f"Fetching {self.name} entries")
         self.setup()
-        self.audio_transcripts = {}
+        self.folder_name = self.RAW_DIR + "/" + self.folder_name
+        self.download_transcripts()
 
-        for json_file in os.listdir(self.local_out):
-            yield json.load(open(os.path.join(self.local_out, json_file)))
+        # create dictionary to store the entries
+        self.num_entries = len(os.listdir(self.folder_name))
+        for i, file in enumerate(os.listdir(self.folder_name)):
+            file = os.path.join(self.folder_name, file)
+            self.fetch_individual_entries(i, file)
 
-        # delete the local files
-        os.system("rm -rf " + self.local_teis)
-        os.system("rm -rf " + self.local_out)
-        os.chdir(self.PROJECT_DIR)
+        os.makedirs("data/processed/jsons/markdown_blogs", exist_ok=True)
 
-    def fetch_individual_entries(self, i):
-        print(f"Processing entry {i}/{len(self.num_entries)}")
+        json.dump(
+            self.entries,
+            open(f"data/processed/jsons/markdown_blogs/{self.name}.json", "w"),
+        )
+        print(f"Finished updating {self.name}.json.")
 
-        self.audio_transcripts[i] = {
-            "source": "markdown_blogs",
-            "source_filetype": "markdown",
-            "title": self.title,
+        print(
+            f"Converting {self.name}.json to {self.name}.jsonl and {self.name}.txt..."
+        )
+        for k in self.entries.keys():
+            yield self.entries[k]
+
+    def fetch_individual_entries(self, i, file):
+        print(f"Processing entry {i}/{self.num_entries}")
+
+        # grab the title by opening the .md file and grabbing the text in between ## and \n
+        with open(file, "r") as f:
+            text = f.read()
+        title = re.search(r"^##\s(.*)\n$", text, re.MULTILINE).group(1)
+        date = re.search(r"^\d{4}-\d{2}-\d{2}", text, re.MULTILINE).group(0)
+
+        self.entries[i] = {
+            "source": self.name,
+            "source_filetype": "markdown_blog",
+            "title": title,
             "authors": self.authors,
-            "date_published": str(self.date),
-            "url": self.url,
-            "text": self.text,
+            "date_published": str(date),
+            "text": text,
         }
 
     def setup(self):
         self.PROJECT_DIR = os.getcwd()
-        self.RAW_TRANSCRIPTS_DIR = os.path.join(
-            self.PROJECT_DIR, "data/raw/audio_transcripts/"
-        )
-        sh(f"mkdir -p {self.PROJECT_DIR}/data/raw/audio_transcripts")
-        if os.path.exists(f"{self.PROJECT_DIR}/data/audio_transcripts.jsonl"):
-            os.remove(f"{self.PROJECT_DIR}/data/audio_transcripts.jsonl")
-        if os.path.exists(f"{self.PROJECT_DIR}/data/audio_transcripts.txt"):
-            os.remove(f"{self.PROJECT_DIR}/data/audio_transcripts.txt")
-        self.download_transcripts()
+        self.RAW_DIR = os.path.join(self.PROJECT_DIR, "data/raw/markdown_blogs")
 
     def download_transcripts(self):
-        os.chdir(self.RAW_TRANSCRIPTS_DIR)
+        os.makedirs(self.RAW_DIR, exist_ok=True)
+        os.chdir(self.RAW_DIR)
         print("Downloading everything...")
         self.pull_from_gdrive()
-        self.pull_from_otter()
         # unzip the downloaded folder
         print("Unzipping...")
         os.system("unzip -o " + "transcripts.zip -d " + ".")
@@ -76,6 +92,3 @@ class MarkdownBlogs:
 
     def pull_from_gdrive(self):
         gdown.download(url=self.gdrive_address, output="transcripts.zip", quiet=False)
-
-    def pull_from_otter(self):
-        os.system("wget -O " + "transcripts.zip " + self.gdrive_address)
