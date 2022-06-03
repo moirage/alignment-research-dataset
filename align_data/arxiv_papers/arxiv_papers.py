@@ -221,7 +221,7 @@ class ArxivPapers:
             create_dict_only: True or False
         """
         if self.citation_level == "0":
-            df = pd.read_csv(self.papers_csv_path, index_col=0)
+            df = pd.read_csv(self.papers_csv_path)
             df_arxiv = df[df["Url"].str.contains("arxiv") == True]
             is_alignment_text = list(df["alignment_text"])
             for i, item in enumerate(is_alignment_text):
@@ -313,13 +313,20 @@ class ArxivPapers:
 
             try:
                 sleep(0.5)
-                if pdf:
-                    paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
+                if is_alignment_text[i] == "pos":
+                    if pdf:
+                        paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
+                    else:
+                        paper.download_source(
+                            dirpath=str(self.TARS_DIR), filename=tar_filename
+                        )
+                        print("; Downloaded paper: " + paper_id)
                 else:
-                    paper.download_source(
-                        dirpath=str(self.TARS_DIR), filename=tar_filename
+                    print(
+                        "; Skipping paper: "
+                        + paper_id
+                        + " because it hasn't been labeled as alignment paper yet."
                     )
-                    print("; Downloaded paper: " + paper_id)
             except:
                 print("; Could not download paper: " + paper_id)
                 paper_dl_failures.append(paper_id)
