@@ -3,8 +3,10 @@ from .audio_transcripts import AudioTranscripts
 
 AUDIO_TRANSCRIPTS_REGISTRY = [
     AudioTranscripts(
+        "https://drive.google.com/uc?id=11ylkpqG9Cr-Td-FsY6FvjtN_fJu6RUa2",
         "scraped-transcripts",
-        "https://drive.google.com/uc?id=1jriclwqgZ0FT238ItqBodROGJTVazdJF",
+        "transcripts",
+        True,
     ),
     # AudioTranscripts(
     #     "otter_ai_cleaned_transcripts", ""
