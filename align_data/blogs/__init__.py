@@ -18,5 +18,9 @@ BLOG_REGISTRY = [
     GwernBlog("https://www.gwern.net"),
     OtherBlog("https://www.cold-takes.com/", "u-permalink", False),
     OtherBlog("https://generative.ink/posts/", "post-title", False),
-    MarkdownBlogs("https://drive.google.com/uc?id=17CLAtrWNp4WoRLRPyS1pb2K5IQuMtHIH"),
+    MarkdownBlogs(
+        "https://drive.google.com/uc?id=17CLAtrWNp4WoRLRPyS1pb2K5IQuMtHIH",
+        "carado.moe",
+        "carado.moe-cleaned-up",
+    ),
 ]
