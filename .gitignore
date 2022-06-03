@@ -12,6 +12,9 @@ outtxt/
 *.tex
 error_log.txt
 align_data/lesswrong/urls
+grobid-0.7.1/
+pdf_only/
+grobid_conversion/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
