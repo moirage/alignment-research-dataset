@@ -223,6 +223,11 @@ class ArxivPapers:
         if self.citation_level == "0":
             df = pd.read_csv(self.papers_csv_path, index_col=0)
             df_arxiv = df[df["Url"].str.contains("arxiv") == True]
+            is_alignment_text = list(df["alignment_text"])
+            for i, item in enumerate(is_alignment_text):
+                if pd.isnull(item):
+                    is_alignment_text[i] = "unlabeled"
+            confidence_scores = list(df["confidence_score"])
             papers = list(set(df_arxiv["Url"].values))
             print(f"{len(papers)} papers to download")
         else:
@@ -266,14 +271,14 @@ class ArxivPapers:
                 paper = next(arxiv.Search(id_list=[paper_id]).results())
                 if (
                     self.citation_level != "0"
-                    and paper.get_short_id()[:-2] in self.arxiv_dict.keys()
+                    and paper.get_short_id().split("v")[0] in self.arxiv_dict.keys()
                 ):
                     print(f"Skipping {paper_id} because it is already in dictionary.")
                     sleep(
                         0.5
                     )  # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
                     continue
-                self.arxiv_dict[paper.get_short_id()[:-2]] = {
+                self.arxiv_dict[paper.get_short_id().split("v")[0]] = {
                     "source": "arxiv",
                     "source_type": "latex",
                     "converted_with": "pandoc",
@@ -290,6 +295,8 @@ class ArxivPapers:
                     "primary_category": paper.primary_category,
                     "categories": paper.categories,
                     "citation_level": self.citation_level,
+                    "alignment_text": is_alignment_text[i],
+                    "confidence_score": confidence_scores[i],
                     "main_tex_filename": "",
                     "text": "",
                     "bibliography_bbl": "",
@@ -298,7 +305,7 @@ class ArxivPapers:
                 tar_filename = paper.entry_id.split("/")[-1] + ".tar.gz"
                 tars[i] = tar_filename
                 if create_dict_only:
-                    print("Added " + paper.get_short_id()[:-2] + " to json.")
+                    print("Added " + paper.get_short_id().split("v")[0] + " to json.")
                     continue
             except:
                 incorrect_links_ids.append([paper_link, paper_id])
