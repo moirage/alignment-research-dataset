@@ -24,7 +24,7 @@ class AlignmentNewsletter:
         self.name = "alignment-newsletter"
 
     def fetch_entries(self):
-        print("Fetching alignment-newsletter entries")
+        print("Fetching alignment newsletter entries")
         self.setup()
         self.alignment_newsletter = {}
         # TODO: add multiprocessing

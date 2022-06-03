@@ -18,7 +18,7 @@ class AudioTranscripts:
         self.gdrive_address = gdrive_address
 
     def fetch_entries(self):
-        print("Fetching alignment_newsletter entries")
+        print("Fetching audio transcript entries")
         self.setup()
         self.audio_transcripts = {}
 
