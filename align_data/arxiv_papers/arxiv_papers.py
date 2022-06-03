@@ -4,6 +4,7 @@ import csv
 import json
 from time import sleep
 import jsonlines
+import requests
 import chardet
 import pandas as pd
 import pickle
@@ -18,6 +19,8 @@ import argparse
 from align_data.common.utils import *
 import arxiv
 import wget
+from align_data.common.paper2json.tei2json import convert_folder_to_json
+from grobid_client.grobid_client import GrobidClient
 
 
 class ArxivPapers:
@@ -66,6 +69,9 @@ class ArxivPapers:
         if self.remove_empty_papers == "y":
             self.arxiv_dict = self._remove_empty_mds_from_dict()
             self.arxiv_dict = self._remove_empty_texts_from_dict()
+
+        self.automatic_extraction_with_grobid()
+
         json.dump(
             self.arxiv_dict, open(f"{self.PROCESSED_JSONS_DIR}/arxiv_dict.json", "w")
         )
@@ -110,6 +116,9 @@ class ArxivPapers:
         self.PROCESSED_TXTS_DIR = self.PROCESSED_DIR / "txts"
         self.PROCESSED_JSONS_DIR = self.PROCESSED_DIR / "jsons"
         self.PROCESSED_CSVS_DIR = self.PROCESSED_DIR / "csvs"
+        self.PROCESSED_TEIS_DIR = self.PROCESSED_DIR / "teis"
+        self.PROCESSED_GROBID_JSONS_DIR = self.PROCESSED_JSONS_DIR / "grobid_jsons"
+        self.paper_ids_for_grobid = []
 
         if os.path.exists(f"{self.PROCESSED_JSONS_DIR}/arxiv_dict.json"):
             self.arxiv_dict = json.load(
@@ -151,7 +160,7 @@ class ArxivPapers:
             f"mkdir -p {self.RAW_DIR} {self.INTERIM_DIR} {self.PROCESSED_DIR} {self.TARS_DIR} {self.RAW_CSVS_DIR} {self.LATEX_DIR} {self.PDFS_DIR}"
         )
         sh(
-            f"mkdir -p {self.PKLS_DIR} {self.PROCESSED_TXTS_DIR} {self.PROCESSED_JSONS_DIR} {self.PROCESSED_CSVS_DIR}"
+            f"mkdir -p {self.PKLS_DIR} {self.PROCESSED_TXTS_DIR} {self.PROCESSED_JSONS_DIR} {self.PROCESSED_CSVS_DIR} {self.PROCESSED_TEIS_DIR} {self.PROCESSED_GROBID_JSONS_DIR}"
         )
         # arxiv_citations_dict looks like this:
         # {root_paper_id_1: [citation_paper_id_1, citation_paper_id_2, ...], ...}
@@ -223,12 +232,13 @@ class ArxivPapers:
         if self.citation_level == "0":
             df = pd.read_csv(self.papers_csv_path)
             df_arxiv = df[df["Url"].str.contains("arxiv") == True]
-            is_alignment_text = list(df["alignment_text"])
+            df_arxiv = df_arxiv.drop_duplicates(subset="Url", keep="first")
+            papers = list(df_arxiv["Url"].values)
+            is_alignment_text = list(df_arxiv["alignment_text"])
             for i, item in enumerate(is_alignment_text):
                 if pd.isnull(item):
                     is_alignment_text[i] = "unlabeled"
-            confidence_scores = list(df["confidence_score"])
-            papers = list(set(df_arxiv["Url"].values))
+            confidence_scores = list(df_arxiv["confidence_score"])
             print(f"{len(papers)} papers to download")
         else:
             df = pd.read_csv(
@@ -240,10 +250,10 @@ class ArxivPapers:
 
         tars = ["None"] * len(papers)
 
-        if ls(self.TARS_DIR):
+        if ls(str(self.TARS_DIR)):
             tars = [
                 tar.split("/")[-1]
-                for tar in ls(self.TARS_DIR)
+                for tar in ls(str(self.TARS_DIR))
                 if tar.endswith(".tar.gz")
             ]
             if len(tars) != len(papers):
@@ -268,14 +278,27 @@ class ArxivPapers:
                     paper_id = paper_link.split("/")[-1]
                 else:
                     paper_id = paper_link
-                paper = next(arxiv.Search(id_list=[paper_id]).results())
+                try:
+                    paper = next(arxiv.Search(id_list=[paper_id]).results())
+                except ExitCodeError:
+                    r = requests.get("http://arxiv.org")
+                    if r.status_code != 200:
+                        print(
+                            "You've been blocked from the arxiv API. Please switch VPN before continuing."
+                        )
+                        input("Press enter to continue once you've switched VPN...")
+                        try:
+                            paper = next(arxiv.Search(id_list=[paper_id]).results())
+                        except ExitCodeError:
+                            print("Still couldn't grab paper. Skipping paper...")
+                            continue
                 if (
                     self.citation_level != "0"
                     and paper.get_short_id().split("v")[0] in self.arxiv_dict.keys()
                 ):
                     print(f"Skipping {paper_id} because it is already in dictionary.")
                     sleep(
-                        0.5
+                        4
                     )  # need to add here to avoid getting banned, the "continue" statement below allows for too many quick arxiv.Search() calls
                     continue
                 self.arxiv_dict[paper.get_short_id().split("v")[0]] = {
@@ -305,6 +328,7 @@ class ArxivPapers:
                 tar_filename = paper.entry_id.split("/")[-1] + ".tar.gz"
                 tars[i] = tar_filename
                 if create_dict_only:
+                    sleep(4)
                     print("Added " + paper.get_short_id().split("v")[0] + " to json.")
                     continue
             except:
@@ -312,15 +336,35 @@ class ArxivPapers:
                 pass
 
             try:
-                sleep(0.5)
+                sleep(4)
                 if is_alignment_text[i] == "pos":
-                    if pdf:
-                        paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
-                    else:
-                        paper.download_source(
-                            dirpath=str(self.TARS_DIR), filename=tar_filename
-                        )
-                        print("; Downloaded paper: " + paper_id)
+                    try:
+                        if pdf:
+                            paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
+                        else:
+                            paper.download_source(
+                                dirpath=str(self.TARS_DIR), filename=tar_filename
+                            )
+                            print("; Downloaded paper: " + paper_id)
+                    except ExitCodeError:
+                        r = requests.get("http://arxiv.org")
+                        if r.status_code != 200:
+                            print(
+                                "You've been blocked from the arxiv API. Please switch VPN before continuing."
+                            )
+                            input("Press enter to continue once you've switched VPN...")
+                            try:
+                                if pdf:
+                                    paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
+                                else:
+                                    paper.download_source(
+                                        dirpath=str(self.TARS_DIR),
+                                        filename=tar_filename,
+                                    )
+                                    print("; Downloaded paper: " + paper_id)
+                            except ExitCodeError:
+                                print("Still couldn't grab paper. Skipping paper...")
+                                continue
                 else:
                     print(
                         "; Skipping paper: "
@@ -379,7 +423,68 @@ class ArxivPapers:
                     sh(f"mv {paper_folder} done")
             except ExitCodeError:
                 traceback.print_exc()
-                print(f"Error converting {paper_folder}")
+                print(
+                    f"Error converting {paper_folder}. Storing paper_id in list to extract with grobid later."
+                )
+                self.paper_ids_for_grobid.append(
+                    paper_folder.split("/")[-1].split("v")[0]
+                )
+
+    def automatic_extraction_with_grobid(self):
+        for paper_id in tqdm(self.paper_ids_for_grobid):
+            try:
+                print("Downloading PDF of paper to try to extract text with grobid...")
+                sleep(4)
+                try:
+                    paper = next(arxiv.Search(id_list=[paper_id]).results())
+                    paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
+                except ExitCodeError:
+                    r = requests.get("http://arxiv.org")
+                    if r.status_code != 200:
+                        print(
+                            "You've been blocked from the arxiv API. Please switch VPN before continuing."
+                        )
+                        input("Press enter to continue once you've switched VPN...")
+                        try:
+                            paper = next(arxiv.Search(id_list=[paper_id]).results())
+                            paper.download_pdf(dirpath=str(self.ARXIV_PDFS_DIR))
+                        except ExitCodeError:
+                            print("Still couldn't download PDF. Skipping paper...")
+            except ExitCodeError:
+                print(
+                    "Could not download PDF of paper to try to extract text with grobid."
+                )
+
+        try:
+            print("Trying to convert paper with grobid...")
+            client = GrobidClient(config_path="./config.json")
+            client.process(
+                "processFulltextDocument",
+                input_path=str(self.ARXIV_PDFS_DIR),
+                output="data/processed/teis",
+                n=3,
+            )
+            print("converting to json...")
+            convert_folder_to_json(
+                str(self.PROCESSED_TEIS_DIR),
+                str(self.PROCESSED_GROBID_JSONS_DIR),
+                source="arxiv",
+            )
+        except ExitCodeError:
+            print("Error converting paper with grobid.")
+
+        print("Adding grobid jsons to arxiv_dict...")
+        for grobid_json in tqdm(ls(self.PROCESSED_GROBID_JSONS_DIR)):
+            try:
+                with open(grobid_json, "r") as f:
+                    grobid_dict = json.load(f)
+                    paper_id = grobid_dict.keys()[0]
+                    if paper_id in self.arxiv_dict.keys():
+                        continue
+                    else:
+                        self.arxiv_dict[grobid_dict.keys()[0]] = grobid_dict
+            except ExitCodeError:
+                print("Error adding grobid json to arxiv_dict.")
 
     def manual_extraction(self):
         for paper_folder in ls("errored/pandoc_failures/"):
