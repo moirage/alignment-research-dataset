@@ -20,7 +20,7 @@ class LessWrong:
 
     def get_latest_file(self):
         list_of_files = sorted(
-            glob.glob("urls/*")
+            glob.glob("align_data/lesswrong/urls/*")
         )  # * means all if need specific format then *.csv
         return list_of_files[-1]
 
@@ -115,7 +115,7 @@ class LessWrong:
         # res = re.sub(r'http\S+', 'ʬ', res)
         return res
 
-    def latest_url_file_name(self, url_dir="urls"):
+    def latest_url_file_name(self, url_dir="align_data/lesswrong/urls"):
         url_filenames = sorted(
             os.listdir(url_dir), reverse=True
         )  # Do reverse to get latest date first
@@ -225,30 +225,30 @@ class LessWrong:
         if url_directory:
             url_filename_suffix = url_directory
         else:  # get latest urls
-            url_filename_suffix = self.latest_url_file_name(f"urls")
+            url_filename_suffix = self.latest_url_file_name(f"align_data/lesswrong/urls")
         # Create unproccessed_url directory if it doesn't exist already
-        if not os.path.exists("unprocessed_urls"):
-            os.makedirs("unprocessed_urls")
+        if not os.path.exists("align_data/lesswrong/unprocessed_urls"):
+            os.makedirs("align_data/lesswrong/unprocessed_urls")
         # Run files in unprocessed if they exist (may contain problem files)
-        unprocessed_urls = os.listdir(f"unprocessed_urls")
+        unprocessed_urls = os.listdir(f"align_data/lesswrong/unprocessed_urls")
         if unprocessed_urls:  # if not empty
             url_filename_list = unprocessed_urls
         else:  # Create files to process
-            url_filename = f"urls/{url_filename_suffix}"
+            url_filename = f"align_data/lesswrong/urls/{url_filename_suffix}"
             with open(url_filename, "r") as file:
                 # Split into separate files for every 1000 urls
                 lines = file.read().splitlines()
                 list_of_url_by_1000 = list(self.chunks(lines, 1000))
                 for index, urls_1000 in enumerate(list_of_url_by_1000):
                     with open(
-                        f"unprocessed_urls/{index}_{url_filename_suffix}", "w"
+                        f"align_data/lesswrong/unprocessed_urls/{index}_{url_filename_suffix}", "w"
                     ) as url_1000_file:
                         url_1000_file.writelines("\n".join(urls_1000))
-            url_filename_list = os.listdir(f"unprocessed_urls")
+            url_filename_list = os.listdir(f"align_data/lesswrong/unprocessed_urls")
 
         current_post_iter = 0
         for url_filename in url_filename_list:
-            with open(f"unprocessed_urls/{url_filename}", "r") as file:
+            with open(f"align_data/lesswrong/unprocessed_urls/{url_filename}", "r") as file:
                 for url_link in file:
                     # Show current iter post
                     if current_post_iter % 50 == 0:
@@ -332,7 +332,7 @@ class LessWrong:
                     yield json_post_and_comments[current_post_iter]
                     current_post_iter += 1
             # remove url from unprocessed folder
-            os.remove(f"unprocessed_urls/{url_filename}")
+            os.remove(f"align_data/lesswrong/unprocessed_urls/{url_filename}")
 
 
 if __name__ == "__main__":
