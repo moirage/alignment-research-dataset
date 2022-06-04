@@ -1,4 +1,5 @@
 from align_data.blogs.markdown_blogs import MarkdownBlogs
+from align_data.ebooks.mdebooks import MDEBooks
 from .wp_blog import WordpressBlog
 from .medium_blog import MediumBlog
 from .gwern_blog import GwernBlog
@@ -22,5 +23,8 @@ BLOG_REGISTRY = [
         "https://drive.google.com/uc?id=17CLAtrWNp4WoRLRPyS1pb2K5IQuMtHIH",
         "carado.moe",
         "carado.moe-cleaned-up",
+    ),
+    MDEBooks(
+        "https://drive.google.com/uc?id=1jRtk3LSa1cWxAYu0DO0VGFY-J710FCfB", "mdebooks"
     ),
 ]
