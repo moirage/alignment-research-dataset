@@ -56,7 +56,7 @@ class MDEBooks:
 
         self.entries[i] = {
             "source": self.name,
-            "source_filetype": "markdown",
+            "source_type": "markdown",
             "title": title,
             "authors": authors,
             "date_published": str(date),

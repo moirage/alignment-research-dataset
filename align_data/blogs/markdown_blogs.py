@@ -2,9 +2,7 @@ import os
 import re
 import gdown
 import json
-import jsonlines
 from align_data.common.utils import *
-from tqdm import tqdm
 
 
 class MarkdownBlogs:
@@ -34,7 +32,7 @@ class MarkdownBlogs:
         print(f"Fetching {self.name} entries")
         self.setup()
         self.folder_name = self.RAW_DIR + "/" + self.folder_name
-        self.download_transcripts()
+        self.download_md()
 
         # create dictionary to store the entries
         self.num_entries = len(os.listdir(self.folder_name))
@@ -67,7 +65,7 @@ class MarkdownBlogs:
 
         self.entries[i] = {
             "source": self.name,
-            "source_filetype": "markdown_blog",
+            "source_type": "markdown",
             "title": title,
             "authors": self.authors,
             "date_published": str(date),
@@ -78,17 +76,17 @@ class MarkdownBlogs:
         self.PROJECT_DIR = os.getcwd()
         self.RAW_DIR = os.path.join(self.PROJECT_DIR, "data/raw/markdown_blogs")
 
-    def download_transcripts(self):
+    def download_md(self):
         os.makedirs(self.RAW_DIR, exist_ok=True)
         os.chdir(self.RAW_DIR)
         print("Downloading everything...")
         self.pull_from_gdrive()
         # unzip the downloaded folder
         print("Unzipping...")
-        os.system("unzip -o " + "transcripts.zip -d " + ".")
+        os.system("unzip -o " + f"{self.name}.zip -d " + ".")
         # remove the zip files
         os.system("rm " + "*.zip")
         os.chdir(self.PROJECT_DIR)
 
     def pull_from_gdrive(self):
-        gdown.download(url=self.gdrive_address, output="transcripts.zip", quiet=False)
+        gdown.download(url=self.gdrive_address, output=f"{self.name}.zip", quiet=False)
