@@ -7,6 +7,7 @@ import align_data.lesswrong
 import align_data.stampy
 import align_data.audio_transcripts
 import align_data.alignment_newsletter
+import align_data.distill
 
 
 DATASET_REGISTRY = (
@@ -19,6 +20,7 @@ DATASET_REGISTRY = (
     + stampy.STAMPY_REGISTRY
     + audio_transcripts.AUDIO_TRANSCRIPTS_REGISTRY
     + alignment_newsletter.ALIGNMENT_NEWSLETTER_REGISTRY
+    + distill.DISTILL_REGISTRY
 )
 
 

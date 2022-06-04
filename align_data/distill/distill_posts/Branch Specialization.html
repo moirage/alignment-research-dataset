@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<!-- saved from url=(0056)https://distill.pub/2020/circuits/branch-specialization/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./Branch Specialization_files/template.v2.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="Branch%20Specialization_files/template.js"></script><style>body {transition: opacity ease-in 0.2s; } 
 body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
-</style><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="./Branch Specialization_files/analytics.js"></script><script>
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="Branch%20Specialization_files/analytics.js"></script><script>
 window.addEventListener('WebComponentsReady', function() {
   console.warn('WebComponentsReady');
   const loaderTag = document.createElement('script');
   loaderTag.src = 'https://distill.pub/template.v2.js';
   document.head.insertBefore(loaderTag, document.head.firstChild);
 });
-</script><script src="./Branch Specialization_files/webcomponents-loader.js"></script><script src="./Branch Specialization_files/webcomponents-hi.js"></script>
+</script><script src="Branch%20Specialization_files/webcomponents-loader.js"></script><script src="Branch%20Specialization_files/webcomponents-hi.js"></script>
   
   
   <style id="distill-article-specific-styles">
@@ -1171,7 +1171,7 @@ span.katex {
     <meta name="citation_reference" content="citation_title=Representation of Angles Embedded within Contour Stimuli in Area V2 of Macaque Monkeys;citation_author=Minami Ito;citation_author=Hidehiko Komatsu;citation_publication_date=2004;citation_journal_title=Journal of Neuroscience;citation_volume=24;citation_number=13;">
 </head>
 
-<body distill-prerendered=""><distill-header distill-prerendered="">
+<body distill-prerendered="" class="vsc-initialized" data-new-gr-c-s-check-loaded="8.899.0" data-gr-ext-installed=""><distill-header distill-prerendered="">
 <style>
 distill-header {
   position: relative;
@@ -1442,9 +1442,11 @@ distill-header .nav a {
 </d-byline><d-article>
 
     <section id="thread-nav" class="thread-info" style="margin-top: 10px; margin-bottom: 40px;">
-      <img class="icon" src="./Branch Specialization_files/multiple-pages.svg" width="43px" height="50px">
+      <img class="icon" src="Branch%20Specialization_files/multiple-pages.svg" width="43px" height="50px">
       <p class="explanation">
-          This article is part of the <a href="https://distill.pub/2020/circuits/">Circuits thread</a>, an experimental format collecting invited short articles and critical commentary delving into the inner workings of neural networks.
+          This article is part of the <a href="https://distill.pub/2020/circuits/">Circuits thread</a>,
+ an experimental format collecting invited short articles and critical 
+commentary delving into the inner workings of neural networks.
       </p>
       <a class="prev" href="https://distill.pub/2020/circuits/visualizing-weights/">Visualizing Weights</a>
       <a class="next" href="https://distill.pub/2020/circuits/weight-banding/">Weight Banding</a>
@@ -1453,38 +1455,79 @@ distill-header .nav a {
     <h2 style="display: none;">Introduction</h2>
 
     <p>
-      If we think of interpretability as a kind of “anatomy of neural networks,” most of the circuits thread has involved studying tiny little veins – looking at the small-scale, at individual neurons and how they connect. However, there are many natural questions that the small-scale approach doesn’t address.
+      If we think of interpretability as a kind of “anatomy of neural 
+networks,” most of the circuits thread has involved studying tiny little
+ veins – looking at the small-scale, at individual neurons and how they 
+connect. However, there are many natural questions that the small-scale 
+approach doesn’t address.
     </p>
 
     <p>
-      In contrast, the most prominent abstractions in biological anatomy involve larger-scale structures: individual organs like the heart, or entire organ systems like the respiratory system. And so we wonder: is there a “respiratory system” or “heart” or “brain region” of an artificial neural network? Do neural networks have any emergent structures that we could study that are larger-scale than circuits?
+      In contrast, the most prominent abstractions in biological anatomy
+ involve larger-scale structures: individual organs like the heart, or 
+entire organ systems like the respiratory system. And so we wonder: is 
+there a “respiratory system” or “heart” or “brain region” of an 
+artificial neural network? Do neural networks have any emergent 
+structures that we could study that are larger-scale than circuits?
     </p>
 
     <p>
-      This article describes <i>branch specialization</i>, one of three larger “structural phenomena” we’ve been able observe in neural networks. (The other two, <a href="https://distill.pub/2020/circuits/equivariance/">equivariance</a> and <a href="https://distill.pub/2020/circuits/weight-banding/">weight banding</a>, have separate dedicated articles.) Branch specialization occurs when neural network layers are split up into branches. The neurons and circuits tend to self-organize, clumping related functions into each branch and forming larger functional units – a kind of “neural network brain region.” We find evidence that these structures implicitly exist in neural networks without branches, and that branches are simply reifying structures that otherwise exist.
+      This article describes <i>branch specialization</i>, one of three larger “structural phenomena” we’ve been able observe in neural networks. (The other two, <a href="https://distill.pub/2020/circuits/equivariance/">equivariance</a> and <a href="https://distill.pub/2020/circuits/weight-banding/">weight banding</a>,
+ have separate dedicated articles.) Branch specialization occurs when 
+neural network layers are split up into branches. The neurons and 
+circuits tend to self-organize, clumping related functions into each 
+branch and forming larger functional units – a kind of “neural network 
+brain region.” We find evidence that these structures implicitly exist 
+in neural networks without branches, and that branches are simply 
+reifying structures that otherwise exist.
     </p>
 
     <p>
-      The earliest example of branch specialization that we’re aware of comes from AlexNet<d-cite bibtex-key="krizhevsky2012imagenet"></d-cite>. AlexNet is famous as a jump in computer vision, arguably starting the deep learning revolution, but buried in the paper is a fascinating, rarely-discussed detail.
+      The earliest example of branch specialization that we’re aware of comes from AlexNet<d-cite bibtex-key="krizhevsky2012imagenet"></d-cite>.
+ AlexNet is famous as a jump in computer vision, arguably starting the 
+deep learning revolution, but buried in the paper is a fascinating, 
+rarely-discussed detail.
 
-      The first two layers of AlexNet are split into two branches which can’t communicate until they rejoin after the second layer. This structure was used to maximize the efficiency of training the model on two GPUs, but the authors noticed something very curious happened as a result. The neurons in the first layer organized themselves into two groups: black-and-white Gabor filters formed on one branch and low-frequency color detectors formed on the other branch.
+      The first two layers of AlexNet are split into two branches which 
+can’t communicate until they rejoin after the second layer. This 
+structure was used to maximize the efficiency of training the model on 
+two GPUs, but the authors noticed something very curious happened as a 
+result. The neurons in the first layer organized themselves into two 
+groups: black-and-white Gabor filters formed on one branch and 
+low-frequency color detectors formed on the other branch.
     </p>
 
     <figure id="figure-1">
-      <img src="./Branch Specialization_files/Figure_1.png" style="max-width: 100%; width: auto;">
+      <img src="Branch%20Specialization_files/Figure_1.png" style="max-width: 100%; width: auto;">
       <figcaption class="figcaption l-body">
         <p>
-          <a href="https://distill.pub/2020/circuits/branch-specialization/#figure-1" class="figure-number">1</a>. Branch specialization in the first two layers of AlexNet. Krizhevsky et al.<d-cite bibtex-key="krizhevsky2012imagenet"></d-cite> observed the phenomenon we call branch specialization in the first layer of AlexNet by visualizing their weights to RGB channels; here, we use <a href="https://distill.pub/2017/feature-visualization/">feature visualization</a><d-cite bibtex-key="erhan2009visualizing,simonyan2013deep,nguyen2016multifaceted,olah2017feature"></d-cite> to show how this phenomenon extends to the second layer of each branch.
+          <a href="#figure-1" class="figure-number">1</a>. Branch specialization in the first two layers of AlexNet. Krizhevsky et al.<d-cite bibtex-key="krizhevsky2012imagenet"></d-cite>
+ observed the phenomenon we call branch specialization in the first 
+layer of AlexNet by visualizing their weights to RGB channels; here, we 
+use <a href="https://distill.pub/2017/feature-visualization/">feature visualization</a><d-cite bibtex-key="erhan2009visualizing,simonyan2013deep,nguyen2016multifaceted,olah2017feature"></d-cite> to show how this phenomenon extends to the second layer of each branch.
         </p>
       </figcaption>
     </figure>
 
     <p>
-      Although the first layer of AlexNet is the only example of branch specialization we’re aware of being discussed in the literature, it seems to be a common phenomenon. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it – for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon in plain convolutional nets, even without any particular structure causing it.
+      Although the first layer of AlexNet is the only example of branch 
+specialization we’re aware of being discussed in the literature, it 
+seems to be a common phenomenon. We find that branch specialization 
+happens in later hidden layers, not just the first layer. It occurs in 
+both low-level and high-level features. It occurs in a wide range of 
+models, including places you might not expect it – for example, residual
+ blocks in resnets can functionally be branches and specialize. Finally,
+ branch specialization appears to surface as a structural phenomenon in 
+plain convolutional nets, even without any particular structure causing 
+it.
     </p>
 
     <p>
-      Is there a large-scale structure to how neural networks operate? How are features and circuits organized within the model? Does network architecture influence the features and circuits that form? Branch specialization hints at an exciting story related to all of these questions.
+      Is there a large-scale structure to how neural networks operate? 
+How are features and circuits organized within the model? Does network 
+architecture influence the features and circuits that form? Branch 
+specialization hints at an exciting story related to all of these 
+questions.
     </p>
 
     <h2>What is a branch?</h2>
@@ -1494,7 +1537,7 @@ distill-header .nav a {
     </p>
 
     <figure id="figure-2">
-      <svg width="1377" height="788" viewBox="0 0 1377 788" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="diagram-Figure_2" style="width: 100%; height: auto;">
+      <svg width="1377" height="788" viewBox="0 0 1377 788" fill="none" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" id="diagram-Figure_2" style="width: 100%; height: auto;">
 <g id="Figure_2" --disabled-clip-path="url(#clip0)">
 <rect width="1377" height="788" fill="white" class="pixelated"></rect>
 <g id="Group 75">
@@ -1755,26 +1798,35 @@ distill-header .nav a {
 <pattern id="patternFigure_21" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#imageFigure_20" transform="translate(0 -0.0010352) scale(0.0116649 0.00569358)" class="pixelated"></use>
 </pattern>
-<clippath id="clip0">
+<clipPath id="clip0">
 <rect width="1377" height="788" fill="white" class="pixelated"></rect>
-</clippath>
+</clipPath>
 <image id="imageFigure_20" data-name="imageFigure_2.png" width="92" height="176" xlink:href="generated_images/6ba7d963d1e49a.png" class="pixelated"></image>
 </defs>
 </svg>
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="https://distill.pub/2020/circuits/branch-specialization/#figure-2" class="figure-number">2</a>. Examples of branches in various types of neural network architectures.
+          <a href="#figure-2" class="figure-number">2</a>. Examples of branches in various types of neural network architectures.
         </p>
       </figcaption>
     </figure>
 
     <p>
-      In the past, models with explicitly-labeled branches were popular (such as AlexNet and the Inception family of networks<d-cite bibtex-key="szegedy2015going"></d-cite>). In more recent years, these have become less common, but residual networks – which can be seen as implicitly having branches in their residual blocks – have become very common. We also sometimes see branched architectures develop automatically in neural architecture search<d-cite bibtex-key="zoph2016neural"></d-cite>, an approach where the network architecture is learned.
+      In the past, models with explicitly-labeled branches were popular (such as AlexNet and the Inception family of networks<d-cite bibtex-key="szegedy2015going"></d-cite>).
+ In more recent years, these have become less common, but residual 
+networks – which can be seen as implicitly having branches in their 
+residual blocks – have become very common. We also sometimes see 
+branched architectures develop automatically in neural architecture 
+search<d-cite bibtex-key="zoph2016neural"></d-cite>, an approach where the network architecture is learned.
     </p>
 
     <p>
-      The implicit branching of residual networks has some important nuances. At first glance, every layer is a two-way branch. But because the branches are combined together by addition, we can actually rewrite the model to reveal that the residual blocks can be understood as branches in parallel:
+      The implicit branching of residual networks has some important 
+nuances. At first glance, every layer is a two-way branch. But because 
+the branches are combined together by addition, we can actually rewrite 
+the model to reveal that the residual blocks can be understood as 
+branches in parallel:
     </p>
 
     <figure id="figure-3">
@@ -1843,23 +1895,40 @@ distill-header .nav a {
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="https://distill.pub/2020/circuits/branch-specialization/#figure-3" class="figure-number">3</a>. Residual blocks as branches in parallel.
+          <a href="#figure-3" class="figure-number">3</a>. Residual blocks as branches in parallel.
         </p>
       </figcaption>
     </figure>
 
     <p>
-      We typically see residual blocks specialize in very deep residual networks (e.g. ResNet-152<!--CITE-->). One hypothesis for why is that, in these models, the exact depth of a layer doesn’t matter and the branching aspect becomes more important than the sequential aspect.
+      We typically see residual blocks specialize in very deep residual networks (e.g. ResNet-152<!--CITE-->).
+ One hypothesis for why is that, in these models, the exact depth of a 
+layer doesn’t matter and the branching aspect becomes more important 
+than the sequential aspect.
     </p>
 
     <p>
-      One of the conceptual weaknesses of normal branching models is that although branches can save parameters, it still requires a lot of parameters to mix values between branches. However, if you buy the branch interpretation of residual networks, you can see them as a strategy to sidestep this: residual networks intermix branches (e.g. block sparse weights) with low-rank connections (projecting all the blocks into the same sum and then back up). This seems like a really elegant way to handle branching. More practically, it suggests that analysis of residual networks might be well-served by paying close attention to the units in the blocks, and that we might expect the residual stream to be unusually polysemantic.
+      One of the conceptual weaknesses of normal branching models is 
+that although branches can save parameters, it still requires a lot of 
+parameters to mix values between branches. However, if you buy the 
+branch interpretation of residual networks, you can see them as a 
+strategy to sidestep this: residual networks intermix branches (e.g. 
+block sparse weights) with low-rank connections (projecting all the 
+blocks into the same sum and then back up). This seems like a really 
+elegant way to handle branching. More practically, it suggests that 
+analysis of residual networks might be well-served by paying close 
+attention to the units in the blocks, and that we might expect the 
+residual stream to be unusually polysemantic.
     </p>
 
     <h2>Why does branch specialization occur?</h2>
 
     <p>
-      Branch specialization is defined by features organizing between branches. In a normal layer, features are organized randomly: a given feature is just as likely to be any neuron in a layer. But in a branched layer, we often see features of a given type cluster to one branch. The branch has specialized on that type of feature.
+      Branch specialization is defined by features organizing between 
+branches. In a normal layer, features are organized randomly: a given 
+feature is just as likely to be any neuron in a layer. But in a branched
+ layer, we often see features of a given type cluster to one branch. The
+ branch has specialized on that type of feature.
     </p>
 
     <p>
@@ -1901,36 +1970,55 @@ distill-header .nav a {
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="https://distill.pub/2020/circuits/branch-specialization/#figure-4" class="figure-number">4</a>. Hypothetical positive feedback loop of branch specialization during training.
+          <a href="#figure-4" class="figure-number">4</a>. Hypothetical positive feedback loop of branch specialization during training.
         </p>
       </figcaption>
     </figure>
 
     <p>
-      Another way to think about this is that if you need to cut a neural network into pieces that have limited ability to communicate with each other, it makes sense to organize similar features close together, because they probably need to share more information.
+      Another way to think about this is that if you need to cut a 
+neural network into pieces that have limited ability to communicate with
+ each other, it makes sense to organize similar features close together,
+ because they probably need to share more information.
     </p>
 
     <h2>Branch specialization beyond the first layer</h2>
 
     <p>
-      So far, the only concrete example we’ve shown of branch specialization is the first and second layer of AlexNet. What about later layers? AlexNet also splits its later layers into branches, after all. This seems to be unexplored, since studying features after the first layer is much harder.<d-footnote id="d-footnote-1">For the first layer, one can visualize the RGB weights; for later layers, one needs to use feature visualization.</d-footnote>
+      So far, the only concrete example we’ve shown of branch 
+specialization is the first and second layer of AlexNet. What about 
+later layers? AlexNet also splits its later layers into branches, after 
+all. This seems to be unexplored, since studying features after the 
+first layer is much harder.<d-footnote id="d-footnote-1">For the first layer, one can visualize the RGB weights; for later layers, one needs to use feature visualization.</d-footnote>
     </p>
 
     <p>
-      Unfortunately, branch specialization in the later layers of AlexNet is also very subtle. Instead of one overall split, it’s more like there’s dozens of small clusters of neurons, each cluster being assigned to a branch. It’s hard to be confident that one isn’t just seeing patterns in noise.
+      Unfortunately, branch specialization in the later layers of 
+AlexNet is also very subtle. Instead of one overall split, it’s more 
+like there’s dozens of small clusters of neurons, each cluster being 
+assigned to a branch. It’s hard to be confident that one isn’t just 
+seeing patterns in noise.
     </p>
 
     <p>
-      But other models have very clear branch specialization in later layers. This tends to happen when a branch constitutes only a very small fraction of a layer, either because there are many branches or because one is much smaller than others. In these cases, the branch can specialize on a very small subset of the features that exist in a layer and reveal a clear pattern.
+      But other models have very clear branch specialization in later 
+layers. This tends to happen when a branch constitutes only a very small
+ fraction of a layer, either because there are many branches or because 
+one is much smaller than others. In these cases, the branch can 
+specialize on a very small subset of the features that exist in a layer 
+and reveal a clear pattern.
     </p>
 
     <p>
-      For example, most of InceptionV1′s layers have a branched structure. The branches have varying numbers of units, and varying convolution sizes. The 5x5 branch is the smallest branch, and also has the largest convolution size. It’s often very specialized:
+      For example, most of InceptionV1′s layers have a branched 
+structure. The branches have varying numbers of units, and varying 
+convolution sizes. The 5x5 branch is the smallest branch, and also has 
+the largest convolution size. It’s often very specialized:
     </p>
 
 
     <figure id="figure-5" style="grid-column-start: page-start; grid-column-end: page-end;">
-      <svg width="1782" height="1555" viewBox="0 0 1782 1555" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="diagram-Figure_5" style="width: 100%; height: auto;">
+      <svg width="1782" height="1555" viewBox="0 0 1782 1555" fill="none" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" id="diagram-Figure_5" style="width: 100%; height: auto;">
 <g id="Figure_5_colah_2">
 <rect width="1782" height="1555" fill="white" class="pixelated"></rect>
 <rect id="imageFigure_5 38" width="1780" height="469.012" fill="url(#patternFigure_50)"></rect>
@@ -3210,7 +3298,7 @@ distill-header .nav a {
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="https://distill.pub/2020/circuits/branch-specialization/#figure-5" class="figure-number">5</a>. Examples of branch specialization in <code><a href="https://distill.pub/2017/feature-visualization/appendix/googlenet/3a.html#3a-192">mixed3a_5x5</a></code>, <code><a href="https://distill.pub/2017/feature-visualization/appendix/googlenet/3b.html#3b-320">mixed3b_5x5</a></code>, and <code><a href="https://distill.pub/2017/feature-visualization/appendix/googlenet/4a.html#4a-396">mixed4a_5x5</a></code>.
+          <a href="#figure-5" class="figure-number">5</a>. Examples of branch specialization in <code><a href="https://distill.pub/2017/feature-visualization/appendix/googlenet/3a.html#3a-192">mixed3a_5x5</a></code>, <code><a href="https://distill.pub/2017/feature-visualization/appendix/googlenet/3b.html#3b-320">mixed3b_5x5</a></code>, and <code><a href="https://distill.pub/2017/feature-visualization/appendix/googlenet/4a.html#4a-396">mixed4a_5x5</a></code>.
         </p>
       </figcaption>
     </figure>
@@ -3222,17 +3310,35 @@ distill-header .nav a {
 
 
     </p><p>
-      It’s worth noting one confounding factor which might be influencing the specialization. The 5x5 branches are the smallest branches, but also have larger convolutions (5x5 instead of 3x3 or 1x1) than their neighbors.<d-footnote id="d-footnote-2">There is something which suggests that the branching plays an essential role: mixed3a and mixed3b are adjacent layers which contain relatively similar features and are at the same scale. If it was only about convolution size, why don’t we see any curves in the <code>mixed3a_5x5</code> branch or color in the <code>mixed3b_5x5</code> branch?</d-footnote>
+      It’s worth noting one confounding factor which might be 
+influencing the specialization. The 5x5 branches are the smallest 
+branches, but also have larger convolutions (5x5 instead of 3x3 or 1x1) 
+than their neighbors.<d-footnote id="d-footnote-2">There is something 
+which suggests that the branching plays an essential role: mixed3a and 
+mixed3b are adjacent layers which contain relatively similar features 
+and are at the same scale. If it was only about convolution size, why 
+don’t we see any curves in the <code>mixed3a_5x5</code> branch or color in the <code>mixed3b_5x5</code> branch?</d-footnote>
     </p>
 
     <h2>Why is branch specialization consistent?</h2>
 
     <p>
-      Perhaps the most surprising thing about branch specialization is that the same branch specializations seem to occur again and again, across different architectures and tasks.
+      Perhaps the most surprising thing about branch specialization is 
+that the same branch specializations seem to occur again and again, 
+across different architectures and tasks.
     </p>
 
     <p>
-      For example, the branch specialization we observed in AlexNet – the first layer specializing into a black-and-white Gabor branch vs. a low-frequency color branch – is a surprisingly robust phenomenon. It occurs consistently if you retrain AlexNet. It also occurs if you train other architectures with the first few layers split into two branches. It even occurs if you train those models on other natural image datasets, like Places instead of ImageNet. Anecdotally, we also seem to see other types of branch specialization recur. For example, finding branches that seem to specialize in curve detection seems to be quite common (although InceptionV1′s <code>mixed3b_5x5</code> is the only one we’ve carefully characterized).
+      For example, the branch specialization we observed in AlexNet – 
+the first layer specializing into a black-and-white Gabor branch vs. a 
+low-frequency color branch – is a surprisingly robust phenomenon. It 
+occurs consistently if you retrain AlexNet. It also occurs if you train 
+other architectures with the first few layers split into two branches. 
+It even occurs if you train those models on other natural image 
+datasets, like Places instead of ImageNet. Anecdotally, we also seem to 
+see other types of branch specialization recur. For example, finding 
+branches that seem to specialize in curve detection seems to be quite 
+common (although InceptionV1′s <code>mixed3b_5x5</code> is the only one we’ve carefully characterized).
     </p>
 
     <p>
@@ -3240,27 +3346,43 @@ distill-header .nav a {
     </p>
 
     <p>
-      One hypothesis seems very tempting. Notice that many of the same features that form in normal, non-branched models also seem to form in branched models. For example, the first layer of both branched and non-branched models contain Gabor filters and color features. If the same features exist, presumably the same weights exist between them.
+      One hypothesis seems very tempting. Notice that many of the same 
+features that form in normal, non-branched models also seem to form in 
+branched models. For example, the first layer of both branched and 
+non-branched models contain Gabor filters and color features. If the 
+same features exist, presumably the same weights exist between them.
     </p>
 
 
 
     <p>
-      Could it be that branching is just surfacing a structure that already exists? Perhaps there’s two different subgraphs between the weights of the first and second conv layer in a normal model, with relatively small weights between them, and when you train a branched model these two subgraphs latch onto the branches.
+      Could it be that branching is just surfacing a structure that 
+already exists? Perhaps there’s two different subgraphs between the 
+weights of the first and second conv layer in a normal model, with 
+relatively small weights between them, and when you train a branched 
+model these two subgraphs latch onto the branches.
 
-      (This would be directionally similar to work finding modular substructures<d-cite bibtex-key="filan2020neural,csordas2020neural"></d-cite> within neural networks.)
+      (This would be directionally similar to work finding modular 
+substructures<d-cite bibtex-key="filan2020neural,csordas2020neural"></d-cite> within neural networks.)
     </p>
 
     <p>
-      To test this, let’s look at models which have non-branched first and second convolutional layers. Let’s take the weights between them and perform a singular value decomposition (SVD) on the absolute values of the weights. This will show us the main factors of variation in which neurons connect to different neurons in the next layer (irrespective of whether those connections are excitatory or inhibitory).
+      To test this, let’s look at models which have non-branched first 
+and second convolutional layers. Let’s take the weights between them and
+ perform a singular value decomposition (SVD) on the absolute values of 
+the weights. This will show us the main factors of variation in which 
+neurons connect to different neurons in the next layer (irrespective of 
+whether those connections are excitatory or inhibitory).
     </p>
 
     <p>
-      Sure enough, the singular vector (the largest factor of variation) of the weights between the first two convolutional layers of InceptionV1 is color.
+      Sure enough, the singular vector (the largest factor of variation)
+ of the weights between the first two convolutional layers of 
+InceptionV1 is color.
     </p>
 
     <figure id="figure-6" style="grid-column-start: page-start;">
-      <svg width="1782" height="1552" viewBox="0 0 1782 1552" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="diagram-Figure_6" style="width: 100%; height: auto;">
+      <svg width="1782" height="1552" viewBox="0 0 1782 1552" fill="none" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" id="diagram-Figure_6" style="width: 100%; height: auto;">
 <rect width="1782" height="1552" fill="white" class="pixelated"></rect>
 <rect x="374" y="157" width="582" height="583" fill="url(#patternFigure_60)" class="pixelated"></rect>
 <rect x="1137" y="162" width="585" height="581" fill="url(#patternFigure_61)" class="pixelated"></rect>
@@ -3329,25 +3451,37 @@ distill-header .nav a {
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="https://distill.pub/2020/circuits/branch-specialization/#figure-6" class="figure-number">6</a>. Singular vectors for the first and second convolutional layers of InceptionV1, trained on ImageNet (above) or Places365 (below). One can think of neurons being plotted closer together in this diagram as meaning they likely tend to connect to similar neurons.
+          <a href="#figure-6" class="figure-number">6</a>. Singular 
+vectors for the first and second convolutional layers of InceptionV1, 
+trained on ImageNet (above) or Places365 (below). One can think of 
+neurons being plotted closer together in this diagram as meaning they 
+likely tend to connect to similar neurons.
 
         </p>
       </figcaption>
     </figure>
 
     <p>
-      We also see that the second factor appears to be <a href="https://distill.pub/2020/circuits/frequency-edges/">frequency</a>. This suggests an interesting prediction: perhaps if we were to split the layer into more than two branches, we’d also observe specialization in frequency in addition to color.
+      We also see that the second factor appears to be <a href="https://distill.pub/2020/circuits/frequency-edges/">frequency</a>.
+ This suggests an interesting prediction: perhaps if we were to split 
+the layer into more than two branches, we’d also observe specialization 
+in frequency in addition to color.
     </p>
 
     <p>
-      This seems like it may be true. For example, here we see a high-frequency black-and-white branch, a mid-frequency mostly black-and-white branch, a mid-frequency color branch, and a low-frequency color branch.
+      This seems like it may be true. For example, here we see a 
+high-frequency black-and-white branch, a mid-frequency mostly 
+black-and-white branch, a mid-frequency color branch, and a 
+low-frequency color branch.
     </p>
 
     <figure id="figure-7">
-      <img src="./Branch Specialization_files/Figure_7.png" style="max-width: 100%; width: auto;">
+      <img src="Branch%20Specialization_files/Figure_7.png" style="max-width: 100%; width: auto;">
       <figcaption class="figcaption l-body">
         <p>
-          <a href="https://distill.pub/2020/circuits/branch-specialization/#figure-7" class="figure-number">7</a>. We constructed a small ImageNet model with the first layer split into four branches. The rest of the model is roughly an InceptionV1 architecture.
+          <a href="#figure-7" class="figure-number">7</a>. We 
+constructed a small ImageNet model with the first layer split into four 
+branches. The rest of the model is roughly an InceptionV1 architecture.
         </p>
       </figcaption>
     </figure>
@@ -3356,26 +3490,49 @@ distill-header .nav a {
 
 
     <p>
-      We’ve shown that branch specialization is one example of a structural phenomenon — a larger-scale structure in a neural network. It happens in a variety of situations and neural network architectures, and it happens with <i>consistency</i> – certain motifs of specialization, such as color, frequency, and curves, happen consistently across different architectures and tasks.
+      We’ve shown that branch specialization is one example of a 
+structural phenomenon — a larger-scale structure in a neural network. It
+ happens in a variety of situations and neural network architectures, 
+and it happens with <i>consistency</i> – certain motifs of 
+specialization, such as color, frequency, and curves, happen 
+consistently across different architectures and tasks.
     </p>
 
     <p>
-      Returning to our comparison with anatomy, although we hesitate to claim explicit parallels to neuroscience, it’s tempting to draw analogies between branch specialization and the existence of regions of the brain focused on particular tasks.
-      The visual cortex, the auditory cortex, Broca’s area and Wernicke’s area
+      Returning to our comparison with anatomy, although we hesitate to 
+claim explicit parallels to neuroscience, it’s tempting to draw 
+analogies between branch specialization and the existence of regions of 
+the brain focused on particular tasks.
+      The visual cortex, the auditory cortex, Broca’s area and 
+Wernicke’s area
       <d-footnote id="d-footnote-3">
-        The subspecialization within the V2 area of the primate visual cortex is another strong example from neuroscience. One type of stripe within V2 is sensitive to orientation or luminance, whereas the other type of stripe contains color-selective neurons.<d-cite bibtex-key="Hubel3378"></d-cite>
+        The subspecialization within the V2 area of the primate visual 
+cortex is another strong example from neuroscience. One type of stripe 
+within V2 is sensitive to orientation or luminance, whereas the other 
+type of stripe contains color-selective neurons.<d-cite bibtex-key="Hubel3378"></d-cite>
 
-        We are grateful to Patrick Mineault for noting this analogy, and for further noting that the high-frequency features are consistent with some of the known representations of high-level features in the primate V2 area.<d-cite bibtex-key="Ito3313"></d-cite>
+        We are grateful to Patrick Mineault for noting this analogy, and
+ for further noting that the high-frequency features are consistent with
+ some of the known representations of high-level features in the primate
+ V2 area.<d-cite bibtex-key="Ito3313"></d-cite>
       </d-footnote>
-      –&nbsp;these are all examples of brain areas with such consistent specialization across wide populations of people that neuroscientists and psychologists have been able to characterize as having remarkably consistent functions.
+      –&nbsp;these are all examples of brain areas with such consistent 
+specialization across wide populations of people that neuroscientists 
+and psychologists have been able to characterize as having remarkably 
+consistent functions.
 
-      As researchers without expertise in neuroscience, we’re uncertain how useful this connection is, but it may be worth considering whether branch specialization can be a useful model of how specialization might emerge in biological neural networks.
+      As researchers without expertise in neuroscience, we’re uncertain 
+how useful this connection is, but it may be worth considering whether 
+branch specialization can be a useful model of how specialization might 
+emerge in biological neural networks.
     </p>
 
     <section id="thread-nav" class="thread-info" style="margin-top: 10px; margin-bottom: 40px;">
-      <img class="icon" src="./Branch Specialization_files/multiple-pages.svg" width="43px" height="50px">
+      <img class="icon" src="Branch%20Specialization_files/multiple-pages.svg" width="43px" height="50px">
       <p class="explanation">
-          This article is part of the <a href="https://distill.pub/2020/circuits/">Circuits thread</a>, an experimental format collecting invited short articles and critical commentary delving into the inner workings of neural networks.
+          This article is part of the <a href="https://distill.pub/2020/circuits/">Circuits thread</a>,
+ an experimental format collecting invited short articles and critical 
+commentary delving into the inner workings of neural networks.
       </p>
       <a class="prev" href="https://distill.pub/2020/circuits/visualizing-weights/">Visualizing Weights</a>
       <a class="next" href="https://distill.pub/2020/circuits/weight-banding/">Weight Banding</a>
@@ -3419,17 +3576,68 @@ distill-header .nav a {
     <div class="comment">
       <h3>Comment</h3>
       <div class="commenter-description">
-        <b><a style="font-size: 100%" href="https://www.ed.ac.uk/discovery-brain-sciences/our-staff/research-groups/matthew-nolan">Matthew Nolan</a></b> is Professor of Neural Circuits and Computation at the Centre for Discovery Brain Sciences and Simons Initiative for the Developing Brain, University of Edinburgh.
+        <b><a style="font-size: 100%" href="https://www.ed.ac.uk/discovery-brain-sciences/our-staff/research-groups/matthew-nolan">Matthew Nolan</a></b>
+ is Professor of Neural Circuits and Computation at the Centre for 
+Discovery Brain Sciences and Simons Initiative for the Developing Brain,
+ University of Edinburgh.
         <b>Ian Hawes</b> is a PhD student in the Wellcome Trust programme in Translational Neuroscience at the University of Edinburgh.
       </div>
       <div>
-        <p>As neuroscientists we’re excited by this work as it offers fresh theoretical perspectives on long-standing questions about how brains are organised and how they develop. Branching and specialisation are found throughout the brain. A well studied example is the dorsal and ventral visual streams, which are associated with spatial and non-spatial visual processing. At the microcircuit level neurons in each pathway are similar. However, recordings of neural activity demonstrate remarkable specialisation; classic experiments from the 1970s and 80s established the idea that the ventral stream enables identification of objects whereas the dorsal stream represents their location. Since then, much has been learned about signal processing in these pathways but fundamental questions such as why there are multiple streams and how they are established remain unanswered.</p>
+        <p>As neuroscientists we’re excited by this work as it offers 
+fresh theoretical perspectives on long-standing questions about how 
+brains are organised and how they develop. Branching and specialisation 
+are found throughout the brain. A well studied example is the dorsal and
+ ventral visual streams, which are associated with spatial and 
+non-spatial visual processing. At the microcircuit level neurons in each
+ pathway are similar. However, recordings of neural activity demonstrate
+ remarkable specialisation; classic experiments from the 1970s and 80s 
+established the idea that the ventral stream enables identification of 
+objects whereas the dorsal stream represents their location. Since then,
+ much has been learned about signal processing in these pathways but 
+fundamental questions such as why there are multiple streams and how 
+they are established remain unanswered.</p>
       </div>
       <div>
-        <p>From the perspective of a neuroscientist, a striking result from the investigation of branch specialization by Voss and her colleagues is that robust branch specialisation emerges in the absence of any complex branch specific design rules. Their analyses show that specialisation is similar within and across architectures, and across different training tasks. The implication here is that no specific instructions are required for branch specialisation to emerge. Indeed, their analyses suggest that it even emerges in the absence of predetermined branches. By contrast, the intuition of many neuroscientists would be that specialisation of different areas of the neocortex requires developmental mechanisms that are specific to each area. For neuroscientists aiming to understand how perceptual and cognitive functions of the brain arise, an important idea here is that developmental mechanisms that drive the separation of cortical pathways, such as the dorsal and ventral visual streams, may be absolutely critical.</p>
+        <p>From the perspective of a neuroscientist, a striking result 
+from the investigation of branch specialization by Voss and her 
+colleagues is that robust branch specialisation emerges in the absence 
+of any complex branch specific design rules. Their analyses show that 
+specialisation is similar within and across architectures, and across 
+different training tasks. The implication here is that no specific 
+instructions are required for branch specialisation to emerge. Indeed, 
+their analyses suggest that it even emerges in the absence of 
+predetermined branches. By contrast, the intuition of many 
+neuroscientists would be that specialisation of different areas of the 
+neocortex requires developmental mechanisms that are specific to each 
+area. For neuroscientists aiming to understand how perceptual and 
+cognitive functions of the brain arise, an important idea here is that 
+developmental mechanisms that drive the separation of cortical pathways,
+ such as the dorsal and ventral visual streams, may be absolutely 
+critical.</p>
       </div>
       <div>
-        <p>While the parallels between branch specialization in artificial neural networks and neural circuits in the brain are striking, there are clearly major differences and many outstanding questions. From the perspective of building artificial neural networks, we wonder if branch specific tuning of individual units and their connectivity rules would enhance performance? In the brain, there is good evidence that the activation functions of individual neurons are fine-tuned between and even within distinct neural circuits. If this fine tuning confers benefits to the brain then we might expect similar benefits in artificial networks. From the perspective of understanding the brain, we wonder whether branch specialisation could help make experimentally testable predictions? If artificial networks can be engineered with branches that have organisation similar to branching pathways in the brain, then manipulations to these networks could be compared to experimental manipulations achieved with optogenetic and chemogenetic strategies. Given that many brain disorders involve changes to specific neural populations, similar strategies could give insights into how these pathological changes alter brain functions. For example, very specific populations of neurons are disrupted in early stages of Alzheimer’s disease. By disrupting corresponding units in neural network models one could explore the resulting computational deficits and possible strategies for restoration of cognitive functions.</p>
+        <p>While the parallels between branch specialization in 
+artificial neural networks and neural circuits in the brain are 
+striking, there are clearly major differences and many outstanding 
+questions. From the perspective of building artificial neural networks, 
+we wonder if branch specific tuning of individual units and their 
+connectivity rules would enhance performance? In the brain, there is 
+good evidence that the activation functions of individual neurons are 
+fine-tuned between and even within distinct neural circuits. If this 
+fine tuning confers benefits to the brain then we might expect similar 
+benefits in artificial networks. From the perspective of understanding 
+the brain, we wonder whether branch specialisation could help make 
+experimentally testable predictions? If artificial networks can be 
+engineered with branches that have organisation similar to branching 
+pathways in the brain, then manipulations to these networks could be 
+compared to experimental manipulations achieved with optogenetic and 
+chemogenetic strategies. Given that many brain disorders involve changes
+ to specific neural populations, similar strategies could give insights 
+into how these pathological changes alter brain functions. For example, 
+very specific populations of neurons are disrupted in early stages of 
+Alzheimer’s disease. By disrupting corresponding units in neural network
+ models one could explore the resulting computational deficits and 
+possible strategies for restoration of cognitive functions.</p>
       </div>
     </div>
   </d-article>
@@ -3497,20 +3705,41 @@ d-appendix > distill-appendix {
 
     <h3>Author Contributions</h3>
 
-    <p>As with many scientific collaborations, the contributions are difficult to separate because it was a collaborative effort that we wrote together.</p>
+    <p>As with many scientific collaborations, the contributions are 
+difficult to separate because it was a collaborative effort that we 
+wrote together.</p>
 
-    <p><b>Research.</b> The phenomenon of branch specialization was initially observed by Chris Olah. Chris also developed the weight PCA experiments suggesting that it implicitly occurs in non-branched models. This investigation was done in the context of and informed by collaborative research into circuits by Nick Cammarata, Gabe Goh, Chelsea Voss, Ludwig Schubert, and Chris. Chelsea and Nick contributed to framing this work in the importance of larger scale structures on top of circuits.</p>
+    <p><b>Research.</b> The phenomenon of branch specialization was 
+initially observed by Chris Olah. Chris also developed the weight PCA 
+experiments suggesting that it implicitly occurs in non-branched models.
+ This investigation was done in the context of and informed by 
+collaborative research into circuits by Nick Cammarata, Gabe Goh, 
+Chelsea Voss, Ludwig Schubert, and Chris. Chelsea and Nick contributed 
+to framing this work in the importance of larger scale structures on top
+ of circuits.</p>
 
-    <p><b>Infrastructure.</b> Branch specialization was only discovered because an early version of Microscope by Ludwig Schubert made it easy to browse the neurons that exist at certain layers. Michael Petrov, Ludwig and Nick built a variety of infrastructural tools which made our research possible.</p>
+    <p><b>Infrastructure.</b> Branch specialization was only discovered 
+because an early version of Microscope by Ludwig Schubert made it easy 
+to browse the neurons that exist at certain layers. Michael Petrov, 
+Ludwig and Nick built a variety of infrastructural tools which made our 
+research possible.</p>
 
-    <p><b>Writing and Diagrams.</b> Chelsea wrote the article, based on an initial article by Chris and with Chris’s help. Diagrams were illustrated by both Chelsea and Chris.</p>
+    <p><b>Writing and Diagrams.</b> Chelsea wrote the article, based on 
+an initial article by Chris and with Chris’s help. Diagrams were 
+illustrated by both Chelsea and Chris.</p>
 
     <h3>Acknowledgments</h3>
 
     <p>
-      We are grateful to Brice Ménard for pushing us to investigate whether we can find larger-scale structures such as the one investigated here.
+      We are grateful to Brice Ménard for pushing us to investigate 
+whether we can find larger-scale structures such as the one investigated
+ here.
 
-      We are grateful to participants of #circuits in the Distill Slack for their engagement on this article, and especially to Alex Bäuerle, Ben Egan, Patrick Mineault, Matt Nolan, and Vincent Tjeng for their remarks on a first draft. We’re grateful to Patrick Mineault for noting the neuroscience comparison to subspecialization within primate V2.
+      We are grateful to participants of #circuits in the Distill Slack 
+for their engagement on this article, and especially to Alex Bäuerle, 
+Ben Egan, Patrick Mineault, Matt Nolan, and Vincent Tjeng for their 
+remarks on a first draft. We’re grateful to Patrick Mineault for noting 
+the neuroscience comparison to subspecialization within primate V2.
     </p>
 
     <d-footnote-list style="">
@@ -3532,11 +3761,21 @@ d-footnote-list a.footnote-backlink {
 </style>
 
 <h3>Footnotes</h3>
-<ol><li id="d-footnote-1-listing">For the first layer, one can visualize the RGB weights; for later layers, one needs to use feature visualization.<a class="footnote-backlink" href="https://distill.pub/2020/circuits/branch-specialization/#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing">There is something which suggests that the branching plays an essential role: mixed3a and mixed3b are adjacent layers which contain relatively similar features and are at the same scale. If it was only about convolution size, why don’t we see any curves in the <code>mixed3a_5x5</code> branch or color in the <code>mixed3b_5x5</code> branch?<a class="footnote-backlink" href="https://distill.pub/2020/circuits/branch-specialization/#d-footnote-2">[↩]</a></li><li id="d-footnote-3-listing">
-        The subspecialization within the V2 area of the primate visual cortex is another strong example from neuroscience. One type of stripe within V2 is sensitive to orientation or luminance, whereas the other type of stripe contains color-selective neurons.<d-cite bibtex-key="Hubel3378"></d-cite>
+<ol><li id="d-footnote-1-listing">For the first layer, one can visualize the RGB weights; for later layers, one needs to use feature visualization.<a class="footnote-backlink" href="#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing">There
+ is something which suggests that the branching plays an essential role:
+ mixed3a and mixed3b are adjacent layers which contain relatively 
+similar features and are at the same scale. If it was only about 
+convolution size, why don’t we see any curves in the <code>mixed3a_5x5</code> branch or color in the <code>mixed3b_5x5</code> branch?<a class="footnote-backlink" href="#d-footnote-2">[↩]</a></li><li id="d-footnote-3-listing">
+        The subspecialization within the V2 area of the primate visual 
+cortex is another strong example from neuroscience. One type of stripe 
+within V2 is sensitive to orientation or luminance, whereas the other 
+type of stripe contains color-selective neurons.<d-cite bibtex-key="Hubel3378"></d-cite>
 
-        We are grateful to Patrick Mineault for noting this analogy, and for further noting that the high-frequency features are consistent with some of the known representations of high-level features in the primate V2 area.<d-cite bibtex-key="Ito3313"></d-cite>
-      <a class="footnote-backlink" href="https://distill.pub/2020/circuits/branch-specialization/#d-footnote-3">[↩]</a></li></ol>
+        We are grateful to Patrick Mineault for noting this analogy, and
+ for further noting that the high-frequency features are consistent with
+ some of the known representations of high-level features in the primate
+ V2 area.<d-cite bibtex-key="Ito3313"></d-cite>
+      <a class="footnote-backlink" href="#d-footnote-3">[↩]</a></li></ol>
 </d-footnote-list>
     <d-citation-list distill-prerendered="true"><style>
 d-citation-list {
@@ -3550,7 +3789,12 @@ d-citation-list .references {
 d-citation-list .references .title {
   font-weight: 500;
 }
-</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="krizhevsky2012imagenet"><span class="title">Imagenet classification with deep convolutional neural networks</span> <br>Krizhevsky, A., Sutskever, I. and Hinton, G.E., 2012. Advances in neural information processing systems, Vol 25, pp. 1097--1105. </li><li id="erhan2009visualizing"><span class="title">Visualizing higher-layer features of a deep network</span>   <a href="https://www.researchgate.net/profile/Aaron_Courville/publication/265022827_Visualizing_Higher-Layer_Features_of_a_Deep_Network/links/53ff82b00cf24c81027da530.pdf">[PDF]</a><br>Erhan, D., Bengio, Y., Courville, A. and Vincent, P., 2009. University of Montreal, Vol 1341, pp. 3. </li><li id="simonyan2013deep"><span class="title">Deep inside convolutional networks: Visualising image classification models and saliency maps</span> <br>Simonyan, K., Vedaldi, A. and Zisserman, A., 2013. arXiv preprint arXiv:1312.6034. </li><li id="nguyen2016multifaceted"><span class="title">Multifaceted feature visualization: Uncovering the different types of features learned by each neuron in deep neural networks</span>   <a href="https://arxiv.org/pdf/1602.03616.pdf">[PDF]</a><br>Nguyen, A., Yosinski, J. and Clune, J., 2016. arXiv preprint arXiv:1602.03616. </li><li id="olah2017feature"><span class="title">Feature Visualization</span>   <a href="https://distill.pub/2017/feature-visualization">[link]</a><br>Olah, C., Mordvintsev, A. and Schubert, L., 2017. Distill.  <a href="https://doi.org/10.23915/distill.00007" style="text-decoration:inherit;">DOI: 10.23915/distill.00007</a></li><li id="szegedy2015going"><span class="title">Going deeper with convolutions</span> <br>Szegedy, C., Liu, W., Jia, Y., Sermanet, P., Reed, S., Anguelov, D., Erhan, D., Vanhoucke, V. and Rabinovich, A., 2015. Proceedings of the IEEE conference on computer vision and pattern recognition, pp. 1--9. </li><li id="zoph2016neural"><span class="title">Neural architecture search with reinforcement learning</span> <br>Zoph, B. and Le, Q.V., 2016. arXiv preprint arXiv:1611.01578. </li><li id="filan2020neural"><span class="title">Neural networks are surprisingly modular</span> <br>Filan, D., Hod, S., Wild, C., Critch, A. and Russell, S., 2020. arXiv preprint arXiv:2003.04881. </li><li id="csordas2020neural"><span class="title">Are Neural Nets Modular? Inspecting Functional Modularity Through Differentiable Weight Masks</span> <br>Csordás, R., Steenkiste, S.v. and Schmidhuber, J., 2020. </li><li id="Hubel3378"><span class="title">Segregation of form, color, and stereopsis in primate area 18</span>   <a href="https://www.jneurosci.org/content/7/11/3378">[link]</a><br>Hubel, D. and Livingstone, M., 1987. Journal of Neuroscience, Vol 7(11), pp. 3378--3415. Society for Neuroscience. <a href="https://doi.org/10.1523/JNEUROSCI.07-11-03378.1987" style="text-decoration:inherit;">DOI: 10.1523/JNEUROSCI.07-11-03378.1987</a></li><li id="Ito3313"><span class="title">Representation of Angles Embedded within Contour Stimuli in Area V2 of Macaque Monkeys</span>   <a href="https://www.jneurosci.org/content/24/13/3313">[link]</a><br>Ito, M. and Komatsu, H., 2004. Journal of Neuroscience, Vol 24(13), pp. 3313--3324. Society for Neuroscience. <a href="https://doi.org/10.1523/JNEUROSCI.4364-03.2004" style="text-decoration:inherit;">DOI: 10.1523/JNEUROSCI.4364-03.2004</a></li></ol></d-citation-list>
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="krizhevsky2012imagenet"><span class="title">Imagenet classification with deep convolutional neural networks</span> <br>Krizhevsky,
+ A., Sutskever, I. and Hinton, G.E., 2012. Advances in neural 
+information processing systems, Vol 25, pp. 1097--1105. </li><li id="erhan2009visualizing"><span class="title">Visualizing higher-layer features of a deep network</span>   <a href="https://www.researchgate.net/profile/Aaron_Courville/publication/265022827_Visualizing_Higher-Layer_Features_of_a_Deep_Network/links/53ff82b00cf24c81027da530.pdf">[PDF]</a><br>Erhan, D., Bengio, Y., Courville, A. and Vincent, P., 2009. University of Montreal, Vol 1341, pp. 3. </li><li id="simonyan2013deep"><span class="title">Deep inside convolutional networks: Visualising image classification models and saliency maps</span> <br>Simonyan, K., Vedaldi, A. and Zisserman, A., 2013. arXiv preprint arXiv:1312.6034. </li><li id="nguyen2016multifaceted"><span class="title">Multifaceted feature visualization: Uncovering the different types of features learned by each neuron in deep neural networks</span>   <a href="https://arxiv.org/pdf/1602.03616.pdf">[PDF]</a><br>Nguyen, A., Yosinski, J. and Clune, J., 2016. arXiv preprint arXiv:1602.03616. </li><li id="olah2017feature"><span class="title">Feature Visualization</span>   <a href="https://distill.pub/2017/feature-visualization">[link]</a><br>Olah, C., Mordvintsev, A. and Schubert, L., 2017. Distill.  <a href="https://doi.org/10.23915/distill.00007" style="text-decoration:inherit;">DOI: 10.23915/distill.00007</a></li><li id="szegedy2015going"><span class="title">Going deeper with convolutions</span> <br>Szegedy,
+ C., Liu, W., Jia, Y., Sermanet, P., Reed, S., Anguelov, D., Erhan, D., 
+Vanhoucke, V. and Rabinovich, A., 2015. Proceedings of the IEEE 
+conference on computer vision and pattern recognition, pp. 1--9. </li><li id="zoph2016neural"><span class="title">Neural architecture search with reinforcement learning</span> <br>Zoph, B. and Le, Q.V., 2016. arXiv preprint arXiv:1611.01578. </li><li id="filan2020neural"><span class="title">Neural networks are surprisingly modular</span> <br>Filan, D., Hod, S., Wild, C., Critch, A. and Russell, S., 2020. arXiv preprint arXiv:2003.04881. </li><li id="csordas2020neural"><span class="title">Are Neural Nets Modular? Inspecting Functional Modularity Through Differentiable Weight Masks</span> <br>Csordás, R., Steenkiste, S.v. and Schmidhuber, J., 2020. </li><li id="Hubel3378"><span class="title">Segregation of form, color, and stereopsis in primate area 18</span>   <a href="https://www.jneurosci.org/content/7/11/3378">[link]</a><br>Hubel, D. and Livingstone, M., 1987. Journal of Neuroscience, Vol 7(11), pp. 3378--3415. Society for Neuroscience. <a href="https://doi.org/10.1523/JNEUROSCI.07-11-03378.1987" style="text-decoration:inherit;">DOI: 10.1523/JNEUROSCI.07-11-03378.1987</a></li><li id="Ito3313"><span class="title">Representation of Angles Embedded within Contour Stimuli in Area V2 of Macaque Monkeys</span>   <a href="https://www.jneurosci.org/content/24/13/3313">[link]</a><br>Ito, M. and Komatsu, H., 2004. Journal of Neuroscience, Vol 24(13), pp. 3313--3324. Society for Neuroscience. <a href="https://doi.org/10.1523/JNEUROSCI.4364-03.2004" style="text-decoration:inherit;">DOI: 10.1523/JNEUROSCI.4364-03.2004</a></li></ol></d-citation-list>
   <distill-appendix>
 <style>
   distill-appendix {
@@ -3583,7 +3827,10 @@ d-citation-list .references .title {
     If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--circuits-branch-specialization/issues/new">create an issue on GitHub</a>. </p>
     
     <h3 id="reuse">Reuse</h3>
-    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--circuits-branch-specialization">source available on GitHub</a>, unless noted otherwise. The figures that have been reused from other sources don’t fall under this license and can be recognized by a note in their caption: “Figure from …”.</p>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--circuits-branch-specialization">source available on GitHub</a>,
+ unless noted otherwise. The figures that have been reused from other 
+sources don’t fall under this license and can be recognized by a note in
+ their caption: “Figure from …”.</p>
     
     <h3 id="citation">Citation</h3>
     <p>For attribution in academic contexts, please cite this work as</p>
@@ -3601,7 +3848,7 @@ d-citation-list .references .title {
 
   <d-bibliography><script type="text/json">[["olah2020an",{"author":"Olah, Chris and Cammarata, Nick and Schubert, Ludwig and Goh, Gabriel and Petrov, Michael and Carter, Shan","title":"An Overview of Early Vision in InceptionV1","journal":"Distill","year":"2020","note":"https://distill.pub/2020/circuits/early-vision","doi":"10.23915/distill.00024.002","type":"article"}],["olah2020zoom",{"author":"Olah, Chris and Cammarata, Nick and Schubert, Ludwig and Goh, Gabriel and Petrov, Michael and Carter, Shan","title":"Zoom In: An Introduction to Circuits","journal":"Distill","year":"2020","note":"https://distill.pub/2020/circuits/zoom-in","doi":"10.23915/distill.00024.001","type":"article"}],["olah2018the",{"author":"Olah, Chris and Satyanarayan, Arvind and Johnson, Ian and Carter, Shan and Schubert, Ludwig and Ye, Katherine and Mordvintsev, Alexander","title":"The Building Blocks of Interpretability","journal":"Distill","year":"2018","note":"https://distill.pub/2018/building-blocks","doi":"10.23915/distill.00010","type":"article"}],["cammarata2020curve",{"author":"Cammarata, Nick and Goh, Gabriel and Carter, Shan and Schubert, Ludwig and Petrov, Michael and Olah, Chris","title":"Curve Detectors","journal":"Distill","year":"2020","note":"https://distill.pub/2020/circuits/curve-detectors","doi":"10.23915/distill.00024.003","type":"article"}],["yosinski2015understanding",{"title":"Understanding neural networks through deep visualization","author":"Yosinski, Jason and Clune, Jeff and Nguyen, Anh and Fuchs, Thomas and Lipson, Hod","journal":"arXiv preprint arXiv:1506.06579","year":"2015","url":"http://yosinski.com/media/papers/Yosinski__2015__ICML_DL__Understanding_Neural_Networks_Through_Deep_Visualization__.pdf","type":"article"}],["olah2017feature",{"author":"Olah, Chris and Mordvintsev, Alexander and Schubert, Ludwig","title":"Feature Visualization","journal":"Distill","year":"2017","url":"https://distill.pub/2017/feature-visualization","doi":"10.23915/distill.00007","type":"article"}],["nguyen2016multifaceted",{"title":"Multifaceted feature visualization: Uncovering the different types of features learned by each neuron in deep neural networks","author":"Nguyen, Anh and Yosinski, Jason and Clune, Jeff","journal":"arXiv preprint arXiv:1602.03616","year":"2016","url":"https://arxiv.org/pdf/1602.03616.pdf","type":"article"}],["karpathy2015visualizing",{"title":"Visualizing and understanding recurrent networks","author":"Karpathy, Andrej and Johnson, Justin and Fei-Fei, Li","journal":"arXiv preprint arXiv:1506.02078","url":"https://arxiv.org/pdf/1506.02078.pdf","year":"2015","type":"article"}],["erhan2009visualizing",{"title":"Visualizing higher-layer features of a deep network","author":"Erhan, Dumitru and Bengio, Yoshua and Courville, Aaron and Vincent, Pascal","journal":"University of Montreal","volume":"1341","pages":"3","year":"2009","url":"https://www.researchgate.net/profile/Aaron_Courville/publication/265022827_Visualizing_Higher-Layer_Features_of_a_Deep_Network/links/53ff82b00cf24c81027da530.pdf","type":"article"}],["li2015convergent",{"title":"Convergent learning: Do different neural networks learn the same representations?","author":"Li, Yixuan and Yosinski, Jason and Clune, Jeff and Lipson, Hod and Hopcroft, John E","booktitle":"FE@ NIPS","pages":"196--212","url":"https://arxiv.org/pdf/1511.07543.pdf","year":"2015","type":"inproceedings"}],["zeiler2014visualizing",{"title":"Visualizing and understanding convolutional networks","author":"Zeiler, Matthew D and Fergus, Rob","booktitle":"European conference on computer vision","pages":"818--833","year":"2014","organization":"Springer","url":"https://arxiv.org/pdf/1311.2901.pdf","type":"inproceedings"}],["vig2019transformervis",{"author":"Jesse Vig","title":"A Multiscale Visualization of Attention in the Transformer Model","journal":"arXiv preprint arXiv:1906.05714","year":"2019","url":"https://arxiv.org/abs/1906.05714","type":"article"}],["krizhevsky2012imagenet",{"title":"Imagenet classification with deep convolutional neural networks","author":"Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E","journal":"Advances in neural information processing systems","volume":"25","pages":"1097--1105","year":"2012","type":"article"}],["simonyan2013deep",{"title":"Deep inside convolutional networks: Visualising image classification models and saliency maps","author":"Simonyan, Karen and Vedaldi, Andrea and Zisserman, Andrew","journal":"arXiv preprint arXiv:1312.6034","year":"2013","type":"article"}],["szegedy2015going",{"title":"Going deeper with convolutions","author":"Szegedy, Christian and Liu, Wei and Jia, Yangqing and Sermanet, Pierre and Reed, Scott and Anguelov, Dragomir and Erhan, Dumitru and Vanhoucke, Vincent and Rabinovich, Andrew","booktitle":"Proceedings of the IEEE conference on computer vision and pattern recognition","pages":"1--9","year":"2015","type":"inproceedings"}],["zoph2016neural",{"title":"Neural architecture search with reinforcement learning","author":"Zoph, Barret and Le, Quoc V","journal":"arXiv preprint arXiv:1611.01578","year":"2016","type":"article"}],["filan2020neural",{"title":"Neural networks are surprisingly modular","author":"Filan, Daniel and Hod, Shlomi and Wild, Cody and Critch, Andrew and Russell, Stuart","journal":"arXiv preprint arXiv:2003.04881","year":"2020","type":"article"}],["csordas2020neural",{"title":"Are Neural Nets Modular? Inspecting Functional Modularity Through Differentiable Weight Masks","author":"Róbert Csordás and Sjoerd van Steenkiste and Jürgen Schmidhuber","year":"2020","eprint":"2010.02066","archivePrefix":"arXiv","primaryClass":"cs.NE","archiveprefix":"arXiv","primaryclass":"cs.NE","type":"misc"}],["Hubel3378",{"author":"Hubel, DH and Livingstone, MS","title":"Segregation of form, color, and stereopsis in primate area 18","volume":"7","number":"11","pages":"3378--3415","year":"1987","doi":"10.1523/JNEUROSCI.07-11-03378.1987","publisher":"Society for Neuroscience","abstract":"Primate visual cortical area 18 (visual area 2), when stained for the enzyme cytochrome oxidase, shows a pattern of alternating dark and light stripes; in squirrel monkeys, the dark stripes are clearly of 2 alternating types, thick and thin. We have recorded from these 3 subdivisions in macaques and squirrel monkeys, and find that each has distinctive physiological properties: (1) Cells in one set of dark stripes, in squirrel monkeys the thin stripes, are not orientation- selective; a high proportion show color-opponency. (2) Cells in the other set of dark stripes (thick stripes) are orientation-selective; most of them are also selective for binocular disparity, suggesting that they are concerned with stereoscopic depth. (3) Cells in the pale stripes are also orientation-selective and more than half of them are end-stopped. Each of the 3 subdivisions receives a different input from area 17: the thin stripes from the blobs, the pale stripes from the interblobs, the thick stripes from layer 4B. The pale stripes are thus part of the parvocellular system, and the thick stripes part of the magnocellular system. The physiological properties of the cells in the thin and pale stripes reflect the properties of their antecedent cells in 17, but nevertheless exhibit differences that suggest the kinds of processing that might occur at this stage.","issn":"0270-6474","URL":"https://www.jneurosci.org/content/7/11/3378","eprint":"https://www.jneurosci.org/content/7/11/3378.full.pdf","journal":"Journal of Neuroscience","url":"https://www.jneurosci.org/content/7/11/3378","type":"article"}],["Ito3313",{"author":"Ito, Minami and Komatsu, Hidehiko","title":"Representation of Angles Embedded within Contour Stimuli in Area V2 of Macaque Monkeys","volume":"24","number":"13","pages":"3313--3324","year":"2004","doi":"10.1523/JNEUROSCI.4364-03.2004","publisher":"Society for Neuroscience","abstract":"Angles and junctions embedded within contours are important features to represent the shape of objects. To study the neuronal basis to extract these features, we conducted extracellular recordings while two macaque monkeys performed a fixation task. Angle stimuli were the combination of two straight half-lines larger than the size of the classical receptive fields (CRFs). Each line was drawn from the center to outside the CRFs in 1 of 12 directions, so that the stimuli passed through the CRFs and formed angles at the center of the CRFs. Of 114 neurons recorded from the superficial layer of area V2, 91 neurons showed selective responses to these angle stimuli. Of these, 41 neurons (36.0\\%) showed selective responses to wide angles between 60{\\textdegree} and 150{\\textdegree} that were distinct from responses to straight lines or sharp angles (30{\\textdegree}). Responses were highly selective to a particular angle in approximately one-fourth of neurons. When we tested the selectivity of the same neurons to individual half-lines, the preferred direction was more or less consistent with one or two components of the optimal angle stimuli. These results suggest that the selectivity of the neurons depends on both the combination of two components and the responses to individual components. Angle-selective V2 neurons are unlikely to be specific angle detectors, because the magnitude of their responses to the optimal angle was indistinguishable from that to the optimal half-lines. We suggest that the extraction of information of angles embedded within contour stimuli may start in area V2.","issn":"0270-6474","URL":"https://www.jneurosci.org/content/24/13/3313","eprint":"https://www.jneurosci.org/content/24/13/3313.full.pdf","journal":"Journal of Neuroscience","url":"https://www.jneurosci.org/content/24/13/3313","type":"article"}]]</script></d-bibliography>
 
-<script type="text/javascript" src="./Branch Specialization_files/index.bundle.js"></script>
+<script type="text/javascript" src="Branch%20Specialization_files/index.js"></script>
 <distill-footer>
 <style>
 
@@ -3683,4 +3930,4 @@ d-citation-list .references .title {
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-83741880-1', 'auto');
   ga('send', 'pageview');
-</script></body></html>
+</script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

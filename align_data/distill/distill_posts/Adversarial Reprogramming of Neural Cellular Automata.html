@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/template.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/analytics.js"></script><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/webcomponents-loader.js"></script><script src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/webcomponents-hi.js"></script>
+  
+  
+  <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+<link rel="stylesheet" href="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/katex.css" crossorigin="anonymous">
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA99JREFUeNrsG4t1ozDMzQSM4A2ODUonKBucN2hugtIJ6E1AboLcBiQTkJsANiAb9OCd/OpzMWBJBl5TvaeXPiiyJetry0J8wW3D3QpjRh3GjneXDq+fSQA9s2mH9x3KDhN4foJfCb8N/Jrv+2fnDn8vLRQOplWHVYdvHZYdZsBcZP1vBmh/n8DzEmhUQDPaOuP9pFuY+JwJHwHnCLQE2tnWBGEyXozY9xCUgHMhhjE2I4heVWtgIkZ83wL6Qgxj1obfWBxymPwe+b00BCCRNPbwfb60yleAkkBHGT5AEehIYz7eJrFDMF9CvH4wwhcGHiHMneFvLDQwlwvMLQq58trRcYBWfYn0A0OgHWQUSu25mE+BnoYKnnEJoeIWAifzOv7vLWd2ZKRfWAIme3tOiUaQ3UnLkb0xj1FxRIeEGKaGIHOs9nEgLaaA9i0JRYo1Ic67wJW86KSKE/ZAM8KuVMk8ITVhmxUxJ3Cl2xlm9Vtkeju1+mpCQNxaEGNCY8bs9X2YqwNoQeGjBWut/ma0QAWy/TqAsHx9wSya3I5IRxOfTC+leG+kA/4vSeEcGBtNUN6byhu3+keEZCQJUNh8MAO7HL6H8pQLnsW/Hd4T4lv93TPjfM7A46iEEqbB5EDOvwYNW6tGNZzT/o+CZ6sqZ6wUtR/wf7mi/VL8iNciT6rHih48Y55b4nKCHJCCzb4y0nwFmin3ZEMIoLfZF8F7nncFmvnWBaBj7CGAYA/WGJsUwHdYqVDwAmNsUgAx4CGgAA7GOOxADYOFWOaIKifuVYzmOpREqA21Mo7aPsgiY1PhOMAmxtR+AUbYH3Id2wc0SAFIQTsn9IUGWR8k9jx3vtXSiAacFxTAGakBk9UudkNECd6jLe+6HrshshvIuC6IlLMRy7er+JpcKma24SlE4cFZSZJDGVVrsNvitQhQrDhW0jfiOLfFd47C42eHT56D/BK0To+58Ahj+cAT8HT1UWlfLZCCd/uKawzU0Rh2EyIX/Icqth3niG8ybNroezwe6khdCNxRN+l4XGdOLVLlOOt2hTRJlr1ETIuMAltVTMz70mJrkdGAaZLSmnBEqmAE32JCMmuTlCnRgsBENtOUpHhvvsYIL0ibnBkaC6QvKcR7738GKp0AKnim7xgUSNv1bpS8QwhBt8r+EP47v/oyRK/S34yJ9nT+AN0Tkm4OdB9E4BsmXM3SnMlRFUrtp6IDpV2eKzdYvF3etm3KhQksbOLChGkSmcBdmcEwvqkrMy5BzL00NZeu3qPYJOOuCc+5NjcWKXQxFvTa3NoXJ4d8in7fiAUuTt781dkvuHX4K8AA2Usy7yNKLy0AAAAASUVORK5CYII=">
+    <link href="https://distill.pub/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
+  
+    <title>Adversarial Reprogramming of Neural Cellular Automata</title>
+    
+    <link rel="canonical" href="https://distill.pub/selforg/2021/adversarial">
+    
+    <!--  https://schema.org/Article -->
+    <meta property="description" itemprop="description" content="Reprogramming Neural CA to exhibit novel behaviour, using adversarial attacks.">
+    <meta property="article:published" itemprop="datePublished" content="2021-05-06">
+    <meta property="article:created" itemprop="dateCreated" content="2021-05-06">
+    
+    <meta property="article:modified" itemprop="dateModified" content="2021-05-06T18:54:34.000Z">
+    
+    <meta property="article:author" content="Ettore Randazzo">
+    <meta property="article:author" content="Alexander Mordvintsev">
+    <meta property="article:author" content="Eyvind Niklasson">
+    <meta property="article:author" content="Michael Levin">
+    <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Adversarial Reprogramming of Neural Cellular Automata">
+    <meta property="og:description" content="Reprogramming Neural CA to exhibit novel behaviour, using adversarial attacks.">
+    <meta property="og:url" content="https://distill.pub/selforg/2021/adversarial">
+    <meta property="og:image" content="https://distill.pub/selforg/2021/adversarial/thumbnail.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Distill">
+  
+    <!--  https://dev.twitter.com/cards/types/summary -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Adversarial Reprogramming of Neural Cellular Automata">
+    <meta name="twitter:description" content="Reprogramming Neural CA to exhibit novel behaviour, using adversarial attacks.">
+    <meta name="twitter:url" content="https://distill.pub/selforg/2021/adversarial">
+    <meta name="twitter:image" content="https://distill.pub/selforg/2021/adversarial/thumbnail.jpg">
+    <meta name="twitter:image:width" content="560">
+    <meta name="twitter:image:height" content="295">
+  
+      <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+    <meta name="citation_title" content="Adversarial Reprogramming of Neural Cellular Automata">
+    <meta name="citation_fulltext_html_url" content="https://distill.pub/selforg/2021/adversarial">
+    <meta name="citation_volume" content="6">
+    <meta name="citation_issue" content="5">
+    <meta name="citation_firstpage" content="e00027.004">
+    <meta name="citation_doi" content="10.23915/distill.00027.004">
+    <meta name="citation_journal_title" content="Distill">
+    <meta name="citation_journal_abbrev" content="Distill">
+    <meta name="citation_issn" content="2476-0757">
+    <meta name="citation_fulltext_world_readable" content="">
+    <meta name="citation_online_date" content="2021/05/06">
+    <meta name="citation_publication_date" content="2021/05/06">
+    <meta name="citation_author" content="Randazzo, Ettore">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Mordvintsev, Alexander">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Niklasson, Eyvind">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Levin, Michael">
+    <meta name="citation_author_institution" content="Allen Discovery Center at Tufts University">
+    <meta name="citation_reference" content="citation_title=Growing Neural Cellular Automata;citation_author=Alexander Mordvintsev;citation_author=Ettore Randazzo;citation_author=Eyvind Niklasson;citation_author=Michael Levin;citation_publication_date=2020;citation_journal_title=Distill;">
+    <meta name="citation_reference" content="citation_title=Self-classifying MNIST Digits;citation_author=Ettore Randazzo;citation_author=Alexander Mordvintsev;citation_author=Eyvind Niklasson;citation_author=Michael Levin;citation_author=Sam Greydanus;citation_publication_date=2020;citation_journal_title=Distill;">
+    <meta name="citation_reference" content="citation_title=Herpes Simplex Virus: The Hostile Guest That Takes Over Your Home;citation_author=A. Banerjee;citation_author=S. Kulkarni;citation_author=A. Mukherjee;citation_publication_date=2020;citation_journal_title=Front Microbiol;citation_volume=11;">
+    <meta name="citation_reference" content="citation_title=The role of gut microbiota (commensal bacteria) and the mucosal barrier in the pathogenesis of inflammatory and autoimmune diseases and cancer: contribution of germ-free and gnotobiotic animal models of human diseases;citation_author=H. Tlaskalová-Hogenová;citation_author=R. Stěpánková;citation_author=Kozáková H.;citation_author=T. Hudcovic;citation_author=L. Vannucci;citation_author=L. Tučková;citation_author=P. Rossmann;citation_author=T. Hrnčíř;citation_author=M. Kverka;citation_author=Z. Zákostelská;citation_author=K. Klimešová;citation_author=J. Přibylová;citation_author=J. Bártová;citation_author=D. Sanchez;citation_author=P. Fundová;citation_author=D. Borovská;citation_author=D. Srůtková;citation_author=Z. Zídek;citation_author=M. Schwarzer;citation_author=P. Drastich;citation_author=D. P. Funda;citation_publication_date=2011;citation_journal_title=Cell Mol Immunol;citation_volume=8;citation_number=2;">
+    <meta name="citation_reference" content="citation_title=Regulation of axial and head patterning during planarian regeneration by a commensal bacterium;citation_author=K. B. Williams;citation_author=J. Bischof;citation_author=F. J. Lee;citation_author=K. A. Miller;citation_author=J. V. LaPalme;citation_author=B. E. Wolfe;citation_author=M. Levin;citation_publication_date=2020;citation_journal_title=Mech Dev;citation_volume=163;">
+    <meta name="citation_reference" content="citation_title=Toxoplasma gondii infection and behavioral outcomes in humans: a systematic review;citation_author=Victor Otero Martinez;citation_author=Fernanda Washington Mendonça Lima;citation_author=Chrissie Ferreira Carvalho;citation_author=José Antônio Menezes-Filho;citation_publication_date=2018;citation_journal_title=Parasitology research;citation_volume=117;">
+    <meta name="citation_reference" content="citation_title=Resting potential, oncogene-induced tumorigenesis, and metastasis: the bioelectric basis of cancer in vivo;citation_author=Maria Lobikin;citation_author=Brook Chernet;citation_author=Daniel Lobo;citation_author=Michael Levin;citation_publication_date=2012;citation_journal_title=Physical biology;citation_volume=9;">
+    <meta name="citation_reference" content="citation_title=Transmembrane voltage potential of somatic cells controls oncogene-mediated tumorigenesis at long-range;citation_author=Brook T Chernet;citation_author=Michael Levin;citation_publication_date=2014;citation_journal_title=Oncotarget;">
+    <meta name="citation_reference" content="citation_title=Cross-limb communication during Xenopus hindlimb regenerative response: non-local bioelectric injury signals;citation_author=Sera M Busse;citation_author=Patrick T McMillen;citation_author=Michael Levin;citation_publication_date=2018;citation_journal_title=Development;">
+    <meta name="citation_reference" content="citation_title=Local and long-range endogenous resting potential gradients antagonistically regulate apoptosis and proliferation in the embryonic CNS;citation_author=Vaibhav P Pai;citation_author=Joan M Lemire;citation_author=Ying Chen;citation_author=Gufa Lin;citation_author=Michael Levin;citation_publication_date=2015;citation_journal_title=The International journal of developmental biology;">
+    <meta name="citation_reference" content="citation_title=Top-down models in biology: explanation and control of complex living systems above the molecular level;citation_author=Giovanni Pezzulo;citation_author=Michael Levin;citation_publication_date=2016;citation_journal_title=Journal of the Royal Society, Interface;">
+    <meta name="citation_reference" content="citation_title=Generative Adversarial Networks;citation_author=Ian J. Goodfellow;citation_author=Jean Pouget-Abadie;citation_author=Mehdi Mirza;citation_author=Bing Xu;citation_author=David Warde-Farley;citation_author=Sherjil Ozair;citation_author=Aaron Courville;citation_author=Yoshua Bengio;citation_publication_date=2014;">
+    <meta name="citation_reference" content="citation_title=Adversarial Reprogramming of Neural Networks;citation_author=Gamaleldin F. Elsayed;citation_author=Ian Goodfellow;citation_author=Jascha Sohl-Dickstein;citation_publication_date=2018;">
+    <meta name="citation_reference" content="citation_title=Efficient Estimation of Word Representations in Vector Space;citation_author=Tomas Mikolov;citation_author=Kai Chen;citation_author=Greg Corrado;citation_author=Jeffrey Dean;citation_publication_date=2013;">
+    <meta name="citation_reference" content="citation_title=Fader Networks: Manipulating Images by Sliding Attributes;citation_author=Guillaume Lample;citation_author=Neil Zeghidour;citation_author=Nicolas Usunier;citation_author=Antoine Bordes;citation_author=Ludovic Denoyer;citation_author=Marc'Aurelio Ranzato;citation_publication_date=2018;">
+    <meta name="citation_reference" content="citation_title=Maximizing the spread of influence through a social network;citation_author=David Kempe;citation_author=Jon Kleinberg;citation_author=Éva Tardos;citation_publication_date=2003;">
+    <meta name="citation_reference" content="citation_title=The Independent Cascade and Linear Threshold Models;citation_author=Paulo Shakarian;citation_author=Abhinav Bhatnagar;citation_author=Ashkan Aleali;citation_author=Elham Shaabani;citation_author=Ruocheng Guo;citation_publication_date=2015;">
+    <meta name="citation_reference" content="citation_title=A Survey on Influence Maximization in a Social Network;citation_author=Suman Banerjee;citation_author=Mamata Jenamani;citation_author=Dilip Kumar Pratihar;citation_publication_date=2018;citation_arxiv_id=1808.05502;">
+    <meta name="citation_reference" content="citation_title=Simplicial models of social contagion;citation_author=Iacopo Iacopini;citation_author=Giovanni Petri;citation_author=Alain Barrat;citation_author=Vito Latora;citation_publication_date=2019;citation_journal_title=Nature communications;citation_volume=10;citation_number=1;">
+    <meta name="citation_reference" content="citation_title=Cascading Behavior in Networks: Algorithmic and Economic Issues;citation_author=Jon Kleinberg;citation_publication_date=2007;">
+    <meta name="citation_reference" content="citation_title=On the Approximability of Influence in Social Networks;citation_author=Ning Chen;citation_publication_date=2009;citation_journal_title=SIAM Journal on Discrete Mathematics;citation_volume=23;citation_number=3;">
+    <meta name="citation_reference" content="citation_title=The Computational Boundary of a “Self”: Developmental Bioelectricity Drives Multicellularity and Scale-Free Cognition;citation_author=Michael Levin;citation_publication_date=2019;citation_journal_title=Frontiers in Psychology;citation_volume=10;">
+</head>
+
+<body distill-prerendered="" data-new-gr-c-s-check-loaded="8.899.0" data-gr-ext-installed="" class="vsc-initialized"><distill-header distill-prerendered="">
+<style>
+distill-header {
+  position: relative;
+  height: 60px;
+  background-color: hsl(200, 60%, 15%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+distill-header .content {
+  height: 70px;
+  grid-column: page;
+}
+distill-header a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+distill-header a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+distill-header svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+@media(min-width: 1080px) {
+  distill-header {
+    height: 70px;
+  }
+  distill-header a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+  distill-header .logo {
+  }
+}
+distill-header svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+distill-header .logo {
+  font-size: 17px;
+  font-weight: 200;
+}
+distill-header .nav {
+  float: right;
+  font-weight: 300;
+}
+distill-header .nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+<div class="content">
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a>
+  <nav class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+  </nav>
+</div>
+</distill-header>
+
+  <d-front-matter>
+    <script type="text/json">{
+      "title": "Adversarial Reprogramming of Neural Cellular Automata",
+      "description": "Reprogramming Neural CA to exhibit novel behaviour, using adversarial attacks.",
+      "authors": [
+        {
+          "author": "Ettore Randazzo",
+          "authorURL": "https://oteret.github.io/",
+          "affiliation": "Google",
+          "affiliationURL": "https://ai.google/"
+        },
+        {
+          "author": "Alexander Mordvintsev",
+          "authorURL": "https://znah.net/",
+          "affiliation": "Google",
+          "affiliationURL": "https://ai.google/"
+        },
+        {
+          "author": "Eyvind Niklasson",
+          "authorURL": "https://eyvind.me/",
+          "affiliation": "Google",
+          "affiliationURL": "https://ai.google/"
+        },
+        {
+          "author": "Michael Levin",
+          "authorURL": "http://www.drmichaellevin.org",
+          "affiliation": "Allen Discovery Center at Tufts University",
+          "affiliationURL": "http://allencenter.tufts.edu"
+        }
+      ],
+      "katex": {
+        "delimiters": [
+          {
+            "left": "$",
+            "right": "$",
+            "display": false
+          },
+          {
+            "left": "$$",
+            "right": "$$",
+            "display": true
+          }
+        ]
+      }
+    }</script>
+  </d-front-matter>
+
+  <style>
+    figure {
+      text-align: center;
+      margin-bottom: 0.5em;
+      margin-top: 0.5em;
+    }
+    figure img {
+      max-width: 100%;
+      width: unset;
+    }
+    video {
+      max-width: 100%;
+    }
+    .colab-root {
+      display: block;
+      box-sizing: border-box;
+      width: 160px;
+      text-align: center;
+      margin-top: 8px;
+      background: rgba(255, 255, 255, 0.75);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px!important;
+      text-decoration: none;
+      color: #aaa;
+      border: none;
+      font-weight: 300;
+      border: solid 1px rgba(0, 0, 0, 0.08);
+      border-bottom-color: rgba(0, 0, 0, 0.15);
+      text-transform: uppercase;
+      line-height: 16px;
+    }
+
+   span.colab-span {
+      background-image: url(images/colab.svg);
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position-y: 2px;
+      display: inline-block;
+      padding-left: 24px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+
+    a.colab-root:hover{
+      color: #666;
+      background: white;
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    /* TOC */
+    @media(max-width: 1000px){
+      d-contents {
+        justify-self: start;
+        align-self: start;
+        grid-column: text;
+        padding-bottom: 0.5em;
+        margin-bottom: 1em;
+        padding-left: 0.25em;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgba(0, 0, 0, 0.1);
+      }
+    } 
+    
+    @media (min-width: 1000px){
+      d-contents {
+        align-self: start;
+        grid-column-start: 1;
+        grid-column-end: 4;
+        justify-self: end;
+        padding-right: 3em;
+        padding-left: 2em;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    @media (min-width: 1180px){
+      d-contents {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        justify-self: end;
+        padding-right: 3em;
+        padding-left: 2em;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    d-contents nav h3 {
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+
+    d-contents nav a {
+      color: rgba(0, 0, 0, 0.8);
+      border-bottom: none;
+      text-decoration: none;
+    }
+
+    d-contents li {
+      list-style-type: none;
+    }
+
+    d-contents ul {
+      padding-left: 1em;
+    }
+    
+    d-contents nav ul li {
+      margin-bottom: .25em;
+    }
+
+    d-contents nav a:hover {
+      text-decoration: underline solid rgba(0, 0, 0, 0.6);
+    }
+
+    d-contents nav ul {
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+
+    d-contents nav>div {
+      display: block;
+      outline: none;
+      margin-bottom: 0.5em;
+    }
+
+    d-contents nav>div>a {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    d-contents nav>div>a:hover,
+    d-contents nav>ul>li>a:hover {
+        text-decoration: none;
+    }
+
+    /* code blocks to margins */
+    @media (min-width: 1600px) {
+      d-code {
+        margin-top: -10px;
+        grid-column-start: 12;
+        grid-column-end: 14; 
+      }
+    }
+    /* so title is on one line */
+    d-title h1, d-title p {
+      grid-column: middle;
+    }
+ 
+    .vidoverlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-image: url(images/play.svg);
+        background-repeat: no-repeat;
+        background-size: 15%;
+        cursor: pointer;
+        opacity: 0.8;
+        z-index: 1;
+        transition: opacity 1s;
+    }
+
+    .vc {
+      position: relative;
+    }
+
+    d-article {
+      counter-reset: figure;
+    }
+    figure {
+      counter-increment: figure;
+    }
+    figcaption::before {
+      content: "Figure " counter(figure) ": ";
+    }
+    
+      /* ****************************************
+       * Thread Info
+       ******************************************/
+
+       .thread-info {
+      background-color: hsl(54, 78%, 96%);
+      border-left: solid hsl(54, 33%, 67%) 1px;
+      padding: 1em;
+      color: hsla(0, 0%, 0%, 0.67);
+    }
+
+    #thread-nav {
+      margin-top: 20;
+      margin-bottom: 1.5rem;
+      display: grid;
+      grid-template-columns: 45px 2fr 3fr;
+      grid-template-areas:
+        'thread-icon explanation explanation '
+        'thread-icon prev next';
+      grid-column-gap: 1.5em;
+    }
+
+    @media (min-width: 768px) {
+      #thread-nav {
+        grid-template-columns: 65px 3fr 2fr;
+      }
+    }
+
+    #thread-nav .thread-icon {
+      grid-area: thread-icon;
+      padding: 0.5em;
+      justify-self: center;
+    }
+
+    #thread-nav .explanation {
+      grid-area: explanation;
+      font-size: 85%;
+      color: hsl(0, 0%, 0.33);
+    }
+
+    #thread-nav .prev {
+      grid-area: prev;
+    }
+
+    #thread-nav .prev::before {
+      content: '← Previous Article';
+    }
+
+    #thread-nav .overview {
+      scroll-behavior: smooth;
+    }
+
+    #thread-nav .overview::before {
+      content: '↑';
+      white-space: nowrap;
+      margin-right: 0.5em;
+    }
+
+    #thread-nav .next {
+      grid-area: next;
+      scroll-behavior: smooth;
+    }
+
+    #thread-nav .next::before {
+      content: 'Next Article →';
+    }
+
+    #thread-nav .next::before,
+    #thread-nav .prev::before {
+      display: block;
+      white-space: nowrap;
+      padding: 0.5em 0;
+      font-size: 80%;
+      font-weight: bold;
+      margin-top: 0px;
+      margin-right: 0.5em;
+      text-transform: uppercase;
+    }
+
+    #thread-nav .prev,
+    #thread-nav .next,
+    #thread-nav .overview {
+      font-size: 80%;
+      line-height: 1.5em;
+      font-weight: 600;
+      border-bottom: none;
+      color: #2e6db7;
+      /* margin-top: 0.25em; */
+      letter-spacing: 0.25px;
+    }
+    
+  .colab-root-toc {
+    
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 0px 4px;
+    border-radius: 4px;
+    font-size: 11px!important;
+    text-decoration: none;
+    color: #aaa;
+    border: none;
+    font-weight: 300;
+    border: solid 1px rgba(0, 0, 0, 0.08);
+    border-bottom-color: rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+    
+   span.colab-span-toc {
+      background-image: url(images/colab.svg);
+      background-repeat: no-repeat;
+      background-size: 16px;
+      background-position-y: 3px;
+      display: inline-block;
+      padding-left: 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      width: 0px;
+      height: 13px;
+
+      text-align: center;
+  }
+
+  iframe {
+    grid-column: page;
+  }
+
+  </style>
+  <d-title>
+    <h1>Adversarial Reprogramming of Neural Cellular Automata</h1>
+    <p>A robustness investigation.</p>
+
+</d-title>
+
+<d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="https://oteret.github.io/">Ettore Randazzo</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://znah.net/">Alexander Mordvintsev</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://eyvind.me/">Eyvind Niklasson</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="http://www.drmichaellevin.org/">Michael Levin</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="http://allencenter.tufts.edu/">Allen Discovery Center at Tufts University</a>
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>May 6, 2021</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p><a href="https://doi.org/10.23915/distill.00027.004">10.23915/distill.00027.004</a></p>
+    </div>
+  </div>
+</d-byline>
+
+
+<d-article>
+
+<d-contents>
+  <nav class="l-text toc figcaption">
+    <h3>Contents</h3>
+    <div><a href="#adversarial-mnist-cas">Adversarial MNIST CAs</a> | <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/adversarial_reprogramming_ca/adversarial_mnist_ca.ipynb" class="colab-root-toc"><span class="colab-span-toc"></span></a></div>
+    <div><a href="#adversarial-injections-for-growing-cas">Adversarial Injections for Growing CAs</a> | <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/adversarial_reprogramming_ca/adversarial_growing_ca.ipynb#scrollTo=ByHbsY0EuyqB" class="colab-root-toc"><span class="colab-span-toc"></span></a></div>
+    <!-- <ul>
+      <li><a href="#experiment-1">Self-classify, persist & mutate</a></li>
+      <li><a href="#experiment-2">Stabilizing classification</a></li>
+    </ul> -->
+    <div><a href="#perturbing-the-states-of-growing-cas">Perturbing the states of Growing CAs</a> | <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/adversarial_reprogramming_ca/adversarial_growing_ca.ipynb#scrollTo=JaITnQv0k1iY" class="colab-root-toc"><span class="colab-span-toc"></span></a></div>
+    <div><a href="#related-work">Related Work</a></div>
+    <div><a href="#discussion">Discussion</a></div>
+    <br>
+    <br>
+  </nav>
+</d-contents>
+<section id="thread-nav" class="thread-info" style="margin-top: 10px; margin-bottom: 40px">
+  <img class="thread-icon" src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/multiple-pages.svg" width="43px" height="50px">
+  <p class="explanation">
+    This article is part of the
+    <a href="https://distill.pub/2020/selforg/">Differentiable Self-organizing Systems Thread</a>,
+    an experimental format collecting invited short articles delving into
+    differentiable self-organizing systems, interspersed with critical
+    commentary from several experts in adjacent fields.
+  </p>
+  <a class="prev" href="https://distill.pub/selforg/2021/textures/">Self-Organising Textures</a>
+</section>
+
+<p style="color:rgba(0,0,0,0.3); font-size:10px"> This article makes strong use of colors in figures and demos. Click <a href="#colorwheel">here</a> to adjust the color palette.</p>
+
+<p>In a complex system, whether biological, technological, or social, 
+how can we discover signaling events that will alter system-level 
+behavior in desired ways? Even when the rules governing the individual 
+components of these complex systems are known, the inverse problem - 
+going from desired behaviour to system design - is at the heart of many 
+barriers for the advance of biomedicine, robotics, and other fields of 
+importance to society.</p>
+
+<p>Biology, specifically, is transitioning from a focus on mechanism 
+(what is required for the system to work) to a focus on information 
+(what algorithm is sufficient to implement adaptive behavior). Advances 
+in machine learning represent an exciting and largely untapped source of
+ inspiration and tooling to assist the biological sciences. Growing 
+Neural Cellular Automata <d-cite key="mordvintsev2020growing"></d-cite> and Self-classifying MNIST Digits <d-cite key="randazzo2020self-classifying"></d-cite>
+ introduced the Neural Cellular Automata (Neural CA) model and 
+demonstrated how tasks requiring self-organisation, such as pattern 
+growth and self-classification of digits, can be trained in an 
+end-to-end, differentiable fashion. The resulting models were robust to 
+various kinds of perturbations: the growing CA expressed regenerative 
+capabilities when damaged; the MNIST CA were responsive to changes in 
+the underlying digits, triggering reclassification whenever necessary. 
+These computational frameworks represent quantitative models with which 
+to understand important biological phenomena, such as scaling of single 
+cell behavior rules into reliable organ-level anatomies. The latter is a
+ kind of anatomical homeostasis, achieved by feedback loops that must 
+recognize deviations from a correct target morphology and progressively 
+reduce anatomical error.</p>
+
+
+
+
+
+<p>In this work, we <i>train adversaries </i>whose goal is to reprogram 
+CA into doing something other than what they were trained to do. In 
+order to understand what kinds of lower-level signals  alter 
+system-level behavior of our CA, it is important to understand how these
+ CA are constructed and where local versus global information resides.</p>
+
+<p>The system-level behavior of Neural CA is affected by:</p>
+<ul><li><strong>Individual cell states. </strong>States store 
+information which is used for both diversification among cell behaviours
+ and for communication with neighbouring cells.</li>
+<li><strong>The model parameters. </strong>These describe the 
+input/output behavior of a cell and are shared by every cell of the same
+ family. The model parameters can be seen as <i>the way the system works</i>.</li>
+<li><strong>The perceptive field. </strong>This is how cells perceive 
+their environment. In Neural CA, we always restrict the perceptive field
+ to be the eight nearest neighbors and the cell itself. The way cells 
+are perceived by each other is different between the Growing CA and 
+MNIST CA. The Growing CA perceptive field is a set of weights fixed both
+ during training and inference, while the MNIST CA perceptive field is 
+learned as part of the model parameters.</li></ul>
+<p>
+Perturbing any of these components will result in system-level behavioural changes.</p>
+
+<p>We will explore two kinds of adversarial attacks: 1) injecting a few 
+adversarial cells into an existing grid running a pretrained model; and 
+2) perturbing the global state of all cells on a grid.</p>
+
+<p>For the first type of adversarial attacks we train a new CA model 
+that, when placed in an environment running one of the original models 
+described in the previous articles, is able to hijack the behavior of 
+the collective mix of adversarial and non-adversarial CA. This is an 
+example of injecting CA with differing <i>model parameters</i> into the 
+system. In biology, numerous forms of hijacking are known, including 
+viruses that take over genetic and biochemical information flow <d-cite key="pmid32457704"></d-cite>, bacteria that take over physiological control mechanisms <d-cite key="pmid21278760"></d-cite> and even regenerative morphology of whole bodies <d-cite key="pmid32439577"></d-cite>, and fungi and toxoplasma that modulate host behavior <d-cite key="pmid30109417"></d-cite>.
+ Especially fascinating are the many cases of non-cell-autonomous 
+signaling developmental biology and cancer, showing that some cell 
+behaviors can significantly alter host properties both locally and at 
+long range. For example, bioelectrically-abnormal cells can trigger 
+metastatic conversion in an otherwise normal body (with no genetic 
+defects) <d-cite key="pmid23196890"></d-cite>, while management of bioelectrical state in one area of the body can suppress tumorigenesis on the other side of the organism <d-cite key="pmid24830454"></d-cite>. Similarly, amputation damage in one leg initiates changes to ionic properties of cells in the contralateral leg <d-cite key="pmid30126906"></d-cite>, while the size of the developing brain is in part dictated by the activity of ventral gut cells <d-cite key="pmid26198142"></d-cite>.
+ All of these phenomena underlie the importance of understanding how 
+cell groups make collective decisions, and how those tissue-level 
+decisions can be subverted by the activity of a small number of cells. 
+It is essential to develop quantitative models of such dynamics, in 
+order to drive meaningful progress in regenerative medicine that 
+controls system-level outcomes top-down, where cell- or molecular-level 
+micromanagement is infeasible <d-cite key="pmid27807271"></d-cite>.</p>
+
+<p>The second type of adversarial attacks interact with previously trained growing CA models by <i>perturbing the states within cells</i>.
+ We apply a global state perturbation to all living cells. This can be 
+seen as inhibiting or enhancing combinations of state values, in turn 
+hijacking proper communications among cells and within the cell’s own 
+states. Models like this represent not only ways of thinking about 
+adversarial relationships in nature (such as parasitism and evolutionary
+ arms races of genetic and physiological mechanisms), but also a roadmap
+ for the development of regenerative medicine strategies. 
+Next-generation biomedicine will need computational tools for inferring 
+minimal, least-effort interventions that can be applied to biological 
+systems to predictively change their large-scale anatomical and 
+behavioral properties.</p>
+<h2 id="adversarial-mnist-ca">Adversarial MNIST CA <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/adversarial_reprogramming_ca/adversarial_mnist_ca.ipynb" class="colab-root">Try in a <span class="colab-span">Notebook</span></a></h2>
+<p>Recall how the Self-classifying MNIST digits task consisted of 
+placing CA cells on a plane forming the shape of an MNIST digit. The 
+cells then had to communicate among themselves in order to come to a 
+complete consensus as to which digit they formed.</p>
+<figure>
+<img src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/local_global_figure.svg" style="width: 650px">
+<figcaption>Diagram showing the local vs. global information available in the cell collective. <br>
+ (a) Local information neighbourhood - each cell can only observe itself
+ and its neighbors’ states, or the absence of neighbours.<br> (b) Globally, the cell collective aggregates information from all parts of itself. <br> (c) It is able to distinguish certain shapes that compose a specific digit (3 in the example). </figcaption>
+</figure>
+
+<p>Below we show examples of classifications made by the model trained in Self-classifying MNIST Digits.</p>
+
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/mnist_orig_mosaic.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+The original model behavior on unseen data. Classification mistakes have a red background.</figcaption>
+</figure>
+
+<p>In this experiment, <strong>the goal is to create adversarial CA that can hijack the cell collective’s classification consensus to always classify an eight</strong>. We use the CA model from <d-cite key="randazzo2020self-classifying"></d-cite>
+ and freeze its parameters. We then train a new CA whose model 
+architecture is identical to the frozen model but is randomly 
+initialized. The training regime also closely approximates that of 
+self-classifying MNIST digits CA. There are three important differences:</p>
+<ul><li>Regardless of what the actual digit is, we consider <i>the correct classification to always be an eight</i>.</li>
+<li>For each batch and each pixel, the CA is randomly chosen to be 
+either the pretrained model or the new adversarial one. The adversarial 
+CA is used 10% of the time, and the pre-trained, frozen, model the rest 
+of the time.</li>
+<li>Only the adversarial CA parameters are trained, the parameters of the pretrained model are kept frozen.</li></ul>
+
+<p>The adversarial attack as defined here only modifies a small 
+percentage of the overall system, but the goal is to propagate signals 
+that affect all the living cells. Therefore, these adversaries have to 
+somehow learn to communicate deceiving information that causes wrong 
+classifications in their neighbours and further cascades in the 
+propagation of deceiving information by ‘unaware’ cells. The unaware 
+cells’ parameters cannot be changed so the only means of attack by the 
+adversaries is to cause a change in the cells’ states. Cells’ states are
+ responsible for communication and diversification.</p>
+
+<p>The task is remarkably simple to optimize, reaching convergence in as
+ little as 2000 training steps (as opposed to the two orders of 
+magnitude more steps needed to construct the original MNIST CA). By 
+visualising what happens when we remove the adversaries, we observe that
+ the adversaries must be constantly communicating with their 
+non-adversarial neighbours to keep them convinced of the malicious 
+classification. While some digits don’t recover after the removal of 
+adversaries, most of them self-correct to the right classification. 
+Below we show examples where we introduce the adversaries at 200 steps 
+and remove them after a further 200 steps.</p>
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/mnist_10perc_adv_reset_mosaic.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+We introduce the adversaries (red pixels) after 200 steps and remove 
+them after 200 more steps. Most digits recover, but not all. We 
+highlight mistakes in classification with a red background.</figcaption>
+</figure>
+<p>While we trained the adversaries with a 10-to-90% split of 
+adversarial vs. non-adversarial cells, we observe that often 
+significantly fewer adversaries are needed to succeed in the deception. 
+Below we evaluate the experiment with just one percent of cells being 
+adversaries.</p>
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/mnist_1perc_adv_mosaic.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+Adversaries constituting up 1% of the cell collective (red pixels). We 
+highlight mistakes in classification with a red background.</figcaption>
+</figure>
+<p>We created a demo playground where the reader can draw digits and 
+place adversaries with surgical precision. We encourage the reader to 
+play with the demo to get a sense of how easily non-adversarial cells 
+are swayed towards the wrong classification.</p>
+<iframe id="mnistDemoIframe" src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/demo.html" scrolling="no" style="position: relative; height: 763px; width: 100%;" onload="resizeIframe" ;="" frameborder="0"></iframe>
+<h2 id="adversarial-injections-for-growing-ca">Adversarial Injections for Growing CA <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/adversarial_reprogramming_ca/adversarial_growing_ca.ipynb#scrollTo=ByHbsY0EuyqB" class="colab-root">Try in a <span class="colab-span">Notebook</span></a></h2>
+<p>The natural follow up question is whether these adversarial attacks 
+work on Growing CA, too. The Growing CA goal is to be able to grow a 
+complex image from a single cell, and having its result be persistent 
+over time and robust to perturbations. In this article, we focus on the 
+lizard pattern model from Growing CA.</p>
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="450px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/lizard_complete_video.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+The target CA to hijack.</figcaption>
+</figure>
+<p>The goal is to have some adversarial cells change the global 
+configuration of all the cells. We choose two new targets we would like 
+the adversarial cells to try and morph the lizard into: a tailless 
+lizard and a red lizard.</p>
+<figure>
+<img src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/lizard_new_targets_exp2.png" style="width: 450px">
+<figcaption>The desired mutations we want to apply.</figcaption>
+</figure>
+
+<p>These targets have different properties: </p>
+<ul><li><strong>Red lizard:</strong> converting a lizard from green to 
+red would show a global change in the behaviour of the cell collective. 
+This behavior is not present in the dynamics observed by the original 
+model. The adversaries are thus tasked with fooling other cells into 
+doing things they have never done before (create the lizard shape as 
+before, but now colored in red).</li>
+<li><strong>Tailless lizard:</strong> having a severed tail is a more 
+localized change that only requires some cells to be fooled into 
+behaving in the wrong way: the cells at the base of the tail need to be 
+convinced they constitute the edge or silhouette of the lizard, instead 
+of proceeding to grow a tail as before.</li></ul>
+
+<p>Just like in the previous experiment, our adversaries can only indirectly affect the states of the original cells.</p>
+
+<p>We first train adversaries for the tailless target with a 10% chance 
+for any given cell to be an adversary. We prohibit cells to be 
+adversaries if they are outside the target pattern; i.e. the tail 
+contains no adversaries.</p>
+
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/lizard_no_tail_virus_mosaic.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+10% of the cells are adversarial.</figcaption>
+</figure>
+
+<p>The video above shows six different instances of the same model with 
+differing stochastic placement of the adversaries. The results vary 
+considerably: sometimes the adversaries succeed in removing the tail, 
+sometimes the tail is only shrunk but not completely removed, and other 
+times the pattern becomes unstable. Training these adversaries required 
+many more gradient steps to achieve convergence, and the pattern 
+converged to is qualitatively worse than what was achieved for the 
+adversarial MNIST CA experiment.</p>
+
+<p>The red lizard pattern fares even worse. Using only 10% adversarial 
+cells results in a complete failure: the original cells are unaffected 
+by the adversaries. Some readers may wonder whether the original 
+pretrained CA has the requisite skill, or ‘subroutine’ of producing a 
+red output at all, since there are no red regions in the original 
+target, and may suspect this was an impossible task to begin with. 
+Therefore, we increased the proportion of adversarial cells until we 
+managed to find a successful adversarial CA, if any were possible.</p>
+
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/lizard_red_virus_single_run.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+Adversaries are 60% of the cells. At step 500, we stop the image and show only cells that are from the original model.</figcaption>
+</figure>
+<p>In the video above we can see how, at least in the first stages of 
+morphogenesis, 60% of adversaries are capable of coloring the lizard 
+red. Take particular notice of the “step 500”<d-footnote id="d-footnote-1"> The still-image of the video is on step 500, and the video stops for a bit more than a second on step 500.</d-footnote>,
+ where we hide the adversarial cells and show only the original cells. 
+There, we see how a handful of original cells are colored in red. This 
+is proof that the adversaries successfully managed to steer neighboring 
+cells to color themselves red, where needed.</p>
+
+<p>However, the model is very unstable when iterated for periods of time
+ longer than seen during training. Moreover, the learned adversarial 
+attack is dependent on a majority of cells being adversaries. For 
+instance, when using fewer adversaries on the order of 20-30%, the 
+configuration is unstable.</p>
+
+<p>In comparison to the results of the previous experiment, the Growing 
+CA model shows a greater resistance to adversarial perturbation than 
+those of the MNIST CA. A notable difference between the two models is 
+that the MNIST CA cells have to always be ready and able to change an 
+opinion (a classification) based on information propagated through 
+several neighbors. This is a necessary requirement for that model 
+because at any time the underlying digit may change, but most of the 
+cells would not observe any change in their neighbors’ placements. For 
+instance, imagine the case of a one turning into a seven where the lower
+ stroke of each overlap perfectly. From the point of view of the cells 
+in the lower stroke of the digit, there is no change, yet the digit 
+formed is now a seven. We therefore hypothesise MNIST CA are more 
+reliant and ‘trusting’ of continuous long-distance communication than 
+Growing CA, where cells never have to reconfigure themselves to generate
+ something different to before.</p>
+
+<p>We suspect that more general-purpose Growing CA that have learned a 
+variety of target patterns during training are more likely to be 
+susceptible to adversarial attacks.</p>
+<h2 id="perturbing-the-states-of-growing-ca">Perturbing the states of Growing CA <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/adversarial_reprogramming_ca/adversarial_growing_ca.ipynb#scrollTo=JaITnQv0k1iY" class="colab-root">Try in a <span class="colab-span">Notebook</span></a></h2>
+<p>We observed that it is hard to fool Growing CA into changing their 
+morphology by placing adversarial cells inside the cell collective. 
+These adversaries had to devise complex local behaviors that would cause
+ the non-adversarial cells nearby, and ultimately globally throughout 
+the image, to change their overall morphology.</p>
+<p>In this section, we explore an alternative approach: perturbing the 
+global state of all cells without changing the model parameters of any 
+cell.</p>
+<p>As before, we base our experiments on the Growing CA model trained to
+ produce a lizard. Every cell of a Growing CA has an internal state 
+vector with 16 elements. Some of them are phenotypical elements (the 
+RGBA states) and the remaining 12 serve arbitrary purposes, used for 
+storing and communicating information. We can perturb the states of 
+these cells to hijack the overall system in certain ways (the discovery 
+of such perturbation strategies is a key goal of biomedicine and 
+synthetic morphology). There are a variety of ways we can perform state 
+perturbations. We will focus on <i>global state perturbations</i>, 
+defined as perturbations that are applied on every living cell at every 
+time step (analogous to “systemic” biomedical interventions, that are 
+given to the whole organism (e.g., a chemical taken internally), as 
+opposed to highly localized delivery systems). The new goal is to 
+discover a certain type of global state perturbation that results in a 
+stable new pattern.</p>
+<figure>
+<img src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/figure_2.svg" style="width: 650px">
+<figcaption>Diagram showing some possible stages for perturbing a lizard
+ pattern. (a) We start from a seed that grows into a lizard (b) Fully 
+converged lizard. (c) We apply a global state perturbation at every 
+step. As a result, the lizard loses its tail. (d) We stop perturbing the
+ state. We observe the lizard immediately grows back its tail.</figcaption>
+</figure>
+
+<p>We show 6 target patterns: the tailless and red lizard from the 
+previous experiment, plus a blue lizard and lizards with various severed
+ limbs and severed head.</p>
+<figure>
+<img src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/mutations_mosaic.jpeg" style="width: 450px">
+<figcaption>Mosaic of the desired mutations we want to apply.</figcaption>
+</figure>
+<p>We decided to experiment with a  simple type of global state perturbation: applying a symmetric <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mn>6</mn><mo>×</mo><mn>1</mn><mn>6</mn></mrow><annotation encoding="application/x-tex">16\times16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base"><span class="mord mathrm">1</span><span class="mord mathrm">6</span><span class="mbin">×</span><span class="mord mathrm">1</span><span class="mord mathrm">6</span></span></span></span></span> matrix multiplication <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span> to every living cell at every step<d-footnote id="d-footnote-2"> In practice, we also clip the state of cells such that they are bounded in <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mo>−</mo><mn>3</mn><mo separator="true">,</mo><mo>+</mo><mn>3</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[-3, +3]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mopen">[</span><span class="mord">−</span><span class="mord mathrm">3</span><span class="mpunct">,</span><span class="mord">+</span><span class="mord mathrm">3</span><span class="mclose">]</span></span></span></span></span>. This is a minor detail and it helps stabilise the model.</d-footnote>.
+ To give insight on why we chose this, an even simpler “state addition” 
+mutation (a mutation consisting only of the addition of a vector to 
+every state) would be insufficient because the value of the states of 
+our models are unbounded, and often we would want to suppress something 
+by setting it to zero. The latter is generally impossible with constant 
+state additions, as a constant addition or subtraction of a value would 
+generally lead to infinity, except for some fortunate cases where the 
+natural residual updates of the cells would cancel out with the constant
+ addition at precisely state value zero. However, matrix multiplications
+ have the possibility of amplifying/suppressing combinations of elements
+ in the states: multiplying a state value repeatedly for a constant 
+value less than one can easily suppress a state value to zero. We 
+constrain the matrix to be symmetric for reasons that will become clear 
+in the following section.</p>
+
+<p>We initialize <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span> with the identity matrix <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span></span> and train <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span> just as we would train the original  Growing CA, albeit with the following differences:</p>
+<ul><li>We perform a global state perturbation as described above, using <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span>, at every step.</li>
+<li>The underlying CA parameters are frozen and we only train <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span>.</li>
+<li>We consider the set of initial image configurations to be both the 
+seed state and the state with a fully grown lizard (as opposed to the 
+Growing CA article, where initial configurations consisted of the seed 
+state only).</li></ul>
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/mutations_mosaic_video.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+Effect of applying the trained perturbations.</figcaption>
+</figure>
+
+
+<p>The video above shows the model successfully discovering global state
+ perturbations able to  change a target pattern to a desired variation. 
+We show what happens when we stop perturbing the states (an 
+out-of-training situation) at step 500 through step 1000, then 
+reapplying the mutation. This demonstrates the ability of our 
+perturbations to achieve the desired result both when starting from a 
+seed, and when starting from a fully grown pattern. Furthermore it 
+demonstrates that the original CA easily recover from these state 
+perturbations once it goes away. This last result is perhaps not 
+surprising given how robust growing CA models are in general.</p>
+
+<p>Not all perturbations are equally effective. In particular, the 
+headless perturbation is the least successful as it results in a loss of
+ other details across the whole lizard pattern such as the white 
+coloring on its back. We hypothesize that the best perturbation our 
+training regime managed to find, due to the simplicity of the 
+perturbation, was suppressing a “structure” that contained both the 
+morphology of the head and the white colouring. This may be related to 
+the concept of differentiation and distinction of biological organs. 
+Predicting what kinds of perturbations would be harder or impossible to 
+be done, before trying them out empirically, is still an open research 
+question in biology. On the other hand, a variant of this kind of 
+synthetic analysis might help with defining higher order structures 
+within biological and synthetic systems.</p>
+<h3 id="directions-and-compositionality-of-perturbations">Directions and compositionality of perturbations</h3>
+<p>Our choice of using a symmetric matrix for representing global state 
+perturbations is justified by a desire to have compositionality. Every 
+complex symmetric matrix <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span> can be diagonalized as follows: </p>
+<p><span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mo>=</mo><mi>Q</mi><mi mathvariant="normal">Λ</mi><msup><mi>Q</mi><mo>⊺</mo></msup></mrow><annotation encoding="application/x-tex">A = Q \Lambda Q^\intercal</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord mathit">A</span><span class="mrel">=</span><span class="mord mathit">Q</span><span class="mord mathrm">Λ</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>where <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Λ</mi></mrow><annotation encoding="application/x-tex">\Lambda</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathrm">Λ</span></span></span></span></span> is the diagonal eigenvalues matrix and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord mathit">Q</span></span></span></span></span>
+ is the unitary matrix of its eigenvectors. Another way of seeing this 
+is applying a change of basis transformation, scaling each component 
+proportional to the eigenvalues, and then changing back to the original 
+basis. This should also give a clearer intuition on the ease of 
+suppressing or amplifying combinations of states. Moreover, we can now 
+infer what would happen if all the eigenvalues were to be one. In that 
+case, we would naturally have <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi><mi>I</mi><msup><mi>Q</mi><mo>⊺</mo></msup><mo>=</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">Q I Q^\intercal = I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord mathit">Q</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span></span> resulting in a no-op (no change): the lizard would grow as if no perturbation was performed. We can now decompose <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi><mi mathvariant="normal">Λ</mi><msup><mi>Q</mi><mo>⊺</mo></msup><mo>=</mo><mi>Q</mi><mo>(</mo><mi>D</mi><mo>+</mo><mi>I</mi><mo>)</mo><msup><mi>Q</mi><mo>⊺</mo></msup></mrow><annotation encoding="application/x-tex">Q \Lambda Q^\intercal = Q (D + I) Q^\intercal</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit">Q</span><span class="mord mathrm">Λ</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit">Q</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mclose">)</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span></span></span></span></span> where D is the <i>perturbation direction </i>(<span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Λ</mi><mo>−</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">\Lambda - I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="base"><span class="mord mathrm">Λ</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span></span>) in the “eigenvalue space”. Suppose we use a coefficient <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span> to scale D: <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>A</mi><mi>k</mi></msub><mo>=</mo><mi>Q</mi><mo>(</mo><mi>k</mi><mi>D</mi><mo>+</mo><mi>I</mi><mo>)</mo><msup><mi>Q</mi><mo>⊺</mo></msup></mrow><annotation encoding="application/x-tex">A_k = Q (kD + I) Q^\intercal</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit">Q</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mclose">)</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span></span></span></span></span>. If <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span></span>, we are left with the original perturbation <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span> and when <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">k=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mrel">=</span><span class="mord mathrm">0</span></span></span></span></span>, we have the no-op <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span></span>. Naturally, one question would be whether we can explore other values for <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span> and discover meaningful perturbations. Since </p>
+<p><span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>A</mi><mi>k</mi></msub><mo>=</mo><mi>Q</mi><mo>(</mo><mi>k</mi><mi>D</mi><mo>+</mo><mi>I</mi><mo>)</mo><msup><mi>Q</mi><mo>⊺</mo></msup><mo>=</mo><mi>k</mi><mi>A</mi><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>k</mi><mo>)</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">A_k = Q (kD + I) Q^\intercal = k A + (1-k) I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit">Q</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mclose">)</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mord mathit">A</span><span class="mbin">+</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span></span> </p>
+<p>we do not even have to compute eigenvalues and eigenvectors and we can simply scale <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span></span> accordingly.</p>
+
+<p>Let us then take the tailless perturbation and see what happens as we vary <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span>:</p>
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/tail_direction_mosaic.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+Effect of the interpolation between an identity matrix and the ’perturbation direction of the tail perturbation.</figcaption>
+</figure>
+<p>As we change <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span></span> to <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">k=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mrel">=</span><span class="mord mathrm">0</span></span></span></span></span> we can observe the tail becoming more complete. Surprisingly, if we make <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span>
+ negative, the lizard grows a longer tail. Unfortunately, the further 
+away we go, the more unstable the system becomes and eventually the 
+lizard pattern grows in an unbounded fashion. This behaviour likely 
+stems from that perturbations applied on the states also affect the 
+homeostatic regulation of the system, making some cells die out or grow 
+in different ways than before, resulting in a behavior akin to “cancer” 
+in biological systems.</p>
+
+<p><strong>Can we perform multiple, individually trained, perturbations at the same time?</strong> </p>
+<p>Suppose we have two perturbations <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span></span></span> and their eigenvectors are the same (or, more realistically, sufficiently similar). Then, <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>A</mi><mi>k</mi></msub><mo>=</mo><mi>Q</mi><mo>(</mo><msub><mi>k</mi><mi>A</mi></msub><msub><mi>D</mi><mi>A</mi></msub><mo>+</mo><mi>I</mi><mo>)</mo><msup><mi>Q</mi><mo>⊺</mo></msup></mrow><annotation encoding="application/x-tex">A_k = Q (k_A D_A + I) Q^\intercal</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit">Q</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mclose">)</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>B</mi><mi>k</mi></msub><mo>=</mo><mi>Q</mi><mo>(</mo><msub><mi>k</mi><mi>B</mi></msub><msub><mi>D</mi><mi>B</mi></msub><mo>+</mo><mi>I</mi><mo>)</mo><msup><mi>Q</mi><mo>⊺</mo></msup></mrow><annotation encoding="application/x-tex">B_k = Q (k_B D_B + I) Q^\intercal</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit">Q</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mclose">)</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span></span></span></span></span>. </p>
+<p>In that case,  </p>
+<p><span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>b</mi><mo>(</mo><msub><mi>A</mi><mi>k</mi></msub><mo separator="true">,</mo><msub><mi>B</mi><mi>k</mi></msub><mo>)</mo><mo>=</mo><mi>Q</mi><mo>(</mo><msub><mi>k</mi><mi>A</mi></msub><msub><mi>D</mi><mi>A</mi></msub><mo>+</mo><msub><mi>k</mi><mi>B</mi></msub><msub><mi>D</mi><mi>B</mi></msub><mo>+</mo><mi>I</mi><mo>)</mo><msup><mi>Q</mi><mo>⊺</mo></msup><mo>=</mo><msub><mi>k</mi><mi>A</mi></msub><mi>A</mi><mo>+</mo><msub><mi>k</mi><mi>B</mi></msub><mi>B</mi><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>k</mi><mi>A</mi></msub><mo>−</mo><msub><mi>k</mi><mi>B</mi></msub><mo>)</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">comb(A_k, B_k) = Q(k_A D_A + k_B D_B + I)Q^\intercal = k_A A + k_B B + (1 - k_A - k_B)I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit">c</span><span class="mord mathit">o</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mpunct">,</span><span class="mord"><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit">Q</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mclose">)</span><span class="mord"><span class="mord mathit">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin amsrm mtight">⊺</span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathit">A</span><span class="mbin">+</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mbin">+</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">−</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span></span> </p>
+<p>would result in something meaningful. At the very least, if <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mo>=</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A = B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span></span></span>, setting <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>k</mi><mi>A</mi></msub><mo>=</mo><msub><mi>k</mi><mi>B</mi></msub><mo>=</mo><mn>0</mn><mi mathvariant="normal">.</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">k_A = k_B = 0.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mrel">=</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mrel">=</span><span class="mord mathrm">0</span><span class="mord mathrm">.</span><span class="mord mathrm">5</span></span></span></span></span> would result in exactly the same perturbation.</p>
+<p>We note that <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>D</mi><mi>A</mi></msub></mrow><annotation encoding="application/x-tex">D_A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>D</mi><mi>B</mi></msub></mrow><annotation encoding="application/x-tex">D_B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> are effectively a displacement from the identity <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.07847em;">I</span></span></span></span></span> and we have empirically observed how given any trained displacement <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>D</mi><mi>A</mi></msub></mrow><annotation encoding="application/x-tex">D_A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>, for <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn><mo>≤</mo><msub><mi>k</mi><mi>A</mi></msub><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq k_A \leq 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="base"><span class="mord mathrm">0</span><span class="mrel">≤</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mrel">≤</span><span class="mord mathrm">1</span></span></span></span></span> adding <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>k</mi><mi>A</mi></msub><msub><mi>D</mi><mi>A</mi></msub></mrow><annotation encoding="application/x-tex">k_A D_A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord"><span class="mord mathit" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> results in a stable perturbation. We then hypothesize that as long as we have two perturbations whose positive directions <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span> are <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>k</mi><mi>A</mi></msub><mo>+</mo><msub><mi>k</mi><mi>B</mi></msub><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k_A + k_B \leq 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mrel">≤</span><span class="mord mathrm">1</span></span></span></span></span>,
+ this could result in a stable perturbation. An intuitive understanding 
+of this is interpolating stable perturbations using the direction 
+coefficients.</p>
+<p>In practice, however, the eigenvectors are also different, so the 
+results of the combination will likely be worse the more different the 
+respective eigenvector bases are.</p>
+
+<p>Below, we interpolate the direction coefficients, while keeping their
+ sum to be one, of two types of perturbations: tailless and no-leg 
+lizards.</p>
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/lizard_combinations_mosaic.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+Effect of composing two trained perturbations while keeping the sum of <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span>s as 1.</figcaption>
+</figure>
+<p>While it largely achieves what we expect, we observe some unintended 
+effects such as the whole pattern starting to traverse vertically in the
+ grid. Similar results happen with other combinations of perturbations. 
+What happens if we remove the restriction of the sum of <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span>s
+ being equal to one, and instead add both perturbations in their 
+entirety? We know that if the two perturbations were the same, we would 
+end twice as far away from the identity perturbation, and in general we 
+expect the variance of these perturbations to increase. Effectively, 
+this means going further and further away from the stable perturbations 
+discovered during training. We would expect more unintended effects that
+ may disrupt the CA as the sum of <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span>s increases.</p>
+<p>Below, we demonstrate what happens when we combine the tailless and 
+the no-leg lizard perturbations at their fullest. Note that when we set 
+both <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span>s to one, the resulting perturbation is equal to the sum of the two perturbations minus an identity matrix.</p>
+<figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    
+    <video controls="controls" playsinline="" muted="muted" preload="auto" width="320px">
+      <source src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/combination_of_mutations.mp4" type="video/mp4">
+Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+Effect of composing two perturbations.</figcaption>
+</figure>
+<p>Surprisingly, the resulting pattern is almost as desired. However, it
+ also suffers from the vertical movement of the pattern observed while 
+interpolating <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span>s.</p>
+<p> </p>
+<p>This framework can be generalized to any arbitrary number of 
+perturbations. Below, we have created a small playground that allows the
+ reader to input their desired combinations. Empirically, we were 
+surprised by how many of these combinations result in the intended 
+perturbations and qualitatively it appears that bounding <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span> to one results in generally more stable patterns. We also observed how exploring negative <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span></span> values is usually more unstable.</p>
+<iframe id="mutatingDemo" src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/mutating_gca_demo.html" scrolling="no" style="position: relative; height: 417px; width: 100%;" onload="resizeIframe" ;="" frameborder="0"></iframe>
+<h2 id="related-work">Related work</h2>
+<p>This work is inspired by Generative Adversarial Networks (GANs) <d-cite key="goodfellow2014generative"></d-cite>.
+ While with GANs it is typical to cotrain pairs of models, in this work 
+we froze the original CA and trained the adversaries only. This setup is
+ to the greatest degree inspired by the seminal work <i>Adversarial Reprogramming of Neural Networks </i><d-cite key="elsayed2018adversarial"></d-cite>.</p>
+<p>The kinds of state perturbations performed in this article can be seen as targeted latent state manipulations. Word2vec <d-cite key="mikolov2013efficient"></d-cite> shows how latent vector representations can have compositional properties and Fader Networks <d-cite key="lample2018fader"></d-cite> show similar behaviors for image processing. Both of these works and their related work were of inspiration to us.</p>
+<h3 id="influence-maximization">Influence maximization</h3>
+<p>Adversarial cellular automata have parallels to the field of 
+influence maximization. Influence maximization involves determining the 
+optimal nodes to influence in order to maximize influence over an entire
+ graph, commonly a social graph, with the property that nodes can in 
+turn influence their neighbours. Such models are used to model a wide 
+variety of real-world applications involving information spread in a 
+graph. <d-cite key="Kempe_Kleinberg_Tardos_2003"></d-cite> <d-cite key="Shakarian2015"></d-cite> <d-cite key="Banerjee_Jenamani_Pratihar_2018"></d-cite>
+ A common setting is that each vertex in a graph has a binary state, 
+which will change if and only if a sufficient fraction of its 
+neighbours’ states switch. Examples of such models are social influence 
+maximization (maximally spreading an idea in a network of people), 
+contagion outbreak modelling <d-cite key="Iacopini_Petri_Barrat_Latora_2019"></d-cite> (usually to minimize the spread of a disease in a network of people) and cascade modeling <d-cite key="Kleinberg_2007"></d-cite>
+ (when small perturbations to a system bring about a larger ‘phase 
+change’). At the time of writing this article, for instance, contagion 
+minimization is a model of particular interest. NCA are a graph - each 
+cell is a vertex and has edges to its eight neighbours, through which it
+ can pass information. This graph and message structure is significantly
+ more complex than the typical graph underlying much of the research in 
+influence maximization, because NCA cells pass vector-valued messages 
+and have a complex update rules for their internal states, whereas 
+graphs in influence maximization research typically consist of more 
+simple binary cells states and threshold functions on edges determining 
+whether a node has switched states. Many concepts from the field could 
+be applied and are of interest, however.</p>
+
+<p>For example, in this work, we have made an assumption that our 
+adversaries can be positioned anywhere in a structure to achieve a 
+desired behaviour. A common focus of investigation in influence 
+maximization problems is deciding which nodes in a graph will result in 
+maximal influence on the graph, referred to as target set selection <d-cite key="Chen_2009"></d-cite>.
+ This problem isn’t always tractable, often NP-hard, and solutions 
+frequently involve simulations. Future work on adversarial NCA may 
+involve applying techniques from influence maximization in order to find
+ the optimal placement of adversarial cells.</p>
+<h2 id="discussion">Discussion</h2>
+<p>This article showed two different kinds of adversarial attacks on Neural CA.</p>
+
+<p>Injections of adversarial CA in a pretrained Self-classifying MNIST 
+CA showed how an existing system of cells that are heavily reliant on 
+the passing of information among each other is easily swayed by 
+deceitful signaling. This problem is routinely faced by biological 
+systems, which face hijacking of behavioral, physiological, and 
+morphological regulatory mechanisms by parasites and other agents in the
+ biosphere with which they compete.  Future work in this field of 
+computer technology can benefit from research on biological 
+communication mechanisms to understand how cells maximize reliability 
+and fidelity of inter- and intra-cellular messages required to implement
+ adaptive outcomes.  </p>
+
+<p>The adversarial injection attack was much less effective against 
+Growing CA and resulted in overall unstable CA. This dynamic is also of 
+importance to the scaling of control mechanisms (swarm robotics and 
+nested architectures): a key step in “multicellularity” (joining 
+together to form larger systems from sub-agents <d-cite key="levin2019theComp"></d-cite>)
+ is informational fusion, which makes it difficult to identify the 
+source of signals and memory engrams. An optimal architecture would need
+ to balance the need for validating control messages with a possibility 
+of flexible merging of subunits, which wipes out metadata about the 
+specific source of informational signals. Likewise, the ability to 
+respond successfully to novel environmental challenges is an important 
+goal for autonomous artificial systems, which may import from biology 
+strategies that optimize tradeoff between maintaining a specific set of 
+signals and being flexible enough to establish novel signaling regimes 
+when needed.</p>
+
+<p>The global state perturbation experiment on Growing CA shows how it 
+is still possible to hijack these CA towards stable out-of-training 
+configurations and how these kinds of attacks are somewhat composable in
+ a similar way to how embedding spaces are manipulable in the natural 
+language processing and computer vision fields <d-cite key="mikolov2013efficient,lample2018fader"></d-cite>. However, this experiment failed to discover stable out-of-training configurations that persist <i>after the perturbation was lifted</i>.
+ We hypothesize that this is partially due to the regenerative 
+capabilities of the pretrained CA, and that other models may be less 
+capable of recovery from arbitrary perturbations.</p>
+</d-article>
+<d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+<h3 id="acknowledgments">Acknowledgments</h3>
+<p>We thank Hananel Hazan and Nick Moran for their valuable conversations and feedback.</p>
+<h3 id="author-contributions">Author Contributions</h3>
+<p><strong>Research:</strong> Ettore designed and performed the experiments in this article. Alexander and Michael gave advisorship throughout the process.</p>
+
+<p><strong>Demos:</strong> Ettore, Alexander and Eyvind contributed to the demo.</p>
+
+<p><strong>Writing and Diagrams:</strong> Ettore outlined the structure 
+of the article and contributed to the content throughout. Eyvind 
+contributed to the content throughout. Michael made extensive 
+contributions to the article text, providing the biological context for 
+this work.</p>
+
+    <d-footnote-list style="">
+<style>
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+</style>
+
+<h3>Footnotes</h3>
+<ol><li id="d-footnote-1-listing"> The still-image of the video is on step 500, and the video stops for a bit more than a second on step 500.<a class="footnote-backlink" href="#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing"> In practice, we also clip the state of cells such that they are bounded in <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mo>−</mo><mn>3</mn><mo separator="true">,</mo><mo>+</mo><mn>3</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[-3, +3]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mopen">[</span><span class="mord">−</span><span class="mord mathrm">3</span><span class="mpunct">,</span><span class="mord">+</span><span class="mord mathrm">3</span><span class="mclose">]</span></span></span></span></span>. This is a minor detail and it helps stabilise the model.<a class="footnote-backlink" href="#d-footnote-2">[↩]</a></li></ol>
+</d-footnote-list>
+    <d-citation-list distill-prerendered="true"><style>
+d-citation-list {
+  contain: style;
+}
+
+d-citation-list .references {
+  grid-column: text;
+}
+
+d-citation-list .references .title {
+  font-weight: 500;
+}
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="mordvintsev2020growing"><span class="title">Growing Neural Cellular Automata</span> <br>Mordvintsev, A., Randazzo, E., Niklasson, E. and Levin, M., 2020. Distill.  <a href="https://doi.org/10.23915/distill.00023" style="text-decoration:inherit;">DOI: 10.23915/distill.00023</a></li><li id="randazzo2020self-classifying"><span class="title">Self-classifying MNIST Digits</span> <br>Randazzo, E., Mordvintsev, A., Niklasson, E., Levin, M. and Greydanus, S., 2020. Distill.  <a href="https://doi.org/10.23915/distill.00027.002" style="text-decoration:inherit;">DOI: 10.23915/distill.00027.002</a></li><li id="pmid32457704"><span class="title">Herpes Simplex Virus: The Hostile Guest That Takes Over Your Home</span> <br>Banerjee, A., Kulkarni, S. and Mukherjee, A., 2020. Front Microbiol, Vol 11, pp. 733.  <a href="https://doi.org/10.3389/fmicb.2020.00733" style="text-decoration:inherit;">DOI: 10.3389/fmicb.2020.00733</a></li><li id="pmid21278760"><span class="title">The
+ role of gut microbiota (commensal bacteria) and the mucosal barrier in 
+the pathogenesis of inflammatory and autoimmune diseases and cancer: 
+contribution of germ-free and gnotobiotic animal models of human 
+diseases</span> <br>Tlaskalová-Hogenová, H., Stěpánková, R., H., K., 
+Hudcovic, T., Vannucci, L., Tučková, L., Rossmann, P., Hrnčíř, T., 
+Kverka, M., Zákostelská, Z., Klimešová, K., Přibylová, J., Bártová, J., 
+Sanchez, D., Fundová, P., Borovská, D., Srůtková, D., Zídek, Z., 
+Schwarzer, M., Drastich, P. and Funda, D.P., 2011. Cell Mol Immunol, Vol
+ 8(2), pp. 110--120.  <a href="https://doi.org/10.1038/cmi.2010.67" style="text-decoration:inherit;">DOI: 10.1038/cmi.2010.67</a></li><li id="pmid32439577"><span class="title">Regulation of axial and head patterning during planarian regeneration by a commensal bacterium</span> <br>Williams,
+ K.B., Bischof, J., Lee, F.J., Miller, K.A., LaPalme, J.V., Wolfe, B.E. 
+and Levin, M., 2020. Mech Dev, Vol 163, pp. 103614.  <a href="https://doi.org/10.1016/j.mod.2020.103614" style="text-decoration:inherit;">DOI: 10.1016/j.mod.2020.103614</a></li><li id="pmid30109417"><span class="title">Toxoplasma gondii infection and behavioral outcomes in humans: a systematic review</span> <br>Martinez,
+ V.O., Mendonça Lima, F.W., Carvalho, C.F. and Menezes-Filho, J.A., 
+2018. Parasitology research, Vol 117, pp. 3059-3065.  <a href="https://doi.org/10.1007/s00436-018-6040-2" style="text-decoration:inherit;">DOI: 10.1007/s00436-018-6040-2</a></li><li id="pmid23196890"><span class="title">Resting potential, oncogene-induced tumorigenesis, and metastasis: the bioelectric basis of cancer in vivo</span> <br>Lobikin, M., Chernet, B., Lobo, D. and Levin, M., 2012. Physical biology, Vol 9.  <a href="https://doi.org/10.1088/1478-3975/9/6/065002" style="text-decoration:inherit;">DOI: 10.1088/1478-3975/9/6/065002</a></li><li id="pmid24830454"><span class="title">Transmembrane voltage potential of somatic cells controls oncogene-mediated tumorigenesis at long-range</span> <br>Chernet, B.T. and Levin, M., 2014. Oncotarget.  <a href="https://doi.org/10.18632/oncotarget.1935" style="text-decoration:inherit;">DOI: 10.18632/oncotarget.1935</a></li><li id="pmid30126906"><span class="title">Cross-limb communication during Xenopus hindlimb regenerative response: non-local bioelectric injury signals</span> <br>Busse, S.M., McMillen, P.T. and Levin, M., 2018. Development.  <a href="https://doi.org/10.1242/dev.164210" style="text-decoration:inherit;">DOI: 10.1242/dev.164210</a></li><li id="pmid26198142"><span class="title">Local
+ and long-range endogenous resting potential gradients antagonistically 
+regulate apoptosis and proliferation in the embryonic CNS</span> <br>Pai, V.P., Lemire, J.M., Chen, Y., Lin, G. and Levin, M., 2015. The International journal of developmental biology.  <a href="https://doi.org/10.1387/ijdb.150197ml" style="text-decoration:inherit;">DOI: 10.1387/ijdb.150197ml</a></li><li id="pmid27807271"><span class="title">Top-down models in biology: explanation and control of complex living systems above the molecular level</span> <br>Pezzulo, G. and Levin, M., 2016. Journal of the Royal Society, Interface.  <a href="https://doi.org/10.1098/rsif.2016.0555" style="text-decoration:inherit;">DOI: 10.1098/rsif.2016.0555</a></li><li id="goodfellow2014generative"><span class="title">Generative Adversarial Networks</span> <br>Goodfellow, I.J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A. and Bengio, Y., 2014. </li><li id="elsayed2018adversarial"><span class="title">Adversarial Reprogramming of Neural Networks</span> <br>Elsayed, G.F., Goodfellow, I. and Sohl-Dickstein, J., 2018. </li><li id="mikolov2013efficient"><span class="title">Efficient Estimation of Word Representations in Vector Space</span> <br>Mikolov, T., Chen, K., Corrado, G. and Dean, J., 2013. </li><li id="lample2018fader"><span class="title">Fader Networks: Manipulating Images by Sliding Attributes</span> <br>Lample, G., Zeghidour, N., Usunier, N., Bordes, A., Denoyer, L. and Ranzato, M., 2018. </li><li id="Kempe_Kleinberg_Tardos_2003"><span class="title">Maximizing the spread of influence through a social network</span>   <a href="https://www.cs.cornell.edu/home/kleinber/kdd03-inf.pdf">[PDF]</a><br>Kempe,
+ D., Kleinberg, J. and Tardos, É., 2003. Proceedings of the ninth ACM 
+SIGKDD international conference on Knowledge discovery and data mining -
+ KDD ’03. ACM Press. <a href="https://doi.org/10.1145/956755.956769" style="text-decoration:inherit;">DOI: 10.1145/956755.956769</a></li><li id="Shakarian2015"><span class="title">The Independent Cascade and Linear Threshold Models</span>   <a href="https://doi.org/10.1007/978-3-319-23105-1_4">[link]</a><br>Shakarian,
+ P., Bhatnagar, A., Aleali, A., Shaabani, E. and Guo, R., 2015. 
+Diffusion in Social Networks, pp. 35--48. Springer International 
+Publishing. <a href="https://doi.org/10.1007/978-3-319-23105-1_4" style="text-decoration:inherit;">DOI: 10.1007/978-3-319-23105-1_4</a></li><li id="Banerjee_Jenamani_Pratihar_2018"><span class="title">A Survey on Influence Maximization in a Social Network</span>   <a href="http://arxiv.org/pdf/1808.05502.pdf">[PDF]</a><br>Banerjee, S., Jenamani, M. and Pratihar, D.K., 2018. arXiv [cs.SI]. </li><li id="Iacopini_Petri_Barrat_Latora_2019"><span class="title">Simplicial models of social contagion</span>   <a href="http://dx.doi.org/10.1038/s41467-019-10431-6">[link]</a><br>Iacopini, I., Petri, G., Barrat, A. and Latora, V., 2019. Nature communications, Vol 10(1), pp. 2485.  <a href="https://doi.org/10.1038/s41467-019-10431-6" style="text-decoration:inherit;">DOI: 10.1038/s41467-019-10431-6</a></li><li id="Kleinberg_2007"><span class="title">Cascading Behavior in Networks: Algorithmic and Economic Issues</span>   <a href="https://www.cambridge.org/core/books/algorithmic-game-theory/cascading-behavior-in-networks-algorithmic-and-economic-issues/753EA45A6662E01BC8F9444B0AC80238">[link]</a><br>Kleinberg, J., 2007. Algorithmic Game Theory, pp. 613–632. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511800481.026" style="text-decoration:inherit;">DOI: 10.1017/CBO9780511800481.026</a></li><li id="Chen_2009"><span class="title">On the Approximability of Influence in Social Networks</span>   <a href="https://doi.org/10.1137/08073617X">[link]</a><br>Chen, N., 2009. SIAM Journal on Discrete Mathematics, Vol 23(3), pp. 1400–1415. Society for Industrial and Applied Mathematics. <a href="https://doi.org/10.1137/08073617X" style="text-decoration:inherit;">DOI: 10.1137/08073617X</a></li><li id="levin2019theComp"><span class="title">The Computational Boundary of a “Self”: Developmental Bioelectricity Drives Multicellularity and Scale-Free Cognition</span>   <a href="https://www.frontiersin.org/article/10.3389/fpsyg.2019.02688">[link]</a><br>Levin, M., 2019. Frontiers in Psychology, Vol 10, pp. 2688.  <a href="https://doi.org/10.3389/fpsyg.2019.02688" style="text-decoration:inherit;">DOI: 10.3389/fpsyg.2019.02688</a></li></ol></d-citation-list>
+<style>
+  #pointer {
+    width: 40px;
+  }
+  #colorcontainer {
+    width: 300px;
+    margin: 0 auto;
+  }
+  #hueSlider {
+    width: 300px;
+  } 
+  #colorwheel {
+    text-align: center;
+  }
+  #colortest {
+    text-align: center;
+  }
+  #colortest > img {
+    vertical-align: middle;
+  }
+</style>
+<h3 id="author-contributions">Accessibility</h3>
+<div id="colortest" class="color_heavy">
+  <img src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/colortest1.png" width="150px">
+  <img src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/colortest2.png" width="200px">
+</div>
+<div id="colorcontainer">
+  <input type="range" min="0" max="360" value="0" class="slider" id="hueSlider">
+</div> 
+<div id="colorwheel">
+  <img id="pointer" src="Adversarial%20Reprogramming%20of%20Neural%20Cellular%20Automata_files/colorwheel.svg">
+</div>
+
+
+      <div id="paletteHint">This article relies on using color to 
+demonstrate classification label. If you have trouble distinguishing the
+ colours of lizards or of the digits in the above legend, please try and
+ adjust the slider above to see if there is an alternative colour 
+palette for you. The chosen palette will propagate throughout the 
+article.</div>
+<script>
+  const $ = q=>document.documentElement.querySelector(q);
+  function* getAllEls(q) {
+    for (var e of document.documentElement.querySelectorAll(q)) {
+      yield e;
+    }
+    for (var item of document.querySelectorAll('iframe')) {
+      for (var e of item.contentWindow.document.body.querySelectorAll(q)) {
+        yield e;
+      };
+    };
+  };
+  $('#hueSlider').oninput = (e) => {
+    let hue = parseFloat(e.target.value);
+    let colorheavies = getAllEls('.color_heavy, figure');
+    for(let e of colorheavies) {
+      e.style.filter = "hue-rotate(" + hue + "deg)"
+    }
+  };
+</script>
+<distill-appendix>
+<style>
+  distill-appendix {
+    contain: layout style;
+  }
+
+  distill-appendix .citation {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  distill-appendix > * {
+    grid-column: text;
+  }
+</style>
+
+    <h3 id="updates-and-corrections">Updates and Corrections</h3>
+    <p>
+    If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--selforg-adversarial/issues/new">create an issue on GitHub</a>. </p>
+    
+    <h3 id="reuse">Reuse</h3>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--selforg-adversarial">source available on GitHub</a>,
+ unless noted otherwise. The figures that have been reused from other 
+sources don’t fall under this license and can be recognized by a note in
+ their caption: “Figure from …”.</p>
+    
+    <h3 id="citation">Citation</h3>
+    <p>For attribution in academic contexts, please cite this work as</p>
+    <pre class="citation short">Randazzo, et al., "Adversarial Reprogramming of Neural Cellular Automata", Distill, 2021.</pre>
+    <p>BibTeX citation</p>
+    <pre class="citation long">@article{randazzo2021adversarial,
+  author = {Randazzo, Ettore and Mordvintsev, Alexander and Niklasson, Eyvind and Levin, Michael},
+  title = {Adversarial Reprogramming of Neural Cellular Automata},
+  journal = {Distill},
+  year = {2021},
+  note = {https://distill.pub/selforg/2021/adversarial},
+  doi = {10.23915/distill.00027.004}
+}</pre>
+    </distill-appendix></d-appendix>
+  <d-bibliography><script type="text/json">[["mordvintsev2020growing",{"author":"Mordvintsev, Alexander and Randazzo, Ettore and Niklasson, Eyvind and Levin, Michael","title":"Growing Neural Cellular Automata","journal":"Distill","year":"2020","note":"https://distill.pub/2020/growing-ca","doi":"10.23915/distill.00023","type":"article"}],["randazzo2020self-classifying",{"author":"Randazzo, Ettore and Mordvintsev, Alexander and Niklasson, Eyvind and Levin, Michael and Greydanus, Sam","title":"Self-classifying MNIST Digits","journal":"Distill","year":"2020","note":"https://distill.pub/2020/selforg/mnist","doi":"10.23915/distill.00027.002","type":"article"}],["pmid32457704",{"Author":"Banerjee, A.  and Kulkarni, S.  and Mukherjee, A. ","Title":"Herpes Simplex Virus: The Hostile Guest That Takes Over Your Home","Journal":"Front Microbiol","Year":"2020","Volume":"11","Pages":"733","doi":"10.3389/fmicb.2020.00733","author":"Banerjee, A. and Kulkarni, S. and Mukherjee, A. ","title":"Herpes Simplex Virus: The Hostile Guest That Takes Over Your Home","journal":"Front Microbiol","year":"2020","volume":"11","pages":"733","type":"article"}],["pmid21278760",{"Author":"Tlaskalová-Hogenová, H. and Stěpánková, R. and Kozáková H. and Hudcovic, T. and Vannucci, L. and Tučková, L. and Rossmann, P. and Hrnčíř, T. and Kverka, M. and Zákostelská, Z. and Klimešová, K. and Přibylová, J. and Bártová, J. and Sanchez, D. and Fundová, P. and Borovská, D. and Srůtková, D. and Zídek, Z. and Schwarzer, M. and Drastich, P. and Funda, D. P.","Title":"The role of gut microbiota (commensal bacteria) and the mucosal barrier in the pathogenesis of inflammatory and autoimmune diseases and cancer: contribution of germ-free and gnotobiotic animal models of human diseases","Journal":"Cell Mol Immunol","Year":"2011","Volume":"8","Number":"2","Pages":"110--120","Month":"Mar","doi":"10.1038/cmi.2010.67","author":"Tlaskalová-Hogenová, H. and Stěpánková, R. and Kozáková H. and Hudcovic, T. and Vannucci, L. and Tučková, L. and Rossmann, P. and Hrnčíř, T. and Kverka, M. and Zákostelská, Z. and Klimešová, K. and Přibylová, J. and Bártová, J. and Sanchez, D. and Fundová, P. and Borovská, D. and Srůtková, D. and Zídek, Z. and Schwarzer, M. and Drastich, P. and Funda, D. P.","title":"The role of gut microbiota (commensal bacteria) and the mucosal barrier in the pathogenesis of inflammatory and autoimmune diseases and cancer: contribution of germ-free and gnotobiotic animal models of human diseases","journal":"Cell Mol Immunol","year":"2011","volume":"8","number":"2","pages":"110--120","month":"Mar","type":"article"}],["pmid32439577",{"Author":"Williams, K. B.  and Bischof, J.  and Lee, F. J.  and Miller, K. A.  and LaPalme, J. V.  and Wolfe, B. E.  and Levin, M.","Title":"Regulation of axial and head patterning during planarian regeneration by a commensal bacterium","Journal":"Mech Dev","Year":"2020","Volume":"163","Pages":"103614","Month":"Sep","doi":"10.1016/j.mod.2020.103614","author":"Williams, K. B. and Bischof, J. and Lee, F. J. and Miller, K. A. and LaPalme, J. V. and Wolfe, B. E. and Levin, M.","title":"Regulation of axial and head patterning during planarian regeneration by a commensal bacterium","journal":"Mech Dev","year":"2020","volume":"163","pages":"103614","month":"Sep","type":"article"}],["pmid30109417",{"Author":"Martinez, Victor Otero and Mendonça Lima, Fernanda Washington and Carvalho, Chrissie Ferreira and Menezes-Filho, José Antônio","Title":"Toxoplasma gondii infection and behavioral outcomes in humans: a systematic review","Journal":"Parasitology research","Year":"2018","Volume":"117","Pages":"3059-3065","Month":"Sep","doi":"10.1007/s00436-018-6040-2","author":"Martinez, Victor Otero and Mendonça Lima, Fernanda Washington and Carvalho, Chrissie Ferreira and Menezes-Filho, José Antônio","title":"Toxoplasma gondii infection and behavioral outcomes in humans: a systematic review","journal":"Parasitology research","year":"2018","volume":"117","pages":"3059-3065","month":"Sep","type":"article"}],["pmid23196890",{"Author":"Lobikin, Maria and Chernet, Brook and Lobo, Daniel and Levin, Michael","Title":"Resting potential, oncogene-induced tumorigenesis, and metastasis: the bioelectric basis of cancer in vivo","Journal":"Physical biology","Year":"2012","Volume":"9","doi":"10.1088/1478-3975/9/6/065002","author":"Lobikin, Maria and Chernet, Brook and Lobo, Daniel and Levin, Michael","title":"Resting potential, oncogene-induced tumorigenesis, and metastasis: the bioelectric basis of cancer in vivo","journal":"Physical biology","year":"2012","volume":"9","type":"article"}],["pmid24830454",{"Author":"Chernet, Brook T and Levin, Michael","Title":"Transmembrane voltage potential of somatic cells controls oncogene-mediated tumorigenesis at long-range","Journal":"Oncotarget","Year":"2014","doi":"10.18632/oncotarget.1935","author":"Chernet, Brook T and Levin, Michael","title":"Transmembrane voltage potential of somatic cells controls oncogene-mediated tumorigenesis at long-range","journal":"Oncotarget","year":"2014","type":"article"}],["pmid30126906",{"Author":"Busse, Sera M and McMillen, Patrick T and Levin, Michael","Title":"Cross-limb communication during Xenopus hindlimb regenerative response: non-local bioelectric injury signals","Journal":"Development","Year":"2018","doi":"10.1242/dev.164210","author":"Busse, Sera M and McMillen, Patrick T and Levin, Michael","title":"Cross-limb communication during Xenopus hindlimb regenerative response: non-local bioelectric injury signals","journal":"Development","year":"2018","type":"article"}],["pmid26198142",{"Author":"Pai, Vaibhav P and Lemire, Joan M and Chen, Ying and Lin, Gufa and Levin, Michael","Title":"Local and long-range endogenous resting potential gradients antagonistically regulate apoptosis and proliferation in the embryonic CNS","Journal":"The International journal of developmental biology","Year":"2015","doi":"10.1387/ijdb.150197ml","author":"Pai, Vaibhav P and Lemire, Joan M and Chen, Ying and Lin, Gufa and Levin, Michael","title":"Local and long-range endogenous resting potential gradients antagonistically regulate apoptosis and proliferation in the embryonic CNS","journal":"The International journal of developmental biology","year":"2015","type":"article"}],["pmid27807271",{"Author":"Pezzulo, Giovanni and Levin, Michael","Title":"Top-down models in biology: explanation and control of complex living systems above the molecular level","Journal":"Journal of the Royal Society, Interface","Year":"2016","doi":"10.1098/rsif.2016.0555","author":"Pezzulo, Giovanni and Levin, Michael","title":"Top-down models in biology: explanation and control of complex living systems above the molecular level","journal":"Journal of the Royal Society, Interface","year":"2016","type":"article"}],["mikolov2013efficient",{"title":"Efficient Estimation of Word Representations in Vector Space","author":"Tomas Mikolov and Kai Chen and Greg Corrado and Jeffrey Dean","year":"2013","eprint":"1301.3781","archivePrefix":"arXiv","primaryClass":"cs.CL","archiveprefix":"arXiv","primaryclass":"cs.CL","type":"misc"}],["goodfellow2014generative",{"title":"Generative Adversarial Networks","author":"Ian J. Goodfellow and Jean Pouget-Abadie and Mehdi Mirza and Bing Xu and David Warde-Farley and Sherjil Ozair and Aaron Courville and Yoshua Bengio","year":"2014","eprint":"1406.2661","archivePrefix":"arXiv","primaryClass":"stat.ML","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"misc"}],["elsayed2018adversarial",{"title":"Adversarial Reprogramming of Neural Networks","author":"Gamaleldin F. Elsayed and Ian Goodfellow and Jascha Sohl-Dickstein","year":"2018","eprint":"1806.11146","archivePrefix":"arXiv","primaryClass":"cs.LG","archiveprefix":"arXiv","primaryclass":"cs.LG","type":"misc"}],["levin2019theComp",{"AUTHOR":"Levin, Michael","TITLE":"The Computational Boundary of a “Self”: Developmental Bioelectricity Drives Multicellularity and Scale-Free Cognition","JOURNAL":"Frontiers in Psychology","VOLUME":"10","PAGES":"2688","YEAR":"2019","URL":"https://www.frontiersin.org/article/10.3389/fpsyg.2019.02688","DOI":"10.3389/fpsyg.2019.02688","ISSN":"1664-1078","author":"Levin, Michael","title":"The Computational Boundary of a “Self”: Developmental Bioelectricity Drives Multicellularity and Scale-Free Cognition","journal":"Frontiers in Psychology","volume":"10","pages":"2688","year":"2019","url":"https://www.frontiersin.org/article/10.3389/fpsyg.2019.02688","doi":"10.3389/fpsyg.2019.02688","issn":"1664-1078","type":"ARTICLE"}],["lample2018fader",{"title":"Fader Networks: Manipulating Images by Sliding Attributes","author":"Guillaume Lample and Neil Zeghidour and Nicolas Usunier and Antoine Bordes and Ludovic Denoyer and Marc'Aurelio Ranzato","year":"2018","eprint":"1706.00409","archivePrefix":"arXiv","primaryClass":"cs.CV","archiveprefix":"arXiv","primaryclass":"cs.CV","type":"misc"}],["Shakarian2015",{"author":"Shakarian, Paulo and Bhatnagar, Abhinav and Aleali, Ashkan and Shaabani, Elham and Guo, Ruocheng","title":"The Independent Cascade and Linear Threshold Models","bookTitle":"Diffusion in Social Networks","year":"2015","publisher":"Springer International Publishing","address":"Cham","pages":"35--48","abstract":"In this chapter, we focus on perhaps the two most prevalent diffusion models in computer science---the independent cascade and linear threshold models. We describe different properties of these models and how these properties affect solving problems such as influence maximization and influence spread. We describe approaches to address influence maximization problem in independent cascade model and linear threshold model that rely on the maximization of submodular functions---as well as extensions to these approaches for larger datasets.","isbn":"978-3-319-23105-1","doi":"10.1007/978-3-319-23105-1_4","url":"https://doi.org/10.1007/978-3-319-23105-1_4","booktitle":"Diffusion in Social Networks","type":"Inbook"}],["Kleinberg_2007",{"title":"Cascading Behavior in Networks: Algorithmic and Economic Issues","url":"https://www.cambridge.org/core/books/algorithmic-game-theory/cascading-behavior-in-networks-algorithmic-and-economic-issues/753EA45A6662E01BC8F9444B0AC80238","DOI":"10.1017/CBO9780511800481.026","abstractNote":"AbstractThe flow of information or influence through a large social network can be thought of as unfolding with the dynamics of an epidemic: as individuals become aware of new ideas, technologies, fads, rumors, or gossip, they have the potential to pass them on to their friends and colleagues, causing the resulting behavior to cascade through the network.We consider a collection of probabilistic and game-theoretic models for such phenomena proposed in the mathematical social sciences, as well as recent algorithmic work on the problem by computer scientists. Building on this, we discuss the implications of cascading behavior in a number of online settings, including word-of-mouth effects (also known as “viral marketing”) in the success of new products, and the influence of social networks in the growth of online communities.IntroductionThe process by which new ideas and new behaviors spread through a population has long been a fundamental question in the social sciences. New religious beliefs or political movements; shifts in society that lead to greater tolerance or greater polarization; the adoption of new technological, medical, or agricultural innovations; the sudden success of a new product; the rise to prominence of a celebrity or political candidate; the emergence of bubbles in financial markets and their subsequent implosion – these phenomena all share some important qualitative properties.","booktitle":"Algorithmic Game Theory","publisher":"Cambridge University Press","author":"Kleinberg, Jon","year":"2007","month":"Sep","pages":"613–632","doi":"10.1017/CBO9780511800481.026","abstractnote":"AbstractThe flow of information or influence through a large social network can be thought of as unfolding with the dynamics of an epidemic: as individuals become aware of new ideas, technologies, fads, rumors, or gossip, they have the potential to pass them on to their friends and colleagues, causing the resulting behavior to cascade through the network.We consider a collection of probabilistic and game-theoretic models for such phenomena proposed in the mathematical social sciences, as well as recent algorithmic work on the problem by computer scientists. Building on this, we discuss the implications of cascading behavior in a number of online settings, including word-of-mouth effects (also known as “viral marketing”) in the success of new products, and the influence of social networks in the growth of online communities.IntroductionThe process by which new ideas and new behaviors spread through a population has long been a fundamental question in the social sciences. New religious beliefs or political movements; shifts in society that lead to greater tolerance or greater polarization; the adoption of new technological, medical, or agricultural innovations; the sudden success of a new product; the rise to prominence of a celebrity or political candidate; the emergence of bubbles in financial markets and their subsequent implosion – these phenomena all share some important qualitative properties.","type":"inbook"}],["Chen_2009",{"title":"On the Approximability of Influence in Social Networks","volume":"23","ISSN":"0895-4801","url":"https://doi.org/10.1137/08073617X","DOI":"10.1137/08073617X","abstractNote":"In this paper, we study the spread of influence through a social network in a model initiated by Kempe, Kleinberg, and Tardos [Maximizing the spread of influence through a social network, in Proceedings of the 9th ACM SIGKIDD International Conference, Washington, D.C., 2003, pp. 137?146], [Influential nodes in a diffusion model for social networks, in Proceedings of the 32nd International Colloquium on Automata, Languages, and Programming (ICALP), Lisbon, Portugal, CITI, 2005, pp. 1127?1138]: Given a graph modeling a social network, where each node v has a (fixed) threshold $t_v$, the node will adopt a new product if $t_v$ of its neighbors adopt it. Our goal is to find a small set S of nodes such that targeting the product to S would lead to adoption of the product by a large number of nodes in the graph. We show strong inapproximability results for several variants of this problem. Our main result says that the problem of minimizing the size of S, while ensuring that targeting S would influence the whole network into adopting the product, is hard to approximate within a polylogarithmic factor. This implies a similar result if only a fixed fraction of the network is ensured to adopt the product. Further, the hardness of approximation result continues to hold when all nodes have majority thresholds or have constant degrees and thresholds two. The latter answers a complexity question proposed in [P. A. Dreyer, Applications and Variations of Domination in Graphs, Ph.D. thesis, Rutgers University, Piscataway, NJ, 2000], [F. S. Roberts, Graph-theoretical problems arising from defending against bioterrorism and controlling the spread of fires, in Proceedings of DIMACS/DIMATIA/Renyi Combinatorial Challenges Conference, Piscataway, NJ, 2006]. When the underlying graph is a tree, we give a polynomial-time algorithm to find an optimal solution.","number":"3","journal":"SIAM Journal on Discrete Mathematics","publisher":"Society for Industrial and Applied Mathematics","author":"Chen, Ning","year":"2009","month":"Jan","pages":"1400–1415","issn":"0895-4801","doi":"10.1137/08073617X","abstractnote":"In this paper, we study the spread of influence through a social network in a model initiated by Kempe, Kleinberg, and Tardos [Maximizing the spread of influence through a social network, in Proceedings of the 9th ACM SIGKIDD International Conference, Washington, D.C., 2003, pp. 137?146], [Influential nodes in a diffusion model for social networks, in Proceedings of the 32nd International Colloquium on Automata, Languages, and Programming (ICALP), Lisbon, Portugal, CITI, 2005, pp. 1127?1138]: Given a graph modeling a social network, where each node v has a (fixed) threshold $t_v$, the node will adopt a new product if $t_v$ of its neighbors adopt it. Our goal is to find a small set S of nodes such that targeting the product to S would lead to adoption of the product by a large number of nodes in the graph. We show strong inapproximability results for several variants of this problem. Our main result says that the problem of minimizing the size of S, while ensuring that targeting S would influence the whole network into adopting the product, is hard to approximate within a polylogarithmic factor. This implies a similar result if only a fixed fraction of the network is ensured to adopt the product. Further, the hardness of approximation result continues to hold when all nodes have majority thresholds or have constant degrees and thresholds two. The latter answers a complexity question proposed in [P. A. Dreyer, Applications and Variations of Domination in Graphs, Ph.D. thesis, Rutgers University, Piscataway, NJ, 2000], [F. S. Roberts, Graph-theoretical problems arising from defending against bioterrorism and controlling the spread of fires, in Proceedings of DIMACS/DIMATIA/Renyi Combinatorial Challenges Conference, Piscataway, NJ, 2006]. When the underlying graph is a tree, we give a polynomial-time algorithm to find an optimal solution.","type":"article"}],["Kempe_Kleinberg_Tardos_2003",{"place":"New York, New York, USA","title":"Maximizing the spread of influence through a social network","ISBN":"9781581137378","url":"https://www.cs.cornell.edu/home/kleinber/kdd03-inf.pdf","DOI":"10.1145/956755.956769","booktitle":"Proceedings of the ninth ACM SIGKDD international conference on Knowledge discovery and data mining - KDD ’03","publisher":"ACM Press","author":"Kempe, David and Kleinberg, Jon and Tardos, Éva","year":"2003","isbn":"9781581137378","doi":"10.1145/956755.956769","type":"inproceedings"}],["Iacopini_Petri_Barrat_Latora_2019",{"title":"Simplicial models of social contagion","volume":"10","ISSN":"2041-1723","url":"http://dx.doi.org/10.1038/s41467-019-10431-6","DOI":"10.1038/s41467-019-10431-6","abstractNote":"Complex networks have been successfully used to describe the spread of diseases in populations of interacting individuals. Conversely, pairwise interactions are often not enough to characterize social contagion processes such as opinion formation or the adoption of novelties, where complex mechanisms of influence and reinforcement are at work. Here we introduce a higher-order model of social contagion in which a social system is represented by a simplicial complex and contagion can occur through interactions in groups of different sizes. Numerical simulations of the model on both empirical and synthetic simplicial complexes highlight the emergence of novel phenomena such as a discontinuous transition induced by higher-order interactions. We show analytically that the transition is discontinuous and that a bistable region appears where healthy and endemic states co-exist. Our results help explain why critical masses are required to initiate social changes and contribute to the understanding of higher-order interactions in complex systems.","number":"1","journal":"Nature communications","author":"Iacopini, Iacopo and Petri, Giovanni and Barrat, Alain and Latora, Vito","year":"2019","month":"Jun","pages":"2485","issn":"2041-1723","doi":"10.1038/s41467-019-10431-6","abstractnote":"Complex networks have been successfully used to describe the spread of diseases in populations of interacting individuals. Conversely, pairwise interactions are often not enough to characterize social contagion processes such as opinion formation or the adoption of novelties, where complex mechanisms of influence and reinforcement are at work. Here we introduce a higher-order model of social contagion in which a social system is represented by a simplicial complex and contagion can occur through interactions in groups of different sizes. Numerical simulations of the model on both empirical and synthetic simplicial complexes highlight the emergence of novel phenomena such as a discontinuous transition induced by higher-order interactions. We show analytically that the transition is discontinuous and that a bistable region appears where healthy and endemic states co-exist. Our results help explain why critical masses are required to initiate social changes and contribute to the understanding of higher-order interactions in complex systems.","type":"article"}],["Banerjee_Jenamani_Pratihar_2018",{"title":"A Survey on Influence Maximization in a Social Network","url":"http://arxiv.org/abs/1808.05502","abstractNote":"Given a social network with diffusion probabilities as edge weights and an integer k, which k nodes should be chosen for initial injection of information to maximize influence in the network? This problem is known as Target Set Selection in a social network (TSS Problem) and more popularly, Social Influence Maximization Problem (SIM Problem). This is an active area of research in computational social network analysis domain since one and half decades or so. Due to its practical importance in various domains, such as viral marketing, target advertisement, personalized recommendation, the problem has been studied in different variants, and different solution methodologies have been proposed over the years. Hence, there is a need for an organized and comprehensive review on this topic. This paper presents a survey on the progress in and around TSS Problem. At last, it discusses current research trends and future research directions as well.","journal":"arXiv [cs.SI]","author":"Banerjee, Suman and Jenamani, Mamata and Pratihar, Dilip Kumar","year":"2018","month":"Aug","abstractnote":"Given a social network with diffusion probabilities as edge weights and an integer k, which k nodes should be chosen for initial injection of information to maximize influence in the network? This problem is known as Target Set Selection in a social network (TSS Problem) and more popularly, Social Influence Maximization Problem (SIM Problem). This is an active area of research in computational social network analysis domain since one and half decades or so. Due to its practical importance in various domains, such as viral marketing, target advertisement, personalized recommendation, the problem has been studied in different variants, and different solution methodologies have been proposed over the years. Hence, there is a need for an organized and comprehensive review on this topic. This paper presents a survey on the progress in and around TSS Problem. At last, it discusses current research trends and future research directions as well.","type":"unpublished"}]]</script></d-bibliography>
+  
+  <script>
+    const $$$ = q => document.documentElement.querySelectorAll(q);
+    $$$('video').forEach(vid => {
+      vid.onplay = () => {vid.currentTime = 0; vid.onplay = null;};
+    });
+  </script>
+  <script>
+    function resizeIframe(elem) {
+      elem.style.height = elem.contentWindow.document.body.scrollHeight + 'px';
+    }
+    document.querySelectorAll("iframe").forEach(
+      (i) => i.addEventListener("load", 
+        () => setTimeout( () => {
+            window.addEventListener("resize", () => resizeIframe(i)); 
+            resizeIframe(i); 
+          }
+        , 1500) //make sure all dynamic resources are loaded in iframe...
+      )
+    );
+  </script>
+
+<distill-footer>
+<style>
+
+:host {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: hsl(180, 5%, 15%); /*hsl(200, 60%, 15%);*/
+  text-align: left;
+  contain: content;
+}
+
+.footer-container .logo svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+
+.footer-container .logo svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+
+.footer-container .logo {
+  font-size: 17px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+.footer-container {
+  grid-column: text;
+}
+
+.footer-container .nav {
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.footer-container .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 6px;
+  text-decoration: none;
+}
+
+</style>
+
+<div class="footer-container">
+
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a> is dedicated to clear explanations of machine learning
+
+  <div class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/archive/">Archive</a>
+    <a href="https://distill.pub/rss.xml">RSS</a>
+    <a href="https://github.com/distillpub">GitHub</a>
+    <a href="https://twitter.com/distillpub">Twitter</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; ISSN 2476-0757
+  </div>
+
+</div>
+
+</distill-footer><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83741880-1', 'auto');
+  ga('send', 'pageview');
+</script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
