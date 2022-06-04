@@ -38,7 +38,7 @@ class ArxivPapers:
         dl_papers_answer = input("Download papers? (y/n): ")
         if dl_papers_answer == "y":
             print("Downloading all source files for arxiv entries...")
-            self.arxiv_dict = self.download_arxiv_papers()
+            self.arxiv_dict = self.download_arxiv_papers(create_dict_only=True)
         if ls("files") == []:
             sh(f"mv {self.TARS_DIR}/* files/")
         print("Extracting text and citations from arxiv entries...")
@@ -429,6 +429,7 @@ class ArxivPapers:
                 self.paper_ids_for_grobid.append(
                     paper_folder.split("/")[-1].split("v")[0]
                 )
+                print(paper_folder.split("/")[-1].split("v")[0])
 
     def automatic_extraction_with_grobid(self):
         for paper_id in tqdm(self.paper_ids_for_grobid):
@@ -760,6 +761,10 @@ class ArxivPapers:
         except:
             try:
                 traceback.print_exc()
+                print(
+                    f"Error converting {paper_dir}. Storing paper_id in list to extract with grobid later."
+                )
+                self.paper_ids_for_grobid.append(paper_dir.split("/")[-1].split("v")[0])
                 if not manual_conversion:
                     with open(f"error_log.txt", "a") as f:
                         f.write(f"{traceback.format_exc()}")
