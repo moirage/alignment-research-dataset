@@ -3,6 +3,7 @@ import re
 import pandas as pd
 import openpyxl
 import requests
+import json
 import jsonlines
 from align_data.common.utils import *
 import arxiv
@@ -23,6 +24,12 @@ class AlignmentNewsletter:
         self.n_threads = n_threads
         self.name = "alignment-newsletter"
 
+        """
+        The alignment newsletter is already part of the lesswrong dataset so this 
+        code is used to add the summaries to the arxiv, distill, 
+        lesswrong (Alignment Forum mostly), nonarxiv_papers, and the reports datasets.
+        """
+
     def fetch_entries(self):
         print("Fetching alignment newsletter entries")
         self.setup()
@@ -35,9 +42,7 @@ class AlignmentNewsletter:
 
         print("Removing entries with no summaries...")
         alignment_newsletter_entries = {
-            k: v
-            for k, v in self.alignment_newsletter.items()
-            if v["paper_summary"] != "nan"
+            k: v for k, v in self.alignment_newsletter.items() if v["summary"] != "nan"
         }
         alignment_newsletter_entry_list = []
         for entry in alignment_newsletter_entries.keys():
@@ -75,7 +80,7 @@ class AlignmentNewsletter:
         for entry in alignment_newsletter.keys():
             alignment_newsletter_entry_list.append(alignment_newsletter[entry])
 
-        for i, entry in alignment_newsletter_entry_list:
+        for entry in alignment_newsletter_entry_list:
             yield entry
 
     def fetch_individual_entries(self, i, row):
@@ -182,9 +187,7 @@ class AlignmentNewsletter:
             "categories": str(paper.categories) if abs != "" else "",
             "individual_summary": str(summary),
             "paper_text": str(markdown_text),
-            "newsletter_text": newsletter_text,
-            "bibliography_bbl": "",
-            "bibliography_bib": "",
+            "text": newsletter_text,
         }
 
     def setup(self):
