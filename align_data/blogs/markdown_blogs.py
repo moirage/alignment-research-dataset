@@ -60,7 +60,7 @@ class MarkdownBlogs:
         # grab the title by opening the .md file and grabbing the text in between ## and \n
         with open(file, "r") as f:
             text = f.read()
-        title = re.search(r"^##\s(.*)\n$", text, re.MULTILINE).group(1)
+        title = re.search(r"^#\s(.*)\n$", text, re.MULTILINE).group(1)
         date = re.search(r"^\d{4}-\d{2}-\d{2}", text, re.MULTILINE).group(0)
 
         self.entries[i] = {
