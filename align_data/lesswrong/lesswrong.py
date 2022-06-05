@@ -1,8 +1,8 @@
 import datetime, dateutil.parser as dparser, glob, time, requests, re, json, os
 from bs4 import BeautifulSoup
 
-
 class LessWrong:
+
     def __init__(self):
         self.name = "lesswrong"
         return
@@ -260,6 +260,7 @@ class LessWrong:
 
                     html = r.content.decode("utf-8")
                     soup = BeautifulSoup(self.cleanHtml(html), "html.parser")
+
                     # encode italics, bold, quotes, etc as text
                     self.encode_html_as_text(soup)
 
@@ -333,7 +334,6 @@ class LessWrong:
                     current_post_iter += 1
             # remove url from unprocessed folder
             os.remove(f"align_data/lesswrong/unprocessed_urls/{url_filename}")
-
 
 if __name__ == "__main__":
     lw = LessWrong()
