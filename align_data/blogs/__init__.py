@@ -24,6 +24,11 @@ BLOG_REGISTRY = [
         "carado.moe",
         "carado.moe-cleaned-up",
     ),
+    MarkdownBlogs(
+        "https://drive.google.com/uc?id=18T0LcYirruBW4c_fDQMEWAkA2KqSE1of",
+        "waitbutwhy.com",
+        "waitbutwhy",
+    ),
     MDEBooks(
         "https://drive.google.com/uc?id=1jRtk3LSa1cWxAYu0DO0VGFY-J710FCfB", "mdebooks"
     ),
