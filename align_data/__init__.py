@@ -19,7 +19,6 @@ DATASET_REGISTRY = (
     + lesswrong.LESSWRONG_REGISTRY
     + stampy.STAMPY_REGISTRY
     + audio_transcripts.AUDIO_TRANSCRIPTS_REGISTRY
-    + alignment_newsletter.ALIGNMENT_NEWSLETTER_REGISTRY
     + distill.DISTILL_REGISTRY
 )
 
