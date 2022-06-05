@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="Open%20Questions%20about%20Generative%20Adversarial%20Networks_files/template.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="Open%20Questions%20about%20Generative%20Adversarial%20Networks_files/analytics.js"></script><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="Open%20Questions%20about%20Generative%20Adversarial%20Networks_files/webcomponents-loader.js"></script><script src="Open%20Questions%20about%20Generative%20Adversarial%20Networks_files/webcomponents-hi.js"></script>
+  
+  
+  <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+  <style>d-title ul {
+    grid-column: text;
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+
+d-title ul li {
+    display: flex;
+    flex-flow: row;
+}
+
+d-title ul a {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+d-title ul a:hover {
+    text-decoration: underline;
+}
+
+.problem-number {
+    font-size: 75%;
+    font-weight: 600;
+    color: hsla(206, 50%, 20%, 0.8);
+    margin-right: 2em;
+    white-space: nowrap;
+}
+
+d-title li {
+    margin-bottom: .75em;
+}
+
+d-title li:last-of-type {
+    margin-bottom: 0;
+}
+
+#figure-1-gan-progress {
+    display: grid;
+    grid-template-areas:
+        "image cite"
+        "image cite"
+        "image cite"
+        "image cite";
+    grid-template-columns: 1fr min-content;
+    grid-gap: .5em;
+    line-height: 1.3;
+    align-items: center;
+}
+
+#figure-1-gan-progress img {
+    grid-area: image;
+}
+#figure-1-gan-progress cite {
+    grid-column: cite;
+    font-style: normal;
+}
+
+#figure-1-gan-progress cite .author {
+    white-space: nowrap;
+}
+
+d-article {
+    counter-reset: problem;
+}
+
+.open-problem {
+    display: flex;
+    color: #333;
+    background-color: hsla(206, 90%, 20%, 0.03);
+    border-left: 3px solid hsla(206, 50%, 20%, 0.8);
+    padding: 1em 2em;
+    margin-bottom: 1em;
+
+    counter-increment: problem;
+}
+
+/* .open-problem p:first-of-type::before {
+    display: block;
+    font-size: 75%;
+    font-weight: 600;
+    color: hsla(206, 50%, 20%, 0.8);
+    content: "Problem " counter(problem);
+    margin-bottom: .75em;
+} */
+
+.open-problem p {
+    margin-bottom: .75em;
+}
+
+.open-problem p:last-of-type {
+    margin-bottom: 0;
+}
+
+#table-1-tradeoffs th {
+    white-space: nowrap;
+}
+
+#table-1-tradeoffs tbody th {
+    font-weight: initial;
+    border-bottom: 1px solid rgb(242,242,242);
+}
+
+#table-1-tradeoffs tbody tr:last-of-type th {
+    border-bottom: inherit;
+}
+
+#table-1-tradeoffs td,
+#table-1-tradeoffs thead th {
+    text-align: center;
+}
+
+#table-1-tradeoffs td {
+    border-color: rgb(242,242,242);
+}
+#table-1-tradeoffs td.no {
+    background-color: #f6f6f6;
+}
+</style>
+
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA99JREFUeNrsG4t1ozDMzQSM4A2ODUonKBucN2hugtIJ6E1AboLcBiQTkJsANiAb9OCd/OpzMWBJBl5TvaeXPiiyJetry0J8wW3D3QpjRh3GjneXDq+fSQA9s2mH9x3KDhN4foJfCb8N/Jrv+2fnDn8vLRQOplWHVYdvHZYdZsBcZP1vBmh/n8DzEmhUQDPaOuP9pFuY+JwJHwHnCLQE2tnWBGEyXozY9xCUgHMhhjE2I4heVWtgIkZ83wL6Qgxj1obfWBxymPwe+b00BCCRNPbwfb60yleAkkBHGT5AEehIYz7eJrFDMF9CvH4wwhcGHiHMneFvLDQwlwvMLQq58trRcYBWfYn0A0OgHWQUSu25mE+BnoYKnnEJoeIWAifzOv7vLWd2ZKRfWAIme3tOiUaQ3UnLkb0xj1FxRIeEGKaGIHOs9nEgLaaA9i0JRYo1Ic67wJW86KSKE/ZAM8KuVMk8ITVhmxUxJ3Cl2xlm9Vtkeju1+mpCQNxaEGNCY8bs9X2YqwNoQeGjBWut/ma0QAWy/TqAsHx9wSya3I5IRxOfTC+leG+kA/4vSeEcGBtNUN6byhu3+keEZCQJUNh8MAO7HL6H8pQLnsW/Hd4T4lv93TPjfM7A46iEEqbB5EDOvwYNW6tGNZzT/o+CZ6sqZ6wUtR/wf7mi/VL8iNciT6rHih48Y55b4nKCHJCCzb4y0nwFmin3ZEMIoLfZF8F7nncFmvnWBaBj7CGAYA/WGJsUwHdYqVDwAmNsUgAx4CGgAA7GOOxADYOFWOaIKifuVYzmOpREqA21Mo7aPsgiY1PhOMAmxtR+AUbYH3Id2wc0SAFIQTsn9IUGWR8k9jx3vtXSiAacFxTAGakBk9UudkNECd6jLe+6HrshshvIuC6IlLMRy7er+JpcKma24SlE4cFZSZJDGVVrsNvitQhQrDhW0jfiOLfFd47C42eHT56D/BK0To+58Ahj+cAT8HT1UWlfLZCCd/uKawzU0Rh2EyIX/Icqth3niG8ybNroezwe6khdCNxRN+l4XGdOLVLlOOt2hTRJlr1ETIuMAltVTMz70mJrkdGAaZLSmnBEqmAE32JCMmuTlCnRgsBENtOUpHhvvsYIL0ibnBkaC6QvKcR7738GKp0AKnim7xgUSNv1bpS8QwhBt8r+EP47v/oyRK/S34yJ9nT+AN0Tkm4OdB9E4BsmXM3SnMlRFUrtp6IDpV2eKzdYvF3etm3KhQksbOLChGkSmcBdmcEwvqkrMy5BzL00NZeu3qPYJOOuCc+5NjcWKXQxFvTa3NoXJ4d8in7fiAUuTt781dkvuHX4K8AA2Usy7yNKLy0AAAAASUVORK5CYII=">
+    <link href="https://distill.pub/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
+  
+    <title>Open Questions about Generative Adversarial Networks</title>
+    
+    <link rel="canonical" href="https://distill.pub/2019/gan-open-problems">
+    
+    <!--  https://schema.org/Article -->
+    <meta property="description" itemprop="description" content="What we'd like to find out about GANs that we don't know yet.">
+    <meta property="article:published" itemprop="datePublished" content="2019-04-09">
+    <meta property="article:created" itemprop="dateCreated" content="2019-04-09">
+    
+    <meta property="article:modified" itemprop="dateModified" content="2019-06-26T23:10:00.000Z">
+    
+    <meta property="article:author" content="Augustus Odena">
+    <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Open Questions about Generative Adversarial Networks">
+    <meta property="og:description" content="What we'd like to find out about GANs that we don't know yet.">
+    <meta property="og:url" content="https://distill.pub/2019/gan-open-problems">
+    <meta property="og:image" content="https://distill.pub/2019/gan-open-problems/thumbnail.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Distill">
+  
+    <!--  https://dev.twitter.com/cards/types/summary -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Open Questions about Generative Adversarial Networks">
+    <meta name="twitter:description" content="What we'd like to find out about GANs that we don't know yet.">
+    <meta name="twitter:url" content="https://distill.pub/2019/gan-open-problems">
+    <meta name="twitter:image" content="https://distill.pub/2019/gan-open-problems/thumbnail.jpg">
+    <meta name="twitter:image:width" content="560">
+    <meta name="twitter:image:height" content="295">
+  
+      <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+    <meta name="citation_title" content="Open Questions about Generative Adversarial Networks">
+    <meta name="citation_fulltext_html_url" content="https://distill.pub/2019/gan-open-problems">
+    <meta name="citation_volume" content="4">
+    <meta name="citation_issue" content="4">
+    <meta name="citation_firstpage" content="e18">
+    <meta name="citation_doi" content="10.23915/distill.00018">
+    <meta name="citation_journal_title" content="Distill">
+    <meta name="citation_journal_abbrev" content="Distill">
+    <meta name="citation_issn" content="2476-0757">
+    <meta name="citation_fulltext_world_readable" content="">
+    <meta name="citation_online_date" content="2019/04/09">
+    <meta name="citation_publication_date" content="2019/04/09">
+    <meta name="citation_author" content="Odena, Augustus">
+    <meta name="citation_author_institution" content="Google Brain Team">
+    <meta name="citation_reference" content="citation_title=Conditional Image Synthesis With Auxiliary Classifier GANs;citation_author=A. Odena;citation_author=C. Olah;citation_author=J. Shlens;citation_publication_date=2016;citation_arxiv_id=1610.09585;">
+    <meta name="citation_reference" content="citation_title=Self-Attention Generative Adversarial Networks;citation_author=H. Zhang;citation_author=I. Goodfellow;citation_author=D. Metaxas;citation_author=A. Odena;citation_publication_date=2018;citation_arxiv_id=1805.08318;">
+    <meta name="citation_reference" content="citation_title=Spectral Normalization for Generative Adversarial Networks;citation_author=Takeru Miyato;citation_author=Toshiki Kataoka;citation_author=Masanori Koyama;citation_author=Yuichi Yoshida;citation_publication_date=2018;citation_arxiv_id=1802.05957;">
+    <meta name="citation_reference" content="citation_title=Large Scale GAN Training for High Fidelity Natural Image Synthesis;citation_author=A. Brock;citation_author=J. Donahue;citation_author=K. Simonyan;citation_publication_date=2018;citation_arxiv_id=1809.11096;">
+    <meta name="citation_reference" content="citation_title=A style-based generator architecture for generative adversarial networks;citation_author=Tero Karras;citation_author=Samuli Laine;citation_author=Timo Aila;citation_publication_date=2018;citation_arxiv_id=1812.04948;">
+    <meta name="citation_reference" content="citation_title=Open Questions in Physics;citation_author=Baez John;citation_publication_date=2010;">
+    <meta name="citation_reference" content="citation_title=Not especially famous, long-open problems which anyone can understand;citation_author=Stack Overflow;citation_publication_date=2012;">
+    <meta name="citation_reference" content="citation_title=Hilbert's Problems;citation_author=David Hilbert;citation_publication_date=1900;">
+    <meta name="citation_reference" content="citation_title=Smale's Problems;citation_author=Stephen Smale;citation_publication_date=1998;">
+    <meta name="citation_reference" content="citation_title=Auto-Encoding Variational Bayes;citation_author=Diederik P Kingma;citation_author=Max Welling;citation_publication_date=2013;citation_arxiv_id=1312.6114;">
+    <meta name="citation_reference" content="citation_title=NICE: Non-linear Independent Components Estimation;citation_author=Laurent Dinh;citation_author=David Krueger;citation_author=Yoshua Bengio;citation_publication_date=2014;citation_arxiv_id=1410.8516;">
+    <meta name="citation_reference" content="citation_title=Density estimation using Real NVP;citation_author=Laurent Dinh;citation_author=Jascha Sohl-Dickstein;citation_author=Samy Bengio;citation_publication_date=2016;citation_arxiv_id=1605.08803;">
+    <meta name="citation_reference" content="citation_title=Glow: Generative Flow with Invertible 1x1 Convolutions;citation_author=D.~P. Kingma;citation_author=P. Dhariwal;citation_publication_date=2018;citation_arxiv_id=1807.03039;">
+    <meta name="citation_reference" content="citation_title=Normalizing Flows Tutorial;citation_author=Eric Jang;citation_publication_date=2016;">
+    <meta name="citation_reference" content="citation_title=Pixel Recurrent Neural Networks;citation_author=A{\&quot;{a}}ron van den Oord;citation_author=Nal Kalchbrenner;citation_author=Koray Kavukcuoglu;citation_publication_date=2016;citation_arxiv_id=1601.06759;">
+    <meta name="citation_reference" content="citation_title=Conditional Image Generation with PixelCNN Decoders;citation_author=A{\&quot;{a}}ron van den Oord;citation_author=Nal Kalchbrenner;citation_author=Oriol Vinyals;citation_author=Lasse Espeholt;citation_author=Alex Graves;citation_author=Koray Kavukcuoglu;citation_publication_date=2016;citation_arxiv_id=1606.05328;">
+    <meta name="citation_reference" content="citation_title=PixelCNN++: Improving the PixelCNN with Discretized Logistic Mixture Likelihood and Other Modifications;citation_author=Tim Salimans;citation_author=Andrej Karpathy;citation_author=Xi Chen;citation_author=Diederik P. Kingma;citation_publication_date=2017;citation_arxiv_id=1701.05517;">
+    <meta name="citation_reference" content="citation_title=WaveNet: A Generative Model for Raw Audio;citation_author=A{\&quot;{a}}ron van den Oord;citation_author=Sander Dieleman;citation_author=Heiga Zen;citation_author=Karen Simonyan;citation_author=Oriol Vinyals;citation_author=Alex Graves;citation_author=Nal Kalchbrenner;citation_author=Andrew W. Senior;citation_author=Koray Kavukcuoglu;citation_publication_date=2016;citation_arxiv_id=1609.03499;">
+    <meta name="citation_reference" content="citation_title=Progressive Growing of GANs for Improved Quality, Stability, and Variation;citation_author=Tero Karras;citation_author=Timo Aila;citation_author=Samuli Laine;citation_author=Jaakko Lehtinen;citation_publication_date=2017;citation_arxiv_id=1710.10196;">
+    <meta name="citation_reference" content="citation_title=Variational Inference with Normalizing Flows;citation_author=D. Jimenez Rezende;citation_author=S. Mohamed;citation_publication_date=2015;citation_arxiv_id=1505.05770;">
+    <meta name="citation_reference" content="citation_title=Parallel WaveNet: Fast High-Fidelity Speech Synthesis;citation_author=Aaron van den Oord;citation_author=Yazhe Li;citation_author=Igor Babuschkin;citation_author=Karen Simonyan;citation_author=Oriol Vinyals;citation_author=Koray Kavukcuoglu;citation_author=George van den Driessche;citation_author=Edward Lockhart;citation_author=Luis C. Cobo;citation_author=Florian Stimberg;citation_author=Norman Casagrande;citation_author=Dominik Grewe;citation_author=Seb Noury;citation_author=Sander Dieleman;citation_author=Erich Elsen;citation_author=Nal Kalchbrenner;citation_author=Heiga Zen;citation_author=Alex Graves;citation_author=Helen King;citation_author=Tom Walters;citation_author=Dan Belov;citation_author=Demis Hassabis;citation_publication_date=2017;citation_arxiv_id=1711.10433;">
+    <meta name="citation_reference" content="citation_title=Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services;citation_author=Seth Gilbert;citation_author=Nancy Lynch;citation_publication_date=2002;citation_journal_title=Acm Sigact News;citation_volume=33;citation_number=2;">
+    <meta name="citation_reference" content="citation_title=Flow-GAN: Bridging implicit and prescribed learning in generative models;citation_author=Aditya Grover;citation_author=Manik Dhar;citation_author=Stefano Ermon;citation_publication_date=2017;citation_arxiv_id=1705.08868;">
+    <meta name="citation_reference" content="citation_title=Comparison of maximum likelihood and gan-based training of real nvps;citation_author=Ivo Danihelka;citation_author=Balaji Lakshminarayanan;citation_author=Benigno Uria;citation_author=Daan Wierstra;citation_author=Peter Dayan;citation_publication_date=2017;citation_arxiv_id=1705.05263;">
+    <meta name="citation_reference" content="citation_title=Is Generator Conditioning Causally Related to GAN Performance?;citation_author=Augustus Odena;citation_author=Jacob Buckman;citation_author=Catherine Olsson;citation_author=Tom B Brown;citation_author=Christopher Olah;citation_author=Colin Raffel;citation_author=Ian Goodfellow;citation_publication_date=2018;citation_arxiv_id=1802.08768;">
+    <meta name="citation_reference" content="citation_title=Gradient-Based Learning Applied to Document Recognition;citation_author=Yann LeCun;citation_author=L\'eon Bottou;citation_author=Yoshua Bengio;citation_author=Patrick Haffner;citation_publication_date=1998;citation_journal_title=Proceedings of the IEEE;">
+    <meta name="citation_reference" content="citation_title=Learning Multiple Layers of Features from Tiny Images;citation_author=Alex Krizhevsky;citation_publication_date=2009;">
+    <meta name="citation_reference" content="citation_title=An analysis of single-layer networks in unsupervised feature learning;citation_author=Adam Coates;citation_author=Andrew Ng;citation_author=Honglak Lee;citation_publication_date=2011;">
+    <meta name="citation_reference" content="citation_title=Deep Learning Face Attributes in the Wild;citation_author=Ziwei Liu;citation_author=Ping Luo;citation_author=Xiaogang Wang;citation_author=Xiaoou Tang;citation_publication_date=2015;citation_arxiv_id=1411.7766;">
+    <meta name="citation_reference" content="citation_title=ImageNet Large Scale Visual Recognition Challenge;citation_author=Olga Russakovsky;citation_author=Jia Deng;citation_author=Hao Su;citation_author=Jonathan Krause;citation_author=Sanjeev Satheesh;citation_author=Sean Ma;citation_author=Zhiheng Huang;citation_author=Andrej Karpathy;citation_author=Aditya Khosla;citation_author=Michael Bernstein;citation_author=Alexander C. Berg;citation_author=Li Fei-Fei;citation_publication_date=2015;citation_arxiv_id=1409.0575;">
+    <meta name="citation_reference" content="citation_title=PSA;citation_author=Colin Raffel;citation_publication_date=2018;">
+    <meta name="citation_reference" content="citation_title=Are GANs Created Equal? A Large-Scale Study;citation_author=M. Lucic;citation_author=K. Kurach;citation_author=M. Michalski;citation_author=S. Gelly;citation_author=O. Bousquet;citation_publication_date=2017;citation_arxiv_id=1711.10337;">
+    <meta name="citation_reference" content="citation_title=Disconnected Manifold Learning for Generative Adversarial Networks;citation_author=M. Khayatkhoei;citation_author=M. Singh;citation_author=A. Elgamma;citation_publication_date=2018;citation_arxiv_id=1806.00880;">
+    <meta name="citation_reference" content="citation_title=Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks;citation_author=Jun{-}Yan Zhu;citation_author=Taesung Park;citation_author=Phillip Isola;citation_author=Alexei A. Efros;citation_publication_date=2017;citation_arxiv_id=1703.10593;">
+    <meta name="citation_reference" content="citation_title=Unsupervised Pixel-Level Domain Adaptation with Generative Adversarial Networks;citation_author=Konstantinos Bousmalis;citation_author=Nathan Silberman;citation_author=David Dohan;citation_author=Dumitru Erhan;citation_author=Dilip Krishnan;citation_publication_date=2016;citation_arxiv_id=1612.05424;">
+    <meta name="citation_reference" content="citation_title=Improved training of wasserstein gans;citation_author=Ishaan Gulrajani;citation_author=Faruk Ahmed;citation_author=Martin Arjovsky;citation_author=Vincent Dumoulin;citation_author=Aaron C Courville;citation_publication_date=2017;citation_arxiv_id=1704.00028;">
+    <meta name="citation_reference" content="citation_title=SeqGAN: Sequence Generative Adversarial Nets with Policy Gradient;citation_author=Lantao Yu;citation_author=Weinan Zhang;citation_author=Jun Wang;citation_author=Yong Yu;citation_publication_date=2016;citation_arxiv_id=1609.05473;">
+    <meta name="citation_reference" content="citation_title=MaskGAN: Better Text Generation via Filling in the ______;citation_author=W. Fedus;citation_author=I. Goodfellow;citation_author=A.~M. Dai;citation_publication_date=2018;citation_arxiv_id=1801.07736;">
+    <meta name="citation_reference" content="citation_title=Long short-term memory;citation_author=Sepp Hochreiter;citation_author=Jurgen Schmidhuber;citation_publication_date=1997;citation_journal_title=Neural computation;citation_volume=9;citation_number=8;">
+    <meta name="citation_reference" content="citation_title=Geometric deep learning: going beyond Euclidean data;citation_author=Michael M. Bronstein;citation_author=Joan Bruna;citation_author=Yann LeCun;citation_author=Arthur Szlam;citation_author=Pierre Vandergheynst;citation_publication_date=2016;citation_arxiv_id=1611.08097;">
+    <meta name="citation_reference" content="citation_title=NetGAN: Generating Graphs via Random Walks;citation_author=A. Bojchevski;citation_author=O. Shchur;citation_author=D. Zugner;citation_author=S. Gunnemann;citation_publication_date=2018;citation_arxiv_id=1803.00816;">
+    <meta name="citation_reference" content="citation_title=Synthesizing Audio with Generative Adversarial Networks;citation_author=Chris Donahue;citation_author=Julian McAuley;citation_author=Miller Puckette;citation_publication_date=2018;citation_arxiv_id=1802.04208;">
+    <meta name="citation_reference" content="citation_title=GANSynth: Adversarial Neural Audio Synthesis;citation_author=Jesse Engel;citation_author=Kumar Krishna Agrawal;citation_author=Shuo Chen;citation_author=Ishaan Gulrajani;citation_author=Chris Donahue;citation_author=Adam Roberts;citation_publication_date=2019;">
+    <meta name="citation_reference" content="citation_title=OpenAI Five;citation_author= OpenAI;citation_publication_date=2018;">
+    <meta name="citation_reference" content="citation_title=Gradient descent GAN optimization is locally stable;citation_author=Vaishnavh Nagarajan;citation_author=J Zico Kolter;citation_publication_date=2017;citation_arxiv_id=1706.04156;">
+    <meta name="citation_reference" content="citation_title=Which Training Methods for GANs do actually Converge?;citation_author=Lars Mescheder;citation_author=Andreas Geiger;citation_author=Sebastian Nowozin;citation_publication_date=2018;citation_volume=80;">
+    <meta name="citation_reference" content="citation_title=Understanding GANs: the LQG Setting;citation_author=Soheil Feizi;citation_author=Changho Suh;citation_author=Fei Xia;citation_author=David Tse;citation_publication_date=2018;">
+    <meta name="citation_reference" content="citation_title=Global Convergence to the Equilibrium of GANs using Variational Inequalities;citation_author=I. Gemp;citation_author=S. Mahadevan;citation_publication_date=2018;citation_arxiv_id=1808.01531;">
+    <meta name="citation_reference" content="citation_title=The Mechanics of n-Player Differentiable Games;citation_author=David Balduzzi;citation_author=S{\'{e}}bastien Racaniere;citation_author=James Martens;citation_author=Jakob Foerster;citation_author=Karl Tuyls;citation_author=Thore Graepel;citation_publication_date=2018;citation_arxiv_id=1802.05642;">
+    <meta name="citation_reference" content="citation_title=Approximation and Convergence Properties of Generative Adversarial Learning;citation_author=Shuang Liu;citation_author=Olivier Bousquet;citation_author=Kamalika Chaudhuri;citation_publication_date=2017;citation_arxiv_id=1705.08991;">
+    <meta name="citation_reference" content="citation_title=The Inductive Bias of Restricted f-GANs;citation_author=Shuang Liu;citation_author=Kamalika Chaudhuri;citation_publication_date=2018;citation_arxiv_id=1809.04542;">
+    <meta name="citation_reference" content="citation_title=On the Limitations of First-Order Approximation in GAN Dynamics;citation_author=J. Li;citation_author=A. Madry;citation_author=J. Peebles;citation_author=L. Schmidt;citation_publication_date=2017;citation_journal_title=ArXiv e-prints;">
+    <meta name="citation_reference" content="citation_title=The Loss Surface of Multilayer Networks;citation_author=Anna Choromanska;citation_author=Mikael Henaff;citation_author=Micha{\&quot;{e}}l Mathieu;citation_author=G{\'{e}}rard Ben Arous;citation_author=Yann LeCun;citation_publication_date=2014;citation_arxiv_id=1412.0233;">
+    <meta name="citation_reference" content="citation_title=GANGs: Generative Adversarial Network Games;citation_author=Frans A Oliehoek;citation_author=Rahul Savani;citation_author=Jose Gallego-Posada;citation_author=Elise Van der Pol;citation_author=Edwin D De Jong;citation_author=Roderich Gros;citation_publication_date=2017;citation_arxiv_id=1712.00679;">
+    <meta name="citation_reference" content="citation_title=Beyond Local Nash Equilibria for Adversarial Networks;citation_author=F.~A. Oliehoek;citation_author=R. Savani;citation_author=J. Gallego;citation_author=E. van der Pol;citation_author=R. Gross;citation_publication_date=2018;citation_arxiv_id=1806.07268;">
+    <meta name="citation_reference" content="citation_title=An Online Learning Approach to Generative Adversarial Networks;citation_author=Paulina Grnarova;citation_author=Kfir Y. Levy;citation_author=Aur{\'{e}}lien Lucchi;citation_author=Thomas Hofmann;citation_author=Andreas Krause;citation_publication_date=2017;citation_arxiv_id=1706.03269;">
+    <meta name="citation_reference" content="citation_title=Improved Techniques for Training GANs;citation_author=Tim Salimans;citation_author=Ian J. Goodfellow;citation_author=Wojciech Zaremba;citation_author=Vicki Cheung;citation_author=Alec Radford;citation_author=Xi Chen;citation_publication_date=2016;citation_arxiv_id=1606.03498;">
+    <meta name="citation_reference" content="citation_title=GANs Trained by a Two Time-Scale Update Rule Converge to a Nash Equilibrium;citation_author=Martin Heusel;citation_author=Hubert Ramsauer;citation_author=Thomas Unterthiner;citation_author=Bernhard Nessler;citation_author=G{\&quot;{u}}nter Klambauer;citation_author=Sepp Hochreiter;citation_publication_date=2017;citation_arxiv_id=1706.08500;">
+    <meta name="citation_reference" content="citation_title=A Note on the Inception Score;citation_author=Shane Barratt;citation_author=Rishi Sharma;citation_publication_date=2018;citation_arxiv_id=1801.01973;">
+    <meta name="citation_reference" content="citation_title=Towards GAN Benchmarks Which Require Generalization;citation_author=Ishaan Gulrajani;citation_author=Colin Raffel;citation_author=Luke Metz;citation_publication_date=2019;">
+    <meta name="citation_reference" content="citation_title=Multiscale structural similarity for image quality assessment;citation_author=Zhou Wang;citation_author=Eero P Simoncelli;citation_author=Alan C Bovik;citation_publication_date=2003;citation_volume=2;">
+    <meta name="citation_reference" content="citation_title=On the Quantitative Analysis of Decoder-Based Generative Models;citation_author=Yuhuai Wu;citation_author=Yuri Burda;citation_author=Ruslan Salakhutdinov;citation_author=Roger B. Grosse;citation_publication_date=2016;citation_arxiv_id=1611.04273;">
+    <meta name="citation_reference" content="citation_title=Annealed importance sampling;citation_author=Radford M Neal;citation_publication_date=2001;citation_journal_title=Statistics and computing;citation_volume=11;citation_number=2;">
+    <meta name="citation_reference" content="citation_title=Geometry Score: A Method For Comparing Generative Adversarial Networks;citation_author=Valentin Khrulkov;citation_author=Ivan V. Oseledets;citation_publication_date=2018;citation_arxiv_id=1802.02664;">
+    <meta name="citation_reference" content="citation_title=Assessing Generative Models via Precision and Recall;citation_author=Mehdi SM Sajjadi;citation_author=Olivier Bachem;citation_author=Mario Lucic;citation_author=Olivier Bousquet;citation_author=Sylvain Gelly;citation_publication_date=2018;citation_arxiv_id=1806.00035;">
+    <meta name="citation_reference" content="citation_title=Skill Rating for Generative Models;citation_author=C. Olsson;citation_author=S. Bhupatiraju;citation_author=T. Brown;citation_author=A. Odena;citation_author=I. Goodfellow;citation_publication_date=2018;citation_arxiv_id=1808.04888;">
+    <meta name="citation_reference" content="citation_title=Discriminator Rejection Sampling;citation_author=S. Azadi;citation_author=C. Olsson;citation_author=T. Darrell;citation_author=I. Goodfellow;citation_author=A. Odena;citation_publication_date=2018;citation_arxiv_id=1810.06758;">
+    <meta name="citation_reference" content="citation_title=Revisiting Classifier Two-Sample Tests;citation_author=D. Lopez-Paz;citation_author=M. Oquab;citation_publication_date=2016;citation_arxiv_id=1610.06545;">
+    <meta name="citation_reference" content="citation_title=Parametric Adversarial Divergences are Good Task Losses for Generative Modeling;citation_author=Gabriel Huang;citation_author=Hugo Berard;citation_author=Ahmed Touati;citation_author=Gauthier Gidel;citation_author=Pascal Vincent;citation_author=Simon Lacoste-Julien;citation_publication_date=2017;citation_arxiv_id=1708.02511;">
+    <meta name="citation_reference" content="citation_title=Deconvolution and Checkerboard Artifacts;citation_author=Augustus Odena;citation_author=Vincent Dumoulin;citation_author=Chris Olah;citation_publication_date=2016;citation_journal_title=Distill;">
+    <meta name="citation_reference" content="citation_title=Svcca: Singular vector canonical correlation analysis for deep learning dynamics and interpretability;citation_author=Maithra Raghu;citation_author=Justin Gilmer;citation_author=Jason Yosinski;citation_author=Jascha Sohl-Dickstein;citation_publication_date=2017;">
+    <meta name="citation_reference" content="citation_title=Deep reinforcement learning from human preferences;citation_author=Paul F Christiano;citation_author=Jan Leike;citation_author=Tom Brown;citation_author=Miljan Martic;citation_author=Shane Legg;citation_author=Dario Amodei;citation_publication_date=2017;">
+    <meta name="citation_reference" content="citation_title=Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour;citation_author=Priya Goyal;citation_author=Piotr Dollar;citation_author=Ross B. Girshick;citation_author=Pieter Noordhuis;citation_author=Lukasz Wesolowski;citation_author=Aapo Kyrola;citation_author=Andrew Tulloch;citation_author=Yangqing Jia;citation_author=Kaiming He;citation_publication_date=2017;citation_arxiv_id=1706.02677;">
+    <meta name="citation_reference" content="citation_title=Scaling sgd batch size to 32k for imagenet training;citation_author=Yang You;citation_author=Igor Gitman;citation_author=Boris Ginsburg;citation_publication_date=2017;">
+    <meta name="citation_reference" content="citation_title=Train longer, generalize better: closing the generalization gap in large batch training of neural networks;citation_author=Elad Hoffer;citation_author=Itay Hubara;citation_author=Daniel Soudry;citation_publication_date=2017;">
+    <meta name="citation_reference" content="citation_title=Don't Decay the Learning Rate, Increase the Batch Size;citation_author=Samuel L. Smith;citation_author=Pieter{-}Jan Kindermans;citation_author=Quoc V. Le;citation_publication_date=2017;citation_arxiv_id=1711.00489;">
+    <meta name="citation_reference" content="citation_title=An Empirical Model of Large-Batch Training;citation_author=S. McCandlish;citation_author=J. Kaplan;citation_author=D. Amodei;citation_author=OpenAI Dota Team;citation_publication_date=2018;citation_journal_title=arXiv e-prints;">
+    <meta name="citation_reference" content="citation_title=Science and research policy at the end of Moore’s law;citation_author=Hassan N Khan;citation_author=David A Hounshell;citation_author=Erica RH Fuchs;citation_publication_date=2018;citation_journal_title=Nature Electronics;citation_volume=1;citation_number=1;">
+    <meta name="citation_reference" content="citation_title=In-datacenter performance analysis of a tensor processing unit;citation_author=Norman P Jouppi;citation_author=Cliff Young;citation_author=Nishant Patil;citation_author=David Patterson;citation_author=Gaurav Agrawal;citation_author=Raminder Bajwa;citation_author=Sarah Bates;citation_author=Suresh Bhatia;citation_author=Nan Boden;citation_author=Al Borchers;citation_author= others;citation_publication_date=2017;citation_arxiv_id=1704.04760;">
+    <meta name="citation_reference" content="citation_title=Improving GANs using optimal transport;citation_author=Tim Salimans;citation_author=Han Zhang;citation_author=Alec Radford;citation_author=Dimitris Metaxas;citation_publication_date=2018;citation_arxiv_id=1803.05573;">
+    <meta name="citation_reference" content="citation_title=Large Scale Distributed Deep Networks;citation_author=Jeffrey Dean;citation_author=Greg Corrado;citation_author=Rajat Monga;citation_author=Kai Chen;citation_author=Matthieu Devin;citation_author=Mark Mao;citation_author=Marc'aurelio Ranzato;citation_author=Andrew Senior;citation_author=Paul Tucker;citation_author=Ke Yang;citation_author=Quoc V. Le;citation_author=Andrew Y. Ng;citation_publication_date=2012;">
+    <meta name="citation_reference" content="citation_title=Deep learning with Elastic Averaging SGD;citation_author=Sixin Zhang;citation_author=Anna Choromanska;citation_author=Yann LeCun;citation_publication_date=2014;citation_arxiv_id=1412.6651;">
+    <meta name="citation_reference" content="citation_title=Staleness-aware Async-SGD for Distributed Deep Learning;citation_author=Wei Zhang;citation_author=Suyog Gupta;citation_author=Xiangru Lian;citation_author=Ji Liu;citation_publication_date=2015;citation_arxiv_id=1511.05950;">
+    <meta name="citation_reference" content="citation_title=Faster Asynchronous SGD;citation_author=A. Odena;citation_publication_date=2016;citation_arxiv_id=1601.04033;">
+    <meta name="citation_reference" content="citation_title=The Unusual Effectiveness of Averaging in GAN Training;citation_author=Y. Yazici;citation_author=C.S. Foo;citation_author=S. Winkler;citation_author=K.H. Yap;citation_author=G. Piliouras;citation_author=V. Chandrasekhar;citation_publication_date=2018;citation_arxiv_id=1806.04498;">
+    <meta name="citation_reference" content="citation_title=Intriguing properties of neural networks;citation_author=Christian Szegedy;citation_author=Wojciech Zaremba;citation_author=Ilya Sutskever;citation_author=Joan Bruna;citation_author=Dumitru Erhan;citation_author=Ian Goodfellow;citation_author=Rob Fergus;citation_publication_date=2013;citation_arxiv_id=1312.6199;">
+    <meta name="citation_reference" content="citation_title=Adversarial examples from computational constraints;citation_author=S. Bubeck;citation_author=E. Price;citation_author=I. Razenshteyn;citation_publication_date=2018;citation_arxiv_id=1805.10204;">
+    <meta name="citation_reference" content="citation_title=Efficient noise-tolerant learning from statistical queries;citation_author=Michael Kearns;citation_publication_date=1998;citation_journal_title=Journal of the ACM (JACM);citation_volume=45;citation_number=6;">
+    <meta name="citation_reference" content="citation_title=Adversarial examples for generative models;citation_author=Jernej Kos;citation_author=Ian Fischer;citation_author=Dawn Song;citation_publication_date=2018;citation_arxiv_id=1702.06832;">
+    <meta name="citation_reference" content="citation_title=Towards deep learning models resistant to adversarial attacks;citation_author=Aleksander Madry;citation_author=Aleksandar Makelov;citation_author=Ludwig Schmidt;citation_author=Dimitris Tsipras;citation_author=Adrian Vladu;citation_publication_date=2017;citation_arxiv_id=1706.06083;">
+</head>
+
+<body distill-prerendered="" data-new-gr-c-s-check-loaded="8.899.0" data-gr-ext-installed="" class="vsc-initialized"><distill-header distill-prerendered="">
+<style>
+distill-header {
+  position: relative;
+  height: 60px;
+  background-color: hsl(200, 60%, 15%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+distill-header .content {
+  height: 70px;
+  grid-column: page;
+}
+distill-header a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+distill-header a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+distill-header svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+@media(min-width: 1080px) {
+  distill-header {
+    height: 70px;
+  }
+  distill-header a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+  distill-header .logo {
+  }
+}
+distill-header svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+distill-header .logo {
+  font-size: 17px;
+  font-weight: 200;
+}
+distill-header .nav {
+  float: right;
+  font-weight: 300;
+}
+distill-header .nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+<div class="content">
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a>
+  <nav class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+  </nav>
+</div>
+</distill-header>
+
+<d-front-matter>
+  <script type="text/json">{
+  "title": "Open Questions about Generative Adversarial Networks",
+  "description": "What we'd like to find out about GANs that we don't know yet.",
+  "authors": [
+    {
+      "author": "Augustus Odena",
+      "authorURL": "http://augustusodena.com",
+      "affiliation": "Google Brain Team",
+      "affiliationURL": "https://g.co/brain"
+    }
+  ],
+  "katex": {
+    "delimiters": [
+      {
+        "left": "$",
+        "right": "$",
+        "display": false
+      },
+      {
+        "left": "$$",
+        "right": "$$",
+        "display": true
+      }
+    ]
+  }
+  }</script>
+</d-front-matter>
+
+<d-title>
+  <h1>Open Questions about Generative Adversarial Networks</h1>
+  <p>What we’d like to find out about GANs that we don’t know yet.</p>
+  <ul class="open-problem" style="display: block">
+    <li><span class="problem-number">Problem 1</span><a href="#tradeoffs">What are the trade-offs between GANs and other generative models?</a></li>
+    <li><span class="problem-number">Problem 2</span><a href="#distros">What sorts of distributions can GANs model?</a></li>
+    <li><span class="problem-number">Problem 3</span><a href="#scaling">How can we Scale GANs beyond image synthesis?</a></li>
+    <li><span class="problem-number">Problem 4</span><a href="#convergence">What can we say about the global convergence of the training dynamics?</a></li>
+    <li><span class="problem-number">Problem 5</span><a href="#eval">How should we evaluate GANs and when should we use them?</a></li>
+    <li><span class="problem-number">Problem 6</span><a href="#batchsize">How does GAN training scale with batch size?</a></li>
+    <li><span class="problem-number">Problem 7</span><a href="#advx">What is the relationship between GANs and adversarial examples?</a></li>
+  </ul>
+</d-title>
+
+<d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="http://augustusodena.com/">Augustus Odena</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://g.co/brain">Google Brain Team</a>
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>April 9, 2019</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p><a href="https://doi.org/10.23915/distill.00018">10.23915/distill.00018</a></p>
+    </div>
+  </div>
+</d-byline><d-article>
+
+  <p id="introduction">
+    By some metrics, research on Generative Adversarial Networks (GANs) has progressed substantially in the past 2 years.
+    Practical improvements to image synthesis models are being made <d-cite key="ACGAN,SAGAN,SPECTRALNORM,BIGGAN,STYLEGAN"></d-cite> almost too quickly to keep up with:
+  </p>
+
+  <figure id="figure-1-gan-progress" class="l-body">
+    <img src="Open%20Questions%20about%20Generative%20Adversarial%20Networks_files/gan-progress.png">
+    <cite><span class="author">Odena et al.</span>, 2016<d-cite key="ACGAN"></d-cite></cite>
+    <cite><span class="author">Miyato et al.</span>, 2017<d-cite key="SPECTRALNORM"></d-cite></cite>
+    <cite><span class="author">Zhang et al.</span>, 2018<d-cite key="SAGAN"></d-cite></cite>
+    <cite><span class="author">Brock et al.</span>, 2018<d-cite key="BIGGAN"></d-cite></cite>
+  </figure>
+
+  <p>
+    However, by other metrics, less has happened. For instance, there is
+ still widespread disagreement about how GANs should be evaluated.
+    Given that current image synthesis benchmarks seem somewhat 
+saturated, we think now is a good time to reflect on research goals for 
+this sub-field.
+  </p>
+
+  <p>
+    Lists of open problems have helped other fields with this<d-cite key="BAEZ,NOTFAMOUS,HILBERT,SMALE"></d-cite>.
+    This article suggests open research problems that we’d be excited for other researchers to work on.
+    <d-footnote id="d-footnote-1">We also believe that writing this article has clarified our thinking about
+      GANs, and we would encourage other researchers to write similar articles about their own sub-fields.</d-footnote>
+    We assume a fair amount of background (or willingness to look things up)
+    because we reference too many results to explain all those results in detail.
+  </p>
+
+
+  <h2 id="tradeoffs">What are the Trade-Offs Between GANs and other Generative Models?</h2>
+  <p>
+    In addition to GANs, two other types of generative model are currently popular: Flow Models and Autoregressive Models
+    <d-footnote id="d-footnote-2">
+      This statement shouldn’t be taken too literally.
+      Those are useful terms for describing fuzzy clusters in ‘model-space’, but there are models
+      that aren’t easy to describe as belonging to just one of those clusters.
+      I’ve also left out VAEs<d-cite key="VAE"></d-cite> entirely;
+      they’re arguably no longer considered state-of-the-art at any tasks of record.
+    </d-footnote>.
+    Roughly speaking, Flow Models<d-cite key="NICE,REALNVP,GLOW,NFTUTORIAL"></d-cite> apply a
+    stack of invertible transformations to a sample from a prior
+    so that exact log-likelihoods of observations can be computed.
+    On the other hand, Autoregressive Models<d-cite key="PIXELRNN,PIXELCNN,PIXELCNNPP,WAVENET"></d-cite> factorize the
+    distribution over observations into conditional distributions
+    and process one component of the observation at a time (for images, they may process one pixel
+    at a time.)
+    Recent research<d-cite key="GLOW,PROGRESSIVEGAN"></d-cite> suggests that these models have different
+    performance characteristics and trade-offs.
+    We think that accurately characterizing these trade-offs and deciding whether they are intrinsic
+    to the model families is an interesting open question.
+  </p>
+
+  <p>
+    For concreteness, let’s temporarily focus on the difference in computational cost between GANs and Flow Models.
+    At first glance, Flow Models seem like they might make GANs unnecessary.
+    Flow Models allow for exact log-likelihood computation and exact inference,
+    so if training Flow Models and GANs had the same computational cost, GANs might not be useful.
+    A lot of effort is spent on training GANs,
+    so it seems like we should care about whether Flow Models make GANs obsolete
+    <d-footnote id="d-footnote-3">
+      Even in this case, there might still be other reasons to use adversarial training in contexts like
+      image-to-image translation.
+      It also might still make sense to combine adversarial training with maximum-likelihood training.
+    </d-footnote>.
+  </p>
+
+  <p>
+    However, there seems to be a substantial gap between the computational cost of training GANs and Flow Models.
+    To estimate the magnitude of this gap, we can consider two models trained on datasets of human faces.
+    The GLOW model<d-cite key="GLOW"></d-cite> is trained to generate 256x256 celebrity faces using
+    40 GPUs for 2 weeks and about 200 million parameters.
+    In contrast, progressive GANs<d-cite key="PROGRESSIVEGAN"></d-cite> are trained on a similar face dataset
+    with 8 GPUs for 4 days, using about 46 million parameters, to generate 1024x1024 images.
+    Roughly speaking, the Flow Model took 17 times more GPU days and 4 times more parameters
+    to generate images with 16 times fewer pixels.
+    This comparison isn’t perfect,
+    <d-footnote id="d-footnote-4">
+    For instance, it’s possible that the progressive growing
+    technique could be applied to Flow Models as well.
+    </d-footnote>
+    but it gives you a sense of things.
+  </p>
+
+  <p>
+    Why are the Flow Models less efficient?
+    We see two possible reasons:
+    First, maximum likelihood training might be computationally harder to do than adversarial training.
+    In particular, if any element of your training set is assigned zero probability by your generative model,
+    you will be penalized infinitely harshly!
+    A GAN generator, on the other hand, is only penalized indirectly for assigning zero probability to training set elements,
+    and this penalty is less harsh.
+
+    Second, normalizing flows might be an inefficient way to represent certain functions.
+    Section 6.1 of <d-cite key="NORMALIZINGFLOWS"></d-cite> does some small experiments on expressivity, but at
+    present we’re not aware of any in-depth analysis of this question.
+  </p>
+
+  <p>
+    We’ve discussed the trade-off between GANs and Flow Models, but what about Autoregressive Models?
+    It turns out that Autoregressive Models can be expressed as Flow Models
+    (because they are both reversible<d-cite key="NFTUTORIAL"></d-cite>) that are not parallelizable.
+    <d-footnote id="d-footnote-5">
+      Parallelizable is somewhat imprecise in this context.
+      We mean that sampling from Flow Models must in general be done sequentially, one observation at a time.
+      There may be ways around this limitation though<d-cite key="PARALLELWAVENET"></d-cite>.
+    </d-footnote>
+    It also turns out that Autoregressive Models are more time and parameter efficient than Flow Models.
+    Thus, GANs are parallel and efficient but not reversible,
+    Flow Models are reversible and parallel but not efficient, and
+    Autoregressive models are reversible and efficient, but not parallel.
+  </p>
+
+  <table id="table-1-tradeoffs">
+    <thead>
+        <tr> <th></th> <th scope="col">Parallel</th> <th scope="col">Efficient</th> <th scope="col">Reversible</th> </tr>
+    </thead>
+    <tbody>
+        <tr>  <th scope="row">GANs</th>   <td>Yes</td>   <td>Yes</td>   <td class="no">No</td> </tr>
+        <tr>  <th scope="row">Flow Models</th> <td>Yes</td>   <td class="no">No</td>   <td>Yes</td>  </tr>
+        <tr> <th scope="row">Autoregressive Models</th>  <td class="no">No</td>   <td>Yes</td>   <td>Yes</td>  </tr>
+    </tbody>
+  </table>
+
+  <p>
+    This brings us to our first open problem:
+  </p>
+
+  <div id="open-problem-1" class="open-problem">
+    <span class="problem-number">Problem 1</span>
+    <div>
+        <p>What are the fundamental trade-offs between GANs and other generative models?</p>
+        <p>In particular, can we make some sort of CAP Theorem<d-cite key="CAPTHEOREM"></d-cite> type statement about reversibility, parallelism, and parameter/time efficiency?</p>
+    </div>
+  </div>
+
+  <p>
+    One way to approach this problem could be to study more models that are a hybrid of multiple model families.
+    This has been considered for hybrid GAN/Flow Models<d-cite key="FLOWGAN,FLOWGAN2"></d-cite>, but we think that
+    this approach is still underexplored.
+  </p>
+
+  <p>
+    We’re also not sure about whether maximum likelihood training is necessarily harder than GAN training.
+    It’s true that placing zero mass on a training data point is not explicitly prohibited under the
+    GAN training loss, but it’s also true that a sufficiently powerful discriminator will be able
+    to do better than chance if the generator does this.
+    It does seem like GANs are learning distributions of low support in practice<d-cite key="CONDITIONING"></d-cite> though.
+  </p>
+
+  <p>
+    Ultimately, we suspect that Flow Models are fundamentally less expressive per-parameter than
+    arbitrary decoder functions, and we suspect that this is provable under certain assumptions.
+  </p>
+
+
+  <h2 id="distros">What Sorts of Distributions Can GANs Model?</h2>
+  <p>
+      Most GAN research focuses on image synthesis.
+      In particular, people train GANs on a handful of standard (in the Deep Learning community) image datasets:
+      MNIST<d-cite key="MNIST"></d-cite>,
+      CIFAR-10<d-cite key="CIFAR"></d-cite>,
+      STL-10<d-cite key="STL"></d-cite>,
+      CelebA<d-cite key="CELEBA"></d-cite>,
+      and Imagenet<d-cite key="IMAGENET"></d-cite>.
+
+      There is some folklore about which of these datasets is ‘easiest’ to model.
+      In particular, MNIST and CelebA are considered easier than Imagenet, CIFAR-10, or STL-10 due to being
+      ‘extremely regular’<d-cite key="COLINTWEET"></d-cite>.
+      Others have noted that ‘a high number of classes is what makes
+      ImageNet synthesis difficult for GANs’<d-cite key="ACGAN"></d-cite>.
+      These observations are supported by the empirical fact that the state-of-the-art image
+      synthesis model on CelebA<d-cite key="STYLEGAN"></d-cite> generates images that seem
+      substantially more convincing than the state-of-the-art image synthesis model on
+      Imagenet<d-cite key="BIGGAN"></d-cite>.
+  </p>
+
+  <p>
+    However, we’ve had to come to these conclusions through the laborious and noisy process of
+    trying to train GANs on ever larger and more complicated datasets.
+    In particular, we’ve mostly studied how GANs perform on the datasets that
+    happened to be laying around for object recognition.
+  </p>
+
+  <p>
+    As with any science, we would like to have a simple theory that explains our experimental observations.
+    Ideally, we could look at a dataset, perform some computations without ever actually
+    training a generative model, and then say something like ‘this dataset will be
+    easy for a GAN to model, but not a VAE’.
+    There has been some progress on this topic<d-cite key="GANSEQUAL,DISCONNECTED"></d-cite>,
+    but we feel that more can be done.
+    We can now state the problem:
+  </p>
+
+  <div id="open-problem-2" class="open-problem">
+    <span class="problem-number">Problem 2</span>
+    <div>
+        <p>Given a distribution, what can we say about how hard it will be for a GAN to model that distribution?</p>
+    </div>
+  </div>
+
+  <p>
+    We might ask the following related questions as well:
+    What do we mean by ‘model the distribution’? Are we satisfied with a
+ low-support representation, or do we want a true density model?
+    Are there distributions that a GAN can never learn to model?
+    Are there distributions that are learnable for a GAN in principle, 
+but are not
+    efficiently learnable, for some reasonable model of 
+resource-consumption?
+    Are the answers to these questions actually any different for GANs 
+than they are for other
+    generative models?
+  </p>
+
+  <p>
+    We propose two strategies for answering these questions:
+  </p>
+  <ul>
+    <li>
+    <b>Synthetic Datasets</b> - We can study synthetic datasets to probe what traits affect learnability.
+    For example, in <d-cite key="GANSEQUAL"></d-cite> the authors create a dataset of synthetic triangles.
+    We feel that this
+    angle is under-explored.
+    Synthetic datasets can even be parameterized by quantities of interest, such as connectedness or smoothness,
+    allowing for systematic study.
+    Such a dataset could also be useful for studying other types of generative models.
+    </li>
+    <li>
+      <b>Modify Existing Theoretical Results</b> - We can take existing theoretical results and try to
+      modify the assumptions to account
+    for different properties of the dataset.
+    For instance, we could take results about GANs that apply given unimodal data distributions and see
+    what happens to them when the data distribution becomes multi-modal.
+    </li>
+  </ul>
+
+
+  <h2 id="scaling">How Can we Scale GANs Beyond Image Synthesis?</h2>
+  <p>
+    Aside from applications like image-to-image
+    translation<d-cite key="CYCLEGAN"></d-cite>
+    and domain-adaptation<d-cite key="DOMAINADAPTATION"></d-cite>
+    most GAN successes have been in image synthesis.
+    Attempts to use GANs beyond images have focused on three domains:
+  </p>
+
+  <ul>
+  <li><b>Text</b> -
+    The discrete nature of text makes it difficult to apply GANs.
+    This is because GANs rely on backpropagating a signal from the 
+discriminator through the generated content into the generator.
+    There are two approaches to addressing this difficulty.
+    The first is to have the GAN act only on continuous
+    representations of the discrete data, as in<d-cite key="WGANGP"></d-cite>.
+    The second is use an actual discrete model and attempt to train the GAN using
+    gradient estimation as in<d-cite key="SEQGAN"></d-cite>.
+    Other, more sophisticated treatments exist<d-cite key="MASKGAN"></d-cite>,
+    but as far as we can tell, none of them produce results that are competitive (in terms of perplexity)
+    with likelihood-based<d-cite key="LSTM"></d-cite> language models.
+  </li>
+  <li><b>Structured Data</b> -
+    What about other non-euclidean structured data, like graphs?
+    The study of this type of data is called geometric deep
+    learning<d-cite key="GEOMETRICDEEPLEARNING"></d-cite>.
+    GANs have had limited success here, but so have other deep learning techniques,
+    so it’s hard to tell how much the GAN aspect matters.
+
+    We’re aware of one attempt to use GANs in this space<d-cite key="NETGAN"></d-cite>,
+    which has the generator produce (and the discriminator ‘critique’) random walks
+    that are meant to resemble those sampled from a source graph.
+  </li>
+  <li><b>Audio</b> -
+    Audio is the domain in which GANs are closest to achieving the success
+    they’ve enjoyed with images.
+    The first serious attempt at applying GANs to unsupervised audio synthesis
+    is<d-cite key="AUDIOGAN"></d-cite>, in which the authors
+    make a variety of special allowances for the fact that they are operating on audio.
+    More recent work suggests GANs can even
+    outperform autoregressive models on some perceptual metrics<d-cite key="NOTANON"></d-cite>.
+  </li>
+  </ul>
+
+
+  <p>
+    Despite these attempts, images are clearly the easiest domain for GANs.
+    This leads us to the statement of the problem:
+  </p>
+
+  <div id="open-problem-3" class="open-problem">
+    <span class="problem-number">Problem 3</span>
+    <div>
+        <p>How can GANs be made to perform well on non-image data?</p>
+        <p>Does scaling GANs to other domains require new training techniques,
+        or does it simply require better implicit priors for each domain?</p>
+    </div>
+  </div>
+
+    <p>
+        We expect GANs to eventually achieve image-synthesis-level success on other continuous data,
+        but that it will require better implicit priors.
+        Finding these priors will require thinking hard about what makes sense and is computationally feasible
+        in a given domain.
+    </p>
+
+    <p>
+        For structured data or data that is not continuous, we’re less sure.
+        One approach might be to make both the generator and discriminator
+        be agents trained with reinforcement learning. Making this approach work could require
+        large-scale computational resources<d-cite key="DOTA"></d-cite>.
+        Finally, this problem may just require fundamental research progress.
+    </p>
+
+
+  <h2 id="convergence">What can we Say About the Global Convergence of GAN Training?</h2>
+  <p>
+    Training GANs is different from training other neural networks because we simultaneously optimize
+    the generator and discriminator for opposing objectives.
+    Under certain assumptions
+    <d-footnote id="d-footnote-6">
+      These assumptions are very strict.
+      The referenced paper assumes (roughly speaking) that
+      the equilibrium we are looking for exists and that
+      we are already very close to it.
+    </d-footnote>,
+    this simultaneous optimization
+    is locally asymptotically stable<d-cite key="LOCALLYSTABLE,WHICHMETHODSCONVERGE"></d-cite>.
+  </p>
+
+  <p>
+    Unfortunately, it’s hard to prove interesting things about the fully general case.
+    This is because the discriminator/generator’s loss is a non-convex function of its parameters.
+    But all neural networks have this problem!
+    We’d like some way to focus on just the problems created by simultaneous optimization.
+    This brings us to our question:
+  </p>
+
+  <div id="open-problem-4" class="open-problem">
+    <span class="problem-number">Problem 4</span>
+    <div>
+        <p>When can we prove that GANs are globally convergent?</p>
+        <p>Which neural network convergence results can be applied to GANs?</p>
+    </div>
+  </div>
+
+  <p>
+    There has been nontrivial progress on this question.
+    Broadly speaking, there are 3 existing techniques, all of which have generated
+    promising results but none of which have been studied to completion:
+  </p>
+
+  <ul>
+  <li><b>Simplifying Assumptions</b> -
+    The first strategy is to make simplifying assumptions about the generator and discriminator.
+    For example, the simplified LGQ GAN<d-cite key="LGQGAN"></d-cite> —
+ linear generator, Gaussian data, and quadratic discriminator — can be 
+shown to be globally convergent, if optimized with a special technique<d-cite key="CROSSINGTHECURL,SGA"></d-cite>
+    and some additional assumptions.<d-footnote id="d-footnote-7">
+      Among other things, it’s assumed that we can first learn the means of the Gaussian and then learn the variances.
+    </d-footnote>
+    As another example, <d-cite key="APPROXGAN1,APPROXGAN2"></d-cite> show under different simplifying assumptions that
+    certain types of GANs perform a mixture of moment matching and maximum likelihood estimation.
+
+    It seems promising to gradually relax those assumptions to see what happens.
+    For example, we could move away from unimodal distributions<d-cite key="LIMITATIONS"></d-cite>.
+    This is a natural relaxation to study because ‘mode collapse’ is a standard GAN pathology.
+  </li>
+  <li><b>Use Techniques from Normal Neural Networks</b> -
+    The second strategy is to  apply techniques for analyzing normal neural networks (which are also non-convex)
+    to answer questions about convergence of GANs.
+    For instance, it’s argued in<d-cite key="LOSSSURFACE"></d-cite> that the non-convexity
+    of deep neural networks isn’t a problem,
+    <d-footnote id="d-footnote-8">
+      A fact that practitioners already kind of suspected.
+    </d-footnote>
+    because low-quality local minima of the loss function
+    become exponentially rare as the network gets larger.
+    Can this analysis be ‘lifted into GAN space’?
+    In fact, it seems like a generally useful heuristic to take analyses
+ of deep neural networks used as classifiers and see if they apply to 
+GANs.
+  </li>
+  <li><b>Game Theory</b> -
+    The final strategy is to model GAN training using notions from game theory<d-cite key="GANGS,BEYONDLOCAL,CHEKHOV"></d-cite>.
+    These techniques yield training procedures that provably converge to some kind of approximate Nash equilibrium,
+    but do so using unreasonably large resource constraints.
+    The ‘obvious’ next step in this case is to try and reduce those resource constraints.
+  </li>
+  </ul>
+
+
+
+  <h2 id="eval">How Should we Evaluate GANs and When Should we Use Them?</h2>
+
+  <p>
+    When it comes to evaluating GANs, there are many proposals but little consensus.
+    Suggestions include:
+  </p>
+  <ul>
+  <li><b>Inception Score and FID</b> -
+    Both these scores<d-cite key="IMPROVEDTECHNIQUES,FID"></d-cite>
+    use a pre-trained image classifier and both have
+    known issues <d-cite key="INCEPTIONSCOREBAD,FIDBAD"></d-cite>.
+    A common criticism is that these scores measure
+    ‘sample quality’ and don’t really capture ‘sample diversity’.
+  </li>
+  <li><b>MS-SSIM</b> -
+    <d-cite key="ACGAN"></d-cite> propose using MS-SSIM<d-cite key="MSSSIM"></d-cite> to
+    separately evaluate diversity, but this technique has some issues and hasn’t really caught on.
+  </li>
+  <li><b>AIS</b> -
+    <d-cite key="AIS"></d-cite> propose putting a Gaussian observation model on the outputs
+    of a GAN and using annealed importance sampling<d-cite key="AIS2"></d-cite> to estimate
+    the log likelihood under this model, but <d-cite key="FLOWGAN"></d-cite> show that
+    estimates computed this way are inaccurate in the case where the GAN generator is also a flow model
+    <d-footnote id="d-footnote-9">
+      The generator being a flow model allows for computation of exact log-likelihoods in this case.
+    </d-footnote>.
+  </li>
+  <li><b>Geometry Score</b> -
+    <d-cite key="GEOMETRYSCORE"></d-cite> suggest computing geometric properties of the generated data manifold
+    and comparing those properties to the real data.
+  </li>
+  <li><b>Precision and Recall</b> -
+    <d-cite key="PRGAN"></d-cite> attempt to measure both the ‘precision’ and ‘recall’ of GANs.
+  </li>
+  <li><b>Skill Rating</b> -
+    <d-cite key="GANFIGHT,DRS"></d-cite> have shown that trained GAN discriminators can contain useful information
+    with which  evaluation can be performed.
+  </li>
+  </ul>
+
+  <p>
+    Those are just a small fraction of the proposed GAN evaluation schemes.
+    Although the Inception Score and FID are relatively popular, GAN evaluation is clearly not a settled issue.
+    Ultimately, we think that confusion about <i>how to evaluate</i> GANs stems from confusion about
+    <i>when to use GANs</i>.
+    Thus, we have bundled those two questions into one:
+  </p>
+
+  <div id="open-problem-5" class="open-problem">
+    <span class="problem-number">Problem 5</span>
+    <div>
+        <p>When should we use GANs instead of other generative models?</p>
+        <p>How should we evaluate performance in those contexts?</p>
+    </div>
+  </div>
+
+  <p>
+    What should we use GANs for?
+    If you want an actual density model, GANs probably aren’t the best choice.
+    There is now good experimental evidence that GANs learn a ‘low support’ representation of the target dataset
+    <d-cite key="FLOWGAN,FLOWGAN2,CONDITIONING"></d-cite>, which means there may be substantial parts of the test
+    set to which a GAN (implicitly) assigns zero likelihood.
+  </p>
+
+  <p>
+    Rather than worrying too much about this,<d-footnote id="d-footnote-10">
+      Though trying to fix this issue is a valid research agenda as well.
+    </d-footnote>
+
+    we think it makes sense to focus GAN research on tasks where this is fine or even helpful.
+    GANs are likely to be well-suited to tasks with a perceptual flavor.
+    Graphics applications like image synthesis, image translation, image infilling, and attribute manipulation
+    all fall under this umbrella.
+  </p>
+
+  <p>
+    How should we evaluate GANs on these perceptual tasks?
+    Ideally, we would just use a human judge, but this is expensive.
+    A cheap proxy is to see if a classifier can distinguish between real and fake examples.
+    This is called a classifier two-sample test (C2STs)
+    <d-cite key="CLASSIFIERTWOSAMPLE,PARAMETRIC,FIDBAD"></d-cite>.
+    The main issue with C2STs is that if the Generator has even a minor defect that’s systematic across samples
+    (e.g., <d-cite key="CHECKERBOARD"></d-cite>) this will dominate the evaluation.
+  </p>
+
+  <p>
+    Ideally, we’d have a holistic evaluation that isn’t dominated by a single factor.
+    One approach might be to make a critic that is blind to the dominant defect.
+    But once we do this, some other defect may dominate, requiring a new critic, and so on.
+    If we do this iteratively, we could get a kind of ‘Gram-Schmidt procedure for critics’,
+    creating an ordered list of the most important defects and
+    critics that ignore them.
+    Perhaps this can be done by performing PCA on the critic activations<d-cite key="SVCCA"></d-cite> and progressively throwing out
+    more and more of the higher variance components.
+  </p>
+
+  <p>
+    Finally, we could evaluate on humans despite the expense.
+    This would allow us to measure the thing that we actually care about.
+    This kind of approach can be made less expensive by predicting human answers and only interacting with a real human when
+    the prediction is uncertain<d-cite key="PREFERENCES"></d-cite>.
+  </p>
+
+
+
+
+  <h2 id="batchsize">How does GAN Training Scale with Batch Size?</h2>
+  <p>
+    Large minibatches have helped to scale up image classification<d-cite key="IMAGENET1HOUR,BATCH32,TRAINLONGERGENERALIZEBETTER,DONTDECAY,NOISESCALE"></d-cite> — can they also help us scale up GANs?
+    Large minibatches may be especially important for effectively using highly parallel hardware accelerators<d-cite key="NOMOREMOORE,TPU"></d-cite>.
+  </p>
+
+
+  <p>
+    At first glance, it seems like the answer should be yes — after all,
+ the discriminator in most GANs is just an image classifier.
+    Larger batches can accelerate training if it is bottlenecked on 
+gradient noise.
+    However, GANs have a separate bottleneck that classifiers don’t: the
+ training procedure can diverge.
+    Thus, we can state our problem:
+  </p>
+
+  <div id="open-problem-6" class="open-problem">
+    <span class="problem-number">Problem 6</span>
+    <div>
+      <p>How does GAN training scale with batch size?</p>
+      <p>How big a role does gradient noise play in GAN training?</p>
+      <p>Can GAN training be modified so that it scales better with batch size?</p>
+    </div>
+  </div>
+
+    <p>
+      There’s some evidence that increasing minibatch size improves quantitative results and reduces training time<d-cite key="BIGGAN"></d-cite>.
+      If this phenomenon is robust, it would suggest that gradient noise is a dominating factor.
+      However, this hasn’t been systematically studied, so we believe this question remains open.
+    </p>
+
+    <p>
+      Can alternate training procedures make better use of large batches?
+      Optimal Transport GANs<d-cite key="OTGAN"></d-cite> theoretically have better convergence properties than normal GANs,
+      but need a large batch size because they try to align batches of samples and training data.
+      As a result, they seem like a promising candidate for scaling to very large batch sizes.
+    </p>
+
+    <p>
+      <!-- Finally, large batch sizes are relevant for synchronous SGD<d-cite key="SYNCSGD"></d-cite>, but that isn't the only way to paralellize SGD. -->
+      <!-- There is also substantial work on scaling up asynchronous SGD for neural networks. -->
+      Finally, asynchronous SGD<d-cite key="LARGEDEAN,ELASTIC,SUYOG,FASGD"></d-cite> could be a good alternative for making use of new hardware.
+      In this setting, the limiting factor tends to be that gradient updates are computed on ‘stale’ copies of the parameters.
+      But GANs seem to actually benefit from training on past parameter snapshots<d-cite key="CHEKHOV,AVERAGING"></d-cite>, so we might ask if
+      asynchronous SGD interacts in a special way with GAN training.
+    </p>
+
+
+
+  <h2 id="advx">What is the Relationship Between GANs and Adversarial Examples?</h2>
+  <p>
+    It’s well known<d-cite key="INTRIGUING"></d-cite> that image classifiers suffer from adversarial examples:
+    human-imperceptible perturbations that cause classifiers to give the wrong output when added to images.
+    It’s also now known that there are classification problems which can normally be efficiently learned,
+    but are exponentially hard to learn robustly<d-cite key="CONSTRAINTS,SQM"></d-cite>.
+  </p>
+
+  <p>
+    Since the GAN discriminator is an image classifier, one might worry about it suffering from adversarial examples.
+    Despite the large bodies of literature on GANs and adversarial examples,
+    there doesn’t seem to be much work on how they relate.
+    <d-footnote id="d-footnote-11">
+      There is work on using GANs to generate adversarial examples, but this is not quite the same thing.
+    </d-footnote>
+    Thus, we can ask the question:
+  </p>
+
+  <div id="open-problem-7" class="open-problem">
+    <span class="problem-number">Problem 7</span>
+    <div>
+      <p>How does the adversarial robustness of the discriminator affect GAN training?</p>
+    </div>
+  </div>
+
+  <p>
+    How can we begin to think about this problem?
+    Consider a fixed discriminator <b>D</b>.
+    An adversarial example for <b>D</b> would exist if
+    there were a generator sample <b>G(z)</b> correctly classified as fake and
+    a small perturbation <b>p</b> such that <b>G(z) + p</b> is classified as real.
+    With a GAN, the concern would be that the gradient update for the generator would yield
+    a new generator <b>G’</b> where <b>G’(z) = G(z) + p</b>.
+  </p>
+
+  <p>
+    Is this concern realistic?
+    <d-cite key="AEFGM"></d-cite> shows that deliberate attacks on generative models can work,
+    but we are more worried about something you might call an ‘accidental attack’.
+    There are reasons to believe that these accidental attacks are less likely.
+    First, the generator is only allowed to make one gradient update before
+    the discriminator is updated again.
+    In contrast, current adversarial attacks are typically run for tens of iterations<d-cite key="MADRY"></d-cite>.
+    Second, the generator is optimized given a batch of samples from the prior, and this batch is different
+    for every gradient step.
+    Finally, the optimization takes place in the space of parameters of the generator rather than in pixel space.
+    However, none of these arguments decisively rules out the generator creating adversarial examples.
+    We think this is a fruitful topic for further exploration.
+  </p>
+
+</d-article>
+
+<d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+  <h3>Acknowledgments</h3>
+  <p>
+    We would like to thank Colin Raffel, Ben Poole, Eric Jang, Dustin Tran, Alex Kurakin, David Berthelot,
+    Aurko Roy, Ian Goodfellow, and Matt Hoffman for helpful discussions and feedback.
+    We would especially like to single out Chris Olah, who provided substantial feedback on the text and
+    help with editing.
+  </p>
+
+  <d-footnote-list style="">
+<style>
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+</style>
+
+<h3>Footnotes</h3>
+<ol><li id="d-footnote-1-listing">We also believe that writing this article has clarified our thinking about
+      GANs, and we would encourage other researchers to write similar articles about their own sub-fields.<a class="footnote-backlink" href="#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing">
+      This statement shouldn’t be taken too literally.
+      Those are useful terms for describing fuzzy clusters in ‘model-space’, but there are models
+      that aren’t easy to describe as belonging to just one of those clusters.
+      I’ve also left out VAEs<d-cite key="VAE"></d-cite> entirely;
+      they’re arguably no longer considered state-of-the-art at any tasks of record.
+    <a class="footnote-backlink" href="#d-footnote-2">[↩]</a></li><li id="d-footnote-3-listing">
+      Even in this case, there might still be other reasons to use adversarial training in contexts like
+      image-to-image translation.
+      It also might still make sense to combine adversarial training with maximum-likelihood training.
+    <a class="footnote-backlink" href="#d-footnote-3">[↩]</a></li><li id="d-footnote-4-listing">
+    For instance, it’s possible that the progressive growing
+    technique could be applied to Flow Models as well.
+    <a class="footnote-backlink" href="#d-footnote-4">[↩]</a></li><li id="d-footnote-5-listing">
+      Parallelizable is somewhat imprecise in this context.
+      We mean that sampling from Flow Models must in general be done sequentially, one observation at a time.
+      There may be ways around this limitation though<d-cite key="PARALLELWAVENET"></d-cite>.
+    <a class="footnote-backlink" href="#d-footnote-5">[↩]</a></li><li id="d-footnote-6-listing">
+      These assumptions are very strict.
+      The referenced paper assumes (roughly speaking) that
+      the equilibrium we are looking for exists and that
+      we are already very close to it.
+    <a class="footnote-backlink" href="#d-footnote-6">[↩]</a></li><li id="d-footnote-7-listing">
+      Among other things, it’s assumed that we can first learn the means of the Gaussian and then learn the variances.
+    <a class="footnote-backlink" href="#d-footnote-7">[↩]</a></li><li id="d-footnote-8-listing">
+      A fact that practitioners already kind of suspected.
+    <a class="footnote-backlink" href="#d-footnote-8">[↩]</a></li><li id="d-footnote-9-listing">
+      The generator being a flow model allows for computation of exact log-likelihoods in this case.
+    <a class="footnote-backlink" href="#d-footnote-9">[↩]</a></li><li id="d-footnote-10-listing">
+      Though trying to fix this issue is a valid research agenda as well.
+    <a class="footnote-backlink" href="#d-footnote-10">[↩]</a></li><li id="d-footnote-11-listing">
+      There is work on using GANs to generate adversarial examples, but this is not quite the same thing.
+    <a class="footnote-backlink" href="#d-footnote-11">[↩]</a></li></ol>
+</d-footnote-list>
+  <d-citation-list distill-prerendered="true"><style>
+d-citation-list {
+  contain: style;
+}
+
+d-citation-list .references {
+  grid-column: text;
+}
+
+d-citation-list .references .title {
+  font-weight: 500;
+}
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="ACGAN"><span class="title">Conditional Image Synthesis With Auxiliary Classifier GANs</span>   <a href="http://arxiv.org/pdf/1610.09585.pdf">[PDF]</a><br>Odena, A., Olah, C. and Shlens, J., 2016. ArXiv e-prints. </li><li id="SAGAN"><span class="title">Self-Attention Generative Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1805.08318.pdf">[PDF]</a><br>Zhang, H., Goodfellow, I., Metaxas, D. and Odena, A., 2018. ArXiv e-prints. </li><li id="SPECTRALNORM"><span class="title">Spectral Normalization for Generative Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1802.05957.pdf">[PDF]</a><br>Miyato, T., Kataoka, T., Koyama, M. and Yoshida, Y., 2018. CoRR, Vol abs/1802.05957. </li><li id="BIGGAN"><span class="title">Large Scale GAN Training for High Fidelity Natural Image Synthesis</span>   <a href="http://arxiv.org/pdf/1809.11096.pdf">[PDF]</a><br>Brock, A., Donahue, J. and Simonyan, K., 2018. ArXiv e-prints. </li><li id="STYLEGAN"><span class="title">A style-based generator architecture for generative adversarial networks</span>   <a href="http://arxiv.org/pdf/1812.04948.pdf">[PDF]</a><br>Karras, T., Laine, S. and Aila, T., 2018. arXiv preprint arXiv:1812.04948. </li><li id="BAEZ"><span class="title">Open Questions in Physics</span>   <a href="http://math.ucr.edu/home/baez/physics/General/open_questions.html">[HTML]</a><br>John, B., 2010. </li><li id="NOTFAMOUS"><span class="title">Not especially famous, long-open problems which anyone can understand</span>   <a href="https://mathoverflow.net/questions/100265/not-especially-famous-long-open-problems-which-anyone-can-understand">[link]</a><br>Overflow, S., 2012. </li><li id="HILBERT"><span class="title">Hilbert's Problems</span>   <a href="https://en.wikipedia.org/wiki/Hilbert%27s_problems">[link]</a><br>Hilbert, D., 1900. </li><li id="SMALE"><span class="title">Smale's Problems</span>   <a href="https://en.wikipedia.org/wiki/Smale%27s_problems">[link]</a><br>Smale, S., 1998. </li><li id="VAE"><span class="title">Auto-Encoding Variational Bayes</span>   <a href="http://arxiv.org/pdf/1312.6114.pdf">[PDF]</a><br>Kingma, D.P. and Welling, M., 2013. arXiv preprint arXiv:1312.6114. </li><li id="NICE"><span class="title">NICE: Non-linear Independent Components Estimation</span>   <a href="http://arxiv.org/pdf/1410.8516.pdf">[PDF]</a><br>Dinh, L., Krueger, D. and Bengio, Y., 2014. CoRR, Vol abs/1410.8516. </li><li id="REALNVP"><span class="title">Density estimation using Real NVP</span>   <a href="http://arxiv.org/pdf/1605.08803.pdf">[PDF]</a><br>Dinh, L., Sohl-Dickstein, J. and Bengio, S., 2016. CoRR, Vol abs/1605.08803. </li><li id="GLOW"><span class="title">Glow: Generative Flow with Invertible 1x1 Convolutions</span>   <a href="http://arxiv.org/pdf/1807.03039.pdf">[PDF]</a><br>Kingma, D. and Dhariwal, P., 2018. ArXiv e-prints. </li><li id="NFTUTORIAL"><span class="title">Normalizing Flows Tutorial</span>   <a href="https://blog.evjang.com/2018/01/nf1.html">[HTML]</a><br>Jang, E., 2016. </li><li id="PIXELRNN"><span class="title">Pixel Recurrent Neural Networks</span>   <a href="http://arxiv.org/pdf/1601.06759.pdf">[PDF]</a><br>Oord, A.v.d., Kalchbrenner, N. and Kavukcuoglu, K., 2016. CoRR, Vol abs/1601.06759. </li><li id="PIXELCNN"><span class="title">Conditional Image Generation with PixelCNN Decoders</span>   <a href="http://arxiv.org/pdf/1606.05328.pdf">[PDF]</a><br>Oord, A.v.d., Kalchbrenner, N., Vinyals, O., Espeholt, L., Graves, A. and Kavukcuoglu, K., 2016. CoRR, Vol abs/1606.05328. </li><li id="PIXELCNNPP"><span class="title">PixelCNN++: Improving the PixelCNN with Discretized Logistic Mixture Likelihood and Other Modifications</span>   <a href="http://arxiv.org/pdf/1701.05517.pdf">[PDF]</a><br>Salimans, T., Karpathy, A., Chen, X. and Kingma, D.P., 2017. CoRR, Vol abs/1701.05517. </li><li id="WAVENET"><span class="title">WaveNet: A Generative Model for Raw Audio</span>   <a href="http://arxiv.org/pdf/1609.03499.pdf">[PDF]</a><br>Oord,
+ A.v.d., Dieleman, S., Zen, H., Simonyan, K., Vinyals, O., Graves, A., 
+Kalchbrenner, N., Senior, A.W. and Kavukcuoglu, K., 2016. CoRR, Vol 
+abs/1609.03499. </li><li id="PROGRESSIVEGAN"><span class="title">Progressive Growing of GANs for Improved Quality, Stability, and Variation</span>   <a href="http://arxiv.org/pdf/1710.10196.pdf">[PDF]</a><br>Karras, T., Aila, T., Laine, S. and Lehtinen, J., 2017. CoRR, Vol abs/1710.10196. </li><li id="NORMALIZINGFLOWS"><span class="title">Variational Inference with Normalizing Flows</span>   <a href="http://arxiv.org/pdf/1505.05770.pdf">[PDF]</a><br>Jimenez Rezende, D. and Mohamed, S., 2015. ArXiv e-prints. </li><li id="PARALLELWAVENET"><span class="title">Parallel WaveNet: Fast High-Fidelity Speech Synthesis</span>   <a href="http://arxiv.org/pdf/1711.10433.pdf">[PDF]</a><br>Oord,
+ A.v.d., Li, Y., Babuschkin, I., Simonyan, K., Vinyals, O., Kavukcuoglu,
+ K., Driessche, G.v.d., Lockhart, E., Cobo, L.C., Stimberg, F., 
+Casagrande, N., Grewe, D., Noury, S., Dieleman, S., Elsen, E., 
+Kalchbrenner, N., Zen, H., Graves, A., King, H., Walters, T., Belov, D. 
+and Hassabis, D., 2017. CoRR, Vol abs/1711.10433. </li><li id="CAPTHEOREM"><span class="title">Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services</span> <br>Gilbert, S. and Lynch, N., 2002. Acm Sigact News, Vol 33(2), pp. 51--59. ACM.</li><li id="FLOWGAN"><span class="title">Flow-GAN: Bridging implicit and prescribed learning in generative models</span>   <a href="http://arxiv.org/pdf/1705.08868.pdf">[PDF]</a><br>Grover, A., Dhar, M. and Ermon, S., 2017. CoRR, Vol abs/1705.08868. </li><li id="FLOWGAN2"><span class="title">Comparison of maximum likelihood and gan-based training of real nvps</span>   <a href="http://arxiv.org/pdf/1705.05263.pdf">[PDF]</a><br>Danihelka, I., Lakshminarayanan, B., Uria, B., Wierstra, D. and Dayan, P., 2017. arXiv preprint arXiv:1705.05263. </li><li id="CONDITIONING"><span class="title">Is Generator Conditioning Causally Related to GAN Performance?</span>   <a href="http://arxiv.org/pdf/1802.08768.pdf">[PDF]</a><br>Odena,
+ A., Buckman, J., Olsson, C., Brown, T.B., Olah, C., Raffel, C. and 
+Goodfellow, I., 2018. arXiv preprint arXiv:1802.08768. </li><li id="MNIST"><span class="title">Gradient-Based Learning Applied to Document Recognition</span>   <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">[PDF]</a><br>LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P., 1998. Proceedings of the IEEE. </li><li id="CIFAR"><span class="title">Learning Multiple Layers of Features from Tiny Images</span>   <a href="https://www.cs.toronto.edu/~kriz/learning-features-2009-TR.pdf">[PDF]</a><br>Krizhevsky, A., 2009. </li><li id="STL"><span class="title">An analysis of single-layer networks in unsupervised feature learning</span>   <a href="http://proceedings.mlr.press/v15/coates11a/coates11a.pdf">[PDF]</a><br>Coates,
+ A., Ng, A. and Lee, H., 2011. Proceedings of the fourteenth 
+international conference on artificial intelligence and statistics, pp. 
+215--223. </li><li id="CELEBA"><span class="title">Deep Learning Face Attributes in the Wild</span>   <a href="http://arxiv.org/pdf/1411.7766.pdf">[PDF]</a><br>Liu, Z., Luo, P., Wang, X. and Tang, X., 2015. Proceedings of International Conference on Computer Vision (ICCV). </li><li id="IMAGENET"><span class="title">ImageNet Large Scale Visual Recognition Challenge</span>   <a href="http://arxiv.org/pdf/1409.0575.pdf">[PDF]</a><br>Russakovsky,
+ O., Deng, J., Su, H., Krause, J., Satheesh, S., Ma, S., Huang, Z., 
+Karpathy, A., Khosla, A., Bernstein, M., Berg, A.C. and Fei-Fei, L., 
+2015. International Journal of Computer Vision (IJCV), Vol 115(3), pp. 
+211-252.  <a href="https://doi.org/10.1007/s11263-015-0816-y" style="text-decoration:inherit;">DOI: 10.1007/s11263-015-0816-y</a></li><li id="COLINTWEET"><span class="title">PSA</span>   <a href="https://twitter.com/colinraffel/status/1030129455409164289">[link]</a><br>Raffel, C., 2018. </li><li id="GANSEQUAL"><span class="title">Are GANs Created Equal? A Large-Scale Study</span>   <a href="http://arxiv.org/pdf/1711.10337.pdf">[PDF]</a><br>Lucic, M., Kurach, K., Michalski, M., Gelly, S. and Bousquet, O., 2017. ArXiv e-prints. </li><li id="DISCONNECTED"><span class="title">Disconnected Manifold Learning for Generative Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1806.00880.pdf">[PDF]</a><br>Khayatkhoei, M., Singh, M. and Elgamma, A., 2018. ArXiv e-prints. </li><li id="CYCLEGAN"><span class="title">Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1703.10593.pdf">[PDF]</a><br>Zhu, J., Park, T., Isola, P. and Efros, A.A., 2017. CoRR, Vol abs/1703.10593. </li><li id="DOMAINADAPTATION"><span class="title">Unsupervised Pixel-Level Domain Adaptation with Generative Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1612.05424.pdf">[PDF]</a><br>Bousmalis, K., Silberman, N., Dohan, D., Erhan, D. and Krishnan, D., 2016. CoRR, Vol abs/1612.05424. </li><li id="WGANGP"><span class="title">Improved training of wasserstein gans</span>   <a href="http://arxiv.org/pdf/1704.00028.pdf">[PDF]</a><br>Gulrajani,
+ I., Ahmed, F., Arjovsky, M., Dumoulin, V. and Courville, A.C., 2017. 
+Advances in Neural Information Processing Systems, pp. 5767--5777. </li><li id="SEQGAN"><span class="title">SeqGAN: Sequence Generative Adversarial Nets with Policy Gradient</span>   <a href="http://arxiv.org/pdf/1609.05473.pdf">[PDF]</a><br>Yu, L., Zhang, W., Wang, J. and Yu, Y., 2016. CoRR, Vol abs/1609.05473. </li><li id="MASKGAN"><span class="title">MaskGAN: Better Text Generation via Filling in the ______</span>   <a href="http://arxiv.org/pdf/1801.07736.pdf">[PDF]</a><br>Fedus, W., Goodfellow, I. and Dai, A., 2018. ArXiv e-prints. </li><li id="LSTM"><span class="title">Long short-term memory</span> <br>Hochreiter, S. and Schmidhuber, J., 1997. Neural computation, Vol 9(8), pp. 1735--1780. MIT Press.</li><li id="GEOMETRICDEEPLEARNING"><span class="title">Geometric deep learning: going beyond Euclidean data</span>   <a href="http://arxiv.org/pdf/1611.08097.pdf">[PDF]</a><br>Bronstein, M.M., Bruna, J., LeCun, Y., Szlam, A. and Vandergheynst, P., 2016. CoRR, Vol abs/1611.08097. </li><li id="NETGAN"><span class="title">NetGAN: Generating Graphs via Random Walks</span>   <a href="http://arxiv.org/pdf/1803.00816.pdf">[PDF]</a><br>Bojchevski, A., Shchur, O., Zugner, D. and Gunnemann, S., 2018. ArXiv e-prints. </li><li id="AUDIOGAN"><span class="title">Synthesizing Audio with Generative Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1802.04208.pdf">[PDF]</a><br>Donahue, C., McAuley, J. and Puckette, M., 2018. CoRR, Vol abs/1802.04208. </li><li id="NOTANON"><span class="title">GANSynth: Adversarial Neural Audio Synthesis</span>   <a href="https://openreview.net/forum?id=H1xQVn09FX">[link]</a><br>Engel,
+ J., Agrawal, K.K., Chen, S., Gulrajani, I., Donahue, C. and Roberts, 
+A., 2019. International Conference on Learning Representations. </li><li id="DOTA"><span class="title">OpenAI Five</span>   <a href="https://blog.openai.com/openai-five/">[link]</a><br>OpenAI,, 2018. </li><li id="LOCALLYSTABLE"><span class="title">Gradient descent GAN optimization is locally stable</span>   <a href="http://arxiv.org/pdf/1706.04156.pdf">[PDF]</a><br>Nagarajan, V. and Kolter, J.Z., 2017. Advances in Neural Information Processing Systems, pp. 5585--5595. </li><li id="WHICHMETHODSCONVERGE"><span class="title">Which Training Methods for GANs do actually Converge?</span>   <a href="http://proceedings.mlr.press/v80/mescheder18a.html">[HTML]</a><br>Mescheder,
+ L., Geiger, A. and Nowozin, S., 2018. Proceedings of the 35th 
+International Conference on Machine Learning, Vol 80, pp. 3481--3490. 
+PMLR.</li><li id="LGQGAN"><span class="title">Understanding GANs: the LQG Setting</span>   <a href="https://openreview.net/forum?id=r1CE9GWR-">[link]</a><br>Feizi, S., Suh, C., Xia, F. and Tse, D., 2018. </li><li id="CROSSINGTHECURL"><span class="title">Global Convergence to the Equilibrium of GANs using Variational Inequalities</span>   <a href="http://arxiv.org/pdf/1808.01531.pdf">[PDF]</a><br>Gemp, I. and Mahadevan, S., 2018. ArXiv e-prints. </li><li id="SGA"><span class="title">The Mechanics of n-Player Differentiable Games</span>   <a href="http://arxiv.org/pdf/1802.05642.pdf">[PDF]</a><br>Balduzzi, D., Racaniere, S., Martens, J., Foerster, J., Tuyls, K. and Graepel, T., 2018. CoRR, Vol abs/1802.05642. </li><li id="APPROXGAN1"><span class="title">Approximation and Convergence Properties of Generative Adversarial Learning</span>   <a href="http://arxiv.org/pdf/1705.08991.pdf">[PDF]</a><br>Liu, S., Bousquet, O. and Chaudhuri, K., 2017. CoRR, Vol abs/1705.08991. </li><li id="APPROXGAN2"><span class="title">The Inductive Bias of Restricted f-GANs</span>   <a href="http://arxiv.org/pdf/1809.04542.pdf">[PDF]</a><br>Liu, S. and Chaudhuri, K., 2018. CoRR, Vol abs/1809.04542. </li><li id="LIMITATIONS"><span class="title">On the Limitations of First-Order Approximation in GAN Dynamics</span>   <a href="http://proceedings.mlr.press/v80/li18d/li18d.pdf">[PDF]</a><br>Li, J., Madry, A., Peebles, J. and Schmidt, L., 2017. ArXiv e-prints. </li><li id="LOSSSURFACE"><span class="title">The Loss Surface of Multilayer Networks</span>   <a href="http://arxiv.org/pdf/1412.0233.pdf">[PDF]</a><br>Choromanska, A., Henaff, M., Mathieu, M., Arous, G.B. and LeCun, Y., 2014. CoRR, Vol abs/1412.0233. </li><li id="GANGS"><span class="title">GANGs: Generative Adversarial Network Games</span>   <a href="http://arxiv.org/pdf/1712.00679.pdf">[PDF]</a><br>Oliehoek,
+ F.A., Savani, R., Gallego-Posada, J., Van der Pol, E., De Jong, E.D. 
+and Gros, R., 2017. arXiv preprint arXiv:1712.00679. </li><li id="BEYONDLOCAL"><span class="title">Beyond Local Nash Equilibria for Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1806.07268.pdf">[PDF]</a><br>Oliehoek, F., Savani, R., Gallego, J., van der Pol, E. and Gross, R., 2018. ArXiv e-prints. </li><li id="CHEKHOV"><span class="title">An Online Learning Approach to Generative Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1706.03269.pdf">[PDF]</a><br>Grnarova, P., Levy, K.Y., Lucchi, A., Hofmann, T. and Krause, A., 2017. CoRR, Vol abs/1706.03269. </li><li id="IMPROVEDTECHNIQUES"><span class="title">Improved Techniques for Training GANs</span>   <a href="http://arxiv.org/pdf/1606.03498.pdf">[PDF]</a><br>Salimans, T., Goodfellow, I.J., Zaremba, W., Cheung, V., Radford, A. and Chen, X., 2016. CoRR, Vol abs/1606.03498. </li><li id="FID"><span class="title">GANs Trained by a Two Time-Scale Update Rule Converge to a Nash Equilibrium</span>   <a href="http://arxiv.org/pdf/1706.08500.pdf">[PDF]</a><br>Heusel, M., Ramsauer, H., Unterthiner, T., Nessler, B., Klambauer, G. and Hochreiter, S., 2017. CoRR, Vol abs/1706.08500. </li><li id="INCEPTIONSCOREBAD"><span class="title">A Note on the Inception Score</span>   <a href="http://arxiv.org/pdf/1801.01973.pdf">[PDF]</a><br>Barratt, S. and Sharma, R., 2018. arXiv preprint arXiv:1801.01973. </li><li id="FIDBAD"><span class="title">Towards GAN Benchmarks Which Require Generalization</span>   <a href="https://openreview.net/forum?id=HkxKH2AcFm">[link]</a><br>Gulrajani, I., Raffel, C. and Metz, L., 2019. International Conference on Learning Representations. </li><li id="MSSSIM"><span class="title">Multiscale structural similarity for image quality assessment</span> <br>Wang,
+ Z., Simoncelli, E.P. and Bovik, A.C., 2003. The Thrity-Seventh Asilomar
+ Conference on Signals, Systems &amp; Computers, 2003, Vol 2, pp. 
+1398--1402. </li><li id="AIS"><span class="title">On the Quantitative Analysis of Decoder-Based Generative Models</span>   <a href="http://arxiv.org/pdf/1611.04273.pdf">[PDF]</a><br>Wu, Y., Burda, Y., Salakhutdinov, R. and Grosse, R.B., 2016. CoRR, Vol abs/1611.04273. </li><li id="AIS2"><span class="title">Annealed importance sampling</span> <br>Neal, R.M., 2001. Statistics and computing, Vol 11(2), pp. 125--139. Springer.</li><li id="GEOMETRYSCORE"><span class="title">Geometry Score: A Method For Comparing Generative Adversarial Networks</span>   <a href="http://arxiv.org/pdf/1802.02664.pdf">[PDF]</a><br>Khrulkov, V. and Oseledets, I.V., 2018. CoRR, Vol abs/1802.02664. </li><li id="PRGAN"><span class="title">Assessing Generative Models via Precision and Recall</span>   <a href="http://arxiv.org/pdf/1806.00035.pdf">[PDF]</a><br>Sajjadi, M.S., Bachem, O., Lucic, M., Bousquet, O. and Gelly, S., 2018. arXiv preprint arXiv:1806.00035. </li><li id="GANFIGHT"><span class="title">Skill Rating for Generative Models</span>   <a href="http://arxiv.org/pdf/1808.04888.pdf">[PDF]</a><br>Olsson, C., Bhupatiraju, S., Brown, T., Odena, A. and Goodfellow, I., 2018. ArXiv e-prints. </li><li id="DRS"><span class="title">Discriminator Rejection Sampling</span>   <a href="http://arxiv.org/pdf/1810.06758.pdf">[PDF]</a><br>Azadi, S., Olsson, C., Darrell, T., Goodfellow, I. and Odena, A., 2018. ArXiv e-prints. </li><li id="CLASSIFIERTWOSAMPLE"><span class="title">Revisiting Classifier Two-Sample Tests</span>   <a href="http://arxiv.org/pdf/1610.06545.pdf">[PDF]</a><br>Lopez-Paz, D. and Oquab, M., 2016. ArXiv e-prints. </li><li id="PARAMETRIC"><span class="title">Parametric Adversarial Divergences are Good Task Losses for Generative Modeling</span>   <a href="http://arxiv.org/pdf/1708.02511.pdf">[PDF]</a><br>Huang, G., Berard, H., Touati, A., Gidel, G., Vincent, P. and Lacoste-Julien, S., 2017. arXiv preprint arXiv:1708.02511. </li><li id="CHECKERBOARD"><span class="title">Deconvolution and Checkerboard Artifacts</span>   <a href="http://distill.pub/2016/deconv-checkerboard">[link]</a><br>Odena, A., Dumoulin, V. and Olah, C., 2016. Distill.  <a href="https://doi.org/10.23915/distill.00003" style="text-decoration:inherit;">DOI: 10.23915/distill.00003</a></li><li id="SVCCA"><span class="title">Svcca: Singular vector canonical correlation analysis for deep learning dynamics and interpretability</span> <br>Raghu,
+ M., Gilmer, J., Yosinski, J. and Sohl-Dickstein, J., 2017. Advances in 
+Neural Information Processing Systems, pp. 6076--6085. </li><li id="PREFERENCES"><span class="title">Deep reinforcement learning from human preferences</span> <br>Christiano,
+ P.F., Leike, J., Brown, T., Martic, M., Legg, S. and Amodei, D., 2017. 
+Advances in Neural Information Processing Systems, pp. 4299--4307. </li><li id="IMAGENET1HOUR"><span class="title">Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour</span>   <a href="http://arxiv.org/pdf/1706.02677.pdf">[PDF]</a><br>Goyal,
+ P., Dollar, P., Girshick, R.B., Noordhuis, P., Wesolowski, L., Kyrola, 
+A., Tulloch, A., Jia, Y. and He, K., 2017. CoRR, Vol abs/1706.02677. </li><li id="BATCH32"><span class="title">Scaling sgd batch size to 32k for imagenet training</span>   <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2017/EECS-2017-156.pdf">[PDF]</a><br>You, Y., Gitman, I. and Ginsburg, B., 2017. </li><li id="TRAINLONGERGENERALIZEBETTER"><span class="title">Train longer, generalize better: closing the generalization gap in large batch training of neural networks</span>   <a href="http://papers.nips.cc/paper/6770-train-longer-generalize-better-closing-the-generalization-gap-in-large-batch-training-of-neural-networks.pdf">[PDF]</a><br>Hoffer,
+ E., Hubara, I. and Soudry, D., 2017. Advances in Neural Information 
+Processing Systems 30, pp. 1731--1741. Curran Associates, Inc.</li><li id="DONTDECAY"><span class="title">Don't Decay the Learning Rate, Increase the Batch Size</span>   <a href="http://arxiv.org/pdf/1711.00489.pdf">[PDF]</a><br>Smith, S.L., Kindermans, P. and Le, Q.V., 2017. CoRR, Vol abs/1711.00489. </li><li id="NOISESCALE"><span class="title">An Empirical Model of Large-Batch Training</span> <br>McCandlish, S., Kaplan, J., Amodei, D. and Team, O.D., 2018. arXiv e-prints. </li><li id="NOMOREMOORE"><span class="title">Science and research policy at the end of Moore’s law</span>   <a href="https://www.nature.com/articles/s41928-017-0005-9">[link]</a><br>Khan, H.N., Hounshell, D.A. and Fuchs, E.R., 2018. Nature Electronics, Vol 1(1), pp. 14. Nature Publishing Group.</li><li id="TPU"><span class="title">In-datacenter performance analysis of a tensor processing unit</span>   <a href="http://arxiv.org/pdf/1704.04760.pdf">[PDF]</a><br>Jouppi,
+ N.P., Young, C., Patil, N., Patterson, D., Agrawal, G., Bajwa, R., 
+Bates, S., Bhatia, S., Boden, N., Borchers, A. and others,, 2017. 
+Computer Architecture (ISCA), 2017 ACM/IEEE 44th Annual International 
+Symposium on, pp. 1--12. </li><li id="OTGAN"><span class="title">Improving GANs using optimal transport</span>   <a href="http://arxiv.org/pdf/1803.05573.pdf">[PDF]</a><br>Salimans, T., Zhang, H., Radford, A. and Metaxas, D., 2018. arXiv preprint arXiv:1803.05573. </li><li id="LARGEDEAN"><span class="title">Large Scale Distributed Deep Networks</span>   <a href="http://papers.nips.cc/paper/4687-large-scale-distributed-deep-networks.pdf">[PDF]</a><br>Dean,
+ J., Corrado, G., Monga, R., Chen, K., Devin, M., Mao, M., Ranzato, M., 
+Senior, A., Tucker, P., Yang, K., Le, Q.V. and Ng, A.Y., 2012. Advances 
+in Neural Information Processing Systems 25, pp. 1223--1231. Curran 
+Associates, Inc.</li><li id="ELASTIC"><span class="title">Deep learning with Elastic Averaging SGD</span>   <a href="http://arxiv.org/pdf/1412.6651.pdf">[PDF]</a><br>Zhang, S., Choromanska, A. and LeCun, Y., 2014. CoRR, Vol abs/1412.6651. </li><li id="SUYOG"><span class="title">Staleness-aware Async-SGD for Distributed Deep Learning</span>   <a href="http://arxiv.org/pdf/1511.05950.pdf">[PDF]</a><br>Zhang, W., Gupta, S., Lian, X. and Liu, J., 2015. CoRR, Vol abs/1511.05950. </li><li id="FASGD"><span class="title">Faster Asynchronous SGD</span>   <a href="http://arxiv.org/pdf/1601.04033.pdf">[PDF]</a><br>Odena, A., 2016. ArXiv e-prints. </li><li id="AVERAGING"><span class="title">The Unusual Effectiveness of Averaging in GAN Training</span>   <a href="http://arxiv.org/pdf/1806.04498.pdf">[PDF]</a><br>Yazici, Y., Foo, C., Winkler, S., Yap, K., Piliouras, G. and Chandrasekhar, V., 2018. ArXiv e-prints. </li><li id="INTRIGUING"><span class="title">Intriguing properties of neural networks</span>   <a href="http://arxiv.org/pdf/1312.6199.pdf">[PDF]</a><br>Szegedy,
+ C., Zaremba, W., Sutskever, I., Bruna, J., Erhan, D., Goodfellow, I. 
+and Fergus, R., 2013. arXiv preprint arXiv:1312.6199. </li><li id="CONSTRAINTS"><span class="title">Adversarial examples from computational constraints</span>   <a href="http://arxiv.org/pdf/1805.10204.pdf">[PDF]</a><br>Bubeck, S., Price, E. and Razenshteyn, I., 2018. ArXiv e-prints. </li><li id="SQM"><span class="title">Efficient noise-tolerant learning from statistical queries</span> <br>Kearns, M., 1998. Journal of the ACM (JACM), Vol 45(6), pp. 983--1006. ACM.</li><li id="AEFGM"><span class="title">Adversarial examples for generative models</span>   <a href="http://arxiv.org/pdf/1702.06832.pdf">[PDF]</a><br>Kos, J., Fischer, I. and Song, D., 2018. 2018 IEEE Security and Privacy Workshops (SPW), pp. 36--42. </li><li id="MADRY"><span class="title">Towards deep learning models resistant to adversarial attacks</span>   <a href="http://arxiv.org/pdf/1706.06083.pdf">[PDF]</a><br>Madry, A., Makelov, A., Schmidt, L., Tsipras, D. and Vladu, A., 2017. arXiv preprint arXiv:1706.06083. </li></ol></d-citation-list>
+<distill-appendix>
+<style>
+  distill-appendix {
+    contain: layout style;
+  }
+
+  distill-appendix .citation {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  distill-appendix > * {
+    grid-column: text;
+  }
+</style>
+
+    <h3 id="updates-and-corrections">Updates and Corrections</h3>
+    <p>
+    If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--gan-open-problems/issues/new">create an issue on GitHub</a>. </p>
+    
+    <h3 id="reuse">Reuse</h3>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--gan-open-problems">source available on GitHub</a>,
+ unless noted otherwise. The figures that have been reused from other 
+sources don’t fall under this license and can be recognized by a note in
+ their caption: “Figure from …”.</p>
+    
+    <h3 id="citation">Citation</h3>
+    <p>For attribution in academic contexts, please cite this work as</p>
+    <pre class="citation short">Odena, "Open Questions about Generative Adversarial Networks", Distill, 2019.</pre>
+    <p>BibTeX citation</p>
+    <pre class="citation long">@article{odena2019open,
+  author = {Odena, Augustus},
+  title = {Open Questions about Generative Adversarial Networks},
+  journal = {Distill},
+  year = {2019},
+  note = {https://distill.pub/2019/gan-open-problems},
+  doi = {10.23915/distill.00018}
+}</pre>
+    </distill-appendix></d-appendix>
+
+<!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
+<d-bibliography><script type="text/json">[["FLOWGAN",{"author":"Aditya Grover and Manik Dhar and Stefano Ermon","title":"Flow-GAN: Bridging implicit and prescribed learning in generative models","journal":"CoRR","volume":"abs/1705.08868","year":"2017","url":"http://arxiv.org/abs/1705.08868","archivePrefix":"arXiv","eprint":"1705.08868","timestamp":"Mon, 13 Aug 2018 16:48:54 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/GroverDE17","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["FLOWGAN2",{"title":"Comparison of maximum likelihood and gan-based training of real nvps","author":"Danihelka, Ivo and Lakshminarayanan, Balaji and Uria, Benigno and Wierstra, Daan and Dayan, Peter","journal":"arXiv preprint arXiv:1705.05263","year":"2017","url":"https://arxiv.org/abs/1705.05263","type":"article"}],["NORMALIZINGFLOWS",{"author":"Jimenez Rezende, D. and Mohamed, S.","title":"Variational Inference with Normalizing Flows","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1505.05770","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Artificial Intelligence, Computer Science - Machine Learning, Statistics - Computation, Statistics - Methodology","year":"2015","month":"may","url":"https://arxiv.org/abs/1505.05770","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["IAF",{"author":"Diederik P. Kingma and Tim Salimans and Max Welling","title":"Improving Variational Inference with Inverse Autoregressive Flow","journal":"CoRR","volume":"abs/1606.04934","year":"2016","url":"http://arxiv.org/abs/1606.04934","archivePrefix":"arXiv","eprint":"1606.04934","timestamp":"Mon, 13 Aug 2018 16:47:58 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/KingmaSW16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["GLOW",{"author":"Kingma, D.~P. and Dhariwal, P.","title":"Glow: Generative Flow with Invertible 1x1 Convolutions","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1807.03039","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Artificial Intelligence, Computer Science - Machine Learning","year":"2018","month":"jul","url":"https://arxiv.org/abs/1807.03039","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["NICE",{"author":"Laurent Dinh and David Krueger and Yoshua Bengio","title":"NICE: Non-linear Independent Components Estimation","journal":"CoRR","volume":"abs/1410.8516","year":"2014","url":"http://arxiv.org/abs/1410.8516","archivePrefix":"arXiv","eprint":"1410.8516","timestamp":"Mon, 13 Aug 2018 16:48:00 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/DinhKB14","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["REALNVP",{"author":"Laurent Dinh and Jascha Sohl-Dickstein and Samy Bengio","title":"Density estimation using Real NVP","journal":"CoRR","volume":"abs/1605.08803","year":"2016","url":"http://arxiv.org/abs/1605.08803","archivePrefix":"arXiv","eprint":"1605.08803","timestamp":"Mon, 13 Aug 2018 16:47:21 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/DinhSB16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["NFTUTORIAL",{"title":"Normalizing Flows Tutorial","author":"Jang, Eric","year":"2016","url":"https://blog.evjang.com/2018/01/nf1.html","type":"misc"}],["BAEZ",{"title":"Open Questions in Physics","author":"John, Baez","year":"2010","url":"http://math.ucr.edu/home/baez/physics/General/open_questions.html","type":"misc"}],["NOTFAMOUS",{"title":"Not especially famous, long-open problems which anyone can understand","author":"Overflow, Stack","year":"2012","url":"https://mathoverflow.net/questions/100265/not-especially-famous-long-open-problems-which-anyone-can-understand","type":"misc"}],["HILBERT",{"title":"Hilbert's Problems","author":"Hilbert, David","year":"1900","url":"https://en.wikipedia.org/wiki/Hilbert%27s_problems","type":"misc"}],["SMALE",{"title":"Smale's Problems","author":"Smale, Stephen","year":"1998","url":"https://en.wikipedia.org/wiki/Smale%27s_problems","type":"misc"}],["CONSTRAINTS",{"author":"Bubeck, S. and Price, E. and Razenshteyn, I.","title":"Adversarial examples from computational constraints","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1805.10204","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Computational Complexity, Computer Science - Machine Learning","year":"2018","month":"may","adsurl":"http://adsabs.harvard.edu/abs/2018arXiv180510204B","adsnote":"Provided by the SAO/NASA Astrophysics Data System","url":"https://arxiv.org/abs/1805.10204","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["GANSEQUAL",{"author":"Lucic, M. and Kurach, K. and Michalski, M. and Gelly, S. and Bousquet, O.","title":"Are GANs Created Equal? A Large-Scale Study","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1711.10337","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Machine Learning","year":"2017","month":"nov","adsurl":"http://adsabs.harvard.edu/abs/2017arXiv171110337L","adsnote":"Provided by the SAO/NASA Astrophysics Data System","url":"https://arxiv.org/abs/1711.10337","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["DISCONNECTED",{"author":"Khayatkhoei, M. and Singh, M. and Elgamma, A.","title":"Disconnected Manifold Learning for Generative Adversarial Networks","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1806.00880","keywords":"Computer Science - Machine Learning, Computer Science - Computer Vision and Pattern Recognition, Statistics - Machine Learning","year":"2018","month":"jun","adsnote":"Provided by the SAO/NASA Astrophysics Data System","url":"https://arxiv.org/abs/1806.00880","archiveprefix":"arXiv","type":"ARTICLE"}],["AUDIOGAN",{"author":"Chris Donahue and Julian McAuley and Miller Puckette","title":"Synthesizing Audio with Generative Adversarial Networks","journal":"CoRR","volume":"abs/1802.04208","year":"2018","url":"http://arxiv.org/abs/1802.04208","archivePrefix":"arXiv","eprint":"1802.04208","timestamp":"Mon, 13 Aug 2018 16:48:55 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1802-04208","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["GANACTORCRITIC",{"author":"David Pfau and Oriol Vinyals","title":"Connecting Generative Adversarial Networks and Actor-Critic Methods","journal":"CoRR","volume":"abs/1610.01945","year":"2016","url":"http://arxiv.org/abs/1610.01945","archivePrefix":"arXiv","eprint":"1610.01945","timestamp":"Mon, 13 Aug 2018 16:48:11 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/PfauV16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["MASKGAN",{"author":"Fedus, W. and Goodfellow, I. and Dai, A.~M.","title":"MaskGAN: Better Text Generation via Filling in the ______","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1801.07736","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Artificial Intelligence, Computer Science - Machine Learning","year":"2018","month":"jan","url":"https://arxiv.org/abs/1801.07736","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["WGANGP",{"title":"Improved training of wasserstein gans","author":"Gulrajani, Ishaan and Ahmed, Faruk and Arjovsky, Martin and Dumoulin, Vincent and Courville, Aaron C","booktitle":"Advances in Neural Information Processing Systems","pages":"5767--5777","year":"2017","url":"https://arxiv.org/abs/1704.00028","type":"inproceedings"}],["GEOMETRICDEEPLEARNING",{"author":"Michael M. Bronstein and Joan Bruna and Yann LeCun and Arthur Szlam and Pierre Vandergheynst","title":"Geometric deep learning: going beyond Euclidean data","journal":"CoRR","volume":"abs/1611.08097","year":"2016","url":"http://arxiv.org/abs/1611.08097","archivePrefix":"arXiv","eprint":"1611.08097","timestamp":"Mon, 13 Aug 2018 16:48:20 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/BronsteinBLSV16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["NETGAN",{"author":"Bojchevski, A. and Shchur, O. and Zugner, D. and Gunnemann, S.","title":"NetGAN: Generating Graphs via Random Walks","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1803.00816","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Machine Learning, Computer Science - Social and Information Networks","year":"2018","month":"mar","adsnote":"Provided by the SAO/NASA Astrophysics Data System","url":"https://arxiv.org/abs/1803.00816","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["LOCALLYSTABLE",{"title":"Gradient descent GAN optimization is locally stable","author":"Nagarajan, Vaishnavh and Kolter, J Zico","booktitle":"Advances in Neural Information Processing Systems","pages":"5585--5595","year":"2017","url":"https://arxiv.org/abs/1706.04156","type":"inproceedings"}],["WHICHMETHODSCONVERGE",{"title":"Which Training Methods for GANs do actually Converge?","author":"Mescheder, Lars and Geiger, Andreas and Nowozin, Sebastian","booktitle":"Proceedings of the 35th International Conference on Machine Learning","pages":"3481--3490","year":"2018","editor":"Dy, Jennifer and Krause, Andreas","volume":"80","series":"Proceedings of Machine Learning Research","address":"Stockholmsmässan, Stockholm Sweden","month":"10--15 Jul","publisher":"PMLR","pdf":"http://proceedings.mlr.press/v80/mescheder18a/mescheder18a.pdf","url":"http://proceedings.mlr.press/v80/mescheder18a.html","type":"InProceedings"}],["LIMITATIONS",{"author":"Li, J. and Madry, A. and Peebles, J. and Schmidt, L. ","title":"On the Limitations of First-Order Approximation in GAN Dynamics","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1706.09884","keywords":"Computer Science - Machine Learning, Computer Science - Data Structures and Algorithms","year":"2017","month":"jun","adsurl":"http://adsabs.harvard.edu/abs/2017arXiv170609884L","adsnote":"Provided by the SAO/NASA Astrophysics Data System","url":"http://proceedings.mlr.press/v80/li18d/li18d.pdf","archiveprefix":"arXiv","type":"ARTICLE"}],["CROSSINGTHECURL",{"author":"Gemp, I. and Mahadevan, S.","title":"Global Convergence to the Equilibrium of GANs using Variational Inequalities","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1808.01531","keywords":"Computer Science - Machine Learning, Statistics - Machine Learning","year":"2018","month":"aug","adsnote":"Provided by the SAO/NASA Astrophysics Data System","url":"https://arxiv.org/abs/1808.01531","archiveprefix":"arXiv","type":"ARTICLE"}],["AIS",{"author":"Yuhuai Wu and Yuri Burda and Ruslan Salakhutdinov and Roger B. Grosse","title":"On the Quantitative Analysis of Decoder-Based Generative Models","journal":"CoRR","volume":"abs/1611.04273","year":"2016","url":"http://arxiv.org/abs/1611.04273","archivePrefix":"arXiv","eprint":"1611.04273","timestamp":"Mon, 13 Aug 2018 16:46:13 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/WuBSG16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["MNIST",{"author":"LeCun, Yann and Bottou, L\\'eon and Bengio, Yoshua and Haffner, Patrick","title":"Gradient-Based Learning Applied to Document Recognition","journal":"Proceedings of the IEEE","year":"1998","url":"http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf","type":"article"}],["CIFAR",{"title":"Learning Multiple Layers of Features from Tiny Images","author":"Krizhevsky, Alex","year":"2009","url":"https://www.cs.toronto.edu/~kriz/learning-features-2009-TR.pdf","type":"article"}],["STL",{"title":"An analysis of single-layer networks in unsupervised feature learning","author":"Coates, Adam and Ng, Andrew and Lee, Honglak","booktitle":"Proceedings of the fourteenth international conference on artificial intelligence and statistics","pages":"215--223","year":"2011","url":"http://proceedings.mlr.press/v15/coates11a/coates11a.pdf","type":"inproceedings"}],["IMAGENET",{"Author":"Olga Russakovsky and Jia Deng and Hao Su and Jonathan Krause and Sanjeev Satheesh and Sean Ma and Zhiheng Huang and Andrej Karpathy and Aditya Khosla and Michael Bernstein and Alexander C. Berg and Li Fei-Fei","Title":"ImageNet Large Scale Visual Recognition Challenge","Year":"2015","journal":"International Journal of Computer Vision (IJCV)","doi":"10.1007/s11263-015-0816-y","volume":"115","number":"3","pages":"211-252","url":"https://arxiv.org/abs/1409.0575","author":"Olga Russakovsky and Jia Deng and Hao Su and Jonathan Krause and Sanjeev Satheesh and Sean Ma and Zhiheng Huang and Andrej Karpathy and Aditya Khosla and Michael Bernstein and Alexander C. Berg and Li Fei-Fei","title":"ImageNet Large Scale Visual Recognition Challenge","year":"2015","type":"article"}],["CELEBA",{"title":"Deep Learning Face Attributes in the Wild","author":"Ziwei Liu and Ping Luo and Xiaogang Wang and Xiaoou Tang","booktitle":"Proceedings of International Conference on Computer Vision (ICCV)","year":"2015","url":"https://arxiv.org/abs/1411.7766","type":"inproceedings"}],["COLINTWEET",{"title":"PSA","author":"Raffel, Colin","year":"2018","url":"https://twitter.com/colinraffel/status/1030129455409164289","type":"misc"}],["ACGAN",{"author":"Odena, A. and Olah, C. and Shlens, J.","title":"Conditional Image Synthesis With Auxiliary Classifier GANs","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1610.09585","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Computer Vision and Pattern Recognition","year":"2016","month":"oct","url":"https://arxiv.org/abs/1610.09585","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["PROGRESSIVEGAN",{"author":"Tero Karras and Timo Aila and Samuli Laine and Jaakko Lehtinen","title":"Progressive Growing of GANs for Improved Quality, Stability, and Variation","journal":"CoRR","volume":"abs/1710.10196","year":"2017","url":"http://arxiv.org/abs/1710.10196","archivePrefix":"arXiv","eprint":"1710.10196","timestamp":"Mon, 13 Aug 2018 16:46:42 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1710-10196","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["SAGAN",{"author":"Zhang, H. and Goodfellow, I. and Metaxas, D. and Odena, A. ","title":"Self-Attention Generative Adversarial Networks","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1805.08318","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Machine Learning","year":"2018","month":"may","url":"https://arxiv.org/abs/1805.08318","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["GENERALIZATIONANDEQUILIBRIUM",{"author":"Sanjeev Arora and Rong Ge and Yingyu Liang and Tengyu Ma and Yi Zhang","title":"Generalization and Equilibrium in Generative Adversarial Nets (GANs)","journal":"CoRR","volume":"abs/1703.00573","year":"2017","url":"http://arxiv.org/abs/1703.00573","archivePrefix":"arXiv","eprint":"1703.00573","timestamp":"Mon, 13 Aug 2018 16:46:15 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/Arora0LMZ17","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["IMPROVEDTECHNIQUES",{"author":"Tim Salimans and Ian J. Goodfellow and Wojciech Zaremba and Vicki Cheung and Alec Radford and Xi Chen","title":"Improved Techniques for Training GANs","journal":"CoRR","volume":"abs/1606.03498","year":"2016","url":"http://arxiv.org/abs/1606.03498","archivePrefix":"arXiv","eprint":"1606.03498","timestamp":"Mon, 13 Aug 2018 16:46:57 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/SalimansGZCRC16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["FID",{"author":"Martin Heusel and Hubert Ramsauer and Thomas Unterthiner and Bernhard Nessler and G{\\\"{u}}nter Klambauer and Sepp Hochreiter","title":"GANs Trained by a Two Time-Scale Update Rule Converge to a Nash Equilibrium","journal":"CoRR","volume":"abs/1706.08500","year":"2017","url":"http://arxiv.org/abs/1706.08500","archivePrefix":"arXiv","eprint":"1706.08500","timestamp":"Mon, 13 Aug 2018 16:48:19 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/HeuselRUNKH17","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["CLASSIFIERTWOSAMPLE",{"author":"Lopez-Paz, D. and Oquab, M.","title":"Revisiting Classifier Two-Sample Tests","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1610.06545","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning","year":"2016","month":"oct","adsnote":"Provided by the SAO/NASA Astrophysics Data System","url":"https://arxiv.org/abs/1610.06545","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["CHECKERBOARD",{"author":"Odena, Augustus and Dumoulin, Vincent and Olah, Chris","title":"Deconvolution and Checkerboard Artifacts","journal":"Distill","year":"2016","url":"http://distill.pub/2016/deconv-checkerboard","doi":"10.23915/distill.00003","type":"article"}],["CYCLEGAN",{"author":"Jun{-}Yan Zhu and Taesung Park and Phillip Isola and Alexei A. Efros","title":"Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks","journal":"CoRR","volume":"abs/1703.10593","year":"2017","url":"http://arxiv.org/abs/1703.10593","archivePrefix":"arXiv","eprint":"1703.10593","timestamp":"Mon, 13 Aug 2018 16:48:06 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/ZhuPIE17","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["DOMAINADAPTATION",{"author":"Konstantinos Bousmalis and Nathan Silberman and David Dohan and Dumitru Erhan and Dilip Krishnan","title":"Unsupervised Pixel-Level Domain Adaptation with Generative Adversarial Networks","journal":"CoRR","volume":"abs/1612.05424","year":"2016","url":"http://arxiv.org/abs/1612.05424","archivePrefix":"arXiv","eprint":"1612.05424","timestamp":"Mon, 13 Aug 2018 16:49:07 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/BousmalisSDEK16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["DEEPIMAGEPRIOR",{"author":"Dmitry Ulyanov and Andrea Vedaldi and Victor S. Lempitsky","title":"Deep Image Prior","journal":"CoRR","volume":"abs/1711.10925","year":"2017","url":"http://arxiv.org/abs/1711.10925","archivePrefix":"arXiv","eprint":"1711.10925","timestamp":"Mon, 13 Aug 2018 16:47:52 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1711-10925","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["SEQGAN",{"author":"Lantao Yu and Weinan Zhang and Jun Wang and Yong Yu","title":"SeqGAN: Sequence Generative Adversarial Nets with Policy Gradient","journal":"CoRR","volume":"abs/1609.05473","year":"2016","url":"http://arxiv.org/abs/1609.05473","archivePrefix":"arXiv","eprint":"1609.05473","timestamp":"Mon, 13 Aug 2018 16:48:46 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/YuZWY16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["LOSSSURFACE",{"author":"Anna Choromanska and Mikael Henaff and Micha{\\\"{e}}l Mathieu and G{\\'{e}}rard Ben Arous and Yann LeCun","title":"The Loss Surface of Multilayer Networks","journal":"CoRR","volume":"abs/1412.0233","year":"2014","url":"http://arxiv.org/abs/1412.0233","archivePrefix":"arXiv","eprint":"1412.0233","timestamp":"Mon, 13 Aug 2018 16:48:26 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/ChoromanskaHMAL14","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["LGQGAN",{"title":"Understanding GANs: the LQG Setting","author":"Soheil Feizi and Changho Suh and Fei Xia and David Tse","year":"2018","url":"https://openreview.net/forum?id=r1CE9GWR-","type":"misc"}],["SGA",{"author":"David Balduzzi and S{\\'{e}}bastien Racaniere and James Martens and Jakob Foerster and Karl Tuyls and Thore Graepel","title":"The Mechanics of n-Player Differentiable Games","journal":"CoRR","volume":"abs/1802.05642","year":"2018","url":"http://arxiv.org/abs/1802.05642","archivePrefix":"arXiv","eprint":"1802.05642","timestamp":"Mon, 13 Aug 2018 16:46:44 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1802-05642","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["GANGS",{"title":"GANGs: Generative Adversarial Network Games","author":"Oliehoek, Frans A and Savani, Rahul and Gallego-Posada, Jose and Van der Pol, Elise and De Jong, Edwin D and Gros, Roderich","journal":"arXiv preprint arXiv:1712.00679","year":"2017","url":"https://arxiv.org/abs/1712.00679","type":"article"}],["BEYONDLOCAL",{"author":"Oliehoek, F.~A. and Savani, R. and Gallego, J. and van der Pol, E. and Gross, R.","title":"Beyond Local Nash Equilibria for Adversarial Networks","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1806.07268","keywords":"Computer Science - Machine Learning, Computer Science - Computer Science and Game Theory, Statistics - Machine Learning","year":"2018","month":"jun","adsnote":"Provided by the SAO/NASA Astrophysics Data System","url":"https://arxiv.org/abs/1806.07268v2","archiveprefix":"arXiv","type":"ARTICLE"}],["CHEKHOV",{"author":"Paulina Grnarova and Kfir Y. Levy and Aur{\\'{e}}lien Lucchi and Thomas Hofmann and Andreas Krause","title":"An Online Learning Approach to Generative Adversarial Networks","journal":"CoRR","volume":"abs/1706.03269","year":"2017","url":"http://arxiv.org/abs/1706.03269","archivePrefix":"arXiv","eprint":"1706.03269","timestamp":"Mon, 13 Aug 2018 16:49:15 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/GrnarovaLLHK17","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["IMAGENET1HOUR",{"author":"Priya Goyal and Piotr Dollar and Ross B. Girshick and Pieter Noordhuis and Lukasz Wesolowski and Aapo Kyrola and Andrew Tulloch and Yangqing Jia and Kaiming He","title":"Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour","journal":"CoRR","volume":"abs/1706.02677","year":"2017","url":"http://arxiv.org/abs/1706.02677","archivePrefix":"arXiv","eprint":"1706.02677","timestamp":"Mon, 13 Aug 2018 16:49:10 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/GoyalDGNWKTJH17","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["TPU",{"title":"In-datacenter performance analysis of a tensor processing unit","author":"Jouppi, Norman P and Young, Cliff and Patil, Nishant and Patterson, David and Agrawal, Gaurav and Bajwa, Raminder and Bates, Sarah and Bhatia, Suresh and Boden, Nan and Borchers, Al and others","booktitle":"Computer Architecture (ISCA), 2017 ACM/IEEE 44th Annual International Symposium on","pages":"1--12","year":"2017","organization":"IEEE","url":"https://arxiv.org/abs/1704.04760","type":"inproceedings"}],["BIGGAN",{"author":"Brock, A. and Donahue, J. and Simonyan, K.","title":"Large Scale GAN Training for High Fidelity Natural Image Synthesis","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1809.11096","keywords":"Computer Science - Machine Learning, Statistics - Machine Learning","year":"2018","month":"sep","url":"https://arxiv.org/abs/1809.11096","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","type":"ARTICLE"}],["SPECTRALNORM",{"author":"Takeru Miyato and Toshiki Kataoka and Masanori Koyama and Yuichi Yoshida","title":"Spectral Normalization for Generative Adversarial Networks","journal":"CoRR","volume":"abs/1802.05957","year":"2018","url":"http://arxiv.org/abs/1802.05957","archivePrefix":"arXiv","eprint":"1802.05957","timestamp":"Mon, 13 Aug 2018 16:48:15 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1802-05957","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["PIXELRNN",{"author":"A{\\\"{a}}ron van den Oord and Nal Kalchbrenner and Koray Kavukcuoglu","title":"Pixel Recurrent Neural Networks","journal":"CoRR","volume":"abs/1601.06759","year":"2016","url":"http://arxiv.org/abs/1601.06759","archivePrefix":"arXiv","eprint":"1601.06759","timestamp":"Mon, 13 Aug 2018 16:46:29 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/OordKK16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["PIXELCNN",{"author":"A{\\\"{a}}ron van den Oord and Nal Kalchbrenner and Oriol Vinyals and Lasse Espeholt and Alex Graves and Koray Kavukcuoglu","title":"Conditional Image Generation with PixelCNN Decoders","journal":"CoRR","volume":"abs/1606.05328","year":"2016","url":"http://arxiv.org/abs/1606.05328","archivePrefix":"arXiv","eprint":"1606.05328","timestamp":"Mon, 13 Aug 2018 16:46:40 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/OordKVEGK16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["PIXELCNNPP",{"author":"Tim Salimans and Andrej Karpathy and Xi Chen and Diederik P. Kingma","title":"PixelCNN++: Improving the PixelCNN with Discretized Logistic Mixture Likelihood and Other Modifications","journal":"CoRR","volume":"abs/1701.05517","year":"2017","url":"http://arxiv.org/abs/1701.05517","archivePrefix":"arXiv","eprint":"1701.05517","timestamp":"Sun, 16 Sep 2018 14:17:04 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/SalimansKCK17","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["WAVENET",{"author":"A{\\\"{a}}ron van den Oord and Sander Dieleman and Heiga Zen and Karen Simonyan and Oriol Vinyals and Alex Graves and Nal Kalchbrenner and Andrew W. Senior and Koray Kavukcuoglu","title":"WaveNet: A Generative Model for Raw Audio","journal":"CoRR","volume":"abs/1609.03499","year":"2016","url":"http://arxiv.org/abs/1609.03499","archivePrefix":"arXiv","eprint":"1609.03499","timestamp":"Mon, 13 Aug 2018 16:49:15 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/OordDZSVGKSK16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["CAPTHEOREM",{"title":"Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services","author":"Gilbert, Seth and Lynch, Nancy","journal":"Acm Sigact News","volume":"33","number":"2","pages":"51--59","year":"2002","publisher":"ACM","type":"article"}],["CONDITIONING",{"title":"Is Generator Conditioning Causally Related to GAN Performance?","author":"Odena, Augustus and Buckman, Jacob and Olsson, Catherine and Brown, Tom B and Olah, Christopher and Raffel, Colin and Goodfellow, Ian","journal":"arXiv preprint arXiv:1802.08768","year":"2018","url":"https://arxiv.org/abs/1802.08768","type":"article"}],["GANSYNTH",{"title":"GANSynth: Adversarial Neural Audio Synthesis","author":"Anonymous","booktitle":"Submitted to International Conference on Learning Representations","year":"2019","url":"https://openreview.net/forum?id=H1xQVn09FX","note":"under review","type":"inproceedings"}],["LSTM",{"title":"Long short-term memory","author":"Hochreiter, Sepp and Schmidhuber, Jurgen","journal":"Neural computation","volume":"9","number":"8","pages":"1735--1780","year":"1997","publisher":"MIT Press","type":"article"}],["DOTA",{"author":"OpenAI","title":"OpenAI Five","url":"https://blog.openai.com/openai-five/","year":"2018","type":"misc"}],["BATCH32",{"title":"Scaling sgd batch size to 32k for imagenet training","author":"You, Yang and Gitman, Igor and Ginsburg, Boris","year":"2017","url":"https://www2.eecs.berkeley.edu/Pubs/TechRpts/2017/EECS-2017-156.pdf","type":"article"}],["TRAINLONGERGENERALIZEBETTER",{"title":"Train longer, generalize better: closing the generalization gap in large batch training of neural networks","author":"Hoffer, Elad and Hubara, Itay and Soudry, Daniel","booktitle":"Advances in Neural Information Processing Systems 30","editor":"I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett","pages":"1731--1741","year":"2017","publisher":"Curran Associates, Inc.","url":"http://papers.nips.cc/paper/6770-train-longer-generalize-better-closing-the-generalization-gap-in-large-batch-training-of-neural-networks.pdf","type":"incollection"}],["DONTDECAY",{"author":"Samuel L. Smith and Pieter{-}Jan Kindermans and Quoc V. Le","title":"Don't Decay the Learning Rate, Increase the Batch Size","journal":"CoRR","volume":"abs/1711.00489","year":"2017","url":"http://arxiv.org/abs/1711.00489","archivePrefix":"arXiv","eprint":"1711.00489","timestamp":"Mon, 13 Aug 2018 16:46:33 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1711-00489","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["NOMOREMOORE",{"title":"Science and research policy at the end of Moore’s law","author":"Khan, Hassan N and Hounshell, David A and Fuchs, Erica RH","journal":"Nature Electronics","volume":"1","number":"1","pages":"14","year":"2018","publisher":"Nature Publishing Group","url":"https://www.nature.com/articles/s41928-017-0005-9","type":"article"}],["OTGAN",{"title":"Improving GANs using optimal transport","author":"Salimans, Tim and Zhang, Han and Radford, Alec and Metaxas, Dimitris","journal":"arXiv preprint arXiv:1803.05573","year":"2018","url":"https://arxiv.org/abs/1803.05573","type":"article"}],["INTRIGUING",{"title":"Intriguing properties of neural networks","author":"Szegedy, Christian and Zaremba, Wojciech and Sutskever, Ilya and Bruna, Joan and Erhan, Dumitru and Goodfellow, Ian and Fergus, Rob","journal":"arXiv preprint arXiv:1312.6199","year":"2013","url":"https://arxiv.org/abs/1312.6199","type":"article"}],["SQM",{"title":"Efficient noise-tolerant learning from statistical queries","author":"Kearns, Michael","journal":"Journal of the ACM (JACM)","volume":"45","number":"6","pages":"983--1006","year":"1998","publisher":"ACM","type":"article"}],["MADRY",{"title":"Towards deep learning models resistant to adversarial attacks","author":"Madry, Aleksander and Makelov, Aleksandar and Schmidt, Ludwig and Tsipras, Dimitris and Vladu, Adrian","journal":"arXiv preprint arXiv:1706.06083","year":"2017","url":"https://arxiv.org/abs/1706.06083","type":"article"}],["AEFGM",{"title":"Adversarial examples for generative models","author":"Kos, Jernej and Fischer, Ian and Song, Dawn","booktitle":"2018 IEEE Security and Privacy Workshops (SPW)","pages":"36--42","year":"2018","organization":"IEEE","url":"https://arxiv.org/abs/1702.06832","type":"inproceedings"}],["INCEPTIONSCOREBAD",{"title":"A Note on the Inception Score","author":"Barratt, Shane and Sharma, Rishi","journal":"arXiv preprint arXiv:1801.01973","year":"2018","url":"https://arxiv.org/abs/1801.01973","type":"article"}],["FIDBAD",{"title":"Towards GAN Benchmarks Which Require Generalization","author":"Ishaan Gulrajani and Colin Raffel and Luke Metz","booktitle":"International Conference on Learning Representations","year":"2019","url":"https://openreview.net/forum?id=HkxKH2AcFm","type":"inproceedings"}],["MSSSIM",{"title":"Multiscale structural similarity for image quality assessment","author":"Wang, Zhou and Simoncelli, Eero P and Bovik, Alan C","booktitle":"The Thrity-Seventh Asilomar Conference on Signals, Systems & Computers, 2003","volume":"2","pages":"1398--1402","year":"2003","organization":"Ieee","type":"inproceedings"}],["AIS2",{"title":"Annealed importance sampling","author":"Neal, Radford M","journal":"Statistics and computing","volume":"11","number":"2","pages":"125--139","year":"2001","publisher":"Springer","type":"article"}],["GEOMETRYSCORE",{"author":"Valentin Khrulkov and Ivan V. Oseledets","title":"Geometry Score: A Method For Comparing Generative Adversarial Networks","journal":"CoRR","volume":"abs/1802.02664","year":"2018","url":"http://arxiv.org/abs/1802.02664","archivePrefix":"arXiv","eprint":"1802.02664","timestamp":"Mon, 13 Aug 2018 16:46:33 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1802-02664","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["PRGAN",{"title":"Assessing Generative Models via Precision and Recall","author":"Sajjadi, Mehdi SM and Bachem, Olivier and Lucic, Mario and Bousquet, Olivier and Gelly, Sylvain","journal":"arXiv preprint arXiv:1806.00035","year":"2018","url":"https://arxiv.org/abs/1806.00035","type":"article"}],["PARAMETRIC",{"title":"Parametric Adversarial Divergences are Good Task Losses for Generative Modeling","author":"Huang, Gabriel and Berard, Hugo and Touati, Ahmed and Gidel, Gauthier and Vincent, Pascal and Lacoste-Julien, Simon","journal":"arXiv preprint arXiv:1708.02511","year":"2017","url":"https://arxiv.org/abs/1708.02511","type":"article"}],["GANFIGHT",{"author":"Olsson, C. and Bhupatiraju, S. and Brown, T. and Odena, A. and Goodfellow, I.","title":"Skill Rating for Generative Models","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1808.04888","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Machine Learning","year":"2018","month":"aug","url":"https://arxiv.org/abs/1808.04888","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["FASGD",{"author":"Odena, A.","title":"Faster Asynchronous SGD","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1601.04033","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Machine Learning","year":"2016","month":"jan","url":"https://arxiv.org/abs/1601.04033","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["SYNCSGD",{"author":"Jianmin Chen and Rajat Monga and Samy Bengio and Rafal Jozefowicz","title":"Revisiting Distributed Synchronous SGD","journal":"CoRR","volume":"abs/1604.00981","year":"2016","url":"https://arxiv.org/abs/1604.00981","archivePrefix":"arXiv","eprint":"1604.00981","timestamp":"Mon, 13 Aug 2018 16:48:43 +0200","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["LARGEDEAN",{"title":"Large Scale Distributed Deep Networks","author":"Jeffrey Dean and Greg Corrado and Rajat Monga and Chen, Kai and Matthieu Devin and Mark Mao and Marc'aurelio Ranzato and Andrew Senior and Paul Tucker and Ke Yang and Quoc V. Le and Andrew Y. Ng","booktitle":"Advances in Neural Information Processing Systems 25","editor":"F. Pereira and C. J. C. Burges and L. Bottou and K. Q. Weinberger","pages":"1223--1231","year":"2012","publisher":"Curran Associates, Inc.","url":"http://papers.nips.cc/paper/4687-large-scale-distributed-deep-networks.pdf","type":"incollection"}],["ELASTIC",{"author":"Sixin Zhang and Anna Choromanska and Yann LeCun","title":"Deep learning with Elastic Averaging SGD","journal":"CoRR","volume":"abs/1412.6651","year":"2014","url":"http://arxiv.org/abs/1412.6651","archivePrefix":"arXiv","eprint":"1412.6651","timestamp":"Mon, 13 Aug 2018 16:49:02 +0200","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["SUYOG",{"author":"Wei Zhang and Suyog Gupta and Xiangru Lian and Ji Liu","title":"Staleness-aware Async-SGD for Distributed Deep Learning","journal":"CoRR","volume":"abs/1511.05950","year":"2015","url":"http://arxiv.org/abs/1511.05950","archivePrefix":"arXiv","eprint":"1511.05950","timestamp":"Mon, 13 Aug 2018 16:46:20 +0200","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["SGDCOMPENSATION",{"author":"Shuxin Zheng and Qi Meng and Taifeng Wang and Wei Chen and Nenghai Yu and Zhiming Ma and Tie{-}Yan Liu","title":"Asynchronous Stochastic Gradient Descent with Delay Compensation for Distributed Deep Learning","journal":"CoRR","volume":"abs/1609.08326","year":"2016","url":"http://arxiv.org/abs/1609.08326","archivePrefix":"arXiv","eprint":"1609.08326","timestamp":"Mon, 13 Aug 2018 16:46:27 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/ZhengMWCYML16","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["AVERAGING",{"author":"Yazici, Y. and Foo, C.S. and Winkler, S. and Yap, K.H. and Piliouras, G. and Chandrasekhar, V.","title":"The Unusual Effectiveness of Averaging in GAN Training","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1806.04498","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning","year":"2018","month":"jun","url":"https://arxiv.org/abs/1806.04498","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["DRS",{"author":"Azadi, S. and Olsson, C. and Darrell, T. and Goodfellow, I. and Odena, A.","title":"Discriminator Rejection Sampling","journal":"ArXiv e-prints","archivePrefix":"arXiv","eprint":"1810.06758","primaryClass":"stat.ML","keywords":"Statistics - Machine Learning, Computer Science - Machine Learning","year":"2018","month":"oct","url":"https://arxiv.org/abs/1810.06758","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"ARTICLE"}],["VAE",{"title":"Auto-Encoding Variational Bayes","author":"Kingma, Diederik P and Welling, Max","journal":"arXiv preprint arXiv:1312.6114","url":"https://arxiv.org/abs/1312.6114","year":"2013","type":"article"}],["STYLEGAN",{"title":"A style-based generator architecture for generative adversarial networks","author":"Karras, Tero and Laine, Samuli and Aila, Timo","journal":"arXiv preprint arXiv:1812.04948","url":"https://arxiv.org/abs/1812.04948","year":"2018","type":"article"}],["NOTANON",{"title":"GANSynth: Adversarial Neural Audio Synthesis","author":"Jesse Engel and Kumar Krishna Agrawal and Shuo Chen and Ishaan Gulrajani and Chris Donahue and Adam Roberts","booktitle":"International Conference on Learning Representations","year":"2019","url":"https://openreview.net/forum?id=H1xQVn09FX","type":"inproceedings"}],["NOISESCALE",{"author":"McCandlish, S. and Kaplan, J. and Amodei, D. and OpenAI Dota Team","title":"An Empirical Model of Large-Batch Training","journal":"arXiv e-prints","archivePrefix":"arXiv","eprint":"1812.06162","keywords":"Computer Science - Machine Learning, Statistics - Machine Learning","year":"2018","month":"dec","adsurl":"http://adsabs.harvard.edu/abs/2018arXiv181206162M","adsnote":"Provided by the SAO/NASA Astrophysics Data System","archiveprefix":"arXiv","type":"ARTICLE"}],["SVCCA",{"title":"Svcca: Singular vector canonical correlation analysis for deep learning dynamics and interpretability","author":"Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and Sohl-Dickstein, Jascha","booktitle":"Advances in Neural Information Processing Systems","pages":"6076--6085","year":"2017","type":"inproceedings"}],["PREFERENCES",{"title":"Deep reinforcement learning from human preferences","author":"Christiano, Paul F and Leike, Jan and Brown, Tom and Martic, Miljan and Legg, Shane and Amodei, Dario","booktitle":"Advances in Neural Information Processing Systems","pages":"4299--4307","year":"2017","type":"inproceedings"}],["PARALLELWAVENET",{"author":"Aaron van den Oord and Yazhe Li and Igor Babuschkin and Karen Simonyan and Oriol Vinyals and Koray Kavukcuoglu and George van den Driessche and Edward Lockhart and Luis C. Cobo and Florian Stimberg and Norman Casagrande and Dominik Grewe and Seb Noury and Sander Dieleman and Erich Elsen and Nal Kalchbrenner and Heiga Zen and Alex Graves and Helen King and Tom Walters and Dan Belov and Demis Hassabis","title":"Parallel WaveNet: Fast High-Fidelity Speech Synthesis","journal":"CoRR","volume":"abs/1711.10433","year":"2017","url":"http://arxiv.org/abs/1711.10433","archivePrefix":"arXiv","eprint":"1711.10433","timestamp":"Mon, 13 Aug 2018 16:49:17 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1711-10433","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["APPROXGAN1",{"author":"Shuang Liu and Olivier Bousquet and Kamalika Chaudhuri","title":"Approximation and Convergence Properties of Generative Adversarial Learning","journal":"CoRR","volume":"abs/1705.08991","year":"2017","url":"http://arxiv.org/abs/1705.08991","archivePrefix":"arXiv","eprint":"1705.08991","timestamp":"Mon, 13 Aug 2018 16:46:20 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/LiuBC17","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["APPROXGAN2",{"author":"Shuang Liu and Kamalika Chaudhuri","title":"The Inductive Bias of Restricted f-GANs","journal":"CoRR","volume":"abs/1809.04542","year":"2018","url":"http://arxiv.org/abs/1809.04542","archivePrefix":"arXiv","eprint":"1809.04542","timestamp":"Fri, 05 Oct 2018 11:34:52 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1809-04542","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}]]</script></d-bibliography>
+
+<script type="text/javascript" src="Open%20Questions%20about%20Generative%20Adversarial%20Networks_files/index.js"></script>
+
+<distill-footer>
+<style>
+
+:host {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: hsl(180, 5%, 15%); /*hsl(200, 60%, 15%);*/
+  text-align: left;
+  contain: content;
+}
+
+.footer-container .logo svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+
+.footer-container .logo svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+
+.footer-container .logo {
+  font-size: 17px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+.footer-container {
+  grid-column: text;
+}
+
+.footer-container .nav {
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.footer-container .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 6px;
+  text-decoration: none;
+}
+
+</style>
+
+<div class="footer-container">
+
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a> is dedicated to clear explanations of machine learning
+
+  <div class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/archive/">Archive</a>
+    <a href="https://distill.pub/rss.xml">RSS</a>
+    <a href="https://github.com/distillpub">GitHub</a>
+    <a href="https://twitter.com/distillpub">Twitter</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; ISSN 2476-0757
+  </div>
+
+</div>
+
+</distill-footer><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83741880-1', 'auto');
+  ga('send', 'pageview');
+</script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

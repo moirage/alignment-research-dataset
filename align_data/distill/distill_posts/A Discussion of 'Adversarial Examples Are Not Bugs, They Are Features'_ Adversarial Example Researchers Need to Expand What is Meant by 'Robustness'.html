@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://distill.pub/2019/advex-bugs-discussion/response-1/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;_files/template.v2.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;_files/analytics.js"></script><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;_files/webcomponents-loader.js"></script><script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;_files/webcomponents-hi.js"></script>
+    
+    
+    <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+    <style>
+        .subgrid {
+	grid-column: screen;
+	display: grid;
+	grid-template-columns: inherit;
+	grid-template-rows: inherit;
+	grid-column-gap: inherit;
+	grid-row-gap: inherit;
+}
+
+d-figure.base-grid {
+	grid-column: screen;
+	background: hsl(0, 0%, 97%);
+	padding: 20px 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+d-figure {
+	margin-bottom: 1em;
+	position: relative;
+}
+
+d-figure > figure {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.shaded-figure {
+	background-color: hsl(0, 0%, 97%);
+	border-top: 1px solid hsla(0, 0%, 0%, 0.1);
+	border-bottom: 1px solid hsla(0, 0%, 0%, 0.1);
+	padding: 30px 0;
+}
+
+.pointer {
+	position: absolute;
+	width: 26px;
+	height: 26px;
+	top: 26px;
+	left: -48px;
+}
+
+a.figure-number,
+a.section-number {
+	border-bottom-color: hsla(206, 90%, 20%, 0.3);
+	text-transform: uppercase;
+	font-size: 0.85em;
+	color: hsla(206, 90%, 20%, 0.7);
+}
+
+a.figure-number::before {
+	content: "Figure ";
+}
+
+#rebuttal,
+.response-info {
+	margin: 1em 0;
+	background-color: hsl(228, 50%, 97%);
+	border-left: solid hsl(229, 50%, 25%) 3px;
+	padding: 1em;
+}
+
+#rebuttal,
+.rebuttal-info {
+	color: hsl(129, 50%, 15%);
+	background-color: hsl(128, 50%, 97%);
+	border-left: solid hsl(128, 50%, 25%) 3px;
+	margin-bottom: 0.5em;
+}
+
+#rebuttal figure {
+	background: white;
+	padding: 1em;
+	border-radius: 1em;
+}
+
+#rebuttal p:last-of-type {
+	margin-bottom: 0;
+}
+
+    </style>
+<link rel="stylesheet" href="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;_files/katex.min.css" crossorigin="anonymous">
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA99JREFUeNrsG4t1ozDMzQSM4A2ODUonKBucN2hugtIJ6E1AboLcBiQTkJsANiAb9OCd/OpzMWBJBl5TvaeXPiiyJetry0J8wW3D3QpjRh3GjneXDq+fSQA9s2mH9x3KDhN4foJfCb8N/Jrv+2fnDn8vLRQOplWHVYdvHZYdZsBcZP1vBmh/n8DzEmhUQDPaOuP9pFuY+JwJHwHnCLQE2tnWBGEyXozY9xCUgHMhhjE2I4heVWtgIkZ83wL6Qgxj1obfWBxymPwe+b00BCCRNPbwfb60yleAkkBHGT5AEehIYz7eJrFDMF9CvH4wwhcGHiHMneFvLDQwlwvMLQq58trRcYBWfYn0A0OgHWQUSu25mE+BnoYKnnEJoeIWAifzOv7vLWd2ZKRfWAIme3tOiUaQ3UnLkb0xj1FxRIeEGKaGIHOs9nEgLaaA9i0JRYo1Ic67wJW86KSKE/ZAM8KuVMk8ITVhmxUxJ3Cl2xlm9Vtkeju1+mpCQNxaEGNCY8bs9X2YqwNoQeGjBWut/ma0QAWy/TqAsHx9wSya3I5IRxOfTC+leG+kA/4vSeEcGBtNUN6byhu3+keEZCQJUNh8MAO7HL6H8pQLnsW/Hd4T4lv93TPjfM7A46iEEqbB5EDOvwYNW6tGNZzT/o+CZ6sqZ6wUtR/wf7mi/VL8iNciT6rHih48Y55b4nKCHJCCzb4y0nwFmin3ZEMIoLfZF8F7nncFmvnWBaBj7CGAYA/WGJsUwHdYqVDwAmNsUgAx4CGgAA7GOOxADYOFWOaIKifuVYzmOpREqA21Mo7aPsgiY1PhOMAmxtR+AUbYH3Id2wc0SAFIQTsn9IUGWR8k9jx3vtXSiAacFxTAGakBk9UudkNECd6jLe+6HrshshvIuC6IlLMRy7er+JpcKma24SlE4cFZSZJDGVVrsNvitQhQrDhW0jfiOLfFd47C42eHT56D/BK0To+58Ahj+cAT8HT1UWlfLZCCd/uKawzU0Rh2EyIX/Icqth3niG8ybNroezwe6khdCNxRN+l4XGdOLVLlOOt2hTRJlr1ETIuMAltVTMz70mJrkdGAaZLSmnBEqmAE32JCMmuTlCnRgsBENtOUpHhvvsYIL0ibnBkaC6QvKcR7738GKp0AKnim7xgUSNv1bpS8QwhBt8r+EP47v/oyRK/S34yJ9nT+AN0Tkm4OdB9E4BsmXM3SnMlRFUrtp6IDpV2eKzdYvF3etm3KhQksbOLChGkSmcBdmcEwvqkrMy5BzL00NZeu3qPYJOOuCc+5NjcWKXQxFvTa3NoXJ4d8in7fiAUuTt781dkvuHX4K8AA2Usy7yNKLy0AAAAASUVORK5CYII=">
+    <link href="https://distill.pub/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
+  
+    <title>A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features': Adversarial Example Researchers Need to Expand What is Meant by 'Robustness'</title>
+    
+    <link rel="canonical" href="https://distill.pub/2019/advex-bugs-discussion/response-1">
+    
+    <!--  https://schema.org/Article -->
+    <meta property="description" itemprop="description" content="The main hypothesis in Ilyas et al. (2019) happens to be a special case of a more general principle that is commonly accepted in the robustness to distributional shift literature">
+    <meta property="article:published" itemprop="datePublished" content="2019-08-06">
+    <meta property="article:created" itemprop="dateCreated" content="2019-08-06">
+    
+    <meta property="article:modified" itemprop="dateModified" content="2019-08-06T22:12:29.000Z">
+    
+    <meta property="article:author" content="Justin Gilmer">
+    <meta property="article:author" content="Dan Hendrycks">
+    <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;: Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;">
+    <meta property="og:description" content="The main hypothesis in Ilyas et al. (2019) happens to be a special case of a more general principle that is commonly accepted in the robustness to distributional shift literature">
+    <meta property="og:url" content="https://distill.pub/2019/advex-bugs-discussion/response-1">
+    <meta property="og:image" content="https://distill.pub/2019/advex-bugs-discussion/response-1/thumbnail.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Distill">
+  
+    <!--  https://dev.twitter.com/cards/types/summary -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;: Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;">
+    <meta name="twitter:description" content="The main hypothesis in Ilyas et al. (2019) happens to be a special case of a more general principle that is commonly accepted in the robustness to distributional shift literature">
+    <meta name="twitter:url" content="https://distill.pub/2019/advex-bugs-discussion/response-1">
+    <meta name="twitter:image" content="https://distill.pub/2019/advex-bugs-discussion/response-1/thumbnail.jpg">
+    <meta name="twitter:image:width" content="560">
+    <meta name="twitter:image:height" content="295">
+  
+      <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+    <meta name="citation_title" content="A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;: Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;">
+    <meta name="citation_fulltext_html_url" content="https://distill.pub/2019/advex-bugs-discussion/response-1">
+    <meta name="citation_volume" content="4">
+    <meta name="citation_issue" content="8">
+    <meta name="citation_firstpage" content="e00019.1">
+    <meta name="citation_doi" content="10.23915/distill.00019.1">
+    <meta name="citation_journal_title" content="Distill">
+    <meta name="citation_journal_abbrev" content="Distill">
+    <meta name="citation_issn" content="2476-0757">
+    <meta name="citation_fulltext_world_readable" content="">
+    <meta name="citation_online_date" content="2019/08/06">
+    <meta name="citation_publication_date" content="2019/08/06">
+    <meta name="citation_author" content="Gilmer, Justin">
+    <meta name="citation_author_institution" content="Google Brain Team">
+    <meta name="citation_author" content="Hendrycks, Dan">
+    <meta name="citation_author_institution" content="UC Berkeley">
+    <meta name="citation_reference" content="citation_title=Benchmarking Neural Network Robustness to Common Corruptions and Perturbations;citation_author=Dan Hendrycks;citation_author=Thomas G. Dietterich;citation_publication_date=2019;citation_arxiv_id=1903.12261;">
+    <meta name="citation_reference" content="citation_title=Measuring the tendency of CNNs to Learn Surface Statistical Regularities;citation_author=Jason Jo;citation_author=Yoshua Bengio;citation_publication_date=2017;citation_arxiv_id=1711.11561;">
+    <meta name="citation_reference" content="citation_title=Nightmare at Test Time: Robust Learning by Feature Deletion;citation_author=Amir Globerson;citation_author=Sam Roweis;citation_publication_date=2006;">
+    <meta name="citation_reference" content="citation_title=A Robust Minimax Approach to Classification;citation_author=Gert R.G. Lanckriet;citation_author=Laurent El Ghaoui;citation_author=Chiranjib Bhattacharyya;citation_author=Michael I. Jordan;citation_publication_date=2003;citation_journal_title=J. Mach. Learn. Res.;citation_volume=3;">
+    <meta name="citation_reference" content="citation_title=Generalisation in humans and deep neural networks;citation_author=Robert Geirhos;citation_author=Carlos R. Medina Temme;citation_author=Jonas Rauber;citation_author=Heiko H. Sch{\&quot;{u}}tt;citation_author=Matthias Bethge;citation_author=Felix A. Wichmann;citation_publication_date=2018;citation_arxiv_id=1808.08750;">
+    <meta name="citation_reference" content="citation_title=A Fourier Perspective on Model Robustness in Computer Vision;citation_author=Dong Yin;citation_author=Raphael Gontijo Lopes;citation_author=Jonathon Shlens;citation_author=Ekin D. Cubuk;citation_author=Justin Gilmer;citation_publication_date=2019;citation_arxiv_id=1906.08988;">
+    <meta name="citation_reference" content="citation_title=Motivating the Rules of the Game for Adversarial Example Research;citation_author=Justin Gilmer;citation_author=Ryan P. Adams;citation_author=Ian J. Goodfellow;citation_author=David Andersen;citation_author=George E. Dahl;citation_publication_date=2018;citation_arxiv_id=1807.06732;">
+    <meta name="citation_reference" content="citation_title=Adversarial Examples Are a Natural Consequence of Test Error in Noise;citation_author=Nic Ford;citation_author=Justin Gilmer;citation_author=Nicholas Carlini;citation_author=Ekin Dogus Cubuk;citation_publication_date=2019;citation_arxiv_id=1901.10513;">
+    <meta name="citation_reference" content="citation_title=Robustness of classifiers: from adversarial to random noise;citation_author=Alhussein Fawzi;citation_author=Seyed-Mohsen Moosavi-Dezfooli;citation_author=Pascal Frossard;citation_publication_date=2016;">
+    <meta name="citation_reference" content="citation_title=Natural Adversarial Examples;citation_author=Dan Hendrycks;citation_author=Kevin Zhao;citation_author=Steven Basart;citation_author=Jacob Steinhardt;citation_author=Dawn Song;citation_publication_date=2019;citation_arxiv_id=1907.07174;">
+    <meta name="citation_reference" content="citation_title={MNIST-C:} {A} Robustness Benchmark for Computer Vision;citation_author=Norman Mu;citation_author=Justin Gilmer;citation_publication_date=2019;citation_arxiv_id=1906.02337;">
+    <meta name="citation_reference" content="citation_title={NICO:} {A} Dataset Towards Non-I.I.D. Image Classification;citation_author=Yue He;citation_author=Zheyan Shen;citation_author=Peng Cui;citation_publication_date=2019;citation_arxiv_id=1906.02899;">
+    <meta name="citation_reference" content="citation_title=Do ImageNet Classifiers Generalize to ImageNet?;citation_author=Benjamin Recht;citation_author=Rebecca Roelofs;citation_author=Ludwig Schmidt;citation_author=Vaishaal Shankar;citation_publication_date=2019;citation_arxiv_id=1902.10811;">
+    <meta name="citation_reference" content="citation_title=The Elephant in the Room;citation_author=Amir Rosenfeld;citation_author=Richard S. Zemel;citation_author=John K. Tsotsos;citation_publication_date=2018;citation_arxiv_id=1808.03305;">
+    <meta name="citation_reference" content="citation_title=Using Videos to Evaluate Image Model Robustness;citation_author=Keren Gu;citation_author=Brandon Yang;citation_author=Jiquan Ngiam;citation_author=Quoc V. Le;citation_author=Jonathon Shlens;citation_publication_date=2019;citation_arxiv_id=1904.10076;">
+<style id="svelte-1eb0vow-style">.visual-toc.svelte-1eb0vow{counter-reset:toc-heading;display:grid;grid-auto-flow:dense;grid-template-columns:1fr 1fr 1fr;grid-gap:16px}@media(min-width: 1000px){.visual-toc.svelte-1eb0vow{grid-gap:8px;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr}}@media(min-width: 1180px){.visual-toc.svelte-1eb0vow{grid-gap:20px}}.visual-toc-item.svelte-1eb0vow{display:flex;flex-flow:column}.visual-toc-top.svelte-1eb0vow{flex-grow:1;border:1px solid #E5E5E5;border-radius:5px;overflow:hidden;text-decoration:none;transition:box-shadow 0.35s, transform 0.35s;transform:scale(1.0);display:flex;flex-flow:column}.visual-toc-top.svelte-1eb0vow:hover{box-shadow:0px 1px 4px rgba(0,0,0,0.05);transform:scale(1.02);transition:box-shadow 0.15s, transform 0.15s}.visual-toc-heading.svelte-1eb0vow,.visual-toc-subheading.svelte-1eb0vow{display:block;line-height:1.3em;font-size:85%;padding:0.5em 1em 1em 1em}.visual-toc-heading.svelte-1eb0vow{counter-increment:toc-heading;color:#333;font-weight:600}.visual-toc-heading.svelte-1eb0vow::before{display:block;content:"Section " counter(toc-heading);font-weight:400;text-transform:uppercase;font-size:0.6rem;color:#666}.visual-toc-subheading.svelte-1eb0vow{display:none;color:#666;font-size:75%}.visual-toc-colab.svelte-1eb0vow{border-radius:5px;border:dashed 1px rgba(0,0,0,0.1);margin-top:1em;padding-left:1.2em;padding-right:1.2em;padding-top:0.25em;padding-bottom:0.25em;text-transform:uppercase;color:#aaa;font-size:10.5px;line-height:24px}.visual-toc-colab.svelte-1eb0vow>img.svelte-1eb0vow{position:relative;top:4px}.visual-toc-item.svelte-1eb0vow:hover .visual-toc-colab>img.svelte-1eb0vow{filter:unset}.visual-toc-colab.svelte-1eb0vow:hover{background-color:hsl(0, 0%, 97%);border-color:rgba(0,0,0,0.2);color:#888}a.svelte-1eb0vow{display:block;text-decoration:none;cursor:pointer}a.svelte-1eb0vow canvas{width:100%}</style></head>
+
+<body distill-prerendered=""><distill-header distill-prerendered="">
+<style>
+distill-header {
+  position: relative;
+  height: 60px;
+  background-color: hsl(200, 60%, 15%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+distill-header .content {
+  height: 70px;
+  grid-column: page;
+}
+distill-header a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+distill-header a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+distill-header svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+@media(min-width: 1080px) {
+  distill-header {
+    height: 70px;
+  }
+  distill-header a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+  distill-header .logo {
+  }
+}
+distill-header svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+distill-header .logo {
+  font-size: 17px;
+  font-weight: 200;
+}
+distill-header .nav {
+  float: right;
+  font-weight: 300;
+}
+distill-header .nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+<div class="content">
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a>
+  <nav class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+  </nav>
+</div>
+</distill-header>
+
+    <d-front-matter>
+        <script type="text/json">{
+  "title": "A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features': Adversarial Example Researchers Need to Expand What is Meant by 'Robustness'",
+  "description": "The main hypothesis in Ilyas et al. (2019) happens to be a special case of a more general principle that is commonly accepted in the robustness to distributional shift literature",
+  "authors": [
+    {
+      "author": "Justin Gilmer",
+      "authorURL": "https://www.linkedin.com/in/jmgilmer",
+      "affiliation": "Google Brain Team",
+      "affiliationURL": "https://g.co/brain"
+    },
+    {
+      "author": "Dan Hendrycks",
+      "authorURL": "https://people.eecs.berkeley.edu/~hendrycks/",
+      "affiliation": "UC Berkeley",
+      "affiliationURL": "https://www.berkeley.edu/"
+    }
+  ],
+  "katex": {
+    "delimiters": [
+      {
+        "left": "$",
+        "right": "$",
+        "display": false
+      },
+      {
+        "left": "$$",
+        "right": "$$",
+        "display": true
+      }
+    ]
+  }
+  }</script>
+    </d-front-matter>
+
+    <d-title>
+        <h1>Adversarial Example Researchers Need to Expand What is Meant by ‘Robustness’</h1>
+    </d-title>
+
+    <d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="https://www.linkedin.com/in/jmgilmer">Justin Gilmer</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://g.co/brain">Google Brain Team</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://people.eecs.berkeley.edu/~hendrycks/">Dan Hendrycks</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://www.berkeley.edu/">UC Berkeley</a>
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>Aug. 6, 2019</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p><a href="https://doi.org/10.23915/distill.00019.1">10.23915/distill.00019.1</a></p>
+    </div>
+  </div>
+</d-byline><d-article>
+
+        <style>
+    #rebuttal,
+    .comment-info {
+        background-color: hsl(54, 78%, 96%);
+        border-left: solid hsl(54, 33%, 67%) 1px;
+        padding: 1em;
+        color: hsla(0, 0%, 0%, 0.67);
+    }
+
+    #header-info {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        display: grid;
+        grid-template-columns: 65px max-content 1fr;
+        grid-template-areas:
+            "icon explanation explanation"
+            "icon back comment";
+        grid-column-gap: 1.5em;
+    }
+
+    #header-info .icon-multiple-pages {
+        grid-area: icon;
+        padding: 0.5em;
+        content: url(images/multiple-pages.svg);
+    }
+
+    #header-info .explanation {
+        grid-area: explanation;
+        font-size: 85%;
+    }
+
+    #header-info .back {
+        grid-area: back;
+    }
+
+    #header-info .back::before {
+
+        content: "←";
+        margin-right: 0.5em;
+    }
+
+    #header-info .comment {
+        grid-area: comment;
+        scroll-behavior: smooth;
+    }
+
+    #header-info .comment::before {
+        content: "↓";
+        margin-right: 0.5em;
+    }
+
+    #header-info a.back,
+    #header-info a.comment {
+        font-size: 80%;
+        font-weight: 600;
+        border-bottom: none;
+        text-transform: uppercase;
+        color: #2e6db7;
+        display: block;
+        margin-top: 0.25em;
+        letter-spacing: 0.25px;
+    }
+</style>
+
+<section id="header-info" class="comment-info">
+    <div class="icon-multiple-pages"></div>
+    <p class="explanation">
+        This article is part of a discussion of the Ilyas et al. paper
+        <em>“Adversarial examples are not bugs, they are features”.</em>
+        You can learn more in the
+        <a href="https://distill.pub/2019/advex-bugs-discussion/">
+            main discussion article
+        </a>.
+    </p>
+    <a id="header-info-back-link" class="back" href="https://distill.pub/2019/advex-bugs-discussion/#commentaries">Other Comments</a>
+    <a id="header-info-comment-link" class="comment" href="https://distill.pub/2019/advex-bugs-discussion/response-1/#rebuttal">Comment by Ilyas et al.</a>
+</section>
+
+
+        <p>
+            The hypothesis in Ilyas et. al. is a special case of a more general principle that is well accepted in the
+            distributional robustness literature — models lack robustness to distribution shift because they latch onto
+            superficial correlations in the data. Naturally, the same principle also explains adversarial examples
+            because they arise from a worst-case analysis of distribution shift. To obtain a more complete understanding
+            of robustness, adversarial example researchers should connect their work to the more general problem of
+            distributional robustness rather than remaining solely fixated on small gradient perturbations.
+        </p>
+
+        <h2>Detailed Response</h2>
+
+        <p>
+            The main hypothesis in Ilyas et al. (2019) happens to be a special case of a more general principle that is
+            commonly accepted in the robustness to distributional shift literature <d-cite key="c4,c9,c10,c11,c12">
+            </d-cite>: a model’s lack of
+            robustness is largely because the model latches onto superficial statistics in the data. In the image
+            domain, these statistics may be unused by — and unintuitive to — humans, yet they may be useful for
+            generalization in i.i.d. settings. Separate experiments eschewing gradient perturbations and studying
+            robustness beyond adversarial perturbations show similar results. For example, a recent work <d-cite key="c1"></d-cite>
+            demonstrates that models can generalize to the test examples by learning from high-frequency information
+            that is both naturally occurring and also inconspicuous. Concretely, models were trained and tested with an
+            extreme high-pass filter applied to the data. The resulting high-frequency features appear completely
+            grayscale to humans, yet models are able to achieve 50% top-1 accuracy on ImageNet-1K solely from these
+            natural features that usually are “invisible.” These hard-to-notice features can be made conspicuous by
+            normalizing the filtered image to have unit variance pixel statistics in the figure below.
+        </p>
+
+        <figure id="figure-1">
+            <img src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;_files/figure-1-cropped.png">
+            <figcaption>
+                <a href="https://distill.pub/2019/advex-bugs-discussion/response-1/#figure-1" class="figure-number">1</a>
+                Models can achieve high accuracy using information from the input that would be unrecognizable
+                to humans. Shown above are models trained and tested with aggressive high and low pass filtering applied
+                to the inputs. With aggressive low-pass filtering, the model is still above 30% on ImageNet when the
+                images appear to be simple globs of color. In the case of high-pass (HP) filtering, models can achieve
+                above 50% accuracy using features in the input that are nearly invisible to humans. As shown on the
+                right hand side, the high pass filtered images needed be normalized in order to properly visualize the
+                high frequency features.
+            </figcaption>
+        </figure>
+
+        <p>
+            Given the plethora of useful correlations that exist in natural data, we should expect that our models will
+            learn to exploit them. However, models relying on superficial statistics can poorly generalize should these
+            same statistics become corrupted after deployment. To obtain a more complete understanding of model
+            robustness, <d-cite key="c1"></d-cite> measured test error after perturbing every image in the test set by a
+            Fourier basis vector,
+            as shown in Figure 2. The naturally trained model is robust to low-frequency perturbations, but,
+            interestingly, lacks robustness in the mid to high frequencies. In contrast, adversarial training improves
+            robustness to mid- and high-frequency perturbations, while sacrificing performance on low frequency
+            perturbations. For instance adversarial training degrades performance on the low-frequency fog corruption
+            <d-cite key="c4"></d-cite> from 85.7% to 55.3%. Adversarial training similarly degrades robustness to
+            contrast and low-pass
+            filtered noise. By taking a broader view of robustness beyond tiny <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi mathvariant="normal">ℓ</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">\ell_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="base"><span class="mord"><span class="mord mathrm">ℓ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span></span></span></span></span> norm perturbations, we discover
+            that adversarially trained models are actually not “robust.” They are instead biased towards different kinds
+            of superficial statistics. As a result, adversarial training can sacrifice robustness in real-world
+            settings.
+
+        </p>
+
+        <figure id="figure-2">
+            <img src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;_files/figure-2-cropped.png">
+            <figcaption>
+                <a href="https://distill.pub/2019/advex-bugs-discussion/response-1/#figure-2" class="figure-number">2</a>
+                Model sensitivity to additive noise aligned with different Fourier basis vectors on CIFAR-10.
+                We fix the additive noise to have <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi mathvariant="normal">ℓ</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathrm">ℓ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> norm 4 and evaluate three models: a naturally trained model,
+                an
+                adversarially trained model, and a model trained with Gaussian data augmentation. Error rates are
+                averaged over 1000 randomly sampled images from the test set. In the bottom row we show images perturbed
+                with noise along the corresponding Fourier basis vector. The naturally trained model is highly sensitive
+                to additive noise in all but the lowest frequencies. Both adversarial training and Gaussian data
+                augmentation dramatically improve robustness in the higher frequencies while sacrificing the robustness
+                of the naturally trained model in the lowest frequencies (i.e. in both models, blue area in the middle
+                is smaller compared to that of the naturally trained model).
+            </figcaption>
+        </figure>
+
+        <p>
+            How, then, can the research community create models that robustly generalize in the real world, given that
+            adversarial training can harm robustness to distributional shift? To do so, the research community must take
+            a broader view of robustness and accept that <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi mathvariant="normal">ℓ</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">\ell_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="base"><span class="mord"><span class="mord mathrm">ℓ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span></span></span></span></span> adversarial robustness is highly limited and mostly
+            detached from security and real-world robustness <d-cite key="c13"></d-cite>. While often thought an
+            idiosyncratic quirk of deep
+            neural network classifiers, adversarial examples are not a counterintuitive mystery plaguing otherwise
+            superhuman classifiers. Instead, adversarial examples are in fact expected of models which lack robustness
+            to noise <d-cite key="c2,c3"></d-cite>. They should not be surprising given the brittleness observed in
+            numerous synthetic — and even
+            natural <d-cite key="c15"></d-cite> — conditions. Models reliably exhibit poor performance when they are
+            evaluated on distributions
+            slightly different from the training distribution. For all that, current benchmarks do not expose these
+            failure modes. The upshot is that we need to design harder and more diverse test sets, and we should not
+            continue to be singularly fixated on studying specific gradient perturbations. As we move forward in
+            robustness research, we should focus on the various ways in which models are fragile, and design more
+            comprehensive benchmarks accordingly <d-cite key="c4,c5,c6,c7,c8,c14,c15"></d-cite>. As long as models lack
+            robustness to
+            distributional shift, there will always be errors to find adversarially.
+
+        </p>
+
+        <div class="comment-info">
+    To cite Ilyas et al.’s response, please cite their
+    <a href="https://distill.pub/2019/advex-bugs-discussion/original-authors/#citation">collection of responses</a>.
+</div>
+
+
+        <section id="rebuttal">
+
+            <p><b>Response Summary</b>: The demonstration of models that learn from
+                high-frequency components of the data is interesting and nicely aligns with our
+                findings. Now, even though susceptibility to noise could indeed arise from
+                non-robust useful features, this kind of brittleness (akin to adversarial examples)
+                of ML models has been so far predominantly viewed as a consequence of model
+                “bugs” that will be eliminated by “better” models. Finally, we agree that our
+                models need to be robust to a much broader set of perturbations — expanding the
+                set of relevant perturbations will help identify even more non-robust features
+                and further distill the useful features we actually want our models to rely on.
+            </p>
+
+            <p><b>Response</b>: The fact that models can learn to classify correctly based
+                purely on the high-frequency component of the training set is neat! This nicely
+                complements one of our <a href="https://distill.pub/2019/advex-bugs-responses/rebuttal/#takeaway1">takeaways</a>: models
+                will rely on useful features even if these features appear incomprehensible to humans.</p>
+
+            <p> Also, while non-robustness to noise can be an indicator of models using
+                non-robust useful features, this is not how the phenomenon was predominantly viewed.
+                More often than not, the brittleness of ML models to noise was instead regarded
+                as an innate shortcoming of the models, e.g., due to poor margins. (This view is
+                even more prevalent in the adversarial robustness community.) Thus, it was often
+                expected that progress towards “better”/”bug-free” models will lead to them
+                being more robust to noise and adversarial examples.</p>
+
+            <p> Finally, we fully agree that the set of <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">L_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span></span></span></span></span>-bounded perturbations is a very
+                small subset of the perturbations we want our models to be robust to. Note,
+                however, that the focus of our work is human-alignment — to that end, we
+                demonstrate that models rely on features sensitive to patterns that are
+                imperceptible to humans. Thus, the existence of other families of
+                incomprehensible but useful features would provide even more support for our
+                thesis — identifying and characterizing such features is an interesting area for
+                future research.</p>
+        </section>
+
+        <div class="comment-info">
+    You can find more responses in the <a href="https://distill.pub/2019/advex-bugs-discussion/"> main discussion article</a>.
+</div>
+
+
+    </d-article>
+
+
+
+    <d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+        <d-footnote-list style="display: none;">
+<style>
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+</style>
+
+<h3>Footnotes</h3>
+<ol></ol>
+</d-footnote-list>
+        <d-citation-list distill-prerendered="true"><style>
+d-citation-list {
+  contain: style;
+}
+
+d-citation-list .references {
+  grid-column: text;
+}
+
+d-citation-list .references .title {
+  font-weight: 500;
+}
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="c4"><span class="title">Benchmarking Neural Network Robustness to Common Corruptions and Perturbations</span>   <a href="http://arxiv.org/pdf/1903.12261.pdf">[PDF]</a><br>Hendrycks, D. and Dietterich, T.G., 2019. CoRR, Vol abs/1903.12261. </li><li id="c9"><span class="title">Measuring the tendency of CNNs to Learn Surface Statistical Regularities</span>   <a href="http://arxiv.org/pdf/1711.11561.pdf">[PDF]</a><br>Jo, J. and Bengio, Y., 2017. CoRR, Vol abs/1711.11561. </li><li id="c10"><span class="title">Nightmare at Test Time: Robust Learning by Feature Deletion</span>   <a href="http://doi.acm.org/10.1145/1143844.1143889">[link]</a><br>Globerson, A. and Roweis, S., 2006. Proceedings of the 23rd International Conference on Machine Learning, pp. 353--360. ACM. <a href="https://doi.org/10.1145/1143844.1143889" style="text-decoration:inherit;">DOI: 10.1145/1143844.1143889</a></li><li id="c11"><span class="title">A Robust Minimax Approach to Classification</span>   <a href="https://doi.org/10.1162/153244303321897726">[link]</a><br>Lanckriet, G.R., Ghaoui, L.E., Bhattacharyya, C. and Jordan, M.I., 2003. J. Mach. Learn. Res., Vol 3, pp. 555--582. JMLR.org. <a href="https://doi.org/10.1162/153244303321897726" style="text-decoration:inherit;">DOI: 10.1162/153244303321897726</a></li><li id="c12"><span class="title">Generalisation in humans and deep neural networks</span>   <a href="http://arxiv.org/pdf/1808.08750.pdf">[PDF]</a><br>Geirhos, R., Temme, C.R.M., Rauber, J., Sch{\"{u}}tt, H.H., Bethge, M. and Wichmann, F.A., 2018. CoRR, Vol abs/1808.08750. </li><li id="c1"><span class="title">A Fourier Perspective on Model Robustness in Computer Vision</span>   <a href="http://arxiv.org/pdf/1906.08988.pdf">[PDF]</a><br>Yin, D., Lopes, R.G., Shlens, J., Cubuk, E.D. and Gilmer, J., 2019. CoRR, Vol abs/1906.08988. </li><li id="c13"><span class="title">Motivating the Rules of the Game for Adversarial Example Research</span>   <a href="http://arxiv.org/pdf/1807.06732.pdf">[PDF]</a><br>Gilmer, J., Adams, R.P., Goodfellow, I.J., Andersen, D. and Dahl, G.E., 2018. CoRR, Vol abs/1807.06732. </li><li id="c2"><span class="title">Adversarial Examples Are a Natural Consequence of Test Error in Noise</span>   <a href="http://arxiv.org/pdf/1901.10513.pdf">[PDF]</a><br>Ford, N., Gilmer, J., Carlini, N. and Cubuk, E.D., 2019. CoRR, Vol abs/1901.10513. </li><li id="c3"><span class="title">Robustness of classifiers: from adversarial to random noise</span>   <a href="http://papers.nips.cc/paper/6331-robustness-of-classifiers-from-adversarial-to-random-noise.pdf">[PDF]</a><br>Fawzi, A., Moosavi-Dezfooli, S. and Frossard, P., 2016. Advances in Neural Information Processing Systems 29, pp. 1632--1640. Curran Associates, Inc.</li><li id="c15"><span class="title">Natural Adversarial Examples</span>   <a href="http://arxiv.org/pdf/1907.07174.pdf">[PDF]</a><br>Hendrycks, D., Zhao, K., Basart, S., Steinhardt, J. and Song, D., 2019. ICML 2019 Workshop on Understanding and Improving Generalization in Deep Learning. </li><li id="c5"><span class="title">{MNIST-C:} {A} Robustness Benchmark for Computer Vision</span>   <a href="http://arxiv.org/pdf/1906.02337.pdf">[PDF]</a><br>Mu, N. and Gilmer, J., 2019. CoRR, Vol abs/1906.02337. </li><li id="c6"><span class="title">{NICO:} {A} Dataset Towards Non-I.I.D. Image Classification</span>   <a href="http://arxiv.org/pdf/1906.02899.pdf">[PDF]</a><br>He, Y., Shen, Z. and Cui, P., 2019. CoRR, Vol abs/1906.02899. </li><li id="c7"><span class="title">Do ImageNet Classifiers Generalize to ImageNet?</span>   <a href="http://arxiv.org/pdf/1902.10811.pdf">[PDF]</a><br>Recht, B., Roelofs, R., Schmidt, L. and Shankar, V., 2019. CoRR, Vol abs/1902.10811. </li><li id="c8"><span class="title">The Elephant in the Room</span>   <a href="http://arxiv.org/pdf/1808.03305.pdf">[PDF]</a><br>Rosenfeld, A., Zemel, R.S. and Tsotsos, J.K., 2018. CoRR, Vol abs/1808.03305. </li><li id="c14"><span class="title">Using Videos to Evaluate Image Model Robustness</span>   <a href="http://arxiv.org/pdf/1904.10076.pdf">[PDF]</a><br>Gu, K., Yang, B., Ngiam, J., Le, Q.V. and Shlens, J., 2019. CoRR, Vol abs/1904.10076. </li></ol></d-citation-list>
+    <distill-appendix>
+<style>
+  distill-appendix {
+    contain: layout style;
+  }
+
+  distill-appendix .citation {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  distill-appendix > * {
+    grid-column: text;
+  }
+</style>
+
+    <h3 id="updates-and-corrections">Updates and Corrections</h3>
+    <p>
+    If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--ilyas-response-1/issues/new">create an issue on GitHub</a>. </p>
+    
+    <h3 id="reuse">Reuse</h3>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--ilyas-response-1">source available on GitHub</a>, unless noted otherwise. The figures that have been reused from other sources don’t fall under this license and can be recognized by a note in their caption: “Figure from …”.</p>
+    
+    <h3 id="citation">Citation</h3>
+    <p>For attribution in academic contexts, please cite this work as</p>
+    <pre class="citation short">Gilmer &amp; Hendrycks, "A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features': Adversarial Example Researchers Need to Expand What is Meant by 'Robustness'", Distill, 2019.</pre>
+    <p>BibTeX citation</p>
+    <pre class="citation long">@article{gilmer2019a,
+  author = {Gilmer, Justin and Hendrycks, Dan},
+  title = {A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features': Adversarial Example Researchers Need to Expand What is Meant by 'Robustness'},
+  journal = {Distill},
+  year = {2019},
+  note = {https://distill.pub/2019/advex-bugs-discussion/response-1},
+  doi = {10.23915/distill.00019.1}
+}</pre>
+    </distill-appendix></d-appendix>
+
+    <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
+    <d-bibliography><script type="text/json">[["c1",{"author":"Dong Yin and Raphael Gontijo Lopes and Jonathon Shlens and Ekin D. Cubuk and Justin Gilmer","title":"A Fourier Perspective on Model Robustness in Computer Vision","journal":"CoRR","volume":"abs/1906.08988","year":"2019","url":"http://arxiv.org/abs/1906.08988","archivePrefix":"arXiv","eprint":"1906.08988","timestamp":"Mon, 24 Jun 2019 17:28:45 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1906-08988","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c2",{"author":"Nic Ford and Justin Gilmer and Nicholas Carlini and Ekin Dogus Cubuk","title":"Adversarial Examples Are a Natural Consequence of Test Error in Noise","journal":"CoRR","volume":"abs/1901.10513","year":"2019","url":"http://arxiv.org/abs/1901.10513","archivePrefix":"arXiv","eprint":"1901.10513","timestamp":"Thu, 06 Jun 2019 17:35:45 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1901-10513","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c3",{"title":"Robustness of classifiers: from adversarial to random noise","author":"Fawzi, Alhussein and Moosavi-Dezfooli, Seyed-Mohsen and Frossard, Pascal","booktitle":"Advances in Neural Information Processing Systems 29","editor":"D. D. Lee and M. Sugiyama and U. V. Luxburg and I. Guyon and R. Garnett","pages":"1632--1640","year":"2016","publisher":"Curran Associates, Inc.","url":"http://papers.nips.cc/paper/6331-robustness-of-classifiers-from-adversarial-to-random-noise.pdf","type":"incollection"}],["c4",{"author":"Dan Hendrycks and Thomas G. Dietterich","title":"Benchmarking Neural Network Robustness to Common Corruptions and Perturbations","journal":"CoRR","volume":"abs/1903.12261","year":"2019","url":"http://arxiv.org/abs/1903.12261","archivePrefix":"arXiv","eprint":"1903.12261","timestamp":"Tue, 02 Apr 2019 12:29:45 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1903-12261","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c5",{"author":"Norman Mu and Justin Gilmer","title":"{MNIST-C:} {A} Robustness Benchmark for Computer Vision","journal":"CoRR","volume":"abs/1906.02337","year":"2019","url":"http://arxiv.org/abs/1906.02337","archivePrefix":"arXiv","eprint":"1906.02337","timestamp":"Thu, 13 Jun 2019 13:36:00 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1906-02337","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c6",{"author":"Yue He and Zheyan Shen and Peng Cui","title":"{NICO:} {A} Dataset Towards Non-I.I.D. Image Classification","journal":"CoRR","volume":"abs/1906.02899","year":"2019","url":"http://arxiv.org/abs/1906.02899","archivePrefix":"arXiv","eprint":"1906.02899","timestamp":"Fri, 14 Jun 2019 09:38:24 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1906-02899","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c7",{"author":"Benjamin Recht and Rebecca Roelofs and Ludwig Schmidt and Vaishaal Shankar","title":"Do ImageNet Classifiers Generalize to ImageNet?","journal":"CoRR","volume":"abs/1902.10811","year":"2019","url":"http://arxiv.org/abs/1902.10811","archivePrefix":"arXiv","eprint":"1902.10811","timestamp":"Tue, 21 May 2019 18:03:38 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1902-10811","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c8",{"author":"Amir Rosenfeld and Richard S. Zemel and John K. Tsotsos","title":"The Elephant in the Room","journal":"CoRR","volume":"abs/1808.03305","year":"2018","url":"http://arxiv.org/abs/1808.03305","archivePrefix":"arXiv","eprint":"1808.03305","timestamp":"Thu, 04 Oct 2018 20:06:33 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1808-03305","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c9",{"author":"Jason Jo and Yoshua Bengio","title":"Measuring the tendency of CNNs to Learn Surface Statistical Regularities","journal":"CoRR","volume":"abs/1711.11561","year":"2017","url":"http://arxiv.org/abs/1711.11561","archivePrefix":"arXiv","eprint":"1711.11561","timestamp":"Mon, 13 Aug 2018 16:48:50 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1711-11561","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c10",{"author":"Globerson, Amir and Roweis, Sam","title":"Nightmare at Test Time: Robust Learning by Feature Deletion","booktitle":"Proceedings of the 23rd International Conference on Machine Learning","series":"ICML '06","year":"2006","isbn":"1-59593-383-2","location":"Pittsburgh, Pennsylvania, USA","pages":"353--360","numpages":"8","url":"http://doi.acm.org/10.1145/1143844.1143889","doi":"10.1145/1143844.1143889","acmid":"1143889","publisher":"ACM","address":"New York, NY, USA","type":"inproceedings"}],["c11",{"author":"Lanckriet, Gert R.G. and Ghaoui, Laurent El and Bhattacharyya, Chiranjib and Jordan, Michael I.","title":"A Robust Minimax Approach to Classification","journal":"J. Mach. Learn. Res.","issue_date":"3/1/2003","volume":"3","month":"mar","year":"2003","issn":"1532-4435","pages":"555--582","numpages":"28","url":"https://doi.org/10.1162/153244303321897726","doi":"10.1162/153244303321897726","acmid":"944934","publisher":"JMLR.org","keywords":"classification, convex optimization, kernel methods, second order cone programming","type":"article"}],["c12",{"author":"Robert Geirhos and Carlos R. Medina Temme and Jonas Rauber and Heiko H. Sch{\\\"{u}}tt and Matthias Bethge and Felix A. Wichmann","title":"Generalisation in humans and deep neural networks","journal":"CoRR","volume":"abs/1808.08750","year":"2018","url":"http://arxiv.org/abs/1808.08750","archivePrefix":"arXiv","eprint":"1808.08750","timestamp":"Sun, 02 Sep 2018 15:01:55 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1808-08750","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c13",{"author":"Justin Gilmer and Ryan P. Adams and Ian J. Goodfellow and David Andersen and George E. Dahl","title":"Motivating the Rules of the Game for Adversarial Example Research","journal":"CoRR","volume":"abs/1807.06732","year":"2018","url":"http://arxiv.org/abs/1807.06732","archivePrefix":"arXiv","eprint":"1807.06732","timestamp":"Mon, 13 Aug 2018 16:47:11 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1807-06732","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c14",{"author":"Keren Gu and Brandon Yang and Jiquan Ngiam and Quoc V. Le and Jonathon Shlens","title":"Using Videos to Evaluate Image Model Robustness","journal":"CoRR","volume":"abs/1904.10076","year":"2019","url":"http://arxiv.org/abs/1904.10076","archivePrefix":"arXiv","eprint":"1904.10076","timestamp":"Sat, 27 Apr 2019 16:20:28 +0200","biburl":"https://dblp.org/rec/bib/journals/corr/abs-1904-10076","bibsource":"dblp computer science bibliography, https://dblp.org","archiveprefix":"arXiv","type":"article"}],["c15",{"author":"Dan Hendrycks and Kevin Zhao and Steven Basart and Jacob Steinhardt and Dawn Song","title":"Natural Adversarial Examples","booktitle":"ICML 2019 Workshop on Understanding and Improving Generalization in Deep Learning","location":"Long Beach, California, USA","year":"2019","archivePrefix":"arXiv","url":"https://arxiv.org/abs/1907.07174","archiveprefix":"arXiv","type":"inproceedings"}]]</script></d-bibliography>
+
+<script type="text/javascript" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarial Example Researchers Need to Expand What is Meant by &#39;Robustness&#39;_files/index.bundle.js"></script>
+<distill-footer>
+<style>
+
+:host {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: hsl(180, 5%, 15%); /*hsl(200, 60%, 15%);*/
+  text-align: left;
+  contain: content;
+}
+
+.footer-container .logo svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+
+.footer-container .logo svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+
+.footer-container .logo {
+  font-size: 17px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+.footer-container {
+  grid-column: text;
+}
+
+.footer-container .nav {
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.footer-container .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 6px;
+  text-decoration: none;
+}
+
+</style>
+
+<div class="footer-container">
+
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a> is dedicated to clear explanations of machine learning
+
+  <div class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/archive/">Archive</a>
+    <a href="https://distill.pub/rss.xml">RSS</a>
+    <a href="https://github.com/distillpub">GitHub</a>
+    <a href="https://twitter.com/distillpub">Twitter</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; ISSN 2476-0757
+  </div>
+
+</div>
+
+</distill-footer><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83741880-1', 'auto');
+  ga('send', 'pageview');
+</script></body></html>

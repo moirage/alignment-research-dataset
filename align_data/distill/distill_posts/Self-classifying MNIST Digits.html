@@ -1,0 +1,2765 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="Self-classifying%20MNIST%20Digits_files/template.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="Self-classifying%20MNIST%20Digits_files/analytics.js"></script><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="Self-classifying%20MNIST%20Digits_files/webcomponents-loader.js"></script><script src="Self-classifying%20MNIST%20Digits_files/webcomponents-hi.js"></script>
+  
+  
+  <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+  <style>
+  </style>
+  <script src="Self-classifying%20MNIST%20Digits_files/tf.js"></script>
+  <script type="module" src="Self-classifying%20MNIST%20Digits_files/demo.js"></script>
+<link rel="stylesheet" href="Self-classifying%20MNIST%20Digits_files/katex.css" crossorigin="anonymous">
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA99JREFUeNrsG4t1ozDMzQSM4A2ODUonKBucN2hugtIJ6E1AboLcBiQTkJsANiAb9OCd/OpzMWBJBl5TvaeXPiiyJetry0J8wW3D3QpjRh3GjneXDq+fSQA9s2mH9x3KDhN4foJfCb8N/Jrv+2fnDn8vLRQOplWHVYdvHZYdZsBcZP1vBmh/n8DzEmhUQDPaOuP9pFuY+JwJHwHnCLQE2tnWBGEyXozY9xCUgHMhhjE2I4heVWtgIkZ83wL6Qgxj1obfWBxymPwe+b00BCCRNPbwfb60yleAkkBHGT5AEehIYz7eJrFDMF9CvH4wwhcGHiHMneFvLDQwlwvMLQq58trRcYBWfYn0A0OgHWQUSu25mE+BnoYKnnEJoeIWAifzOv7vLWd2ZKRfWAIme3tOiUaQ3UnLkb0xj1FxRIeEGKaGIHOs9nEgLaaA9i0JRYo1Ic67wJW86KSKE/ZAM8KuVMk8ITVhmxUxJ3Cl2xlm9Vtkeju1+mpCQNxaEGNCY8bs9X2YqwNoQeGjBWut/ma0QAWy/TqAsHx9wSya3I5IRxOfTC+leG+kA/4vSeEcGBtNUN6byhu3+keEZCQJUNh8MAO7HL6H8pQLnsW/Hd4T4lv93TPjfM7A46iEEqbB5EDOvwYNW6tGNZzT/o+CZ6sqZ6wUtR/wf7mi/VL8iNciT6rHih48Y55b4nKCHJCCzb4y0nwFmin3ZEMIoLfZF8F7nncFmvnWBaBj7CGAYA/WGJsUwHdYqVDwAmNsUgAx4CGgAA7GOOxADYOFWOaIKifuVYzmOpREqA21Mo7aPsgiY1PhOMAmxtR+AUbYH3Id2wc0SAFIQTsn9IUGWR8k9jx3vtXSiAacFxTAGakBk9UudkNECd6jLe+6HrshshvIuC6IlLMRy7er+JpcKma24SlE4cFZSZJDGVVrsNvitQhQrDhW0jfiOLfFd47C42eHT56D/BK0To+58Ahj+cAT8HT1UWlfLZCCd/uKawzU0Rh2EyIX/Icqth3niG8ybNroezwe6khdCNxRN+l4XGdOLVLlOOt2hTRJlr1ETIuMAltVTMz70mJrkdGAaZLSmnBEqmAE32JCMmuTlCnRgsBENtOUpHhvvsYIL0ibnBkaC6QvKcR7738GKp0AKnim7xgUSNv1bpS8QwhBt8r+EP47v/oyRK/S34yJ9nT+AN0Tkm4OdB9E4BsmXM3SnMlRFUrtp6IDpV2eKzdYvF3etm3KhQksbOLChGkSmcBdmcEwvqkrMy5BzL00NZeu3qPYJOOuCc+5NjcWKXQxFvTa3NoXJ4d8in7fiAUuTt781dkvuHX4K8AA2Usy7yNKLy0AAAAASUVORK5CYII=">
+    <link href="https://distill.pub/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
+  
+    <title>Self-classifying MNIST Digits</title>
+    
+    <link rel="canonical" href="https://distill.pub/2020/selforg/mnist">
+    
+    <!--  https://schema.org/Article -->
+    <meta property="description" itemprop="description" content="Training an end-to-end differentiable, self-organising cellular automata for classifying MNIST digits.">
+    <meta property="article:published" itemprop="datePublished" content="2020-08-27">
+    <meta property="article:created" itemprop="dateCreated" content="2020-08-27">
+    
+    <meta property="article:modified" itemprop="dateModified" content="2021-02-11T20:04:11.000Z">
+    
+    <meta property="article:author" content="Ettore Randazzo">
+    <meta property="article:author" content="Alexander Mordvintsev">
+    <meta property="article:author" content="Eyvind Niklasson">
+    <meta property="article:author" content="Michael Levin">
+    <meta property="article:author" content="Sam Greydanus">
+    <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Self-classifying MNIST Digits">
+    <meta property="og:description" content="Training an end-to-end differentiable, self-organising cellular automata for classifying MNIST digits.">
+    <meta property="og:url" content="https://distill.pub/2020/selforg/mnist">
+    <meta property="og:image" content="https://distill.pub/2020/selforg/mnist/thumbnail.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Distill">
+  
+    <!--  https://dev.twitter.com/cards/types/summary -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Self-classifying MNIST Digits">
+    <meta name="twitter:description" content="Training an end-to-end differentiable, self-organising cellular automata for classifying MNIST digits.">
+    <meta name="twitter:url" content="https://distill.pub/2020/selforg/mnist">
+    <meta name="twitter:image" content="https://distill.pub/2020/selforg/mnist/thumbnail.jpg">
+    <meta name="twitter:image:width" content="560">
+    <meta name="twitter:image:height" content="295">
+  
+      <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+    <meta name="citation_title" content="Self-classifying MNIST Digits">
+    <meta name="citation_fulltext_html_url" content="https://distill.pub/2020/selforg/mnist">
+    <meta name="citation_volume" content="5">
+    <meta name="citation_issue" content="8">
+    <meta name="citation_firstpage" content="e00027.002">
+    <meta name="citation_doi" content="10.23915/distill.00027.002">
+    <meta name="citation_journal_title" content="Distill">
+    <meta name="citation_journal_abbrev" content="Distill">
+    <meta name="citation_issn" content="2476-0757">
+    <meta name="citation_fulltext_world_readable" content="">
+    <meta name="citation_online_date" content="2020/08/27">
+    <meta name="citation_publication_date" content="2020/08/27">
+    <meta name="citation_author" content="Randazzo, Ettore">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Mordvintsev, Alexander">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Niklasson, Eyvind">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Levin, Michael">
+    <meta name="citation_author_institution" content="Allen Discovery Center at Tufts University">
+    <meta name="citation_author" content="Greydanus, Sam">
+    <meta name="citation_author_institution" content="Oregon State University and the ML Collective">
+    <meta name="citation_reference" content="citation_title=Growing Neural Cellular Automata;citation_author=Alexander Mordvintsev;citation_author=Ettore Randazzo;citation_author=Eyvind Niklasson;citation_author=Michael Levin;citation_publication_date=2020;citation_journal_title=Distill;">
+    <meta name="citation_reference" content="citation_title=The transformation of a tail into limb after xenoplastic transplantation;citation_author=N. Farinella-Ferruzza;citation_publication_date=1956;citation_journal_title=Experientia;citation_volume=12;citation_number=8;">
+    <meta name="citation_reference" content="citation_title=Normalized shape and location of perturbed craniofacial structures in the Xenopus tadpole reveal an innate ability to achieve correct morphology;citation_author=Laura N. Vandenberg;citation_author=Dany S. Adams;citation_author=Michael Levin;citation_publication_date=2012;citation_journal_title=Developmental Dynamics;citation_volume=241;citation_number=5;">
+    <meta name="citation_reference" content="citation_title=Top-down models in biology: explanation and control of complex living systems above the molecular level;citation_author=Giovanni Pezzulo;citation_author=Michael Levin;citation_publication_date=2016;citation_journal_title=Journal of The Royal Society Interface;citation_volume=13;citation_number=124;">
+    <meta name="citation_reference" content="citation_title=On Having No Head: Cognition throughout Biological Systems;citation_author=František Baluška;citation_author=Michael Levin;citation_publication_date=2016;citation_journal_title=Frontiers in psychology;citation_volume=7;">
+    <meta name="citation_reference" content="citation_title=The biogenic approach to cognition;citation_author=Pamela Lyon;citation_publication_date=2006;citation_journal_title=Cognitive processing;citation_volume=7;citation_number=1;">
+    <meta name="citation_reference" content="citation_title=Gradient-based learning applied to document recognition;citation_author=Y. Lecun;citation_author=L. Bottou;citation_author=Y. Bengio;citation_author=P. Haffner;citation_publication_date=1998;citation_journal_title=Proceedings of the IEEE;citation_volume=86;citation_number=11;">
+    <meta name="citation_reference" content="citation_title=MATHEMATICAL GAMES;citation_author=Martin Gardner;citation_publication_date=1970;citation_journal_title=Scientific American;citation_volume=223;citation_number=4;">
+    <meta name="citation_reference" content="citation_title=Dropout: A Simple Way to Prevent Neural Networks from Overfitting;citation_author=Nitish Srivastava;citation_author=Geoffrey Hinton;citation_author=Alex Krizhevsky;citation_author=Ilya Sutskever;citation_author=Ruslan Salakhutdinov;citation_publication_date=2014;citation_journal_title=Journal of Machine Learning Research;citation_volume=15;citation_number=56;">
+    <meta name="citation_reference" content="citation_title=Auto-Encoding Variational Bayes;citation_author=Diederik P Kingma;citation_author=Max Welling;citation_publication_date=2013;">
+    <meta name="citation_reference" content="citation_title=Practical Variational Inference for Neural Networks;citation_author=Alex Graves;citation_publication_date=2011;">
+    <meta name="citation_reference" content="citation_title=Noisy Networks for Exploration;citation_author=Meire Fortunato;citation_author=Mohammad Gheshlaghi Azar;citation_author=Bilal Piot;citation_author=Jacob Menick;citation_author=Ian Osband;citation_author=Alex Graves;citation_author=Vlad Mnih;citation_author=Remi Munos;citation_author=Demis Hassabis;citation_author=Olivier Pietquin;citation_author=Charles Blundell;citation_author=Shane Legg;citation_publication_date=2017;">
+    <meta name="citation_reference" content="citation_title=Planarian regeneration as a model of anatomical homeostasis: Recent progress in biophysical and computational approaches;citation_author=Michael Levin;citation_author=Alexis M. Pietak;citation_author=Johanna Bischof;citation_publication_date=2019;citation_journal_title=Seminars in Cell &amp;amp; Developmental Biology;citation_volume=87;">
+    <meta name="citation_reference" content="citation_title=Long-range neural and gap junction protein-mediated cues control polarity during planarian regeneration;citation_author=Néstor J. Oviedo;citation_author=Junji Morokuma;citation_author=Peter Walentek;citation_author=Ido P. Kema;citation_author=Man Bock Gu;citation_author=Joo-Myung Ahn;citation_author=Jung Shan Hwang;citation_author=Takashi Gojobori;citation_author=Michael Levin;citation_publication_date=2010;citation_journal_title=Developmental Biology;citation_volume=339;citation_number=1;">
+    <meta name="citation_reference" content="citation_title=Bioelectrical Mechanisms for Programming Growth and Form: Taming Physiological Networks for Soft Body Robotics;citation_author=Jessica Mustard;citation_author=Michael Levin;citation_publication_date=2014;citation_journal_title=Soft Robotics;citation_volume=1;citation_number=3;">
+    <meta name="citation_reference" content="citation_title=Interspecies chimeras;citation_author=Fabian Suchy;citation_author=Hiromitsu Nakauchi;citation_publication_date=2018;citation_journal_title=Current opinion in genetics &amp;amp; development;citation_volume=52;">
+    <meta name="citation_reference" content="citation_title=Reservoir Computing Hardware with Cellular Automata;citation_author=Alejandro Morán;citation_author=Christiam F. Frasser;citation_author=Josep L. Rosselló;citation_publication_date=2018;">
+    <meta name="citation_reference" content="citation_title=Energy-Efficient Pattern Recognition Hardware With Elementary Cellular Automata;citation_author=A. Morán;citation_author=C. F. Frasser;citation_author=M. Roca;citation_author=J. L. Rosselló;citation_publication_date=2020;citation_journal_title=IEEE Transactions on Computers;citation_volume=69;citation_number=3;">
+    <meta name="citation_reference" content="citation_title=Asynchronous network of cellular automaton-based neurons for efficient implementation of Boltzmann machines;citation_author=Takashi Matsubara;citation_author=Kuniaki Uehara;citation_publication_date=2018;citation_journal_title=Nonlinear Theory and Its Applications, IEICE;citation_volume=9;">
+    <meta name="citation_reference" content="citation_title=An Approach to Searching for Two-Dimensional Cellular Automata for Recognition of Handwritten Digits;citation_author=C. C. Oliveira;citation_author=P. P. B. de Oliveira;citation_publication_date=2008;">
+    <meta name="citation_reference" content="citation_title=Biologically inspired cellular automata learning and prediction model for handwritten pattern recognition;citation_author=Aamir Wali;citation_author=Mehreen Saeed;citation_publication_date=2018;citation_journal_title=Biologically Inspired Cognitive Architectures;citation_volume=24;">
+    <meta name="citation_reference" content="citation_title=Pattern Classification with Rejection Using Cellular Automata-Based Filtering;citation_author=Agnieszka Jastrzebska;citation_author=Rafael Toro Sluzhenko;citation_publication_date=2017;">
+    <meta name="citation_reference" content="citation_title=The body electric 2.0: recent advances in developmental bioelectricity for regenerative and synthetic bioengineering;citation_author=Juanita Mathews;citation_author=Michael Levin;citation_publication_date=2018;citation_journal_title=Current opinion in biotechnology;citation_volume=52;">
+    <meta name="citation_reference" content="citation_title=Re-membering the body: applications of computational neuroscience to the top-down control of regeneration of limbs and other complex organs;citation_author=G. Pezzulo;citation_author=M. Levin;citation_publication_date=2015;citation_journal_title=Integrative biology: quantitative biosciences from nano to macro;citation_volume=7;citation_number=12;">
+</head>
+
+<body distill-prerendered="" class="vsc-initialized" data-new-gr-c-s-check-loaded="8.899.0" data-gr-ext-installed=""><distill-header distill-prerendered="">
+<style>
+distill-header {
+  position: relative;
+  height: 60px;
+  background-color: hsl(200, 60%, 15%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+distill-header .content {
+  height: 70px;
+  grid-column: page;
+}
+distill-header a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+distill-header a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+distill-header svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+@media(min-width: 1080px) {
+  distill-header {
+    height: 70px;
+  }
+  distill-header a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+  distill-header .logo {
+  }
+}
+distill-header svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+distill-header .logo {
+  font-size: 17px;
+  font-weight: 200;
+}
+distill-header .nav {
+  float: right;
+  font-weight: 300;
+}
+distill-header .nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+<div class="content">
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a>
+  <nav class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+  </nav>
+</div>
+</distill-header>
+
+  <d-front-matter>
+    <script type="text/json">{
+      "title": "Self-classifying MNIST Digits",
+      "description": "Training an end-to-end differentiable, self-organising cellular automata for classifying MNIST digits.",
+      "authors": [
+        {
+          "author": "Ettore Randazzo",
+          "authorURL": "https://oteret.github.io/",
+          "affiliation": "Google",
+          "affiliationURL": "https://ai.google/"
+        },
+        {
+          "author": "Alexander Mordvintsev",
+          "authorURL": "https://znah.net/",
+          "affiliation": "Google",
+          "affiliationURL": "https://ai.google/"
+        },
+        {
+          "author": "Eyvind Niklasson",
+          "authorURL": "https://eyvind.me/",
+          "affiliation": "Google",
+          "affiliationURL": "https://ai.google/"
+        },
+        {
+          "author": "Michael Levin",
+          "authorURL": "http://www.drmichaellevin.org",
+          "affiliation": "Allen Discovery Center at Tufts University",
+          "affiliationURL": "http://allencenter.tufts.edu"
+        },
+        {
+          "author": "Sam Greydanus",
+          "authorURL": "https://greydanus.github.io/about.html",
+          "affiliation": "Oregon State University and the ML Collective",
+          "affiliationURL": "http://mlcollective.org/"
+        }
+      ],
+      "katex": {
+        "delimiters": [
+          {
+            "left": "$",
+            "right": "$",
+            "display": false
+          },
+          {
+            "left": "$$",
+            "right": "$$",
+            "display": true
+          }
+        ]
+      }
+    }</script>
+  </d-front-matter>
+
+  <style>
+        /* ****************************************
+       * Thread Info
+       ******************************************/
+
+       .thread-info {
+      background-color: hsl(54, 78%, 96%);
+      border-left: solid hsl(54, 33%, 67%) 1px;
+      padding: 1em;
+      color: hsla(0, 0%, 0%, 0.67);
+    }
+
+    #thread-nav {
+      margin-top: 20;
+      margin-bottom: 1.5rem;
+      display: grid;
+      grid-template-columns: 45px 2fr 3fr;
+      grid-template-areas:
+        'thread-icon explanation explanation '
+        'thread-icon prev next';
+      grid-column-gap: 1.5em;
+    }
+
+    @media (min-width: 768px) {
+      #thread-nav {
+        grid-template-columns: 65px 3fr 2fr;
+      }
+    }
+
+    #thread-nav .thread-icon {
+      grid-area: thread-icon;
+      padding: 0.5em;
+      justify-self: center;
+    }
+
+    #thread-nav .explanation {
+      grid-area: explanation;
+      font-size: 85%;
+      color: hsl(0, 0%, 0.33);
+    }
+
+    #thread-nav .prev {
+      grid-area: prev;
+    }
+
+    #thread-nav .prev::before {
+      content: '← Previous Article';
+    }
+
+    #thread-nav .overview {
+      scroll-behavior: smooth;
+    }
+
+    #thread-nav .overview::before {
+      content: '↑';
+      white-space: nowrap;
+      margin-right: 0.5em;
+    }
+
+    #thread-nav .next {
+      grid-area: next;
+      scroll-behavior: smooth;
+    }
+
+    #thread-nav .next::before {
+      content: 'Next Article →';
+    }
+
+    #thread-nav .next::before,
+    #thread-nav .prev::before {
+      display: block;
+      white-space: nowrap;
+      padding: 0.5em 0;
+      font-size: 80%;
+      font-weight: bold;
+      margin-top: 0px;
+      margin-right: 0.5em;
+      text-transform: uppercase;
+    }
+
+    #thread-nav .prev,
+    #thread-nav .next,
+    #thread-nav .overview {
+      font-size: 80%;
+      line-height: 1.5em;
+      font-weight: 600;
+      border-bottom: none;
+      color: #2e6db7;
+      /* margin-top: 0.25em; */
+      letter-spacing: 0.25px;
+    }
+
+    figure {
+      text-align: center;
+      margin-bottom: 0.5em;
+      margin-top: 0.5em;
+    }
+    figcaption {
+      text-align: left;
+    }
+    figure img {
+      max-width: 100%;
+      width: unset;
+    }
+    video {
+      max-width: 100%;
+    }
+    .colab-root {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.75);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px!important;
+      text-decoration: none;
+      color: #aaa;
+      border: none;
+      font-weight: 300;
+      border: solid 1px rgba(0, 0, 0, 0.08);
+      border-bottom-color: rgba(0, 0, 0, 0.15);
+      text-transform: uppercase;
+      line-height: 16px;
+    }
+
+   span.colab-span {
+      background-image: url(images/colab.svg);
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position-y: 2px;
+      display: inline-block;
+      padding-left: 24px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+
+    a.colab-root:hover{
+      color: #666;
+      background: white;
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    /* TOC */
+    @media(max-width: 1000px){
+      d-contents {
+        justify-self: start;
+        align-self: start;
+        grid-column-start: 2;
+        grid-column-end: 6;
+        padding-bottom: 0.5em;
+        margin-bottom: 1em;
+        padding-left: 0.25em;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgba(0, 0, 0, 0.1);
+      }
+    } 
+    
+    @media (min-width: 1000px){
+      d-contents {
+        align-self: start;
+        grid-column-start: 1;
+        grid-column-end: 4;
+        justify-self: end;
+        padding-right: 3em;
+        padding-left: 2em;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    @media (min-width: 1180px){
+      d-contents {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        justify-self: end;
+        padding-right: 3em;
+        padding-left: 2em;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    d-contents nav h3 {
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+
+    d-contents nav a {
+      color: rgba(0, 0, 0, 0.8);
+      border-bottom: none;
+      text-decoration: none;
+    }
+
+    d-contents li {
+      list-style-type: none;
+    }
+
+    d-contents ul {
+      padding-left: 1em;
+    }
+    
+    d-contents nav ul li {
+      margin-bottom: .25em;
+    }
+
+    d-contents nav a:hover {
+      text-decoration: underline solid rgba(0, 0, 0, 0.6);
+    }
+
+    d-contents nav ul {
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+
+    d-contents nav>div {
+      display: block;
+      outline: none;
+      margin-bottom: 0.5em;
+    }
+
+    d-contents nav>div>a {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    d-contents nav>div>a:hover,
+    d-contents nav>ul>li>a:hover {
+        text-decoration: none;
+    }
+
+    /* code blocks to margins */
+    @media (min-width: 1600px) {
+      d-code {
+        margin-top: -10px;
+        grid-column-start: 12;
+        grid-column-end: 14; 
+      }
+    }
+    /* so title is on one line */
+    d-title h1, d-title p {
+      grid-column: middle;
+    }
+    
+    d-article table th, d-article table td {
+      text-align: left;
+    }
+
+    @media(max-width: 499px){
+      d-article table th, d-article table td {
+        font-size: 9px;
+        padding: 0px 2px;
+      }
+    }
+
+  </style>
+  <script>
+  // hack to edit font size in code snippets. guaranteed a better way to do 
+  // this, but I'm not a webdev
+  window.onload = function() {
+    setTimeout(() => { document.querySelectorAll("d-code").forEach(function(e) {e.shadowRoot.querySelector('#code-container').style.fontSize = "0.7em"}); }, 3000);
+  }
+  </script>
+  <d-title>
+    <h1>Self-classifying MNIST Digits</h1>
+    <p>Achieving Distributed Coordination with Neural Cellular Automata</p>
+
+
+<svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path><path d="M0 0h24v24H0z" fill="none"></path></symbol>
+    <symbol id="pauseIcon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path><path d="M0 0h24v24H0z" fill="none"></path></symbol>
+    <symbol id="resetIcon" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"></path></symbol>
+    <symbol id="colorwheel" viewBox="0 0 24 24"> 
+  <path d="m 511.48146,205.29524 c 11.90567,44.43259 11.90567,84.97693 0,129.40952 L 487.31476,349.3424 270,270 490.20449,192.09986 z" id="path16" style="fill:#fefe33"></path>
+  <path d="m 334.70476,28.518543 c 44.43259,11.905676 79.54502,32.17785 112.07193,64.704761 L 447.40047,118.09589 270,270 313.06484,40.508134 z" id="path20" style="fill:#fb9902"></path>
+  <path d="m 446.77669,93.223304 c 32.52692,32.526916 52.79909,67.639346 64.70477,112.071936 L 270,270 z" id="path18" style="fill:#fabc02"></path>
+  <path d="M 93.223305,93.223305 C 125.75022,60.696393 160.86265,40.42422 205.29524,28.518543 L 231.20546,44.501656 270,270 92.739568,120.0571 z" id="path28" style="fill:#fe2712"></path>
+  <path d="m 205.29524,28.518543 c 44.43259,-11.905676 84.97693,-11.905676 129.40952,0 L 270,270 z" id="path22" style="fill:#fd5308"></path>
+  <path d="m 28.518543,334.70476 c -11.905676,-44.43259 -11.905676,-84.97693 0,-129.40952 L 56.311276,186.62718 270,270 55.854788,349.40527 z" id="path26" style="fill:#8601af"></path>
+  <path d="M 28.518543,205.29524 C 40.424219,160.86265 60.696393,125.75022 93.223305,93.223305 L 270,270 z" id="path30" style="fill:#a7194b"></path>
+  <path d="M 205.29524,511.48146 C 160.86265,499.57578 125.75022,479.30361 93.223305,446.7767 L 95.307837,418.58874 270,270 231.0453,499.70648 z" id="path8" style="fill:#0247fe"></path>
+  <path d="M 93.223305,446.7767 C 60.696393,414.24978 40.42422,379.13735 28.518543,334.70476 L 270,270 z" id="path24" style="fill:#3d01a4"></path>
+  <path d="m 446.7767,446.7767 c -32.52692,32.52691 -67.63935,52.79908 -112.07194,64.70476 L 310.45335,496.38826 270,270 446.04632,421.15701 z" id="path12" style="fill:#66b032"></path>
+  <path d="m 334.70476,511.48146 c -44.43259,11.90567 -84.97693,11.90567 -129.40952,0 L 270,270 z" id="path10" style="fill:#0391ce"></path>
+  <path d="M 511.48146,334.70476 C 499.57578,379.13735 479.30361,414.24978 446.7767,446.7767 L 270,270 511.48146,334.70476 z" id="path14" style="fill:#d0ea2b"></path>
+  <circle cx="270" cy="270" r="153.79581" id="circle32" style="fill:#ffffff"></circle>
+  </symbol> 
+</svg>
+
+
+
+<style>
+#demo {
+    font-size: 14px;
+    user-select: none;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-auto-flow: column;
+    row-gap: 10px;
+}
+
+.hint a {
+  color: inherit;
+}
+
+@media (min-width: 1000px) {
+  #demo {
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: auto auto;
+  }
+  #demo-controls {
+    grid-row: 1/3;
+  }
+}
+
+#demo-canvas {
+    border: 1px solid lightgrey;
+    image-rendering: pixelated;
+    touch-action: none;
+    width: 100%;
+}
+
+#demo-controls {
+    line-height: 1em;
+    display: grid;
+    grid-template-columns: 120px auto;
+    grid-template-rows: auto 70px 70px 70px 40px 1fr 1fr;
+    row-gap: 20px;
+    overflow: hidden;
+}
+
+@media (min-width: 1000px){
+  #demo-controls {
+    grid-template-rows: auto 70px 70px 70px 40px 1fr 1fr;
+  }
+}
+
+#pattern-selector {
+    grid-column: 1/3;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    justify-items: center;
+}
+@media (max-width: 1000px) and  (min-width: 500px) {
+  #pattern-selector {
+    grid-template-columns: repeat(10, auto);
+  }
+}
+
+#pattern-selector * {
+    width: 100%;
+    /* background-image: url('images/emoji.png'); */
+    cursor: pointer;
+}
+.icon {
+    width: 30px; height: 30px;
+    background: steelblue;
+    fill: white;
+    border-radius: 20px;
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
+}
+#model-selector {
+    line-height: 1.4em;
+}
+#demo-tip{
+    display: grid;
+    grid-template-columns: auto 40px;
+    align-items: center;
+    column-gap: 10px;
+    margin-bottom: 20px;
+}
+#pointer {
+    width: 40px;
+}
+#status {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: monospace;
+}
+#model-hints {
+    color: rgba(0, 0, 0, 0.6);
+    grid-column: 1/3;
+}
+#model-hints span {
+    display: none;
+}
+.hint {
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.4em;
+    user-select: text;
+    font-size: 98%;
+}
+
+input[type=range] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 95%; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+  margin-bottom: 8px;
+}
+
+.hint a {
+  font-size: 90%;
+}
+
+@media (max-width: 350px) {
+  .hint a {
+    font-size: 75%;
+  }
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+
+  /* Hides the slider so custom styles can be added */
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+/* Thumb */
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: steelblue;
+  cursor: pointer;
+  margin-top: -7px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: steelblue;
+  cursor: pointer;
+  border: none;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: grey;
+  cursor: pointer;
+}
+
+/* Track */
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  border: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  border: none;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  border: none;
+}
+input[type=range]::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.1);
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.1);
+}
+input[type=range]::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.1);
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+input[type="radio"] {
+    background-color: steelblue;
+}
+
+#colab-hero-div { 
+  grid-column: 1/3;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: rgba(0, 0, 0, 0.1);
+  padding-top: 15px;
+}
+
+#colab-hero {
+  margin: auto;
+  display: block;
+  text-align: center;
+  width: 200px;
+  height: 16px;
+}
+
+#eraser {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 1.0)), url(eraser.png);
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+#pencil {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 1.0)), url(pencil.png);
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+#paletteHint {
+  grid-column: 1/3;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.4em;
+  user-select: text;
+  font-size: 75%;
+}
+
+#bin {
+  width: 40px;
+  display: block;
+  margin: auto;
+  cursor: pointer;
+}
+
+#bindiv {
+  grid-column: 1/3;
+}
+
+.vidoverlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-image: url(images/play.svg);
+    background-repeat: no-repeat;
+    background-size: 15%;
+    cursor: pointer;
+    opacity: 0.8;
+    z-index: 1;
+    transition: opacity 1s;
+}
+
+.vc {
+  position: relative;
+}
+
+</style>
+
+<div class="l-body-outset grid" id="demo">
+  
+    <!-- fake canvas dimensions to ensure square in css dimensions -->  
+    <canvas id="demo-canvas" class="color_heavy" width="560" height="560"></canvas>
+
+    <div id="demo-tip">
+            <div class="hint" style="grid-column: 1/3;">
+                <b>Summary.</b> Each pixel is analogous to a biological 
+cell. It decides its own color and communicates with its immediate 
+neighbors. The goal of the cell population as a whole is to come to an 
+agreement about what their global shape represents. 
+                <br><br>
+            </div>
+            <div class="hint">
+                <b>Usage.</b> Interact with the cells by clicking or 
+tapping on the canvas above. Press different digits to load or resample 
+them. Press the bin to clear the canvas.
+            </div>
+            <img id="pointer" src="Self-classifying%20MNIST%20Digits_files/pointer.svg">
+    </div>
+
+    <div id="demo-controls">
+        <div id="pattern-selector" class="color_heavy">
+
+        <canvas id="digit-0" width="28" height="28"></canvas><canvas id="digit-1" width="28" height="28"></canvas><canvas id="digit-2" width="28" height="28"></canvas><canvas id="digit-3" width="28" height="28"></canvas><canvas id="digit-4" width="28" height="28"></canvas><canvas id="digit-5" width="28" height="28"></canvas><canvas id="digit-6" width="28" height="28"></canvas><canvas id="digit-7" width="28" height="28"></canvas><canvas id="digit-8" width="28" height="28"></canvas><canvas id="digit-9" width="28" height="28"></canvas></div>
+        <div style="text-align: center">
+            <span id="play-pause">
+                <svg class="icon" id="play" style="display: none;"><use xlink:href="#playIcon"></use></svg>
+                <svg class="icon" id="pause" style="display: inline;"><use xlink:href="#pauseIcon"></use></svg>
+            </span>
+            <svg class="icon" id="reset"><use xlink:href="#resetIcon"></use></svg>
+        </div>
+        <div>
+            Speed: <span id="speedLabel">1/10 x</span><br>
+            <input type="range" id="speed" min="-3" max="3" step="1" value="-2"><br>
+            <div id="status">
+               <!--  Step <span id="stepCount"></span> -->
+                (<span id="ips">4</span> step/s)
+            </div>
+        </div>
+        <div id="eraser-pencil" style="text-align: center">
+          <div id="eraser" style="filter: grayscale(1) opacity(0.7);"></div>
+          <div id="pencil"></div>
+        </div>
+        <div class="slidecontainer">
+          Brush size:
+          <input type="range" min="4" max="10" value="4" class="slider" id="brushSlider">
+          <div id="status">(<span id="radius">2</span> px)</div>
+        </div>
+        <div id="colorwheelicon" style="text-align: center">
+          <img id="pointer" src="Self-classifying%20MNIST%20Digits_files/colorwheel.svg">
+        </div>
+        <div class="slidecontainer">
+          Palette:
+          <input type="range" min="0" max="360" value="0" class="slider" id="hueSlider">
+          <div id="status">(<span id="hueValue">0</span> deg)</div>
+        </div>
+        <div id="bindiv">
+          <img id="bin" src="Self-classifying%20MNIST%20Digits_files/bin.png">
+        </div>
+        <div id="paletteHint">This article relies on using color to 
+demonstrate classification label. If you have trouble distinguishing the
+ colours of digits in the above legend, please try and adjust the slider
+ above to see if there is an alternative colour palette for you. The 
+chosen palette will propagate throughout the article.</div>
+        <div id="colab-hero-div">
+          <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/mnist_ca.ipynb" class="colab-root" id="colab-hero">Try in a <span class="colab-span">Notebook</span></a>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { mnistDemo } from './demo.js'
+    tf.ENV.set('WEBGL_PACK', false);
+    mnistDemo("demo", "demo-canvas");
+</script>
+
+</d-title>
+
+<d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="https://oteret.github.io/">Ettore Randazzo</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://znah.net/">Alexander Mordvintsev</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://eyvind.me/">Eyvind Niklasson</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="http://www.drmichaellevin.org/">Michael Levin</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="http://allencenter.tufts.edu/">Allen Discovery Center at Tufts University</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://greydanus.github.io/about.html">Sam Greydanus</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="http://mlcollective.org/">Oregon State University and the ML Collective</a>
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>Aug. 27, 2020</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p><a href="https://doi.org/10.23915/distill.00027.002">10.23915/distill.00027.002</a></p>
+    </div>
+  </div>
+</d-byline>
+
+
+<d-article>
+<d-contents>
+  <nav class="l-text toc figcaption">
+    <h3>Contents</h3>
+    <div><a href="#model">Model</a></div>
+    <div><a href="#experiment-1">Experiments</a></div>
+    <ul>
+      <li><a href="#experiment-1">Self-classify, persist &amp; mutate</a></li>
+      <li><a href="#experiment-2">Stabilizing classification</a></li>
+    </ul>
+    <div><a href="#robustness">Robustness</a></div>
+    <div><a href="#related-work">Related Work</a></div>
+    <div><a href="#discussion">Discussion</a></div>
+  </nav>
+</d-contents>
+
+<section id="thread-nav" class="thread-info" style="margin-top: 10px; margin-bottom: 40px">
+  <img class="thread-icon" src="Self-classifying%20MNIST%20Digits_files/multiple-pages.svg" width="43px" height="50px">
+  <p class="explanation">
+    This article is part of the
+    <a href="https://distill.pub/2020/selforg/">Differentiable Self-organizing Systems Thread</a>,
+    an experimental format collecting invited short articles delving into
+    differentiable self-organizing systems, interspersed with critical
+    commentary from several experts in adjacent fields.
+  </p>
+  <a class="prev" href="https://distill.pub/2020/growing-ca/">Growing Neural Cellular Automata</a>
+  <a class="next" href="https://distill.pub/selforg/2021/textures/">Self-Organising Textures</a>
+</section>
+<p>Growing Neural Cellular Automata <d-cite key="mordvintsev2020growing"></d-cite>
+ demonstrated how simple cellular automata (CAs) can learn to 
+self-organise into complex shapes while being resistant to 
+perturbations. Such a computational model approximates a solution to an 
+open question in biology, namely, how do cells cooperate to create a 
+complex multicellular anatomy and work to regenerate it upon damage? The
+ model parameterizing the cells’ rules is parameter-efficient, 
+end-to-end differentiable, and illustrates a new approach to modeling 
+the regulation of anatomical homeostasis. In this work, we use a version
+ of this model to show how CAs can be applied to a common task in 
+machine learning: classification. We pose the question: <i>can CAs use local message passing to achieve global agreement </i><i>on</i><i> what digit they compose?</i></p>
+<p>
+Our question is closely related to another unsolved problem in 
+developmental and regenerative biology: how cell groups decide whether 
+an organ or tissue pattern is correct, or whether current anatomy needs 
+to be remodeled (anatomical surveillance and repair toward a specific 
+target morphology). For example, when scientists surgically transplanted
+ a salamander tail to its flank, it slowly remodeled into a limb - the 
+organ that belongs at this location <d-cite key="farinella-ferruzza_1956"></d-cite>.
+ Similarly, tadpoles with craniofacial organs in the wrong positions 
+usually become normal frogs because they remodel their faces, placing 
+the eye, mouth, nostrils, etc. in their correct locations. Cell groups 
+move around and stop when the correct frog-specific anatomical 
+configuration has been achieved  <d-cite key="vandenberg_adams_levin_2012"></d-cite>.
+ All of these examples illustrate the ability of biological systems to 
+determine their current anatomical structure and decide whether it 
+matches a species-specific target morphology <d-cite key="pezzulo_levin_2016"></d-cite>.
+ Despite the recent progress in molecular biology of genes necessary for
+ this process, there is still a fundamental knowledge gap concerning the
+ algorithms sufficient for cell collectives to measure and classify 
+their own large-scale morphology. More broadly, it is important to 
+create computational models of swarm intelligence that explicitly define
+ and distinguish the dynamics of the basal cognition of single cells 
+versus cell collectives <d-cite key="Baluska_Levin_2016"></d-cite><d-cite key="Lyon_2006"></d-cite>. </p>
+<h3>The self-classifying MNIST task</h3>
+<p>Suppose a population of agents is arranged on a grid. They do not 
+know where they are in the grid and they can only communicate with their
+ immediate neighbors. They can also observe whether a neighbor is 
+missing. Now suppose these agents are arranged to form the shape of a 
+digit. Given that all the agents operate under the same rules, can they 
+form a communication protocol such that, after a number of iterations of
+ communication, <i>all of the agents know which digit they are forming</i><i>?</i><i> </i>Furthermore,
+ if some agents were to be removed and added to form a new digit from a 
+preexisting one, would they be able to know which the new digit is?</p>
+
+<p>Because digits are not rotationally invariant (i.e. 6 is a rotation 
+of 9), we presume the agents must be made aware of their orientation 
+with respect to the grid. Therefore, while they do not know where they 
+are, they do know where up, down, left and right are. The biological 
+analogy here is a situation where the remodeling structures exist in the
+ context of a larger body and a set of morphogen gradients or tissue 
+polarity that indicate directional information with respect to the three
+ major body axes. Given these preliminaries, we introduce the 
+self-classifying MNIST task.</p>
+
+<p></p><figure style="margin-left:auto; margin-right: auto; grid-column:page; width:100%; max-width:500px;">
+  <object data="Self-classifying%20MNIST%20Digits_files/mnist_digits.png" type="image/png" style="width:100%"></object>
+<figcaption style="">
+A visualisation of a random sample of digits from MNIST, each shaded by the colour corresponding its label.
+</figcaption>
+</figure><p></p>
+
+<p>Each sample of the MNIST dataset <d-cite key="lecun_mnist"></d-cite> 
+consists of a 28x28 image with a single monochrome channel that is 
+classically displayed in greyscale. The label is an integer in <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>0</mn><mo separator="true">,</mo><mn>9</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[0,9]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mopen">[</span><span class="mord mathrm">0</span><span class="mpunct">,</span><span class="mord mathrm">9</span><span class="mclose">]</span></span></span></span></span>.</p>
+
+<p>Our goal is for all cells that make up the digit to correctly output 
+the label of the digit. To convey this structural information to the 
+cells, we make a distinction between alive and dead cells by rescaling 
+the values of the image to [0, 1]. Then we treat a cell as alive if its 
+value in the MNIST sample is larger than 0.1. The intuition here is that
+ we are placing living cells in a cookie cutter and asking them to 
+identify the global shape of the cookie cutter. We visualize the label 
+output by assigning a color to each cell, as you can see above. We use 
+the same mapping between colors and labels throughout the article. 
+Please note that there is a slider in the interactive demo controls 
+which you can use to adjust the color palette if you have trouble 
+differentiating between the default colors. </p>
+<h2 id="model">Model</h2>
+<p>In this article, we use a variant of the neural cellular automata model described in Growing Cellular Automata <d-cite key="mordvintsev2020growing"></d-cite>. We refer readers unfamiliar with its implementation to the original <a href="https://distill.pub/2020/growing-ca/#model">”Model”</a> section. Here we will describe a few areas where our model diverges from the original.</p>
+<h3>Target labels</h3>
+<p>The work in Growing CA used RGB images as targets, and optimized the 
+first three state channels to approximate those images. For our 
+experiments, we treat the last ten channels of our cells as a 
+pseudo-distribution over each possible label (digit). During inference, 
+we simply pick the label corresponding to the channel with the highest 
+output value.</p>
+<h3>Alive cells and cell states</h3>
+<p>In Growing CA we assigned a cell’s state to be “dead” or “alive” 
+based on the strength of its alpha channel and the activity of its 
+neighbors. This is similar to the rules of Conway’s Game of Life <d-cite key="10.2307/24927642"></d-cite>.
+ In the Growing CA model, “alive” cells are cells which update their 
+state and dead cells are “frozen” and do not undergo updates. In 
+contrast to biological life, what we call “dead” cells aren’t dead in 
+the sense of being non-existent or decayed, but rather frozen: they are 
+visible to their neighbors and maintain their state throughout the 
+simulation. In this work, meanwhile, we use input pixel values to 
+determine whether cells are alive or dead and perform computations with 
+alive cells only<d-footnote id="d-footnote-1"> As introduced in the previous section, cells are considered alive if their normalized grey value is larger than 0.1.</d-footnote>.
+ It is important to note that the values of MNIST pixels are exposed to 
+the cell update rule as an immutable channel of the cell state. In other
+ words, we make cells aware of their own pixel intensities as well as 
+those of their neighbors. Given 19 mutable cell state channels (nine 
+general purpose state channels for communication and ten output state 
+channels for digit classification) and an immutable pixel channel, each 
+cell perceives 19 + 1 state channels and only outputs state updates for 
+the 19 mutable state channels.</p>
+
+<p><strong>A note on digit topology.</strong><strong> </strong>Keen 
+readers may notice that our model requires each digit to be a single 
+connected component in order for classification to be possible, since 
+any disconnected components will be unable to propagate information 
+between themselves. We made this design decision in order to stay true 
+to our core biological analogy, which involves a group of cells that is 
+trying to identify its global shape. Even though the vast majority of 
+samples from MNIST are fully connected, some aren’t. We do not expect 
+our models to classify non-connected minor components correctly, but we 
+do not remove them<d-footnote id="d-footnote-2"> This choice complicates
+ comparison between the MNIST train/test accuracies of neural network 
+classifiers vs. CAs. However, such a comparison is not in scope of this 
+article.</d-footnote>.</p>
+<h3>Perception</h3>
+<p>The Growing CA article made use of fixed 3x3 convolutions with Sobel filters to estimate the state gradients in <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>x</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.71444em;"></span><span class="strut bottom" style="height:0.71444em;vertical-align:0em;"></span><span class="base"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.05556em;"><span>⃗</span></span></span></span></span></span></span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>y</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.71444em;"></span><span class="strut bottom" style="height:0.9088799999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.11112em;"><span>⃗</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"></span></span></span></span></span></span></span></span>. We found that fully trainable 3x3 kernels outperformed their fixed counterparts and so used them in this work.</p>
+
+<p><strong>A note on model size. </strong>Like the Growing CA model, our
+ MNIST CA is small by the standards of deep learning - it has less than 
+25k parameters. Since this work aims to demonstrate a novel approach to 
+classification, we do not attempt to maximise the validation accuracy of
+ the model by increasing the number of parameters or any other tuning. 
+We suspect that, as with other deep neural network models, one would 
+observe a positive correlation between accuracy and model size.</p>
+<h2 id="experiment-1">Experiment 1: Self-classify, persist and mutate</h2>
+<p>In our first experiment, we use the same training paradigm as was 
+discussed in Growing CA. We train with a pool of initial samples to 
+allow the model to learn to persist and then perturb the converged 
+states. However, our perturbation is different. Previously, we destroyed
+ the states of cells at random in order to make the CAs resistant to 
+destructive perturbations (analogous to traumatic tissue loss). In this 
+context, perturbation has a slightly different role to play. Here we aim
+ to build a CA model that not only has regenerative properties, but also
+ <i>has the ability to correct itself when the shape of the overall digit changes</i><i>.</i></p>
+
+<p>Biologically, this corresponds to a teratogenic influence during 
+development, or alternatively, a case of an incorrect or incomplete 
+remodeling event such as metamorphosis or rescaling. The distinction 
+between training our model from scratch and training it to accommodate 
+perturbations is subtle but important. An important feature of life is 
+the ability to react adaptively to external perturbations that are not 
+accounted for in the normal developmental sequence of events. If our 
+virtual cells simply learned to recognize a digit and then entered some 
+dormant state and did not react to any further changes, we would be 
+missing this key property of living organisms. One could imagine a 
+trivial solution in the absence of perturbations, where a single wave of
+ information is passed from the boundaries of the digit inwards and then
+ back out, in such a way that all cells could agree on a correct 
+classification. By introducing perturbations to new digits, the cells 
+have to be in constant communication and achieve a “dynamic homeostasis”
+ - continually “kept on their toes” in anticipation of new or further 
+communication from their neighbours.</p>
+
+<p>In our model, we achieve this dynamic homeostasis by randomly 
+mutating the underlying digit at training time. Starting from a certain 
+digit and after some time evolution, we sample a new digit, erase all 
+cell states that are not present in both digits and bring alive the 
+cells that were not present in the original digit but are present in the
+ new digit. This kind of mutation teaches CAs to learn to process new 
+information and adapt to changing conditions. It also exposes the cells 
+to training states where all of the cells that remain after a 
+perturbation are misclassifying the new digit and must recover from this
+ catastrophic mutation. This in turn forces our CAs to learn to change 
+their own classifications to adapt to changing global structure.</p>
+
+<p>We use a pixel-wise (cell-wise) cross entropy loss on the last ten 
+channels of each pixel, applying it after letting the CA evolve for 20 
+steps.</p>
+<p></p><figure>
+    <div class="vc"><div class="vsc-controller"></div>
+    <div class="vidoverlay"></div>
+    <video playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Self-classifying%20MNIST%20Digits_files/ce_runs.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    </div>
+<figcaption style="">
+A first attempt at having the neural CAs classify digits. Each digit is a
+ separate evolution of the neural CA, with the visualisations collated. 
+Halfway through, the underlying digit is swapped for a new one - a 
+“mutation”.</figcaption>
+</figure><p></p>
+
+<p>The video above shows the CA classifying a batch of digits for 200 
+steps. We then mutate the digits and let the system evolve and classify 
+for a further 200 steps.</p>
+
+<p>The results look promising overall and we can see how our CAs are 
+able to recover from mutations. However, astute observers may notice 
+that often not all cells agree with each other. Often, the majority of 
+the digit is classified correctly, but some outlier cells are still 
+convinced they are part of a different digit, often switching back and 
+forth in an oscillating pattern, causing a flickering effect in the 
+visualization. This is not ideal, since we would like the population of 
+cells to reach stable, total, agreement. The next experiment 
+troubleshoots this undesired behaviour.</p>
+<h2 id="experiment-2">Experiment 2: Stabilizing classification</h2>
+<p>Quantifying a qualitative issue is the first step to solving it. We propose a metric to track <strong>average cell </strong><strong>accuracy</strong>,
+ which we define as the mean percentage of cells that have a correct 
+output. We track this metric both before and after mutation.</p><figure style="margin-left:auto; margin-right: auto; grid-column:page; width:100%; max-width: 700px">
+  <object data="Self-classifying%20MNIST%20Digits_files/ce_accuracy.png" type="image/png" style="width:100%"></object>
+<figcaption style="">
+Average accuracy across the cells in a digit over time.</figcaption>
+</figure><p></p>
+<p>In the figure above, we show the mean percentage of correctly 
+classified pixels in the test set over the course of 400 steps. At step 
+200, we randomly mutate the digit. Accordingly, we see a brief drop in 
+accuracy as the cells re-organise and eventually come to agreement on 
+what the new digit is.</p>
+
+<p>We immediately notice an interesting phenomenon: the cell accuracy 
+appears to decrease over time after the cells have come to an agreement.
+ However, the graph does not necessarily reflect the qualitative issue 
+of unstable labels that we set out to solve. The slow decay in accuracy 
+may be a reflection of the lack of total agreement, but doesn’t capture 
+the stark instability issue.</p>
+
+<p>Instead of looking at the mean agreement perhaps we should measure <strong>total agreement</strong>. We define total agreement as the percentage of samples from a given batch wherein all the cells output the same label. </p>
+<p></p><figure style="margin-left:auto; margin-right: auto; grid-column:page; width:100%; max-width:700px">
+  <object data="Self-classifying%20MNIST%20Digits_files/ce_agreement.png" type="image/png" style="width:100%"></object>
+<figcaption style="">
+Average total agreement among cells across the test set in MNIST, over time.</figcaption>
+</figure><p></p>
+
+<p>This metric does a better job of capturing the issues we are seeing. 
+The total agreement starts at zero and then spikes up to roughly 78%, 
+only to lose more than 10% agreement over the next 100 steps. Again, 
+behaviour after mutation does not appear to be significantly different. 
+Our model is not only unstable in the short term, exhibiting flickering,
+ but is also unstable over longer timescales. As time goes on, cells are
+ becoming less sure of themselves. Let’s inspect the inner states of the
+ CA to see why this is happening.</p>
+
+<p></p><figure style="margin-left:auto; margin-right: auto; grid-column:page; width:100%; max-width:700px">
+  <object data="Self-classifying%20MNIST%20Digits_files/ce_magnitude.png" type="image/png" style="width:100%"></object>
+<figcaption style="">
+Average magnitude of the state channels and residual updates in active cells over time in the test set.</figcaption>
+</figure><p></p>
+<p>The figure above shows the time evolution of the average magnitude of
+ the state values of active cells (solid line), and the average 
+magnitude of the residual updates (dotted line). Two important things 
+are happening here: 1) the average magnitude of each cell’s internal 
+states is growing monotonically on this timescale; 2) the average 
+magnitude of the residual updates is staying roughly constant. We 
+theorize that, unlike 1), a successful CA model should stabilize the 
+magnitude of its internal states once cells have reached an agreement. 
+In order for this to happen, its residual updates should approach zero 
+over time, unlike what we observed in 2).</p>
+
+<p><strong>Using an</strong><strong> <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span></strong><strong> loss. </strong>One
+ problem with cross entropy loss is that it tends to push raw logit 
+values indefinitely higher. Another problem is that two sets of logits 
+can have vastly different values but essentially the same prediction 
+over classes. As such, training the CA with cross-entropy loss neither 
+requires nor encourages a shared reference range for logit values, 
+making it difficult for the cells to effectively communicate and 
+stabilize. Finally, we theorize that large magnitudes in the 
+classification channels may in turn lead the remaining 
+(non-classification) state channels to transition to a high magnitude 
+regime. More specifically, we believe that <i>cross-entropy loss causes 
+unbounded growth in classification logits, which prevents residual 
+updates from approaching zero, which means that neighboring cells 
+continue passing messages to each other even after they reach an agreeme</i><i>nt</i><i>.</i><i> </i><i>Ultimately, this causes the magnitude of the message vectors to grow unboundedly</i>. With these problems in mind, we instead try training our model with a pixel-wise <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>
+ loss and use one-hot vectors as targets. Intuitively, this solution 
+should be more stable since the raw state channels for classification 
+are never pushed out of the range <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[0, 1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mopen">[</span><span class="mord mathrm">0</span><span class="mpunct">,</span><span class="mord mathrm">1</span><span class="mclose">]</span></span></span></span></span>
+ and a properly classified digit in a cell will have exactly one 
+classification channel set to 1 and the rest to 0. In summary, an <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>
+ loss should decrease the magnitude of all the internal state channels 
+while keeping the classification targets in a reasonable range. </p>
+
+<p><strong>Adding noise to the residual updates</strong>. A number of popular regularization schemes involve injecting noise into a model in order to make it more robust <d-cite key="srivastava14a, kingma2013autoencoding, NIPS2011_4329, fortunato2017noisy"></d-cite>.
+ Here we add noise to the residual updates by sampling from a normal 
+distribution with a mean of zero and a standard deviation of <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>2</mn></mrow></msup></mrow><annotation encoding="application/x-tex">2 \times 10^{-2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="base"><span class="mord mathrm">2</span><span class="mbin">×</span><span class="mord mathrm">1</span><span class="mord"><span class="mord mathrm">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span>. We add this noise before randomly masking the updates.</p>
+<p></p><figure>
+<div class="vc"><div class="vsc-controller"></div>
+    <div class="vidoverlay"></div>
+    <video playsinline="" muted="muted" preload="auto" width="640px">
+      <source src="Self-classifying%20MNIST%20Digits_files/l2_runs.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>
+<figcaption style="">
+Neural CA trained with <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> loss, exhibiting less instability after converging to a label.</figcaption>
+</figure><p></p>
+<p>The video above shows a batch of runs with the augmentations in 
+place. Qualitatively, the result looks much better as there is less 
+flickering and more total agreement. Let’s check the quantitative 
+metrics to see if they, too, show improvement.</p>
+<p></p><figure style="margin-left:auto; margin-right: auto; grid-column:page; width:100%; max-width:700px">
+  <object data="Self-classifying%20MNIST%20Digits_files/ce_vs_l2_metrics.png" type="image/png" style="width:100%"></object>
+<figcaption style="">
+Comparison of average accuracy and total agreement 
+ when using cross-entropy and when using <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> loss.</figcaption>
+</figure><p></p>
+
+<div id="accTable" style="overflow-x:scroll;grid-column:page;max-width:700px;margin-left:auto;margin-right:auto"><table class="model_table">
+<thead>
+<tr>
+<th>Model</th>
+<th>Top accuracy</th>
+<th>Accuracy at 200 </th>
+<th>Top agreement</th>
+<th>Agreement at 200</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CE</td>
+<td><b>96.2 at 80</b></td>
+<td><b>95.3</b></td>
+<td>77.9 at 80</td>
+<td>66.2</td>
+</tr>
+<tr>
+<td><span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span></td>
+<td>95.0 at 95</td>
+<td>94.7</td>
+<td>85.5 at 175</td>
+<td>85.2</td>
+</tr>
+<tr>
+<td><span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> + Noise</td>
+<td>95.4 at 65</td>
+<td><b>95.3</b></td>
+<td><b>88.2 at 190</b></td>
+<td><b>88.1</b></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>The figure and table above show that cross-entropy achieves the 
+highest accuracy of all models at roughly 80 steps. However, the 
+accuracy at 200 steps is the same as the <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> + Noise model. While accuracy and agreement degrade over time for all models, the <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> + Noise appears to be the most stable configuration. In particular, note that the total agreement after 200 steps of <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> + Noise is 88%, an improvement of more than 20% compared to the cross-entropy model. </p>
+<h3>Internal states</h3>
+<p></p><figure style="margin-left:auto; margin-right: auto; grid-column:page; width:100%; max-width:700px">
+  <object data="Self-classifying%20MNIST%20Digits_files/magnitude_comparison.png" type="image/png" style="width:100%"></object>
+<figcaption style="">
+Average magnitude of state channels over time for <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> loss and cross-entropy loss.</figcaption>
+</figure><p></p>
+<p>Let’s compare the internal states of the augmented model to those of the original. The figure above shows how switching to an <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>
+ loss stabilizes the magnitude of the states, and how residual updates 
+quickly decay to small values as the system nears agreement.</p>
+
+<p></p><figure>
+<div class="vc"><div class="vsc-controller"></div>
+    <div class="vidoverlay"></div>
+    <video playsinline="" muted="muted" preload="auto" width:100%="">
+      <source src="Self-classifying%20MNIST%20Digits_files/l2n_horiz_states.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>
+<figcaption style="">
+Visualisation of internal state channel values during mutations. Note 
+the accelerated timeline after a few seconds showing the relative 
+stability of the channel values.</figcaption>
+</figure><p></p>
+<p>To further validate our results, we can visualize the dynamics of the
+ internal states of the final model. For visualization purposes, we have
+ squashed the internal state values by applying an element-wise <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mi>r</mi><mi>c</mi><mi>t</mi><mi>a</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">arctan</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.61508em;"></span><span class="strut bottom" style="height:0.61508em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">a</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">c</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">n</span></span></span></span></span>,
+ as most state values are less than one but a few are much larger. The 
+states converge to stable configurations quickly and the state channels 
+exhibit spatial continuity with the neighbouring states. More 
+specifically, we don’t see any stark discontinuities in state values of 
+neighbouring pixels. Applying a mutation causes the CA to readapt to the
+ new shape and form a new classification in just a few steps, after 
+which its internal values are stable.</p>
+<h2 id="robustness">Robustness</h2>
+<p>Recall that during training we used random digit mutations to ensure 
+that the resulting CA would be responsive to external changes. This 
+allowed us to learn a dynamical system of agents which interact to 
+produce stable behavior at the population level, even when perturbed to 
+form a different digit from the original. Biologically, this model helps
+ us understand the mutation insensitivity of some large-scale anatomical
+ control mechanisms. For example, planaria continuously accumulate 
+mutations over millions of years of somatic inheritance but still always
+ regenerate the correct morphology in nature (and exhibit no genetic 
+strains with new morphologies) <d-cite key="LEVIN2019125"></d-cite>. </p>
+
+<p>This robustness to change was critically important to our interactive
+ demo, since the cells needed to reclassify drawings as the user changed
+ them. For example, when the user converted a six to an eight, the cells
+ needed to quickly re-classify themselves to an eight. We encourage the 
+reader to play with the interactive demo and experience this for 
+themselves. In this section, we want to showcase a few behaviours we 
+found interesting.</p>
+
+<p></p><figure>
+    <div class="vc"><div class="vsc-controller"></div>
+<div class="vidoverlay"></div>    
+<video playsinline="" muted="muted" preload="auto" width="320px">
+      <source src="Self-classifying%20MNIST%20Digits_files/drawing_mutations.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>
+<div>
+  <object data="Self-classifying%20MNIST%20Digits_files/horiz_legend.jpeg" type="image/png" style="width:320px"></object>
+   </div>
+<figcaption style="">
+Demonstration of the CA successfully re-classifying a digit when it is modified by hand.</figcaption>
+</figure><p></p>
+
+<p>The video above shows how the CA is able to interactively adjust to 
+our own writing and to change classification when the drawing is 
+updated.</p>
+<h3>Robustness to out-of-distribution shapes</h3>
+<p>In the field of machine learning, researchers take great interest in 
+how their models perform on out-of-distribution data. In the 
+experimental sections of this article, we evaluated our model on the 
+test set of MNIST. In this section, we go further and examine how the 
+model reacts to digits drawn by us and not sampled from MNIST at all. We
+ vary the shapes of the digits until the model is no longer capable of 
+classifying them correctly. Every classification model inherently 
+contains certain inductive biases that render them more or less robust 
+to generalizing to out-of-distribution data. Our model can be seen as a 
+recurrent convolutional model and thus we expect it to exhibit some of 
+the key properties of traditional convolutional models such as 
+translation invariance. However, we strongly believe that the 
+self-organising nature of this model introduces a novel inductive bias 
+which may have interesting properties of its own. Biology offers 
+examples of “repairing to novel configurations”: 2-headed planaria, once
+ created, regenerate to this new configuration which was not present in 
+the evolutionary “training set” <d-cite key="OVIEDO2010188"></d-cite>. </p>
+<p></p><figure>
+<div class="vc"><div class="vsc-controller"></div>
+    <div class="vidoverlay"></div>
+    <video playsinline="" muted="muted" preload="auto" width="320px">
+      <source src="Self-classifying%20MNIST%20Digits_files/drawing_bad.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>   
+<div>
+  <object data="Self-classifying%20MNIST%20Digits_files/horiz_legend.jpeg" type="image/png" style="width:320px"></object>
+   </div>
+<figcaption style="">
+Demonstration of some of the failure cases of the CA.</figcaption>
+</figure><p></p>
+
+<p>Above, we can see that our CA fails to classify some variants of 1 
+and 9. This is likely because MNIST training data is not sufficiently 
+representative of all writing styles. We hypothesize that more varied 
+and extensive datasets would improve performance. The model often 
+oscillates between two attractors (of competing digit labels) in these 
+situations. This is interesting because this behavior could not arise 
+from static classifiers such as traditional convolutional neural 
+networks.</p>
+
+<p></p><figure>
+<div class="vc"><div class="vsc-controller"></div>
+    <div class="vidoverlay"></div>
+    <video playsinline="" muted="muted" preload="auto" width="320px">
+      <source src="Self-classifying%20MNIST%20Digits_files/mnist_ablation.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>
+<div>
+  <object data="Self-classifying%20MNIST%20Digits_files/horiz_legend.jpeg" type="image/png" style="width:320px"></object>
+   </div>
+<figcaption style="">
+Demonstration of the inherent robustness of the model to unseen sizes and variants of numbers.</figcaption>
+</figure><p></p>
+<p>By construction, our CA is translation invariant. But perhaps 
+surprisingly, we noticed that our model is also scale-invariant for 
+out-of-distribution digit sizes up to a certain point. Alas, it does not
+ generalize well enough to classify digits of arbitrary lengths and 
+widths.</p>
+<p></p><figure>
+<div class="vc"><div class="vsc-controller"></div>
+    <div class="vidoverlay"></div>
+    <video playsinline="" muted="muted" preload="auto" width="320px">
+      <source src="Self-classifying%20MNIST%20Digits_files/mnist_chimeras.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>
+<div>
+  <object data="Self-classifying%20MNIST%20Digits_files/horiz_legend.jpeg" type="image/png" style="width:320px"></object>
+   </div>
+<figcaption style="">
+Demonstration of the behaviour of the model with chimeric configurations.</figcaption>
+</figure><p></p>
+<p>It is also interesting to see how our CA classifies “chimeric 
+digits”, which are shapes composed of multiple digits. First, when 
+creating a 3-5 chimera, the classification of 3 appears to dominate that
+ of the 5. Second, when creating a 8-9 chimera, the CAs reach an 
+oscillating attractor where sections of the two digits are correctly 
+classified. Third, when creating a 6-9 chimera, the CAs converge to an 
+oscillating attractor but the 6 is misclassified as a 4.
+
+These phenomena are important in biology as scientists begin to develop 
+predictive models for the morphogenetic outcome of chimeric cell 
+collectives. We still do not have a framework for knowing in advance 
+what anatomical structures will form from a combination of, for example 
+leg-and-tail blastema cells in an axolotl, heads of planaria housing 
+stem cells from species with different head shapes, or composite embryos
+ consisting of, for example, frog and axolotl blastomeres <d-cite key="mustard2014, suchy2018"></d-cite>.
+ Likewise, designing information signals that induce the emergence of 
+desired tissue patterns from a chimeric cellular collective, in vitro or
+ in vivo, remains an open problem.</p>
+<h2 id="related-work">Related Work</h2>
+<p>This article is follow-up work to Growing Neural Cellular Automata <d-cite key="mordvintsev2020growing"></d-cite>,
+ and it is meant to be read after the latter. In this article, we 
+purposefully skim over details of the original model and we refer the 
+reader to the Growing Neural Cellular Automata article for the <a href="https://distill.pub/2020/growing-ca/#model">full model description</a> section and <a href="https://distill.pub/2020/growing-ca/#related-work">related work</a> section.</p>
+
+<p><strong>MNIST and CA. </strong>Since CAs are easy to apply to two 
+dimensional grids, many researchers wondered if they could use them to 
+somehow classify the MNIST dataset. We are aware of work that combines 
+CAs with Reservoir Computing <d-cite key="alej2018reservoir, alej2020reservoir"></d-cite>, Boltzmann Machines <d-cite key="matsubara2018"></d-cite>, Evolutionary Strategies <d-cite key="oliveira2008"></d-cite>, and ensemble methods <d-cite key="WALI201877, jastrzebska2017"></d-cite>.
+ To the best of our knowledge, we are the first to train end-to-end 
+differentiable Neural CAs for classification purposes and we are the 
+first to introduce the self-classifying variant of MNIST wherein each 
+pixel in the digit needs to coordinate locally in order to reach a 
+global agreement about its label.</p>
+<h2 id="discussion">Discussion</h2>
+<p>This article serves as a proof-of-concept for how simple 
+self-organising systems such as CA can be used for classification when 
+trained end-to-end through backpropagation.</p>
+
+<p>Our model adapts to writing and erasing and is surprisingly robust to
+ certain ranges of digit stretching and brush widths. We hypothesize 
+that self-organising models with constrained capacity may be inherently 
+robust and have good generalisation properties. We encourage future work
+ to test this hypothesis.</p>
+
+<p>From a biological perspective, our work shows we can teach things to a
+ collective of cells that they could not learn individually (by training
+ or engineering a single cell). Training cells in unison (while 
+communicating with each other) allows them to learn more complex 
+behaviour than any attempt to train them one by one, which has important
+ implications for strategies in regenerative medicine. The current focus
+ on editing individual cells at the genetic or molecular signaling level
+ faces fundamental barriers when trying to induce desired complex, 
+system-level outcomes (such as regenerating or remodeling whole organs).
+ The inverse problem of determining which cell-level rules (e.g., 
+genetic information) must be changed to achieve a global outcome is very
+ difficult. In contrast and complement to this approach, we show the 
+first component of a roadmap toward developing effective strategies for 
+communication with cellular collectives. Future advances in this field 
+may be able to induce desired outcomes by using stimuli at the system’s 
+input layer (experience), not hardware rewiring, to re-specify outcomes 
+at the tissue, organ, or whole-body level <d-cite key="Mathews_Levin_2018"></d-cite><d-cite key="Pezzulo_Levin_2015"></d-cite>.</p>
+
+<section id="thread-nav" class="thread-info" style="margin-top: 10px; margin-bottom: 40px">
+  <img class="thread-icon" src="Self-classifying%20MNIST%20Digits_files/multiple-pages.svg" width="43px" height="50px">
+  <p class="explanation">
+    This article is part of the
+    <a href="https://distill.pub/2020/selforg/">Differentiable Self-organizing Systems Thread</a>,
+    an experimental format collecting invited short articles delving into
+    differentiable self-organizing systems, interspersed with critical
+    commentary from several experts in adjacent fields.
+  </p>
+  <a class="prev" href="https://distill.pub/2020/growing-ca/">Growing Neural Cellular Automata</a>
+  <a class="next" href="https://distill.pub/selforg/2021/textures/">Self-Organising Textures</a>
+</section>
+
+</d-article>
+<d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+<h3>Acknowledgments</h3>
+<p>We thank Zhitao Gong, Alex Groznykh, Nick Moran, Peter Whidden for their valuable conversations and feedback.</p>
+<h3>Author Contributions</h3>
+<p><strong>Research:</strong> Alexander came up with the Self-Organising
+ Asynchronous Neural Cellular Automata model and Ettore contributed to 
+its design. Alexander came up with the self-classifying MNIST digits 
+task. Ettore designed and performed the experiments for this work. </p>
+
+<p><strong>Demos:</strong> Ettore, Eyvind and Alexander contributed to the demo.</p>
+
+<p><strong>Writing and Diagrams:</strong> Ettore outlined the structure 
+of the article, created graphs and videos, and contributed to the 
+content throughout. Eyvind contributed to the content throughout, 
+including video making and substantive editing and writing. Michael made
+ extensive contributions to the article text, providing the biological 
+context for this work. Sam extensively contributed to the text of the 
+article.</p>
+<h3>Implementation details</h3>
+<p><strong>TF.js playground.</strong> The demo shown in this work is 
+made through Tensorflow.js (TF.js). In the colaboratory notebook 
+described below, the reader can find customizable sizes of this 
+playground, as well as more options for exploring pretrained models, 
+trained without sampling from a pool of different initial states, or 
+mutation mechanisms, or using a cross-entropy loss.</p>
+
+<p><strong>Colaboratory Notebook.</strong> All of the experiments, 
+images and videos in this article can be recreated using the single 
+notebook referenced at the beginning of the article. Furthermore, more 
+training configurations are easily available: training without pooling, 
+without mutations, with a different loss, with or without residual 
+noise. In the colab, the user can find pretrained models for all these 
+configurations, and customizable TF.js demos where one can try any 
+configuration.</p>
+
+<h3>Comments on the Decentralized Review Process</h3>
+<p>In lieu of traditional peer review, part of the Threads experiment 
+was to conduct a decentralized review of this article using the SelfOrg 
+Slack channel. The editors’ objective was to make the review process 
+faster and more efficient by encouraging real-time communication between
+ the authors and the researchers who care about the topic.
+</p>
+<p>At the time of review, the SelfOrg channel contained 56 members. Six 
+of them participated in the public review process. Others may have 
+participated anonymously. The decentralized review process improved the 
+article by:</p>
+
+<ul><li>Updating the demo’s color scheme to assist those with color blindness</li></ul>
+<ul><li>Improving the demo’s overall API</li></ul>
+<ul><li>Quickly resolving an enormous number of word and sentence-level 
+issues. Over two hundred comments were made and resolved in one week.</li></ul>
+<ul><li>Raising and resolving several technical issues</li></ul>
+
+<p>Although there were technical discussions, the majority of reviews 
+focused on improving the article’s clarity and formatting. This was an 
+important contrast compared to Distill’s default, and more traditional, 
+peer-review processes. In that process, the majority of the feedback 
+tends to be technical. Since much of this article’s technical details 
+were similar to those of the original Growing CA article, we found that 
+the emphasis on clarity and usability was quite useful here. We suspect 
+that some blend of traditional peer review to resolve technical issues 
+and decentralized peer review to resolve clarity and usability would be 
+optimal.</p>
+
+<p>In fact, this “optimal blend” of review styles already happens 
+informally. Many industry and academic research labs have an internal 
+review process aimed at improving communication and writing quality. 
+After this informal review process, researchers submit papers to a 
+double-blind process which specializes in technical feedback. At 
+Distill, we are interested in recreating this blended two-step review 
+process at scale. We see it as a way to 1) bring more diverse 
+perspectives into the review process and 2) give the authors more 
+thorough feedback on their papers.</p>
+
+<d-footnote-list style="">
+<style>
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+</style>
+
+<h3>Footnotes</h3>
+<ol><li id="d-footnote-1-listing"> As introduced in the previous section, cells are considered alive if their normalized grey value is larger than 0.1.<a class="footnote-backlink" href="#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing">
+ This choice complicates comparison between the MNIST train/test 
+accuracies of neural network classifiers vs. CAs. However, such a 
+comparison is not in scope of this article.<a class="footnote-backlink" href="#d-footnote-2">[↩]</a></li></ol>
+</d-footnote-list>
+<d-citation-list distill-prerendered="true"><style>
+d-citation-list {
+  contain: style;
+}
+
+d-citation-list .references {
+  grid-column: text;
+}
+
+d-citation-list .references .title {
+  font-weight: 500;
+}
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="mordvintsev2020growing"><span class="title">Growing Neural Cellular Automata</span> <br>Mordvintsev, A., Randazzo, E., Niklasson, E. and Levin, M., 2020. Distill.  <a href="https://doi.org/10.23915/distill.00023" style="text-decoration:inherit;">DOI: 10.23915/distill.00023</a></li><li id="farinella-ferruzza_1956"><span class="title">The transformation of a tail into limb after xenoplastic transplantation</span> <br>Farinella-Ferruzza, N., 1956. Experientia, Vol 12(8), pp. 304–305.  <a href="https://doi.org/10.1007/bf02159624" style="text-decoration:inherit;">DOI: 10.1007/bf02159624</a></li><li id="vandenberg_adams_levin_2012"><span class="title">Normalized
+ shape and location of perturbed craniofacial structures in the Xenopus 
+tadpole reveal an innate ability to achieve correct morphology</span> <br>Vandenberg, L.N., Adams, D.S. and Levin, M., 2012. Developmental Dynamics, Vol 241(5), pp. 863–878.  <a href="https://doi.org/10.1002/dvdy.23770" style="text-decoration:inherit;">DOI: 10.1002/dvdy.23770</a></li><li id="pezzulo_levin_2016"><span class="title">Top-down models in biology: explanation and control of complex living systems above the molecular level</span> <br>Pezzulo, G. and Levin, M., 2016. Journal of The Royal Society Interface, Vol 13(124), pp. 20160555.  <a href="https://doi.org/10.1098/rsif.2016.0555" style="text-decoration:inherit;">DOI: 10.1098/rsif.2016.0555</a></li><li id="Baluska_Levin_2016"><span class="title">On Having No Head: Cognition throughout Biological Systems</span> <br>Baluška, F. and Levin, M., 2016. Frontiers in psychology, Vol 7, pp. 902. </li><li id="Lyon_2006"><span class="title">The biogenic approach to cognition</span> <br>Lyon, P., 2006. Cognitive processing, Vol 7(1), pp. 11–29. </li><li id="lecun_mnist"><span class="title">Gradient-based learning applied to document recognition</span> <br>Lecun, Y., Bottou, L., Bengio, Y. and Haffner, P., 1998. Proceedings of the IEEE, Vol 86(11), pp. 2278-2324. </li><li id="10.2307/24927642"><span class="title">MATHEMATICAL GAMES</span>   <a href="http://www.jstor.org/stable/24927642">[link]</a><br>Gardner, M., 1970. Scientific American, Vol 223(4), pp. 120--123. Scientific American, a division of Nature America, Inc.</li><li id="srivastava14a"><span class="title">Dropout: A Simple Way to Prevent Neural Networks from Overfitting</span>   <a href="http://jmlr.org/papers/v15/srivastava14a.html">[HTML]</a><br>Srivastava,
+ N., Hinton, G., Krizhevsky, A., Sutskever, I. and Salakhutdinov, R., 
+2014. Journal of Machine Learning Research, Vol 15(56), pp. 1929-1958. </li><li id="kingma2013autoencoding"><span class="title">Auto-Encoding Variational Bayes</span> <br>Kingma, D.P. and Welling, M., 2013. </li><li id="NIPS2011_4329"><span class="title">Practical Variational Inference for Neural Networks</span>   <a href="http://papers.nips.cc/paper/4329-practical-variational-inference-for-neural-networks.pdf">[PDF]</a><br>Graves, A., 2011. Advances in Neural Information Processing Systems 24, pp. 2348--2356. Curran Associates, Inc.</li><li id="fortunato2017noisy"><span class="title">Noisy Networks for Exploration</span> <br>Fortunato,
+ M., Azar, M.G., Piot, B., Menick, J., Osband, I., Graves, A., Mnih, V.,
+ Munos, R., Hassabis, D., Pietquin, O., Blundell, C. and Legg, S., 2017.
+ </li><li id="LEVIN2019125"><span class="title">Planarian regeneration as a model of anatomical homeostasis: Recent progress in biophysical and computational approaches</span>   <a href="http://www.sciencedirect.com/science/article/pii/S1084952117301970">[link]</a><br>Levin, M., Pietak, A.M. and Bischof, J., 2019. Seminars in Cell &amp; Developmental Biology, Vol 87, pp. 125 - 144.  <a href="https://doi.org/https://doi.org/10.1016/j.semcdb.2018.04.003" style="text-decoration:inherit;">DOI: https://doi.org/10.1016/j.semcdb.2018.04.003</a></li><li id="OVIEDO2010188"><span class="title">Long-range neural and gap junction protein-mediated cues control polarity during planarian regeneration</span>   <a href="http://www.sciencedirect.com/science/article/pii/S001216060901402X">[link]</a><br>Oviedo,
+ N.J., Morokuma, J., Walentek, P., Kema, I.P., Gu, M.B., Ahn, J., Hwang,
+ J.S., Gojobori, T. and Levin, M., 2010. Developmental Biology, Vol 
+339(1), pp. 188 - 199.  <a href="https://doi.org/https://doi.org/10.1016/j.ydbio.2009.12.012" style="text-decoration:inherit;">DOI: https://doi.org/10.1016/j.ydbio.2009.12.012</a></li><li id="mustard2014"><span class="title">Bioelectrical Mechanisms for Programming Growth and Form: Taming Physiological Networks for Soft Body Robotics</span>   <a href="https://doi.org/10.1089/soro.2014.0011">[link]</a><br>Mustard, J. and Levin, M., 2014. Soft Robotics, Vol 1(3), pp. 169-191.  <a href="https://doi.org/10.1089/soro.2014.0011" style="text-decoration:inherit;">DOI: 10.1089/soro.2014.0011</a></li><li id="suchy2018"><span class="title">Interspecies chimeras</span> <br>Suchy, F. and Nakauchi, H., 2018. Current opinion in genetics &amp; development, Vol 52, pp. 36-41.  <a href="https://doi.org/10.1016/j.gde.2018.05.007" style="text-decoration:inherit;">DOI: 10.1016/j.gde.2018.05.007</a></li><li id="alej2018reservoir"><span class="title">Reservoir Computing Hardware with Cellular Automata</span> <br>Morán, A., Frasser, C.F. and Rosselló, J.L., 2018. </li><li id="alej2020reservoir"><span class="title">Energy-Efficient Pattern Recognition Hardware With Elementary Cellular Automata</span> <br>Morán, A., Frasser, C.F., Roca, M. and Rosselló, J.L., 2020. IEEE Transactions on Computers, Vol 69(3), pp. 392-401. </li><li id="matsubara2018"><span class="title">Asynchronous network of cellular automaton-based neurons for efficient implementation of Boltzmann machines</span> <br>Matsubara, T. and Uehara, K., 2018. Nonlinear Theory and Its Applications, IEICE, Vol 9, pp. 24-35.  <a href="https://doi.org/10.1587/nolta.9.24" style="text-decoration:inherit;">DOI: 10.1587/nolta.9.24</a></li><li id="oliveira2008"><span class="title">An Approach to Searching for Two-Dimensional Cellular Automata for Recognition of Handwritten Digits</span> <br>Oliveira,
+ C.C. and de Oliveira, P.P.B., 2008. MICAI 2008: Advances in Artificial 
+Intelligence, pp. 462--471. Springer Berlin Heidelberg.</li><li id="WALI201877"><span class="title">Biologically inspired cellular automata learning and prediction model for handwritten pattern recognition</span>   <a href="http://www.sciencedirect.com/science/article/pii/S2212683X18300203">[link]</a><br>Wali, A. and Saeed, M., 2018. Biologically Inspired Cognitive Architectures, Vol 24, pp. 77 - 86.  <a href="https://doi.org/https://doi.org/10.1016/j.bica.2018.04.001" style="text-decoration:inherit;">DOI: https://doi.org/10.1016/j.bica.2018.04.001</a></li><li id="jastrzebska2017"><span class="title">Pattern Classification with Rejection Using Cellular Automata-Based Filtering</span> <br>Jastrzebska,
+ A. and Toro Sluzhenko, R., 2017. Computer Information Systems and 
+Industrial Management, pp. 3--14. Springer International Publishing.</li><li id="Mathews_Levin_2018"><span class="title">The body electric 2.0: recent advances in developmental bioelectricity for regenerative and synthetic bioengineering</span> <br>Mathews, J. and Levin, M., 2018. Current opinion in biotechnology, Vol 52, pp. 134–144. </li><li id="Pezzulo_Levin_2015"><span class="title">Re-membering
+ the body: applications of computational neuroscience to the top-down 
+control of regeneration of limbs and other complex organs</span> <br>Pezzulo, G. and Levin, M., 2015. Integrative biology: quantitative biosciences from nano to macro, Vol 7(12), pp. 1487–1517. </li></ol></d-citation-list>
+<d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+  <d-bibliography><script type="text/json">[["mordvintsev2020growing",{"author":"Mordvintsev, Alexander and Randazzo, Ettore and Niklasson, Eyvind and Levin, Michael","title":"Growing Neural Cellular Automata","journal":"Distill","year":"2020","note":"https://distill.pub/2020/growing-ca","doi":"10.23915/distill.00023","type":"article"}],["lecun_mnist",{"author":"Y. Lecun and L. Bottou and Y. Bengio and P. Haffner","journal":"Proceedings of the IEEE","title":"Gradient-based learning applied to document recognition","year":"1998","volume":"86","number":"11","pages":"2278-2324","type":"ARTICLE"}],["alej2018reservoir",{"title":"Reservoir Computing Hardware with Cellular Automata","author":"Alejandro Morán and Christiam F. Frasser and Josep L. Rosselló","year":"2018","eprint":"1806.04932","archivePrefix":"arXiv","primaryClass":"cs.NE","archiveprefix":"arXiv","primaryclass":"cs.NE","type":"misc"}],["alej2020reservoir",{"author":"A. Morán and C. F. Frasser and M. Roca and J. L. Rosselló","journal":"IEEE Transactions on Computers","title":"Energy-Efficient Pattern Recognition Hardware With Elementary Cellular Automata","year":"2020","volume":"69","number":"3","pages":"392-401","type":"ARTICLE"}],["matsubara2018",{"author":"Matsubara, Takashi and Uehara, Kuniaki","year":"2018","month":"01","pages":"24-35","title":"Asynchronous network of cellular automaton-based neurons for efficient implementation of Boltzmann machines","volume":"9","journal":"Nonlinear Theory and Its Applications, IEICE","doi":"10.1587/nolta.9.24","type":"article"}],["oliveira2008",{"author":"Oliveira, C. C. and de Oliveira, P. P. B.","editor":"Gelbukh, Alexander and Morales, Eduardo F.","title":"An Approach to Searching for Two-Dimensional Cellular Automata for Recognition of Handwritten Digits","booktitle":"MICAI 2008: Advances in Artificial Intelligence","year":"2008","publisher":"Springer Berlin Heidelberg","address":"Berlin, Heidelberg","pages":"462--471","isbn":"978-3-540-88636-5","type":"InProceedings"}],["WALI201877",{"title":"Biologically inspired cellular automata learning and prediction model for handwritten pattern recognition","journal":"Biologically Inspired Cognitive Architectures","volume":"24","pages":"77 - 86","year":"2018","issn":"2212-683X","doi":"https://doi.org/10.1016/j.bica.2018.04.001","url":"http://www.sciencedirect.com/science/article/pii/S2212683X18300203","author":"Aamir Wali and Mehreen Saeed","keywords":"Cellular automata, CALP, Conway’s game of life, Handwritten pattern recognition, Data generation and over-sampling techniques, Neural ensemble, Ensemble methods","type":"article"}],["jastrzebska2017",{"author":"Jastrzebska, Agnieszka and Toro Sluzhenko, Rafael","editor":"Saeed, Khalid and Homenda, Wladyslaw and Chaki, Rituparna","title":"Pattern Classification with Rejection Using Cellular Automata-Based Filtering","booktitle":"Computer Information Systems and Industrial Management","year":"2017","publisher":"Springer International Publishing","address":"Cham","pages":"3--14","isbn":"978-3-319-59105-6","type":"InProceedings"}],["farinella-ferruzza_1956",{"title":"The transformation of a tail into limb after xenoplastic transplantation","volume":"12","DOI":"10.1007/bf02159624","number":"8","journal":"Experientia","author":"Farinella-Ferruzza, N.","year":"1956","pages":"304–305","doi":"10.1007/bf02159624","type":"article"}],["vandenberg_adams_levin_2012",{"title":"Normalized shape and location of perturbed craniofacial structures in the Xenopus tadpole reveal an innate ability to achieve correct morphology","volume":"241","DOI":"10.1002/dvdy.23770","number":"5","journal":"Developmental Dynamics","author":"Vandenberg, Laura N. and Adams, Dany S. and Levin, Michael","year":"2012","pages":"863–878","doi":"10.1002/dvdy.23770","type":"article"}],["pezzulo_levin_2016",{"title":"Top-down models in biology: explanation and control of complex living systems above the molecular level","volume":"13","DOI":"10.1098/rsif.2016.0555","number":"124","journal":"Journal of The Royal Society Interface","author":"Pezzulo, Giovanni and Levin, Michael","year":"2016","pages":"20160555","doi":"10.1098/rsif.2016.0555","type":"article"}],["OVIEDO2010188",{"title":"Long-range neural and gap junction protein-mediated cues control polarity during planarian regeneration","journal":"Developmental Biology","volume":"339","number":"1","pages":"188 - 199","year":"2010","issn":"0012-1606","doi":"https://doi.org/10.1016/j.ydbio.2009.12.012","url":"http://www.sciencedirect.com/science/article/pii/S001216060901402X","author":"Néstor J. Oviedo and Junji Morokuma and Peter Walentek and Ido P. Kema and Man Bock Gu and Joo-Myung Ahn and Jung Shan Hwang and Takashi Gojobori and Michael Levin","keywords":"Gap junctions, Neural signals, Regeneration, Polarity, Planaria","abstract":"Having the ability to coordinate the behavior of stem cells to induce regeneration of specific large-scale structures would have far-reaching consequences in the treatment of degenerative diseases, acute injury, and aging. Thus, identifying and learning to manipulate the sequential steps that determine the fate of new tissue within the overall morphogenetic program of the organism is fundamental. We identified novel early signals, mediated by the central nervous system and 3 innexin proteins, which determine the fate and axial polarity of regenerated tissue in planarians. Modulation of gap junction-dependent and neural signals specifically induces ectopic anterior regeneration blastemas in posterior and lateral wounds. These ectopic anterior blastemas differentiate new brains that establish permanent primary axes re-established during subsequent rounds of unperturbed regeneration. These data reveal powerful novel controls of pattern formation and suggest a constructive model linking nervous inputs and polarity determination in early stages of regeneration.","type":"article"}],["LEVIN2019125",{"title":"Planarian regeneration as a model of anatomical homeostasis: Recent progress in biophysical and computational approaches","journal":"Seminars in Cell & Developmental Biology","volume":"87","pages":"125 - 144","year":"2019","note":"Planarian regeneration","issn":"1084-9521","doi":"https://doi.org/10.1016/j.semcdb.2018.04.003","url":"http://www.sciencedirect.com/science/article/pii/S1084952117301970","author":"Michael Levin and Alexis M. Pietak and Johanna Bischof","keywords":"Planaria, Dugesia japonica, Regeneration, Patterning, Morphostasis","abstract":"Planarian behavior, physiology, and pattern control offer profound lessons for regenerative medicine, evolutionary biology, morphogenetic engineering, robotics, and unconventional computation. Despite recent advances in the molecular genetics of stem cell differentiation, this model organism’s remarkable anatomical homeostasis provokes us with truly fundamental puzzles about the origin of large-scale shape and its relationship to the genome. In this review article, we first highlight several deep mysteries about planarian regeneration in the context of the current paradigm in this field. We then review recent progress in understanding of the physiological control of an endogenous, bioelectric pattern memory that guides regeneration, and how modulating this memory can permanently alter the flatworm’s target morphology. Finally, we focus on computational approaches that complement reductive pathway analysis with synthetic, systems-level understanding of morphological decision-making. We analyze existing models of planarian pattern control and highlight recent successes and remaining knowledge gaps in this interdisciplinary frontier field.","type":"article"}],["Mathews_Levin_2018",{"title":"The body electric 2.0: recent advances in developmental bioelectricity for regenerative and synthetic bioengineering","volume":"52","ISSN":"0958-1669","abstractNote":"Breakthroughs in biomedicine and synthetic bioengineering require predictive, rational control over anatomical structure and function. Recent successes in manipulating cellular and molecular hardware have not been matched by progress in understanding the patterning software implemented during embryogenesis and regeneration. A fundamental capability gap is driving desired changes in growth and form to address birth defects and traumatic injury. Here we review new tools, results, and conceptual advances in an exciting emerging field: endogenous non-neural bioelectric signaling, which enables cellular collectives to make global decisions and implement large-scale pattern homeostasis. Spatially distributed electric circuits regulate gene expression, organ morphogenesis, and body-wide axial patterning. Developmental bioelectricity facilitates the interface to organ-level modular control points that direct patterning in vivo. Cracking the bioelectric code will enable transformative progress in bioengineering and regenerative medicine.","journal":"Current opinion in biotechnology","author":"Mathews, Juanita and Levin, Michael","year":"2018","month":"Aug","pages":"134–144","issn":"0958-1669","abstractnote":"Breakthroughs in biomedicine and synthetic bioengineering require predictive, rational control over anatomical structure and function. Recent successes in manipulating cellular and molecular hardware have not been matched by progress in understanding the patterning software implemented during embryogenesis and regeneration. A fundamental capability gap is driving desired changes in growth and form to address birth defects and traumatic injury. Here we review new tools, results, and conceptual advances in an exciting emerging field: endogenous non-neural bioelectric signaling, which enables cellular collectives to make global decisions and implement large-scale pattern homeostasis. Spatially distributed electric circuits regulate gene expression, organ morphogenesis, and body-wide axial patterning. Developmental bioelectricity facilitates the interface to organ-level modular control points that direct patterning in vivo. Cracking the bioelectric code will enable transformative progress in bioengineering and regenerative medicine.","type":"article"}],["Pezzulo_Levin_2015",{"title":"Re-membering the body: applications of computational neuroscience to the top-down control of regeneration of limbs and other complex organs","volume":"7","ISSN":"1757-9694","abstractNote":"A major goal of regenerative medicine and bioengineering is the regeneration of complex organs, such as limbs, and the capability to create artificial constructs (so-called biobots) with defined morphologies and robust self-repair capabilities. Developmental biology presents remarkable examples of systems that self-assemble and regenerate complex structures toward their correct shape despite significant perturbations. A fundamental challenge is to translate progress in molecular genetics into control of large-scale organismal anatomy, and the field is still searching for an appropriate theoretical paradigm for facilitating control of pattern homeostasis. However, computational neuroscience provides many examples in which cell networks - brains - store memories (e.g., of geometric configurations, rules, and patterns) and coordinate their activity towards proximal and distant goals. In this Perspective, we propose that programming large-scale morphogenesis requires exploiting the information processing by which cellular structures work toward specific shapes. In non-neural cells, as in the brain, bioelectric signaling implements information processing, decision-making, and memory in regulating pattern and its remodeling. Thus, approaches used in computational neuroscience to understand goal-seeking neural systems offer a toolbox of techniques to model and control regenerative pattern formation. Here, we review recent data on developmental bioelectricity as a regulator of patterning, and propose that target morphology could be encoded within tissues as a kind of memory, using the same molecular mechanisms and algorithms so successfully exploited by the brain. We highlight the next steps of an unconventional research program, which may allow top-down control of growth and form for numerous applications in regenerative medicine and synthetic bioengineering.","number":"12","journal":"Integrative biology: quantitative biosciences from nano to macro","author":"Pezzulo, G. and Levin, M.","year":"2015","month":"Dec","pages":"1487–1517","issn":"1757-9694","abstractnote":"A major goal of regenerative medicine and bioengineering is the regeneration of complex organs, such as limbs, and the capability to create artificial constructs (so-called biobots) with defined morphologies and robust self-repair capabilities. Developmental biology presents remarkable examples of systems that self-assemble and regenerate complex structures toward their correct shape despite significant perturbations. A fundamental challenge is to translate progress in molecular genetics into control of large-scale organismal anatomy, and the field is still searching for an appropriate theoretical paradigm for facilitating control of pattern homeostasis. However, computational neuroscience provides many examples in which cell networks - brains - store memories (e.g., of geometric configurations, rules, and patterns) and coordinate their activity towards proximal and distant goals. In this Perspective, we propose that programming large-scale morphogenesis requires exploiting the information processing by which cellular structures work toward specific shapes. In non-neural cells, as in the brain, bioelectric signaling implements information processing, decision-making, and memory in regulating pattern and its remodeling. Thus, approaches used in computational neuroscience to understand goal-seeking neural systems offer a toolbox of techniques to model and control regenerative pattern formation. Here, we review recent data on developmental bioelectricity as a regulator of patterning, and propose that target morphology could be encoded within tissues as a kind of memory, using the same molecular mechanisms and algorithms so successfully exploited by the brain. We highlight the next steps of an unconventional research program, which may allow top-down control of growth and form for numerous applications in regenerative medicine and synthetic bioengineering.","type":"article"}],["Lyon_2006",{"title":"The biogenic approach to cognition","volume":"7","ISSN":"1612-4782","abstractNote":"After half a century of cognitive revolution we remain far from agreement about what cognition is and what cognition does. It was once thought that these questions could wait until the data were in. Today there is a mountain of data, but no way of making sense of it. The time for tackling the fundamental issues has arrived. The biogenic approach to cognition is introduced not as a solution but as a means of approaching the issues. The traditional, and still predominant, methodological stance in cognitive inquiry is what I call the anthropogenic approach: assume human cognition as the paradigm and work “down” to a more general explanatory concept. The biogenic approach, on the other hand, starts with the facts of biology as the basis for theorizing and works “up” to the human case by asking psychological questions as if they were biological questions. Biogenic explanations of cognition are currently clustered around two main frameworks for understanding biology: self-organizing complex systems and autopoiesis. The paper describes the frameworks and infers from them ten empirical principles--the biogenic “family traits”--that constitute constraints on biogenic theorizing. Because the anthropogenic approach to cognition is not constrained empirically to the same degree, I argue that the biogenic approach is superior for approaching a general theory of cognition as a natural phenomenon.","number":"1","journal":"Cognitive processing","author":"Lyon, Pamela","year":"2006","month":"Mar","pages":"11–29","issn":"1612-4782","abstractnote":"After half a century of cognitive revolution we remain far from agreement about what cognition is and what cognition does. It was once thought that these questions could wait until the data were in. Today there is a mountain of data, but no way of making sense of it. The time for tackling the fundamental issues has arrived. The biogenic approach to cognition is introduced not as a solution but as a means of approaching the issues. The traditional, and still predominant, methodological stance in cognitive inquiry is what I call the anthropogenic approach: assume human cognition as the paradigm and work “down” to a more general explanatory concept. The biogenic approach, on the other hand, starts with the facts of biology as the basis for theorizing and works “up” to the human case by asking psychological questions as if they were biological questions. Biogenic explanations of cognition are currently clustered around two main frameworks for understanding biology: self-organizing complex systems and autopoiesis. The paper describes the frameworks and infers from them ten empirical principles--the biogenic “family traits”--that constitute constraints on biogenic theorizing. Because the anthropogenic approach to cognition is not constrained empirically to the same degree, I argue that the biogenic approach is superior for approaching a general theory of cognition as a natural phenomenon.","type":"article"}],["Baluska_Levin_2016",{"title":"On Having No Head: Cognition throughout Biological Systems","volume":"7","ISSN":"1664-1078","abstractNote":"The central nervous system (CNS) underlies memory, perception, decision-making, and behavior in numerous organisms. However, neural networks have no monopoly on the signaling functions that implement these remarkable algorithms. It is often forgotten that neurons optimized cellular signaling modes that existed long before the CNS appeared during evolution, and were used by somatic cellular networks to orchestrate physiology, embryonic development, and behavior. Many of the key dynamics that enable information processing can, in fact, be implemented by different biological hardware. This is widely exploited by organisms throughout the tree of life. Here, we review data on memory, learning, and other aspects of cognition in a range of models, including single celled organisms, plants, and tissues in animal bodies. We discuss current knowledge of the molecular mechanisms at work in these systems, and suggest several hypotheses for future investigation. The study of cognitive processes implemented in aneural contexts is a fascinating, highly interdisciplinary topic that has many implications for evolution, cell biology, regenerative medicine, computer science, and synthetic bioengineering.","journal":"Frontiers in psychology","author":"Baluška, František and Levin, Michael","year":"2016","month":"Jun","pages":"902","issn":"1664-1078","abstractnote":"The central nervous system (CNS) underlies memory, perception, decision-making, and behavior in numerous organisms. However, neural networks have no monopoly on the signaling functions that implement these remarkable algorithms. It is often forgotten that neurons optimized cellular signaling modes that existed long before the CNS appeared during evolution, and were used by somatic cellular networks to orchestrate physiology, embryonic development, and behavior. Many of the key dynamics that enable information processing can, in fact, be implemented by different biological hardware. This is widely exploited by organisms throughout the tree of life. Here, we review data on memory, learning, and other aspects of cognition in a range of models, including single celled organisms, plants, and tissues in animal bodies. We discuss current knowledge of the molecular mechanisms at work in these systems, and suggest several hypotheses for future investigation. The study of cognitive processes implemented in aneural contexts is a fascinating, highly interdisciplinary topic that has many implications for evolution, cell biology, regenerative medicine, computer science, and synthetic bioengineering.","type":"article"}],["mustard2014",{"author":"Mustard, Jessica and Levin, Michael","title":"Bioelectrical Mechanisms for Programming Growth and Form: Taming Physiological Networks for Soft Body Robotics","journal":"Soft Robotics","volume":"1","number":"3","pages":"169-191","year":"2014","doi":"10.1089/soro.2014.0011","URL":"https://doi.org/10.1089/soro.2014.0011\n\t","eprint":"https://doi.org/10.1089/soro.2014.0011 ","url":"https://doi.org/10.1089/soro.2014.0011 ","type":"article"}],["suchy2018",{"author":"Suchy, Fabian, and Hiromitsu Nakauchi","title":"Interspecies chimeras","journal":"Current opinion in genetics & development","volume":"52","pages":"36-41","year":"2018","doi":"10.1016/j.gde.2018.05.007","type":"article"}],["10.2307/24927642",{"ISSN":"00368733, 19467087","URL":"http://www.jstor.org/stable/24927642","author":"Martin Gardner","journal":"Scientific American","number":"4","pages":"120--123","publisher":"Scientific American, a division of Nature America, Inc.","title":"MATHEMATICAL GAMES","volume":"223","year":"1970","issn":"00368733, 19467087","url":"http://www.jstor.org/stable/24927642","type":"article"}],["fortunato2017noisy",{"title":"Noisy Networks for Exploration","author":"Meire Fortunato and Mohammad Gheshlaghi Azar and Bilal Piot and Jacob Menick and Ian Osband and Alex Graves and Vlad Mnih and Remi Munos and Demis Hassabis and Olivier Pietquin and Charles Blundell and Shane Legg","year":"2017","eprint":"1706.10295","archivePrefix":"arXiv","primaryClass":"cs.LG","archiveprefix":"arXiv","primaryclass":"cs.LG","type":"misc"}],["srivastava14a",{"author":"Nitish Srivastava and Geoffrey Hinton and Alex Krizhevsky and Ilya Sutskever and Ruslan Salakhutdinov","title":"Dropout: A Simple Way to Prevent Neural Networks from Overfitting","journal":"Journal of Machine Learning Research","year":"2014","volume":"15","number":"56","pages":"1929-1958","url":"http://jmlr.org/papers/v15/srivastava14a.html","type":"article"}],["kingma2013autoencoding",{"title":"Auto-Encoding Variational Bayes","author":"Diederik P Kingma and Max Welling","year":"2013","eprint":"1312.6114","archivePrefix":"arXiv","primaryClass":"stat.ML","archiveprefix":"arXiv","primaryclass":"stat.ML","type":"misc"}],["NIPS2011_4329",{"title":"Practical Variational Inference for Neural Networks","author":"Graves, Alex","booktitle":"Advances in Neural Information Processing Systems 24","editor":"J. Shawe-Taylor and R. S. Zemel and P. L. Bartlett and F. Pereira and K. Q. Weinberger","pages":"2348--2356","year":"2011","publisher":"Curran Associates, Inc.","url":"http://papers.nips.cc/paper/4329-practical-variational-inference-for-neural-networks.pdf","type":"incollection"}]]</script></d-bibliography>
+
+</d-appendix><distill-appendix>
+<style>
+  distill-appendix {
+    contain: layout style;
+  }
+
+  distill-appendix .citation {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  distill-appendix > * {
+    grid-column: text;
+  }
+</style>
+
+    <h3 id="updates-and-corrections">Updates and Corrections</h3>
+    <p>
+    If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--selforg-mnist/issues/new">create an issue on GitHub</a>. </p>
+    
+    <h3 id="reuse">Reuse</h3>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--selforg-mnist">source available on GitHub</a>,
+ unless noted otherwise. The figures that have been reused from other 
+sources don’t fall under this license and can be recognized by a note in
+ their caption: “Figure from …”.</p>
+    
+    <h3 id="citation">Citation</h3>
+    <p>For attribution in academic contexts, please cite this work as</p>
+    <pre class="citation short">Randazzo, et al., "Self-classifying MNIST Digits", Distill, 2020.</pre>
+    <p>BibTeX citation</p>
+    <pre class="citation long">@article{randazzo2020self-classifying,
+  author = {Randazzo, Ettore and Mordvintsev, Alexander and Niklasson, Eyvind and Levin, Michael and Greydanus, Sam},
+  title = {Self-classifying MNIST Digits},
+  journal = {Distill},
+  year = {2020},
+  note = {https://distill.pub/2020/selforg/mnist},
+  doi = {10.23915/distill.00027.002}
+}</pre>
+    </distill-appendix></d-appendix><distill-footer>
+<style>
+
+:host {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: hsl(180, 5%, 15%); /*hsl(200, 60%, 15%);*/
+  text-align: left;
+  contain: content;
+}
+
+.footer-container .logo svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+
+.footer-container .logo svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+
+.footer-container .logo {
+  font-size: 17px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+.footer-container {
+  grid-column: text;
+}
+
+.footer-container .nav {
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.footer-container .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 6px;
+  text-decoration: none;
+}
+
+</style>
+
+<div class="footer-container">
+
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a> is dedicated to clear explanations of machine learning
+
+  <div class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/archive/">Archive</a>
+    <a href="https://distill.pub/rss.xml">RSS</a>
+    <a href="https://github.com/distillpub">GitHub</a>
+    <a href="https://twitter.com/distillpub">Twitter</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; ISSN 2476-0757
+  </div>
+
+</div>
+
+</distill-footer><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83741880-1', 'auto');
+  ga('send', 'pageview');
+</script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

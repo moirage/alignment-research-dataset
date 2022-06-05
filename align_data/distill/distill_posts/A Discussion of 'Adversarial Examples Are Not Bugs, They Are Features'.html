@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="A%20Discussion%20of%20'Adversarial%20Examples%20Are%20Not%20Bugs,%20They%20Are%20Features'_files/template.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="A%20Discussion%20of%20'Adversarial%20Examples%20Are%20Not%20Bugs,%20They%20Are%20Features'_files/analytics.js"></script><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="A%20Discussion%20of%20'Adversarial%20Examples%20Are%20Not%20Bugs,%20They%20Are%20Features'_files/webcomponents-loader.js"></script><script src="A%20Discussion%20of%20'Adversarial%20Examples%20Are%20Not%20Bugs,%20They%20Are%20Features'_files/webcomponents-hi.js"></script>
+    
+    
+    <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+    <style>
+        .subgrid {
+	grid-column: screen;
+	display: grid;
+	grid-template-columns: inherit;
+	grid-template-rows: inherit;
+	grid-column-gap: inherit;
+	grid-row-gap: inherit;
+}
+
+d-figure.base-grid {
+	grid-column: screen;
+	background: hsl(0, 0%, 97%);
+	padding: 20px 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+d-figure {
+	margin-bottom: 1em;
+	position: relative;
+}
+
+d-figure > figure {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.shaded-figure {
+	background-color: hsl(0, 0%, 97%);
+	border-top: 1px solid hsla(0, 0%, 0%, 0.1);
+	border-bottom: 1px solid hsla(0, 0%, 0%, 0.1);
+	padding: 30px 0;
+}
+
+.pointer {
+	position: absolute;
+	width: 26px;
+	height: 26px;
+	top: 26px;
+	left: -48px;
+}
+
+.rebuttal-summary,
+#response-info {
+	margin: 1em 0;
+	padding: 1em;
+	/* border-radius: 0.25em; */
+}
+
+.summary {
+	margin-top: 18px;
+	margin-bottom: 18px;
+}
+
+.rebuttal-summary {
+	margin-top: 18px;
+	margin-bottom: 32px;
+}
+
+h3 .author {
+	font-weight: normal;
+	color: #555;
+	margin-left: 8px;
+}
+
+.rebuttal-summary,
+#response-info {
+	background-color: hsl(118, 50%, 97%);
+	border-left: solid hsl(119, 50%, 25%) 3px;
+	/* border-radius: 0.25em; */
+}
+
+.rebuttal {
+	background-color: hsl(54, 78%, 96%);
+	border-left: solid hsl(54, 33%, 67%) 1px;
+	padding: 1.5em;
+	color: hsla(0, 0%, 0%, 0.67);
+}
+
+.rebuttal h4 {
+	margin-top: 0;
+}
+
+.rebuttal p {
+	margin-bottom: 0;
+}
+
+.articles article {
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	padding: 2em 0;
+	display: grid;
+	grid-template-columns: 65px 1fr;
+	grid-template-areas:
+		"icon header"
+		"icon summary"
+		"icon rebuttal";
+	grid-row-gap: 1.5em;
+}
+
+article#rebuttal {
+	grid-template-areas:
+		"icon header"
+		"icon summary";
+}
+
+.articles article .icon {
+	grid-area: icon;
+	padding-top: 0.5em;
+	content: url(images/single-page.svg);
+}
+
+.articles article header {
+	grid-area: header;
+}
+
+.articles article header h3 {
+	font-size: 22px;
+}
+
+.articles article header .authors-affiliations {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(25%, max-content));
+	font-size: 0.8rem;
+}
+
+.articles article header .authors-affiliations h3 {
+	font-size: 0.6rem;
+	font-weight: 400;
+	color: rgba(0, 0, 0, 0.5);
+	margin: 0;
+	text-transform: uppercase;
+}
+
+.articles article header .authors-affiliations a {
+	color: rgba(0, 0, 0, 0.8);
+	text-decoration: none;
+	border-bottom: none;
+}
+
+.articles article header .authors-affiliations p {
+	margin-bottom: 0;
+}
+
+.articles article .summary {
+	grid-area: summary;
+	margin: 0;
+}
+
+.articles article .continue {
+	grid-area: continue;
+	font-size: 80%;
+	font-weight: 600;
+	border-bottom: none;
+	text-transform: uppercase;
+	color: #2e6db7;
+	display: block;
+	margin-top: 0.25em;
+	letter-spacing: 0.25px;
+}
+
+.articles article .continue::before {
+	content: "→";
+	margin-right: 0.25em;
+}
+
+.articles article .rebuttal {
+	grid-area: rebuttal;
+}
+
+.articles article header h3 {
+	margin-top: 0;
+}
+
+.articles article header h3 a {
+	border-bottom: none;
+	color: #2e6db7;
+}
+
+    </style>
+<link rel="stylesheet" href="A%20Discussion%20of%20'Adversarial%20Examples%20Are%20Not%20Bugs,%20They%20Are%20Features'_files/katex.css" crossorigin="anonymous">
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA99JREFUeNrsG4t1ozDMzQSM4A2ODUonKBucN2hugtIJ6E1AboLcBiQTkJsANiAb9OCd/OpzMWBJBl5TvaeXPiiyJetry0J8wW3D3QpjRh3GjneXDq+fSQA9s2mH9x3KDhN4foJfCb8N/Jrv+2fnDn8vLRQOplWHVYdvHZYdZsBcZP1vBmh/n8DzEmhUQDPaOuP9pFuY+JwJHwHnCLQE2tnWBGEyXozY9xCUgHMhhjE2I4heVWtgIkZ83wL6Qgxj1obfWBxymPwe+b00BCCRNPbwfb60yleAkkBHGT5AEehIYz7eJrFDMF9CvH4wwhcGHiHMneFvLDQwlwvMLQq58trRcYBWfYn0A0OgHWQUSu25mE+BnoYKnnEJoeIWAifzOv7vLWd2ZKRfWAIme3tOiUaQ3UnLkb0xj1FxRIeEGKaGIHOs9nEgLaaA9i0JRYo1Ic67wJW86KSKE/ZAM8KuVMk8ITVhmxUxJ3Cl2xlm9Vtkeju1+mpCQNxaEGNCY8bs9X2YqwNoQeGjBWut/ma0QAWy/TqAsHx9wSya3I5IRxOfTC+leG+kA/4vSeEcGBtNUN6byhu3+keEZCQJUNh8MAO7HL6H8pQLnsW/Hd4T4lv93TPjfM7A46iEEqbB5EDOvwYNW6tGNZzT/o+CZ6sqZ6wUtR/wf7mi/VL8iNciT6rHih48Y55b4nKCHJCCzb4y0nwFmin3ZEMIoLfZF8F7nncFmvnWBaBj7CGAYA/WGJsUwHdYqVDwAmNsUgAx4CGgAA7GOOxADYOFWOaIKifuVYzmOpREqA21Mo7aPsgiY1PhOMAmxtR+AUbYH3Id2wc0SAFIQTsn9IUGWR8k9jx3vtXSiAacFxTAGakBk9UudkNECd6jLe+6HrshshvIuC6IlLMRy7er+JpcKma24SlE4cFZSZJDGVVrsNvitQhQrDhW0jfiOLfFd47C42eHT56D/BK0To+58Ahj+cAT8HT1UWlfLZCCd/uKawzU0Rh2EyIX/Icqth3niG8ybNroezwe6khdCNxRN+l4XGdOLVLlOOt2hTRJlr1ETIuMAltVTMz70mJrkdGAaZLSmnBEqmAE32JCMmuTlCnRgsBENtOUpHhvvsYIL0ibnBkaC6QvKcR7738GKp0AKnim7xgUSNv1bpS8QwhBt8r+EP47v/oyRK/S34yJ9nT+AN0Tkm4OdB9E4BsmXM3SnMlRFUrtp6IDpV2eKzdYvF3etm3KhQksbOLChGkSmcBdmcEwvqkrMy5BzL00NZeu3qPYJOOuCc+5NjcWKXQxFvTa3NoXJ4d8in7fiAUuTt781dkvuHX4K8AA2Usy7yNKLy0AAAAASUVORK5CYII=">
+    <link href="https://distill.pub/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
+  
+    <title>A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features'</title>
+    
+    <link rel="canonical" href="https://distill.pub/2019/advex-bugs-discussion">
+    
+    <!--  https://schema.org/Article -->
+    <meta property="description" itemprop="description" content="Six comments from the community and responses from the original authors">
+    <meta property="article:published" itemprop="datePublished" content="2019-08-06">
+    <meta property="article:created" itemprop="dateCreated" content="2019-08-06">
+    
+    <meta property="article:modified" itemprop="dateModified" content="2019-08-10T15:15:05.000Z">
+    
+    <meta property="article:author" content="Logan Engstrom">
+    <meta property="article:author" content="Justin Gilmer">
+    <meta property="article:author" content="Gabriel Goh">
+    <meta property="article:author" content="Dan Hendrycks">
+    <meta property="article:author" content="Andrew Ilyas">
+    <meta property="article:author" content="Aleksander Madry">
+    <meta property="article:author" content="Reiichiro Nakano">
+    <meta property="article:author" content="Preetum Nakkiran">
+    <meta property="article:author" content="Shibani Santurkar">
+    <meta property="article:author" content="Brandon Tran">
+    <meta property="article:author" content="Dimitris Tsipras">
+    <meta property="article:author" content="Eric Wallace">
+    <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features'">
+    <meta property="og:description" content="Six comments from the community and responses from the original authors">
+    <meta property="og:url" content="https://distill.pub/2019/advex-bugs-discussion">
+    <meta property="og:image" content="https://distill.pub/2019/advex-bugs-discussion/thumbnail.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Distill">
+  
+    <!--  https://dev.twitter.com/cards/types/summary -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features'">
+    <meta name="twitter:description" content="Six comments from the community and responses from the original authors">
+    <meta name="twitter:url" content="https://distill.pub/2019/advex-bugs-discussion">
+    <meta name="twitter:image" content="https://distill.pub/2019/advex-bugs-discussion/thumbnail.jpg">
+    <meta name="twitter:image:width" content="560">
+    <meta name="twitter:image:height" content="295">
+  
+      <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+    <meta name="citation_title" content="A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features'">
+    <meta name="citation_fulltext_html_url" content="https://distill.pub/2019/advex-bugs-discussion">
+    <meta name="citation_volume" content="4">
+    <meta name="citation_issue" content="8">
+    <meta name="citation_firstpage" content="e19">
+    <meta name="citation_doi" content="10.23915/distill.00019">
+    <meta name="citation_journal_title" content="Distill">
+    <meta name="citation_journal_abbrev" content="Distill">
+    <meta name="citation_issn" content="2476-0757">
+    <meta name="citation_fulltext_world_readable" content="">
+    <meta name="citation_online_date" content="2019/08/06">
+    <meta name="citation_publication_date" content="2019/08/06">
+    <meta name="citation_author" content="Engstrom, Logan">
+    <meta name="citation_author_institution" content="MIT">
+    <meta name="citation_author" content="Gilmer, Justin">
+    <meta name="citation_author_institution" content="Google Brain Team">
+    <meta name="citation_author" content="Goh, Gabriel">
+    <meta name="citation_author_institution" content="OpenAI">
+    <meta name="citation_author" content="Hendrycks, Dan">
+    <meta name="citation_author_institution" content="UC Berkeley">
+    <meta name="citation_author" content="Ilyas, Andrew">
+    <meta name="citation_author_institution" content="MIT">
+    <meta name="citation_author" content="Madry, Aleksander">
+    <meta name="citation_author_institution" content="MIT">
+    <meta name="citation_author" content="Nakano, Reiichiro">
+    <meta name="citation_author" content="Nakkiran, Preetum">
+    <meta name="citation_author_institution" content="OpenAI &amp; Harvard">
+    <meta name="citation_author" content="Santurkar, Shibani">
+    <meta name="citation_author_institution" content="MIT">
+    <meta name="citation_author" content="Tran, Brandon">
+    <meta name="citation_author_institution" content="MIT">
+    <meta name="citation_author" content="Tsipras, Dimitris">
+    <meta name="citation_author_institution" content="MIT">
+    <meta name="citation_author" content="Wallace, Eric">
+    <meta name="citation_author_institution" content="Allen Institute for AI">
+    <meta name="citation_reference" content="citation_title=Adversarial examples are not bugs, they are features;citation_author=Andrew Ilyas;citation_author=Shibani Santurkar;citation_author=Dimitris Tsipras;citation_author=Logan Engstrom;citation_author=Brandon Tran;citation_author=Aleksander Madry;citation_publication_date=2019;citation_arxiv_id=1905.02175;">
+<style id="svelte-1eb0vow-style">.visual-toc.svelte-1eb0vow{counter-reset:toc-heading;display:grid;grid-auto-flow:dense;grid-template-columns:1fr 1fr 1fr;grid-gap:16px}@media(min-width: 1000px){.visual-toc.svelte-1eb0vow{grid-gap:8px;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr}}@media(min-width: 1180px){.visual-toc.svelte-1eb0vow{grid-gap:20px}}.visual-toc-item.svelte-1eb0vow{display:flex;flex-flow:column}.visual-toc-top.svelte-1eb0vow{flex-grow:1;border:1px solid #E5E5E5;border-radius:5px;overflow:hidden;text-decoration:none;transition:box-shadow 0.35s, transform 0.35s;transform:scale(1.0);display:flex;flex-flow:column}.visual-toc-top.svelte-1eb0vow:hover{box-shadow:0px 1px 4px rgba(0,0,0,0.05);transform:scale(1.02);transition:box-shadow 0.15s, transform 0.15s}.visual-toc-heading.svelte-1eb0vow,.visual-toc-subheading.svelte-1eb0vow{display:block;line-height:1.3em;font-size:85%;padding:0.5em 1em 1em 1em}.visual-toc-heading.svelte-1eb0vow{counter-increment:toc-heading;color:#333;font-weight:600}.visual-toc-heading.svelte-1eb0vow::before{display:block;content:"Section " counter(toc-heading);font-weight:400;text-transform:uppercase;font-size:0.6rem;color:#666}.visual-toc-subheading.svelte-1eb0vow{display:none;color:#666;font-size:75%}.visual-toc-colab.svelte-1eb0vow{border-radius:5px;border:dashed 1px rgba(0,0,0,0.1);margin-top:1em;padding-left:1.2em;padding-right:1.2em;padding-top:0.25em;padding-bottom:0.25em;text-transform:uppercase;color:#aaa;font-size:10.5px;line-height:24px}.visual-toc-colab.svelte-1eb0vow>img.svelte-1eb0vow{position:relative;top:4px}.visual-toc-item.svelte-1eb0vow:hover .visual-toc-colab>img.svelte-1eb0vow{filter:unset}.visual-toc-colab.svelte-1eb0vow:hover{background-color:hsl(0, 0%, 97%);border-color:rgba(0,0,0,0.2);color:#888}a.svelte-1eb0vow{display:block;text-decoration:none;cursor:pointer}a.svelte-1eb0vow canvas{width:100%}</style></head>
+
+<body distill-prerendered="" class="vsc-initialized" data-new-gr-c-s-check-loaded="8.899.0" data-gr-ext-installed=""><distill-header distill-prerendered="">
+<style>
+distill-header {
+  position: relative;
+  height: 60px;
+  background-color: hsl(200, 60%, 15%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+distill-header .content {
+  height: 70px;
+  grid-column: page;
+}
+distill-header a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+distill-header a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+distill-header svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+@media(min-width: 1080px) {
+  distill-header {
+    height: 70px;
+  }
+  distill-header a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+  distill-header .logo {
+  }
+}
+distill-header svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+distill-header .logo {
+  font-size: 17px;
+  font-weight: 200;
+}
+distill-header .nav {
+  float: right;
+  font-weight: 300;
+}
+distill-header .nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+<div class="content">
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a>
+  <nav class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+  </nav>
+</div>
+</distill-header>
+
+    <d-front-matter>
+        <script type="text/json">{
+  "title": "A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features'",
+  "description": "Six comments from the community and responses from the original authors",
+  "authors": [
+    {
+      "author": "Logan Engstrom",
+      "authorURL": "http://loganengstrom.com/",
+      "affiliation": "MIT",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Justin Gilmer",
+      "authorURL": "https://www.linkedin.com/in/jmgilmer/",
+      "affiliation": "Google Brain Team",
+      "affiliationURL": "https://ai.google/research/teams/brain"
+    },
+    {
+      "author": "Gabriel Goh",
+      "authorURL": "https://gabgoh.github.io/",
+      "affiliation": "OpenAI",
+      "affiliationURL": "https://openai.com/"
+    },
+    {
+      "author": "Dan Hendrycks",
+      "authorURL": "https://people.eecs.berkeley.edu/~hendrycks/",
+      "affiliation": "UC Berkeley",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Andrew Ilyas",
+      "authorURL": "http://andrewilyas.com/",
+      "affiliation": "MIT",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Aleksander Madry",
+      "authorURL": "https://people.csail.mit.edu/madry/",
+      "affiliation": "MIT",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Reiichiro Nakano",
+      "authorURL": "https://reiinakano.com/",
+      "affiliation": "",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Preetum Nakkiran",
+      "authorURL": "",
+      "affiliation": "OpenAI & Harvard",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Shibani Santurkar",
+      "authorURL": "http://people.csail.mit.edu/shibani/",
+      "affiliation": "MIT",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Brandon Tran",
+      "authorURL": "",
+      "affiliation": "MIT",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Dimitris Tsipras",
+      "authorURL": "http://people.csail.mit.edu/tsipras/",
+      "affiliation": "MIT",
+      "affiliationURL": ""
+    },
+    {
+      "author": "Eric Wallace",
+      "authorURL": "http://www.ericswallace.com/",
+      "affiliation": "Allen Institute for AI",
+      "affiliationURL": ""
+    }
+  ],
+  "katex": {
+    "delimiters": [
+      {
+        "left": "$",
+        "right": "$",
+        "display": false
+      },
+      {
+        "left": "$$",
+        "right": "$$",
+        "display": true
+      }
+    ]
+  }
+  }</script>
+    </d-front-matter>
+
+    <d-title>
+        <h1>A Discussion of<br> <em>Adversarial Examples Are Not
+                Bugs, They Are
+                Features</em></h1>
+        <!--<p>Ilya et al.'s paper was received with much interest by the research community.
+            In an experimental attempt to advance the scientific
+            dialogue,
+            Distill is publishing a collection of commentary articles and clarifications developed in collaboration with
+            the original paper's authors. </p>-->
+    </d-title>
+
+    <style>
+        .authors-affiliations {
+            display: none;
+        }
+    </style>
+
+    <d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="http://loganengstrom.com/">Logan Engstrom</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">MIT</span>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://www.linkedin.com/in/jmgilmer/">Justin Gilmer</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/research/teams/brain">Google Brain Team</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://gabgoh.github.io/">Gabriel Goh</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://openai.com/">OpenAI</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://people.eecs.berkeley.edu/~hendrycks/">Dan Hendrycks</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">UC Berkeley</span>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="http://andrewilyas.com/">Andrew Ilyas</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">MIT</span>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://people.csail.mit.edu/madry/">Aleksander Madry</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">MIT</span>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://reiinakano.com/">Reiichiro Nakano</a>
+        </p>
+        <p class="affiliation">
+        
+        </p>
+      
+        <p class="author">
+          
+            <span class="name">Preetum Nakkiran</span>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">OpenAI &amp; Harvard</span>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="http://people.csail.mit.edu/shibani/">Shibani Santurkar</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">MIT</span>
+        </p>
+      
+        <p class="author">
+          
+            <span class="name">Brandon Tran</span>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">MIT</span>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="http://people.csail.mit.edu/tsipras/">Dimitris Tsipras</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">MIT</span>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="http://www.ericswallace.com/">Eric Wallace</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">Allen Institute for AI</span>
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>Aug. 6, 2019</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p><a href="https://doi.org/10.23915/distill.00019">10.23915/distill.00019</a></p>
+    </div>
+  </div>
+</d-byline><d-article>
+
+        <p>
+            On May 6th, Andrew Ilyas and colleagues <a href="http://gradientscience.org/adv/">published a paper</a>
+            <d-cite key="ilyas2019adversarial"></d-cite> outlining two sets of experiments.
+            Firstly, they showed that models trained on adversarial examples can transfer to real data,
+            and secondly that models trained on a dataset derived from the representations of robust neural networks
+            seem to inherit non-trivial robustness.
+            They proposed an intriguing interpretation for their results:
+            adversarial examples are due to “non-robust features” which are highly predictive but imperceptible to
+            humans.
+        </p>
+
+        <p>
+            The paper was received with intense interest and discussion
+            on social media, mailing lists, and reading groups around the world.
+            How should we interpret these experiments?
+            Would they replicate?<d-footnote id="d-footnote-1">
+                Adversarial example research is particularly vulnerable to a certain kind of non-replication among
+                disciplines of machine learning,
+                because it requires researchers to play both attack and defense.
+                It’s easy for even very rigorous researchers to accidentally use a weak attack.
+                However, as we’ll see, Ilyas et al’s results have held up to initial scrutiny.
+            </d-footnote>
+            And if non-robust features exist… what are they?
+        </p>
+
+        <p>
+            To explore these questions, Distill decided to run an experimental “discussion article.”<d-footnote id="d-footnote-2">
+                Running a discussion article is something Distill has wanted to try for several years.
+                It was originally suggested to us by Ferenc Huszár, who writes many lovely discussions of papers on <a href="https://www.inference.vc/">his blog</a>.
+                <br><br>
+                Why not just have everyone write private blog posts like Ferenc?
+                Distill hopes that providing a more organized forum for many people to participate
+                can give more researchers license to invest energy in discussing other’s work
+                and make sure there’s an opportunity for all parties to comment and respond before the final version is
+                published.
+            </d-footnote>
+            We invited a number of researchers
+            to write comments on the paper and organized discussion and responses from the original authors.
+        </p>
+
+        <p>
+            The Machine Learning community
+            <a href="https://www.machinelearningdebates.com/program">sometimes</a>
+            <a href="https://medium.com/syncedreview/cvpr-paper-controversy-ml-community-reviews-peer-review-79bf49eb0547">worries</a>
+            that peer review isn’t thorough enough.
+            In contrast to this, we were struck by how deeply respondents engaged.
+            Some respondents literally invested weeks in replicating results, running new experiments, and thinking
+            deeply about the original paper.
+            We also saw respondents update their views on non-robust features as they ran experiments — sometimes back
+            and forth!
+            The original authors similarly deeply engaged in discussing their results, clarifying misunderstandings, and
+            even running new experiments in response to comments.
+        </p>
+
+        <p>
+            We think this deep engagement and discussion is really exciting, and hope to experiment with more such
+            discussion articles in the future.
+        </p>
+
+        <h2>Discussion Themes</h2>
+
+        <p>
+            <b>Clarifications</b>:
+            Discussion between the respondents and original authors was able
+            to surface several misunderstandings or opportunities to sharpen claims.
+            The original authors summarize this in their rebuttal.
+        </p>
+
+        <p>
+            <b>Successful Replication</b>:
+            Respondents successfully reproduced many of the experiments in Ilyas et al <d-cite key="ilyas2019adversarial"></d-cite> and had no unsuccessful replication attempts.
+            This was significantly facilitated by the release of code, models, and datasets by the original authors.
+            Gabriel Goh and Preetum Nakkiran both independently reimplemented and replicated
+            the non-robust dataset experiments.<d-footnote id="d-footnote-3">
+                Preetum reproduced the <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>d</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{det}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">d</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> non-robust dataset experiment as described in the
+                paper, for <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mi mathvariant="normal">∞</mi></msub></mrow><annotation encoding="application/x-tex">L_\infty</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">∞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> attacks.
+                <br>
+                Gabriel repproduced both <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>d</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{det}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">d</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>r</mi><mi>a</mi><mi>n</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{rand}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.02778em;">r</span><span class="mord mathit mtight">a</span><span class="mord mathit mtight">n</span><span class="mord mathit mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> for <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>
+                attacks.
+            </d-footnote>
+            Preetum also replicated part of the robust dataset experiment by
+            training models on the provided robust dataset and finding that they seemed non-trivially robust.
+            It seems epistemically notable that both Preetum and Gabriel were initially skeptical.
+            Preetum emphasizes that he found it easy to make the phenomenon work and that it was robust to many variants
+            and hyperparameters he tried.
+        </p>
+
+        <p>
+            <b>Exploring the Boundaries of Non-Robust Transfer</b>:
+            Three of the comments focused on variants of the “non-robust dataset” experiment,
+            where training on adversarial examples transfers to real data.
+            When, how, and why does it happen?
+            Gabriel Goh explores an alternative mechanism for the results,
+            Preetum Nakkiran shows a special construction where it doesn’t happen,
+            and Eric Wallace shows that transfer can happen for other kinds of incorrectly labeled data.
+        </p>
+
+        <p>
+            <b>Properties of Robust and Non-Robust Features</b>:
+            The other three comments focused on the properties of robust and non-robust models.
+            Gabriel Goh explores what non-robust features might look like in the case of linear models,
+            while Dan Hendrycks and Justin Gilmer discuss how the results relate to the broader problem of robustness to
+            distribution shift,
+            and Reiichiro Nakano explores the qualitative differences of robust models in the context of style transfer.
+        </p>
+
+
+
+        <h2>Comments</h2>
+        <p>
+            Distill collected six comments on the original paper.
+            They are presented in alphabetical order by the author’s last name,
+            with brief summaries of each comment and the corresponding response from the original authors.
+        </p>
+
+        <div id="commentaries" class="articles">
+            <article id="response-1">
+                <div class="icon"></div>
+                <header>
+                    <h3>
+                        <a href="https://distill.pub/2019/advex-bugs-discussion/response-1/">Adversarial Example Researchers Need to Expand What is Meant by
+                            “Robustness”</a>
+                    </h3>
+                    <div class="authors-affiliations grid">
+                        <h3>Authors</h3>
+                        <h3>Affiliations</h3>
+                        <p class="author">
+                            <a class="name" href="https://www.linkedin.com/in/jmgilmer">Justin Gilmer</a>
+                        </p>
+                        <p class="affiliation">
+                            <a class="affiliation" href="https://g.co/brain">Google Brain Team</a>
+                        </p>
+                        <p class="author">
+                            <a class="name" href="https://people.eecs.berkeley.edu/~hendrycks/">Dan Hendrycks</a>
+                        </p>
+                        <p class="affiliation">
+                            <a class="affiliation" href="https://www.berkeley.edu/">UC Berkeley</a>
+                        </p>
+                    </div>
+                </header>
+                <p class="summary">
+                    Justin and Dan discuss “non-robust features” as a special case
+                    of models being non-robust because they latch on to superficial correlations,
+                    a view often found in the distributional robustness literature.
+                    As an example, they discuss recent analysis of how neural networks behave in frequency space.
+                    They emphasize we should think about a broader notion of robustness.
+                    <a class="continue" href="https://distill.pub/2019/advex-bugs-discussion/response-1/">
+                        Read Full Article
+                    </a>
+                </p>
+                <div class="rebuttal">
+                    <h4>Comment from original authors:</h4>
+                    <p>
+                        The demonstration of models that learn from only high-frequency components of the data is
+                        an interesting finding that provides us with another way our models can learn from data that
+                        appears “meaningless” to humans.
+                        The authors fully agree that studying a wider notion of robustness will become increasingly
+                        important in ML, and will help us get a better grasp of features we actually want our models
+                        to rely on.
+                    </p>
+                </div>
+            </article>
+
+            <article id="response-2">
+                <div class="icon"></div>
+                <header>
+                    <h3>
+                        <a href="https://distill.pub/2019/advex-bugs-discussion/response-2/">Robust Feature Leakage</a>
+                    </h3>
+                    <div class="authors-affiliations grid">
+                        <h3>Authors</h3>
+                        <h3>Affiliations</h3>
+                        <p class="author">
+                            <a class="name" href="https://gabgoh.github.io/">Gabriel Goh</a>
+                        </p>
+                        <p class="affiliation">
+                            <a class="affiliation" href="https://openai.com/">OpenAI</a>
+                        </p>
+                    </div>
+                </header>
+                <p class="summary">
+                    Gabriel explores an alternative mechanism that could contribute to the non-robust transfer
+                    results.
+                    He establishes a lower-bound showing that this mechanism contributes a little bit to the
+                    <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>r</mi><mi>a</mi><mi>n</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{rand}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.02778em;">r</span><span class="mord mathit mtight">a</span><span class="mord mathit mtight">n</span><span class="mord mathit mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> experiment,
+                    but finds no evidence for it effecting the <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>d</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{det}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">d</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> experiment.
+                    <a class="continue" href="https://distill.pub/2019/advex-bugs-discussion/response-2/">
+                        Read Full Article
+                    </a>
+                </p>
+                <div class="rebuttal">
+                    <h4>Comment from original authors:</h4>
+                    <p>
+                        This is a nice in-depth investigation that highlights (and neatly visualizes) one of the
+                        motivations for designing the <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>d</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{det}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">d</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> dataset.
+                    </p>
+                </div>
+            </article>
+
+            <article id="response-3">
+                <div class="icon"></div>
+                <header>
+                    <h3>
+                        <a href="https://distill.pub/2019/advex-bugs-discussion/response-3/">Two Examples of Useful, Non-Robust Features</a>
+                    </h3>
+                    <div class="authors-affiliations grid">
+                        <h3>Authors</h3>
+                        <h3>Affiliations</h3>
+                        <p class="author">
+                            <a class="name" href="https://gabgoh.github.io/">Gabriel Goh</a>
+                        </p>
+                        <p class="affiliation">
+                            <a class="affiliation" href="https://openai.com/">OpenAI</a>
+                        </p>
+                    </div>
+                </header>
+                <p class="summary">
+                    Gabriel explores what non-robust useful features might look like in the linear case.
+                    He provides two constructions:
+                    “contaminated” features which are only non-robust due to a non-useful feature being mixed in,
+                    and “ensembles” that could be candidates for true useful non-robust features.
+                    <a class="continue" href="https://distill.pub/2019/advex-bugs-discussion/response-3/">
+                        Read Full Article
+                    </a>
+                </p>
+                <div class="rebuttal">
+                    <h4>Comment from original authors:</h4>
+                    <p>
+                        These experiments with linear models are a great first step towards visualizing non-robust
+                        features for real datasets (and thus a neat corroboration of their existence).
+                        Furthermore, the theoretical construction of “contaminated” non-robust features opens an
+                        interesting direction of developing a more fine-grained definition of features.
+                    </p>
+                </div>
+            </article>
+
+            <article id="response-4">
+                <div class="icon"></div>
+                <header>
+                    <h3>
+                        <a href="https://distill.pub/2019/advex-bugs-discussion/response-4/">Adversarially Robust Neural Style Transfer</a>
+                    </h3>
+                    <div class="authors-affiliations grid">
+                        <h3>Authors</h3>
+                        <h3></h3>
+                        <p class="author">
+                            <a class="name" href="https://reiinakano.com/">Reiichiro Nakano</a>
+                        </p>
+                    </div>
+                </header>
+                <p class="summary">
+                    Reiichiro shows that adversarial robustness makes neural style transfer
+                    work by default on a non-VGG architecture.
+                    He finds that matching robust features makes style transfer’s outputs look perceptually better
+                    to humans.
+                    <a class="continue" href="https://distill.pub/2019/advex-bugs-discussion/response-4/">
+                        Read Full Article
+                    </a>
+                </p>
+                <div class="rebuttal">
+                    <h4>Comment from original authors:</h4>
+                    <p>
+                        Very interesting results that highlight the potential role of non-robust features and the
+                        utility of robust models for downstream tasks. We’re excited to see what kind of impact robustly
+                        trained models will have in neural network art!
+                        Inspired by these findings, we also take a deeper dive into (non-robust) VGG, and find some
+                        interesting links between robustness and style transfer.
+                    </p>
+                </div>
+            </article>
+
+            <article id="response-5">
+                <div class="icon"></div>
+                <header>
+                    <h3>
+                        <a href="https://distill.pub/2019/advex-bugs-discussion/response-5/">Adversarial Examples are Just Bugs, Too</a>
+                    </h3>
+                    <div class="authors-affiliations grid">
+                        <h3>Authors</h3>
+                        <h3>Affiliations</h3>
+                        <p class="author">
+                            <a class="name" href="https://preetum.nakkiran.org/">Preetum Nakkiran</a>
+                        </p>
+                        <p class="affiliation" style="width: 200px;">
+                            <a class="affiliation" href="https://openai.com/">OpenAI</a> &amp;
+                            <a class="affiliation" href="https://www.harvard.edu/">Harvard University</a>
+                        </p>
+                    </div>
+                </header>
+                <p class="summary">
+                    Preetum constructs a family of adversarial examples with no transfer to real data,
+                    suggesting that some adversarial examples are “bugs” in the original paper’s framing.
+                    Preetum also demonstrates that adversarial examples can arise even if the underlying distribution
+                    has no “non-robust features”.
+                    <a class="continue" href="https://distill.pub/2019/advex-bugs-discussion/response-5/">
+                        Read Full Article
+                    </a>
+                </p>
+                <div class="rebuttal">
+                    <h4>Comment from original authors:</h4>
+                    <p>
+                        A fine-grained look at adversarial examples that neatly our thesis (i.e. that non-robust
+                        features exist and adversarial examples arise from them, see Takeaway #1) while providing an
+                        example of adversarial examples that arise from “bugs”.
+                        The fact that the constructed “bugs”-based adversarial examples don’t transfer constitutes
+                        another evidence for the link between transferability and (non-robust) features.
+                    </p>
+                </div>
+            </article>
+
+            <article id="response-6">
+                <div class="icon"></div>
+                <header>
+                    <h3>
+                        <a href="https://distill.pub/2019/advex-bugs-discussion/response-6/">Learning from Incorrectly Labeled Data</a>
+                    </h3>
+                    <div class="authors-affiliations grid">
+                        <h3>Authors</h3>
+                        <h3>Affiliations</h3>
+                        <p class="author">
+                            <a class="name" href="https://www.ericswallace.com/">Eric Wallace</a>
+                        </p>
+                        <p class="affiliation">
+                            <a class="affiliation" href="https://allenai.org/">Allen Institute for AI</a>
+                        </p>
+                    </div>
+                </header>
+                <p class="summary">
+                    Eric shows that training on a model’s training 
+errors,
+                    or on how it predicts examples form an unrelated 
+dataset,
+                    can both transfer to the true test set.
+                    These experiments are analogous to the original 
+paper’s non-robust transfer results — all three results are examples of a
+ kind of “learning from incorrectly labeled data.”
+                    <a class="continue" href="https://distill.pub/2019/advex-bugs-discussion/response-6/">
+                        Read Full Article
+                    </a>
+                </p>
+                <div class="rebuttal">
+                    <h4>Comment from original authors:</h4>
+                    <p>
+                        These experiments are a creative demonstration of the fact that the underlying phenomenon of
+                        learning features from “human-meaningless” data can actually arise in a broad range of
+                        settings.
+                    </p>
+                </div>
+            </article>
+
+        </div>
+
+
+        <h2 style="margin-bottom: 0">Original Author Discussion and Responses</h2>
+
+        <div class="articles">
+            <article id="rebuttal" style="border: none;">
+                <div class="icon"></div>
+                <header>
+                    <h3>
+                        <a href="https://distill.pub/2019/advex-bugs-discussion/original-authors/">Discussion and Author Responses</a>
+                    </h3>
+                    <div class="authors-affiliations grid">
+                        <h3>Authors</h3>
+                        <h3>Affiliations</h3>
+
+                        <p class="author" style="line-height: 1.5; margin-top: 4px;">
+
+                            <a class="name" href="http://loganengstrom.com/">Logan Engstrom</a>,
+                            <a class="name" href="http://andrewilyas.com/">Andrew Ilyas</a>,
+                            <a class="name" href="https://people.csail.mit.edu/madry/">Aleksander Madry</a>,
+                            <a class="name" href="http://people.csail.mit.edu/shibani/">Shibani Santurkar</a>,
+                            <span class="name">Brandon Tran</span>,
+                            <a class="name" href="http://people.csail.mit.edu/tsipras/">Dimitris Tsipras</a>
+                        </p>
+                        <p class="affiliation">
+                            <span class="affiliation">MIT</span>
+                        </p>
+                    </div>
+                </header>
+                <p class="summary">
+                    The original authors describe their takeaways and some clarifcations that resulted from the
+                    conversation.
+                    This article also contains their responses to each comment.
+                    <a class="continue" href="https://distill.pub/2019/advex-bugs-discussion/original-authors/">
+                        Read Full Article
+                    </a>
+                </p>
+            </article>
+        </div>
+
+    </d-article>
+
+    <d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+        <h3>Citation Information</h3>
+        <p>
+            If you wish to cite this discussion as a whole, citation information can be found below.
+            The author order is all participants in the conversation in alphabetical order.
+            You can also cite individual comments or the author responses using the citation information provided at the
+            bottom of the corresponding article.
+        </p>
+
+        <h3>Editorial Note</h3>
+        <p>
+            This discussion article is an experiment organized by Chris Olah and Ludwig Schubert.
+            Chris Olah facilitated and edited the comments and discussion process. Ludwig Schubert
+            assisted by assembling the responses into their current presentation.
+        </p>
+
+        <p>
+            We’re extremely grateful for the time
+            and effort that both the authors of the responses as well as the authors of the original paper put into this
+            process, and the patience they had with the editorial team as we experimented with this format.
+            Respondents were selected in two ways.
+            Some respondents came to our attention because they were actively working on better understanding the Ilyas
+            et al results.
+            Other respondents were subject matter experts we reached out to.
+        </p>
+
+        <p>
+            Distill is also grateful to <a href="https://www.inference.vc/">Ferenc Huszár</a> for encouraging us to
+            explore this style of article.
+        </p>
+
+
+        <d-footnote-list style="">
+<style>
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+</style>
+
+<h3>Footnotes</h3>
+<ol><li id="d-footnote-1-listing">
+                Adversarial example research is particularly vulnerable to a certain kind of non-replication among
+                disciplines of machine learning,
+                because it requires researchers to play both attack and defense.
+                It’s easy for even very rigorous researchers to accidentally use a weak attack.
+                However, as we’ll see, Ilyas et al’s results have held up to initial scrutiny.
+            <a class="footnote-backlink" href="#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing">
+                Running a discussion article is something Distill has wanted to try for several years.
+                It was originally suggested to us by Ferenc Huszár, who writes many lovely discussions of papers on <a href="https://www.inference.vc/">his blog</a>.
+                <br><br>
+                Why not just have everyone write private blog posts like Ferenc?
+                Distill hopes that providing a more organized forum for many people to participate
+                can give more researchers license to invest energy in discussing other’s work
+                and make sure there’s an opportunity for all parties to comment and respond before the final version is
+                published.
+            <a class="footnote-backlink" href="#d-footnote-2">[↩]</a></li><li id="d-footnote-3-listing">
+                Preetum reproduced the <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>d</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{det}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">d</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> non-robust dataset experiment as described in the
+                paper, for <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mi mathvariant="normal">∞</mi></msub></mrow><annotation encoding="application/x-tex">L_\infty</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">∞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> attacks.
+                <br>
+                Gabriel repproduced both <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>d</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{det}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">d</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mrow><mrow><mi mathvariant="script">D</mi></mrow></mrow><mo stretchy="true">^</mo></mover><mrow><mi>r</mi><mi>a</mi><mi>n</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{\mathcal{D}}_{rand}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.92333em;"></span><span class="strut bottom" style="height:1.07333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.92333em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span></span></span><span class="svg-align" style="top:-3.6833299999999998em;width:calc(100% - 0.11112em);margin-left:0.11112em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.24em;"><svg width="100%" height="0.24em" viewBox="0 0 1062 239" preserveAspectRatio="none">
+<path d="M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22
+c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z"></path></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.02778em;">r</span><span class="mord mathit mtight">a</span><span class="mord mathit mtight">n</span><span class="mord mathit mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span> for <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord"><span class="mord mathit">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>
+                attacks.
+            <a class="footnote-backlink" href="#d-footnote-3">[↩]</a></li></ol>
+</d-footnote-list>
+        <d-citation-list distill-prerendered="true"><style>
+d-citation-list {
+  contain: style;
+}
+
+d-citation-list .references {
+  grid-column: text;
+}
+
+d-citation-list .references .title {
+  font-weight: 500;
+}
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="ilyas2019adversarial"><span class="title">Adversarial examples are not bugs, they are features</span>   <a href="https://arxiv.org/pdf/1905.02175.pdf">[PDF]</a><br>Ilyas, A., Santurkar, S., Tsipras, D., Engstrom, L., Tran, B. and Madry, A., 2019. arXiv preprint arXiv:1905.02175. </li></ol></d-citation-list>
+    <distill-appendix>
+<style>
+  distill-appendix {
+    contain: layout style;
+  }
+
+  distill-appendix .citation {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  distill-appendix > * {
+    grid-column: text;
+  }
+</style>
+
+    <h3 id="updates-and-corrections">Updates and Corrections</h3>
+    <p>
+    If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--ilyas-responses/issues/new">create an issue on GitHub</a>. </p>
+    
+    <h3 id="reuse">Reuse</h3>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--ilyas-responses">source available on GitHub</a>,
+ unless noted otherwise. The figures that have been reused from other 
+sources don’t fall under this license and can be recognized by a note in
+ their caption: “Figure from …”.</p>
+    
+    <h3 id="citation">Citation</h3>
+    <p>For attribution in academic contexts, please cite this work as</p>
+    <pre class="citation short">Engstrom, et al., "A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features'", Distill, 2019.</pre>
+    <p>BibTeX citation</p>
+    <pre class="citation long">@article{engstrom2019a,
+  author = {Engstrom, Logan and Gilmer, Justin and Goh, Gabriel and Hendrycks, Dan and Ilyas, Andrew and Madry, Aleksander and Nakano, Reiichiro and Nakkiran, Preetum and Santurkar, Shibani and Tran, Brandon and Tsipras, Dimitris and Wallace, Eric},
+  title = {A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features'},
+  journal = {Distill},
+  year = {2019},
+  note = {https://distill.pub/2019/advex-bugs-discussion},
+  doi = {10.23915/distill.00019}
+}</pre>
+    </distill-appendix></d-appendix>
+
+    <d-bibliography><script type="text/json">[["ilyas2019adversarial",{"title":"Adversarial examples are not bugs, they are features","author":"Ilyas, Andrew and Santurkar, Shibani and Tsipras, Dimitris and Engstrom, Logan and Tran, Brandon and Madry, Aleksander","journal":"arXiv preprint arXiv:1905.02175","year":"2019","archivePrefix":"arXiv","url":"https://arxiv.org/pdf/1905.02175.pdf","archiveprefix":"arXiv","type":"article"}],["olah2017feature",{"author":"Olah, Chris and Mordvintsev, Alexander and Schubert, Ludwig","title":"Feature Visualization","journal":"Distill","year":"2017","url":"https://distill.pub/2017/feature-visualization","doi":"10.23915/distill.00007","type":"article"}],["gatys2015",{"author":"Leon A. Gatys and Alexander S. Ecker and Matthias Bethge","title":"A Neural Algorithm of Artistic Style","journal":"CoRR","volume":"abs/1508.06576","year":"2015","url":"http://arxiv.org/abs/1508.06576","archivePrefix":"arXiv","eprint":"1508.06576","timestamp":"Wed, 07 Jun 2017 14:41:58 +0200","biburl":"http://dblp.org/rec/bib/journals/corr/GatysEB15a","bibsource":"dblp computer science bibliography, http://dblp.org","archiveprefix":"arXiv","type":"article"}],["li2017",{"author":"Yanghao Li and Naiyan Wang and Jiaying Liu and Xiaodi Hou","title":"Demystifying Neural Style Transfer","journal":"CoRR","volume":"abs/1701.01036","year":"2017","url":"http://arxiv.org/abs/1701.01036","archivePrefix":"arXiv","eprint":"1701.01036","timestamp":"Wed, 07 Jun 2017 14:42:49 +0200","biburl":"http://dblp.org/rec/bib/journals/corr/LiWLH17","bibsource":"dblp computer science bibliography, http://dblp.org","archiveprefix":"arXiv","type":"article"}],["wilmot2017",{"author":"Pierre Wilmot and Eric Risser and Connelly Barnes","title":"Stable and Controllable Neural Texture Synthesis and Style Transfer Using Histogram Losses","journal":"CoRR","volume":"abs/1701.08893","year":"2017","url":"http://arxiv.org/abs/1701.08893","archivePrefix":"arXiv","eprint":"1701.08893","timestamp":"Wed, 07 Jun 2017 14:42:55 +0200","biburl":"http://dblp.org/rec/bib/journals/corr/WilmotRB17","bibsource":"dblp computer science bibliography, http://dblp.org","archiveprefix":"arXiv","type":"article"}],["li2016",{"author":"Chuan Li and Michael Wand","title":"Combining Markov Random Fields and Convolutional Neural Networks for Image Synthesis","journal":"CoRR","volume":"abs/1601.04589","year":"2016","url":"http://arxiv.org/abs/1601.04589","archivePrefix":"arXiv","eprint":"1601.04589","timestamp":"Wed, 07 Jun 2017 14:40:20 +0200","biburl":"http://dblp.org/rec/bib/journals/corr/LiW16","bibsource":"dblp computer science bibliography, http://dblp.org","archiveprefix":"arXiv","type":"article"}],["athalye2017",{"author":"Anish Athalye and Logan Engstrom and Andrew Ilyas and Kevin Kwok","title":"Synthesizing Robust Adversarial Examples","journal":"CoRR","volume":"abs/1707.07397","year":"2017","url":"http://arxiv.org/abs/1707.07397","archivePrefix":"arXiv","eprint":"1707.07397","timestamp":"Tue, 31 Oct 2017 11:47:03 +0100","biburl":"http://dblp.org/rec/bib/journals/corr/AthalyeS17","bibsource":"dblp computer science bibliography, http://dblp.org","archiveprefix":"arXiv","type":"article"}],["ruder2016",{"author":"Manuel Ruder and Alexey Dosovitskiy and Thomas Brox","title":"Artistic style transfer for videos","journal":"CoRR","volume":"abs/1604.08610","year":"2016","url":"http://arxiv.org/abs/1604.08610","archivePrefix":"arXiv","eprint":"1604.08610","timestamp":"Wed, 07 Jun 2017 14:43:14 +0200","biburl":"http://dblp.org/rec/bib/journals/corr/RuderDB16","bibsource":"dblp computer science bibliography, http://dblp.org","archiveprefix":"arXiv","type":"article"}],["krizhevsky2012",{"author":"Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E.","title":"ImageNet Classification with Deep Convolutional Neural Networks","booktitle":"Proceedings of the 25th International Conference on Neural Information Processing Systems - Volume 1","series":"NIPS'12","year":"2012","pages":"1097--1105","url":"http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf","type":"inproceedings"}],["zeiler2014",{"author":"Zeiler, Matthew D. and Fergus, Rob","editor":"Fleet, David and Pajdla, Tomas and Schiele, Bernt and Tuytelaars, Tinne","title":"Visualizing and Understanding Convolutional Networks","booktitle":"Computer Vision -- ECCV 2014","year":"2014","publisher":"Springer International Publishing","address":"Cham","pages":"818--833","isbn":"978-3-319-10590-1","url":"https://arxiv.org/abs/1311.2901","type":"InProceedings"}],["mordvintsev2015inceptionism",{"title":"Inceptionism: Going deeper into neural networks","author":"Mordvintsev, Alexander and Olah, Christopher and Tyka, Mike","journal":"Google Research Blog. Retrieved June","volume":"20","number":"14","pages":"5","year":"2015","url":"https://research.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html","type":"article"}],["goodfellow2014:adversarial",{"title":"Generative Adversarial Nets","author":"Goodfellow, Ian and Pouget-Abadie, Jean and Mirza, Mehdi and Xu, Bing and Warde-Farley, David and Ozair, Sherjil and Courville, Aaron and Bengio, Yoshua","booktitle":"Advances in Neural Information Processing Systems 27","editor":"Z. Ghahramani and M. Welling and C. Cortes and N. D. Lawrence and K. Q. Weinberger","pages":"2672--2680","year":"2014","publisher":"Curran Associates, Inc.","url":"http://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf","type":"incollection"}],["Diederik2013:VAE",{"author":"Diederik P. Kingma and Max Welling","title":"Auto-Encoding Variational Bayes","journal":"CoRR","volume":"abs/1312.6114","year":"2013","url":"http://arxiv.org/abs/1312.6114","archivePrefix":"arXiv","eprint":"1312.6114","timestamp":"Wed, 07 Jun 2017 14:40:08 +0200","biburl":"http://dblp.org/rec/bib/journals/corr/KingmaW13","bibsource":"dblp computer science bibliography, http://dblp.org","archiveprefix":"arXiv","type":"article"}],["stanley2007cppn",{"title":"Compositional pattern producing networks: A novel abstraction of development","author":"Stanley, Kenneth O","journal":"Genetic programming and evolvable machines","volume":"8","number":"2","pages":"131--162","year":"2007","publisher":"Springer","url":"http://eplex.cs.ucf.edu/papers/stanley_gpem07.pdf","type":"article"}],["CPPN:random",{"author":"Otoro.net","title":"Neural Network Generative Art in Javascript","url":"http://blog.otoro.net/2015/06/19/neural-network-generative-art/","year":"2015","note":"[Online; accessed 26-February-2018]","type":"misc"}],["Nguyen2015:easilyFooled",{"author":"Anh Mai Nguyen and Jason Yosinski and Jeff Clune","title":"Deep neural networks are easily fooled: High confidence predictions for unrecognizable images","booktitle":"IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2015, Boston, MA, USA, June 7-12, 2015","pages":"427--436","year":"2015","url":"https://arxiv.org/abs/1412.1897","type":"inproceedings"}],["kato2017neural3D",{"title":"Neural 3D Mesh Renderer","author":"Kato, Hiroharu and Ushiku, Yoshitaka and Harada, Tatsuya","journal":"arXiv preprint arXiv:1711.07566","year":"2017","url":"https://arxiv.org/abs/1711.07566","type":"article"}],["wu20153d",{"title":"3d shapenets: A deep representation for volumetric shapes","author":"Wu, Zhirong and Song, Shuran and Khosla, Aditya and Yu, Fisher and Zhang, Linguang and Tang, Xiaoou and Xiao, Jianxiong","booktitle":"Proceedings of the IEEE conference on computer vision and pattern recognition","pages":"1912--1920","year":"2015","url":"https://people.csail.mit.edu/khosla/papers/cvpr2015_wu.pdf","type":"inproceedings"}],["qi2016volumetric",{"title":"Volumetric and Multi-View CNNs for Object Classification on 3D Data","author":"Qi, Charles R and Su, Hao and Niesner, Matthias and Dai, Angela and Yan, Mengyuan and Guibas, Leonidas J","booktitle":"Proceedings of the IEEE conference on computer vision and pattern recognition","pages":"5648--5656","year":"2016","url":"https://arxiv.org/abs/1604.03265","type":"inproceedings"}],["turk2005stanfordBunny",{"title":"The Stanford Bunny","author":"Turk, Greg and Levoy, Marc","year":"2005","publisher":"Stanford University Computer Graphics Laboratory","url":"http://graphics. stanford. edu/data/3Dscanrep","type":"misc"}],["Shreiner2013OpenGL",{"author":"Shreiner, Dave and Sellers, Graham and Kessenich, John M. and Licea-Kane, Bill M.","title":"OpenGL Programming Guide: The Official Guide to Learning OpenGL, Version 4.3","year":"2013","isbn":"0321773039, 9780321773036","edition":"8th","publisher":"Addison-Wesley Professional","type":"book"}],["wierstra2014naturalEvolutionStrategies",{"title":"Natural evolution strategies.","author":"Wierstra, Daan and Schaul, Tom and Glasmachers, Tobias and Sun, Yi and Peters, Jan and Schmidhuber, Jurgen","journal":"Journal of Machine Learning Research","volume":"15","number":"1","pages":"949--980","year":"2014","url":"http://www.jmlr.org/papers/volume15/wierstra14a/wierstra14a.pdf","type":"article"}],["szegedy2015googlenet",{"title":"Going Deeper with Convolutions","author":"Christian Szegedy and Wei Liu and Yangqing Jia and Pierre Sermanet and Scott Reed and Dragomir Anguelov and Dumitru Erhan and Vincent Vanhoucke and Andrew Rabinovich","year":"2015","URL":"http://arxiv.org/abs/1409.4842","booktitle":"Computer Vision and Pattern Recognition (CVPR)","url":"http://arxiv.org/abs/1409.4842","type":"inproceedings"}],["lecun2015deepLearning",{"title":"Deep learning","author":"LeCun, Yann and Bengio, Yoshua and Hinton, Geoffrey","journal":"Nature","volume":"521","number":"7553","pages":"436","year":"2015","publisher":"Nature Publishing Group","url":"http://pages.cs.wisc.edu/~dyer/cs540/handouts/deep-learning-nature2015.pdf","type":"article"}],["Goodfellow2016deepLearning",{"title":"Deep Learning","author":"Ian Goodfellow and Yoshua Bengio and Aaron Courville","publisher":"MIT Press","url":"http://www.deeplearningbook.org","year":"2016","type":"article"}],["simonyan2014vgg",{"title":"Very deep convolutional networks for large-scale image recognition","author":"Simonyan, Karen and Zisserman, Andrew","journal":"arXiv preprint arXiv:1409.1556","year":"2014","url":"https://arxiv.org/abs/1409.1556","type":"article"}],["li2017universal",{"title":"Universal style transfer via feature transforms","author":"Li, Yijun and Fang, Chen and Yang, Jimei and Wang, Zhaowen and Lu, Xin and Yang, Ming-Hsuan","booktitle":"Advances in Neural Information Processing Systems","pages":"385--395","year":"2017","url":"https://arxiv.org/abs/1705.08086","type":"inproceedings"}],["levy2002least",{"title":"Least squares conformal maps for automatic texture atlas generation","author":"Levy, Bruno and Petitjean, Sylvain and Ray, Nicolas and Maillot, Jerome","booktitle":"ACM transactions on graphics (TOG)","pages":"362--371","year":"2002","url":"http://alice.loria.fr/index.php/software/7-data/37-unwrapped-meshes.html","type":"inproceedings"}],["athalye2017synthesizing",{"title":"Synthesizing robust adversarial examples","author":"Athalye, Anish and Engstrom, Logan and Ilyas, Andrew and Kwok, Kevin","journal":"arXiv preprint arXiv:1707.07397","year":"2017","url":"https://arxiv.org/pdf/1707.07397.pdf","type":"article"}],["gershenfeld2012make",{"title":"How to make almost anything: The digital fabrication revolution","author":"Gershenfeld, Neil","journal":"Foreign affairs","pages":"43--57","year":"2012","url":"https://www.vteducation.org/sites/default/files/file_attach/Christophe%20Reverd/2014/05/12.09.fa_.pdf","type":"article"}],["odena2016deconvolution",{"title":"Deconvolution and checkerboard artifacts","author":"Odena, Augustus and Dumoulin, Vincent and Olah, Chris","journal":"Distill","volume":"1","number":"10","pages":"e3","year":"2016","doi":"distill.00003","url":"http://distill.pub/2016/deconv-checkerboard/","type":"article"}],["kodama1981automatic",{"title":"Automatic method for fabricating a three-dimensional plastic model with photo-hardening polymer","author":"Kodama, Hideo","journal":"Review of scientific instruments","volume":"52","number":"11","pages":"1770--1773","year":"1981","publisher":"AIP","doi":"10.1063/1.1136492","type":"article"}],["jones2011reprap",{"title":"RepRap--the replicating rapid prototyper","author":"Jones, Rhys and Haufe, Patrick and Sells, Edward and Iravani, Pejman and Olliver, Vik and Palmer, Chris and Bowyer, Adrian","journal":"Robotica","volume":"29","number":"1","pages":"177--191","year":"2011","publisher":"Cambridge University Press","doi":"10.1017/S026357471000069X","type":"article"}],["salimans2017evolution",{"title":"Evolution strategies as a scalable alternative to reinforcement learning","author":"Salimans, Tim and Ho, Jonathan and Chen, Xi and Sutskever, Ilya","journal":"arXiv preprint arXiv:1703.03864","year":"2017","type":"article"}],["milli2018model",{"title":"Model reconstruction from model explanations","author":"Milli, Smitha and Schmidt, Ludwig and Dragan, Anca D and Hardt, Moritz","journal":"arXiv preprint arXiv:1807.05185","year":"2018","type":"article"}]]</script></d-bibliography>
+
+<script type="text/javascript" src="A%20Discussion%20of%20'Adversarial%20Examples%20Are%20Not%20Bugs,%20They%20Are%20Features'_files/index.js"></script>
+<distill-footer>
+<style>
+
+:host {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: hsl(180, 5%, 15%); /*hsl(200, 60%, 15%);*/
+  text-align: left;
+  contain: content;
+}
+
+.footer-container .logo svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+
+.footer-container .logo svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+
+.footer-container .logo {
+  font-size: 17px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+.footer-container {
+  grid-column: text;
+}
+
+.footer-container .nav {
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.footer-container .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 6px;
+  text-decoration: none;
+}
+
+</style>
+
+<div class="footer-container">
+
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a> is dedicated to clear explanations of machine learning
+
+  <div class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/archive/">Archive</a>
+    <a href="https://distill.pub/rss.xml">RSS</a>
+    <a href="https://github.com/distillpub">GitHub</a>
+    <a href="https://twitter.com/distillpub">Twitter</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; ISSN 2476-0757
+  </div>
+
+</div>
+
+</distill-footer><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83741880-1', 'auto');
+  ga('send', 'pageview');
+</script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
