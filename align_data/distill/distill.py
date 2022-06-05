@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from markdownify import MarkdownConverter
 import os
 import json
-import pprint
+import re
 
 
 class Distill:
@@ -15,6 +15,7 @@ class Distill:
 
         DISTILL_POSTS_DIR = "align_data/distill/distill_posts/"
 
+        # TODO: fix the part below, the distill_posts.jsonl gets created in data/ but is not needed
         self.convert_distill_dir2jsonl_file(
             DISTILL_POSTS_DIR, "data/distill_posts.jsonl"
         )
@@ -90,6 +91,10 @@ class Distill:
                 references[idx] = reference
         else:
             references = None
+
+        body = "".join(word for word in re.split("(\n)", body) if len(word) <= 80)
+        body = re.sub(r"(?<!\n)\n(?!\n)|\n{3,}", "\n\n", body)
+
         # build the json
         self.entries[self.i] = {
             "source": "distill",
