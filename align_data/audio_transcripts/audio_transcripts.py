@@ -32,13 +32,13 @@ class AudioTranscripts:
 
         # create dictionary to store the entries
         self.num_entries = len(os.listdir(self.folder_name))
+        print(list(os.listdir(self.folder_name)))
+        print("-------------------------------")
+        print(self.folder_name)
         for i, file in enumerate(os.listdir(self.folder_name)):
-            file = os.path.join(self.folder_name, file)
-            try:
+            if file.endswith(".md"):
+                file = os.path.join(self.folder_name, file)
                 self.fetch_individual_entries(i, file)
-            except:
-                print("Failure is likely due to a DS_Store file. Skipping...")
-                pass
 
         os.makedirs("data/processed/jsons/audio_transcripts", exist_ok=True)
 
@@ -61,8 +61,17 @@ class AudioTranscripts:
         with open(filepath, "r") as f:
             text = f.read()
         title = re.search(r"^#\s(.*)\n$", text, re.MULTILINE).group(1)
+        print(filename)
         date = re.search(r"\d{4}\d{2}\d{2}", filename).group(0)
-        authors = re.search(r"-by\s(.*)-video", filename).group(1)
+        date = date[:4] + "-" + date[4:6] + "-" + date[6:]
+        try:
+            authors = re.search(r"-by\s(.*)-video", filename).group(1)
+        except:
+            try:
+                authors = re.search(r"-by\s(.*)-date", filename).group(1)
+            except:
+                print("Could not find authors")
+                authors = ""
 
         self.entries[i] = {
             "source": "audio-transcripts",
@@ -81,7 +90,7 @@ class AudioTranscripts:
     def setup(self):
         self.PROJECT_DIR = os.getcwd()
         self.RAW_TRANSCRIPTS_DIR = os.path.join(
-            self.PROJECT_DIR, "data/raw/audio_transcripts/"
+            self.PROJECT_DIR, "data/raw/audio_transcripts"
         )
         sh(f"mkdir -p {self.RAW_TRANSCRIPTS_DIR}")
 

@@ -3,7 +3,7 @@ from .audio_transcripts import AudioTranscripts
 
 AUDIO_TRANSCRIPTS_REGISTRY = [
     AudioTranscripts(
-        "https://drive.google.com/uc?id=11ylkpqG9Cr-Td-FsY6FvjtN_fJu6RUa2",
+        "https://drive.google.com/uc?id=13JiAHAWakTTNQqGEXgiL0mjsuVka4-Sm",
         "scraped-transcripts",
         "transcripts",
         True,
