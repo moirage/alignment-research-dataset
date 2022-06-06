@@ -1,5 +1,5 @@
 # AI Alignment Research Dataset
-A dataset of alignment research and code to reproduce it. You can download version 1.0 of the dataset [here](https://drive.google.com/file/d/13SM1gADKqk-lvHu7Vhwe_Aiw-TyXy3LQ/view?usp=sharing).
+A dataset of alignment research and code to reproduce it. You can download version 1.0 of the dataset [here](https://the-eye.eu/public/AI/Alignment/moirage_alignment-research-dataset/).
 
 For more information about the dataset, have a look at our [paper]() or [LessWrong]() post.
 
