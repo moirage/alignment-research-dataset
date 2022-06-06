@@ -39,7 +39,7 @@ with jsonlines.open("alignment_texts.jsonl", "r") as reader:
 
 ### What Keys are in Each JSON of the Dataset?
 
-The important thing here is that not all of the dataset entries contain all the same keys (though they all have the "`text`" key). That said, the key names are standardized so you should not run into any issues where `source` in one entry is something like `source_of_entry` in another. We do this because it doens't make sense to say "journal_ref" when we are talking about an audio transcript. So, you will need to make sure you add a `try-except` in your code if you want to grab things other than `'text'`.
+The important thing here is that not all of the dataset entries contain all the same keys (though they all have the `text` key). That said, the key names are standardized so you should not run into any issues where `source` in one entry is something like `source_of_entry` in another. We do this because it doens't make sense to say "journal_ref" when we are talking about an audio transcript. So, you will need to make sure you add a `try-except` in your code if you want to grab things other than `text`.
 
 For now, if you would like to know the specific keys from each source in the dataset, please look at the code for that source in [align_data](./align_data).
 
@@ -71,6 +71,39 @@ Here's what the data for the arXiv papers looks like:
 "bibliography_bib": "string of bib", # more common to have bib than bbl
 }
 ```
+
+### The 80/20 for using the dataset
+
+As we said in the previous section, all entries have the `text` key which contains the text content for that entry. Here's some other common keys you might use:
+
+1. `source`: this key separates the various keys found in the table in [Sources](##Sources). Here's the set of sources with their corresponding value name:
+
+* 'https://aipulse.org'
+* 'ebook'
+* 'https://qualiacomputing.com'
+* 'alignment forum'
+* 'lesswrong'
+* 'manual'
+* 'arxiv'
+* 'https://deepmindsafetyresearch.medium.com/'
+* 'waitbutwhy.com'
+* 'GitHub'
+* 'https://aiimpacts.org'
+* 'arbital.com'
+* 'carado.moe'
+* 'nonarxiv_papers'
+* 'https://vkrakovna.wordpress.com'
+* 'https://jsteinhardt.wordpress.com'
+* 'audio-transcripts'
+* 'https://intelligence.org'
+* 'youtube'
+* 'reports'
+* 'https://aisafety.camp'
+* 'curriculum'
+* 'https://www.yudkowsky.net'
+* 'distill'
+
+2. `alignment_text`: This is label specific to the arXiv papers. We added papers to the dataset using Allen AI's SPECTER model and included all the papers that got a confidence score of over 75%. However, since we could not verify with certainty that those papers where about alignment, we've decided to create the `alignment_text` key with the value `"pos"` when we manually labeled it as an alignment text and `"unlabeled"` when we have not labeled it yet. Additionally, we've only included the `text` for the `"pos"` entries, not the `"unlabeled"` entries.
 
 ## Contributing
 
