@@ -60,6 +60,13 @@ def main():
 
     args.func(args)
 
+    os.system(
+        "mv data/alignment_newsletter_separate_summaries.jsonl data/processed/alignment_newsletter_separate_summaries.jsonl"
+    )
+    os.system("rm data/alignment_newsletter.jsonl")
+    os.system("python3 add_an_to_datasets.py")
+    os.system("python3 merge_jsonl_files.py")
+
 
 if __name__ == "__main__":
     main()

@@ -1,17 +1,87 @@
-# alignment-research-dataset
-A dataset of alignment research and code to reproduce it. WIP!
+# AI Alignment Research Dataset
+A dataset of alignment research and code to reproduce it. You can download version 1.0 of the dataset [here](https://drive.google.com/file/d/13SM1gADKqk-lvHu7Vhwe_Aiw-TyXy3LQ/view?usp=sharing).
+
+For more information about the dataset, have a look at our [paper]() or [LessWrong]() post.
 
 ## Sources
 
-## Development
+Below, you can find a table of the number of texts in the dataset grouped into various sources. The table is up-to-date with version 1.0 of the dataset (June 4th, 2022).
+
+<img src="./imgs/dataset_sources.PNG" alt="dataset_sources.PNG" width=600 />
+
+## Development Environment
 
 To set up the development environment, run the following steps:
 
 ```bash
 git clone https://github.com/moirage/alignment-research-dataset
 cd alignment-research-dataset
-pip install -e .
+pip install -r requirements.txt
+```
+You will also need do install [grobid](https://github.com/kermitt2/grobid) on your machine to run some of the scripts. There is some documentation [here](https://grobid.readthedocs.io/en/latest/Install-Grobid/) on how to install it. The config.json file in the root of this repository is for grobid.
+
+## Using the Dataset
+
+The dataset is in .jsonl format. Each line is a new entry for that dataset. To load the dataset, you can use the `jsonlines` python package. You can load the dataset using the following:
+
+```
+import jsonlines
+
+dictionary = {}
+with jsonlines.open("alignment_texts.jsonl", "r") as reader:
+  for entry in reader:
+    try:
+      # grab contents of each entry here, example:
+      # dictionary[i]['text'] = entry['text']
+    except KeyError:
+      pass
+```
+
+### What Keys are in Each JSON of the Dataset?
+
+The important thing here is that not all dataset contain all the same keys. If they have the same keys, the names are the same. However, it makes no sense to say "journal_ref" when we are talking about an audio transcript. So, you will need to make sure you add a `try-except` in your code if you want to grab things other than `'text'`.
+
+If you would like to know the specific keys from each source in the dataset, please look at the code for that source in [align_data](./align_data).
+
+Here's what the data for the arXiv papers looks like:
+
+```
+{
+"source": "arxiv", # where the dataset comes from
+"source_type": "latex", # the type of file the data was original in
+"converted_with": "pandoc", # which tool we used to convert the data in .md format
+"paper_version": paper_id,
+"title": title,
+"authors": [str(x) for x in authors], # list of authors
+"date_published": date_published,
+"data_last_modified": data_last_modified,
+"url": url,
+"abstract": abstract,
+"author_comment": author_comment,
+"journal_ref": journal_ref,
+"doi": doi,
+"primary_category": primary_category,
+"categories": categories,
+"citation_level": citation_level, # (0 = curated alignment papers, 1 = citation of curated papers, 2 = citation of citation, etc.)
+"alignment_text": is_alignment_text, # 'pos' is maunally labeled as an alignment paper, 'unlabeled' if unlabeled
+"confidence_score": confidence_scores, # this is a confidence score obtained by using the SPECTER model to classify papers to add to the dataset
+"main_tex_filename": "main.tex", # the main latex file needed to convert the paper
+"text": "lots of text", # this is where you will grab the text contents of each entry in the dataset (in .md format)
+"bibliography_bbl": "string of bbl",
+"bibliography_bib": "string of bib", # more common to have bib than bbl
+}
 ```
 
 ## Contributing
-Join us on EleutherAI's [discord server](https://discord.com/invite/zBGx3azzUn) in the #accelerating-alignment channel
+
+Join us on EleutherAI's [discord server](https://discord.com/invite/zBGx3azzUn) in the #accelerating-alignment channel.
+
+We are looking for people who want to contribute by adding more AI alignment text to the dataset as well as clean the data. We are currently cleaning audio transcripts that have been created using speech-to-text software, if you would like to contribute, please let us know. We are also hoping to categorize the AI alignment videos in ways that are useful for newcomers. Some initial ideas include useful search tags like required background, topic, how good the content is, and if it's a lecture or conversation.
+
+We would like this dataset be used for good. If you have any ideas on how to help AI alignment researchers in their work, let us know. Even better if you can implement it!
+
+## Citing the Dataset
+
+Please use the following citation when using our dataset:
+
+Kirchner, J. H., Smith, L., Thibodeau, J., McDonnell, K., and Reynolds, L. "Understanding AI alignment research: A Systematic Analysis." arXiv preprint arXiv:2022.4338861 (2022).
