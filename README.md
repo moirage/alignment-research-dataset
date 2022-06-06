@@ -39,9 +39,9 @@ with jsonlines.open("alignment_texts.jsonl", "r") as reader:
 
 ### What Keys are in Each JSON of the Dataset?
 
-The important thing here is that not all dataset contain all the same keys. If they have the same keys, the names are the same. However, it makes no sense to say "journal_ref" when we are talking about an audio transcript. So, you will need to make sure you add a `try-except` in your code if you want to grab things other than `'text'`.
+The important thing here is that not all of the dataset entries contain all the same keys (though they all have the "`text`" key). That said, the key names are standardized so you should not run into any issues where `source` in one entry is something like `source_of_entry` in another. We do this because it doens't make sense to say "journal_ref" when we are talking about an audio transcript. So, you will need to make sure you add a `try-except` in your code if you want to grab things other than `'text'`.
 
-If you would like to know the specific keys from each source in the dataset, please look at the code for that source in [align_data](./align_data).
+For now, if you would like to know the specific keys from each source in the dataset, please look at the code for that source in [align_data](./align_data).
 
 Here's what the data for the arXiv papers looks like:
 
