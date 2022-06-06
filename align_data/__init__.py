@@ -20,6 +20,7 @@ DATASET_REGISTRY = (
     + stampy.STAMPY_REGISTRY
     + audio_transcripts.AUDIO_TRANSCRIPTS_REGISTRY
     + distill.DISTILL_REGISTRY
+    + alignment_newsletter.ALIGNMENT_NEWSLETTER_REGISTRY
 )
 
 ALL_DATASETS = sorted([dataset.name for dataset in DATASET_REGISTRY])
