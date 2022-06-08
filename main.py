@@ -26,6 +26,12 @@ def cmd_fetch_all(args):
             with EntryWriter(name, args.path) as writer:
                 for entry in align_data.get_dataset(name).fetch_entries():
                     writer.write(entry)
+    os.system(
+        "mv data/alignment_newsletter_separate_summaries.jsonl data/processed/alignment_newsletter_separate_summaries.jsonl"
+    )
+    os.system("rm data/alignment_newsletter.jsonl")
+    os.system("python3 add_an_to_datasets.py")
+    os.system("python3 merge_jsonl_files.py")
 
 
 def create_arg_parser():
@@ -59,13 +65,6 @@ def main():
         return
 
     args.func(args)
-
-    os.system(
-        "mv data/alignment_newsletter_separate_summaries.jsonl data/processed/alignment_newsletter_separate_summaries.jsonl"
-    )
-    os.system("rm data/alignment_newsletter.jsonl")
-    os.system("python3 add_an_to_datasets.py")
-    os.system("python3 merge_jsonl_files.py")
 
 
 if __name__ == "__main__":
