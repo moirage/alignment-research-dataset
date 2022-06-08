@@ -1,7 +1,7 @@
 # AI Alignment Research Dataset
 A dataset of alignment research and code to reproduce it. You can download version 1.0 of the dataset [here](https://the-eye.eu/public/AI/Alignment/moirage_alignment-research-dataset/).
 
-For more information about the dataset, have a look at our [paper]() or [LessWrong](https://www.lesswrong.com/posts/FgjcHiWvADgsocE34/a-descriptive-not-prescriptive-overview-of-current-ai) post.
+For more information about the dataset, have a look at our [paper](https://arxiv.org/abs/2206.02841) or [LessWrong](https://www.lesswrong.com/posts/FgjcHiWvADgsocE34/a-descriptive-not-prescriptive-overview-of-current-ai) post.
 
 ## Sources
 
