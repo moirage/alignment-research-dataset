@@ -3,7 +3,7 @@ import align_data.ebooks
 import align_data.arxiv_papers
 import align_data.nonarxiv_papers
 import align_data.reports
-import align_data.lesswrong
+import align_data.greaterwrong
 import align_data.stampy
 import align_data.audio_transcripts
 import align_data.alignment_newsletter
@@ -16,7 +16,7 @@ DATASET_REGISTRY = (
     + arxiv_papers.ARXIV_REGISTRY
     + nonarxiv_papers.NONARXIV_PAPER_REGISTRY
     + reports.REPORT_REGISTRY
-    + lesswrong.LESSWRONG_REGISTRY
+    + greaterwrong.GREATERWRONG_REGISTRY
     + stampy.STAMPY_REGISTRY
     + audio_transcripts.AUDIO_TRANSCRIPTS_REGISTRY
     + distill.DISTILL_REGISTRY

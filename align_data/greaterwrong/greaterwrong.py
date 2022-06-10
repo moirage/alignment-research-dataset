@@ -1,26 +1,30 @@
 import datetime, dateutil.parser as dparser, glob, time, requests, re, json, os
 from bs4 import BeautifulSoup
 
-class LessWrong:
+class GreaterWrong:
 
-    def __init__(self):
-        self.name = "lesswrong"
-        return
+    """
+    This class allows you to scrape posts and comments from GreaterWrong. 
+    GreaterWrong contains all the posts from LessWrong (which contains the Alignment Forum) and the EA Forum.
+    """
+
+    def __init__(self, name):
+        self.name = name
 
     def fetch_entries(self):
-        print("Grabbing most recent links (grabs all links if /urls/ is empty)...")
+        print(f"Grabbing most recent links (grabs all links if /{self.name}_urls/ is empty)...")
         self.get_all_links()
         print("Converting each link to a json with post & comments...")
         print(
-            "[Using only the latest urls, change variable url_directory in lesswrong.py to point at a specific url_folder]"
+            "[Using only the latest urls, change variable url_directory in greaterwrong.py to point at a specific url_folder]"
         )
         # specify url_directory to the specific url_file you want
-        for post in self.urls_to_json_scrape(file_prefix="lesswrong", url_directory=""):
+        for post in self.urls_to_json_scrape(file_prefix=self.name, url_directory=""):
             yield post
 
     def get_latest_file(self):
         list_of_files = sorted(
-            glob.glob("align_data/lesswrong/urls/*")
+            glob.glob(f"align_data/greaterwrong/{self.name}_urls/*")
         )  # * means all if need specific format then *.csv
         return list_of_files[-1]
 
@@ -51,10 +55,10 @@ class LessWrong:
         return url
 
     def get_all_links(self):
-        if not os.path.exists("align_data/lesswrong/urls"):
-            os.mkdir("align_data/lesswrong/urls/")
+        if not os.path.exists(f"align_data/greaterwrong//{self.name}_urls"):
+            os.makedirs(f"align_data/greaterwrong//{self.name}_urls/")
         today = datetime.datetime.today().strftime("%Y-%m-%d")
-        url_for_today = "align_data/lesswrong/urls/" + today + "_links.txt"
+        url_for_today = f"align_data/greaterwrong/{self.name}_urls/" + today + "_links.txt"
         # check if there's a url_link for today, return if so
         if os.path.isfile(url_for_today):
             return
@@ -68,7 +72,10 @@ class LessWrong:
             latest_url = "n/a"
 
         with open(url_for_today, "w") as f:
-            initial_url = "https://www.greaterwrong.com/index?view=all&offset=0"
+            if self.name == "lesswrong":
+                initial_url = "https://www.greaterwrong.com/index?view=all&offset=0"
+            elif self.name == "eaforum":
+                initial_url = "https://ea.greaterwrong.com/index?view=all&offset=0"
             iterations = 0
             found_latest_url = False
             while not found_latest_url:
@@ -115,7 +122,7 @@ class LessWrong:
         # res = re.sub(r'http\S+', 'ʬ', res)
         return res
 
-    def latest_url_file_name(self, url_dir="align_data/lesswrong/urls"):
+    def latest_url_file_name(self, url_dir=""):
         url_filenames = sorted(
             os.listdir(url_dir), reverse=True
         )  # Do reverse to get latest date first
@@ -150,7 +157,8 @@ class LessWrong:
 
         if len(karma_list) > 2:  # eg. LW: 420 AF: 69, list split by spaces
             json_comment["score"] = karma_list[1]
-            json_comment["omega_karma"] = karma_list[3]
+            if self.name == "lesswrong":
+                json_comment["omega_karma"] = karma_list[3]
 
         # recursively apply to subcomments
         next_comment = comment.select_one(".comment-thread")
@@ -218,37 +226,41 @@ class LessWrong:
         return  # insert is in-place, no need to return soup
 
     def urls_to_json_scrape(self, file_prefix, url_directory=""):
-        url_link_prefix_public_facing = "https://www.lesswrong.com"
-        url_link_prefix = "https://www.greaterwrong.com"
+        if self.name == "lesswrong":
+            url_link_prefix_public_facing = "https://www.lesswrong.com"
+            url_link_prefix = "https://www.greaterwrong.com"
+        elif self.name == "eaforum":
+            url_link_prefix_public_facing = "https://www.forum.effectivealtruism.org"
+            url_link_prefix = "https://ea.greaterwrong.com"
         json_post_and_comments = []
         # get specific urls if specified
         if url_directory:
             url_filename_suffix = url_directory
         else:  # get latest urls
-            url_filename_suffix = self.latest_url_file_name(f"align_data/lesswrong/urls")
+            url_filename_suffix = self.latest_url_file_name(f"align_data/greaterwrong/{self.name}_urls")
         # Create unproccessed_url directory if it doesn't exist already
-        if not os.path.exists("align_data/lesswrong/unprocessed_urls"):
-            os.makedirs("align_data/lesswrong/unprocessed_urls")
+        if not os.path.exists(f"align_data/greaterwrong/unprocessed_{self.name}_urls"):
+            os.makedirs(f"align_data/greaterwrong/unprocessed_{self.name}_urls")
         # Run files in unprocessed if they exist (may contain problem files)
-        unprocessed_urls = os.listdir(f"align_data/lesswrong/unprocessed_urls")
+        unprocessed_urls = os.listdir(f"align_data/greaterwrong/unprocessed_{self.name}_urls")
         if unprocessed_urls:  # if not empty
             url_filename_list = unprocessed_urls
         else:  # Create files to process
-            url_filename = f"align_data/lesswrong/urls/{url_filename_suffix}"
+            url_filename = f"align_data/greaterwrong/{self.name}_urls/{url_filename_suffix}"
             with open(url_filename, "r") as file:
                 # Split into separate files for every 1000 urls
                 lines = file.read().splitlines()
                 list_of_url_by_1000 = list(self.chunks(lines, 1000))
                 for index, urls_1000 in enumerate(list_of_url_by_1000):
                     with open(
-                        f"align_data/lesswrong/unprocessed_urls/{index}_{url_filename_suffix}", "w"
+                        f"align_data/greaterwrong/unprocessed_{self.name}_urls/{index}_{url_filename_suffix}", "w"
                     ) as url_1000_file:
                         url_1000_file.writelines("\n".join(urls_1000))
-            url_filename_list = os.listdir(f"align_data/lesswrong/unprocessed_urls")
+            url_filename_list = os.listdir(f"align_data/greaterwrong/unprocessed_{self.name}_urls")
 
         current_post_iter = 0
         for url_filename in url_filename_list:
-            with open(f"align_data/lesswrong/unprocessed_urls/{url_filename}", "r") as file:
+            with open(f"align_data/greaterwrong/unprocessed_{self.name}_urls/{url_filename}", "r") as file:
                 for url_link in file:
                     # Show current iter post
                     if current_post_iter % 50 == 0:
@@ -306,15 +318,23 @@ class LessWrong:
 
                     # check for alignment forum
                     if len(karma_list) > 2:  # eg. LW: 420 AF: 69, list split by spaces
-                        json_post_and_comments[current_post_iter][
-                            "source"
-                        ] = "alignment forum"
-                        json_post_and_comments[current_post_iter]["score"] = karma_list[
-                            1
-                        ]
-                        json_post_and_comments[current_post_iter][
+                        if self.name == "lesswrong":
+                            json_post_and_comments[current_post_iter][
+                                "source"
+                            ] = "alignment forum"
+                            json_post_and_comments[current_post_iter]["score"] = karma_list[
+                                1
+                            ]
+                            json_post_and_comments[current_post_iter][
                             "omega_karma"
-                        ] = karma_list[3]
+                            ] = karma_list[3]
+                        elif self.name == "eaforum":
+                            json_post_and_comments[current_post_iter][
+                                "source"
+                            ] = "eaforum"
+                            json_post_and_comments[current_post_iter]["score"] = karma_list[
+                                1
+                            ]
                     # Grab comments recursively
                     comments = soup.select_one(".comment-thread")
                     if comments:
@@ -333,9 +353,9 @@ class LessWrong:
                     yield json_post_and_comments[current_post_iter]
                     current_post_iter += 1
             # remove url from unprocessed folder
-            os.remove(f"align_data/lesswrong/unprocessed_urls/{url_filename}")
+            os.remove(f"align_data/greaterwrong/unprocessed_{self.name}_urls/{url_filename}")
 
 if __name__ == "__main__":
-    lw = LessWrong()
-    for post in lw.fetch_entries():
+    gw = GreaterWrong()
+    for post in gw.fetch_entries():
         print(post)
