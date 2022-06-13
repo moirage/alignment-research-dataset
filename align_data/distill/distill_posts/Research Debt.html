@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="Research%20Debt_files/template.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="Research%20Debt_files/analytics.js"></script><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="Research%20Debt_files/webcomponents-loader.js"></script><script src="Research%20Debt_files/webcomponents-hi.js"></script>
+  
+  <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+  <style>
+    d-footnote sup {
+      vertical-align: super;
+      line-height: 0.5em;
+      padding-left: 3px;
+      padding-right: 3px;
+      cursor: pointer;
+    }
+
+    .mountain-illustration {
+      margin-top: 20px;
+      margin-bottom: -20px;
+      width: 180%;
+      margin-left: -40%;
+    }
+    
+    .mountain-illustration img {
+      height: auto;
+    }
+    
+    @media (min-width: 768px) {
+      .mountain-illustration {
+        max-width: 1250px;
+        margin-left: auto;
+        width: 100%;
+      }
+    }
+
+    d-title {
+      padding-top: 0;
+    }
+    
+    d-title > h1:first-of-type {
+      margin-top: -20px;
+      position: relative;
+    }
+  </style>
+
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA99JREFUeNrsG4t1ozDMzQSM4A2ODUonKBucN2hugtIJ6E1AboLcBiQTkJsANiAb9OCd/OpzMWBJBl5TvaeXPiiyJetry0J8wW3D3QpjRh3GjneXDq+fSQA9s2mH9x3KDhN4foJfCb8N/Jrv+2fnDn8vLRQOplWHVYdvHZYdZsBcZP1vBmh/n8DzEmhUQDPaOuP9pFuY+JwJHwHnCLQE2tnWBGEyXozY9xCUgHMhhjE2I4heVWtgIkZ83wL6Qgxj1obfWBxymPwe+b00BCCRNPbwfb60yleAkkBHGT5AEehIYz7eJrFDMF9CvH4wwhcGHiHMneFvLDQwlwvMLQq58trRcYBWfYn0A0OgHWQUSu25mE+BnoYKnnEJoeIWAifzOv7vLWd2ZKRfWAIme3tOiUaQ3UnLkb0xj1FxRIeEGKaGIHOs9nEgLaaA9i0JRYo1Ic67wJW86KSKE/ZAM8KuVMk8ITVhmxUxJ3Cl2xlm9Vtkeju1+mpCQNxaEGNCY8bs9X2YqwNoQeGjBWut/ma0QAWy/TqAsHx9wSya3I5IRxOfTC+leG+kA/4vSeEcGBtNUN6byhu3+keEZCQJUNh8MAO7HL6H8pQLnsW/Hd4T4lv93TPjfM7A46iEEqbB5EDOvwYNW6tGNZzT/o+CZ6sqZ6wUtR/wf7mi/VL8iNciT6rHih48Y55b4nKCHJCCzb4y0nwFmin3ZEMIoLfZF8F7nncFmvnWBaBj7CGAYA/WGJsUwHdYqVDwAmNsUgAx4CGgAA7GOOxADYOFWOaIKifuVYzmOpREqA21Mo7aPsgiY1PhOMAmxtR+AUbYH3Id2wc0SAFIQTsn9IUGWR8k9jx3vtXSiAacFxTAGakBk9UudkNECd6jLe+6HrshshvIuC6IlLMRy7er+JpcKma24SlE4cFZSZJDGVVrsNvitQhQrDhW0jfiOLfFd47C42eHT56D/BK0To+58Ahj+cAT8HT1UWlfLZCCd/uKawzU0Rh2EyIX/Icqth3niG8ybNroezwe6khdCNxRN+l4XGdOLVLlOOt2hTRJlr1ETIuMAltVTMz70mJrkdGAaZLSmnBEqmAE32JCMmuTlCnRgsBENtOUpHhvvsYIL0ibnBkaC6QvKcR7738GKp0AKnim7xgUSNv1bpS8QwhBt8r+EP47v/oyRK/S34yJ9nT+AN0Tkm4OdB9E4BsmXM3SnMlRFUrtp6IDpV2eKzdYvF3etm3KhQksbOLChGkSmcBdmcEwvqkrMy5BzL00NZeu3qPYJOOuCc+5NjcWKXQxFvTa3NoXJ4d8in7fiAUuTt781dkvuHX4K8AA2Usy7yNKLy0AAAAASUVORK5CYII=">
+    <link href="https://distill.pub/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
+  
+    <title>Research Debt</title>
+    
+    <link rel="canonical" href="https://distill.pub/2017/research-debt">
+    
+    <!--  https://schema.org/Article -->
+    <meta property="description" itemprop="description" content="Science is a human activity. When we fail to distill and explain research, we accumulate a kind of debt...">
+    <meta property="article:published" itemprop="datePublished" content="2017-03-22">
+    <meta property="article:created" itemprop="dateCreated" content="2017-03-22">
+    
+    <meta property="article:modified" itemprop="dateModified" content="2018-05-22T18:08:59.000Z">
+    
+    <meta property="article:author" content="Chris Olah">
+    <meta property="article:author" content="Shan Carter">
+    <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Research Debt">
+    <meta property="og:description" content="Science is a human activity. When we fail to distill and explain research, we accumulate a kind of debt...">
+    <meta property="og:url" content="https://distill.pub/2017/research-debt">
+    <meta property="og:image" content="https://distill.pub/2017/research-debt/thumbnail.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Distill">
+  
+    <!--  https://dev.twitter.com/cards/types/summary -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Research Debt">
+    <meta name="twitter:description" content="Science is a human activity. When we fail to distill and explain research, we accumulate a kind of debt...">
+    <meta name="twitter:url" content="https://distill.pub/2017/research-debt">
+    <meta name="twitter:image" content="https://distill.pub/2017/research-debt/thumbnail.jpg">
+    <meta name="twitter:image:width" content="560">
+    <meta name="twitter:image:height" content="295">
+  
+      <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+    <meta name="citation_title" content="Research Debt">
+    <meta name="citation_fulltext_html_url" content="https://distill.pub/2017/research-debt">
+    <meta name="citation_volume" content="2">
+    <meta name="citation_issue" content="3">
+    <meta name="citation_firstpage" content="e5">
+    <meta name="citation_doi" content="10.23915/distill.00005">
+    <meta name="citation_journal_title" content="Distill">
+    <meta name="citation_journal_abbrev" content="Distill">
+    <meta name="citation_issn" content="2476-0757">
+    <meta name="citation_fulltext_world_readable" content="">
+    <meta name="citation_online_date" content="2017/03/22">
+    <meta name="citation_publication_date" content="2017/03/22">
+    <meta name="citation_author" content="Olah, Chris">
+    <meta name="citation_author_institution" content="Google Brain">
+    <meta name="citation_author" content="Carter, Shan">
+    <meta name="citation_author_institution" content="Google Brain">
+    <meta name="citation_reference" content="citation_title=The Tau Manifesto;citation_author=Michael Hartl;citation_publication_date=2013;">
+    <meta name="citation_reference" content="citation_title=Interpretive Labor;citation_author=Elizabeth Van Nostrand;citation_publication_date=2015;">
+    <meta name="citation_reference" content="citation_title=The utopia of rules: On technology, stupidity, and the secret joys of bureaucracy;citation_author=David Graeber;citation_publication_date=2015;">
+    <meta name="citation_reference" content="citation_title=The Mythical Man-Month;citation_author=Fred Brooks;citation_publication_date=1986;citation_journal_title=Tutorial;citation_volume=11;">
+    <meta name="citation_reference" content="citation_title=Visual Complex Analysis;citation_author=Tristan Needham;citation_publication_date=1998;">
+    <meta name="citation_reference" content="citation_title=Visual Group Theory;citation_author=Nathan Carter;citation_publication_date=2009;">
+    <meta name="citation_reference" content="citation_title=A visual explanation of Jensen's inequality;citation_author=Tristan Needham;citation_publication_date=1993;citation_journal_title=The American mathematical monthly;citation_volume=100;citation_number=8;">
+    <meta name="citation_reference" content="citation_title=Visual Differential Geometry;citation_author=Tristan Needham;citation_publication_date=Work In Progress;">
+    <meta name="citation_reference" content="citation_title=A Research Center for Augmenting Human Intellect;citation_author=Douglas C. Engelbart;citation_author=William K. English;citation_publication_date=1968;">
+    <meta name="citation_reference" content="citation_title=Personal Dynamic Media;citation_author=A. Kay;citation_author=A. Goldberg;citation_publication_date=1977;citation_journal_title=Computer;citation_volume=10;citation_number=3;">
+    <meta name="citation_reference" content="citation_title=Explorable explanations;citation_author=Bret Victor;citation_publication_date=2011;">
+    <meta name="citation_reference" content="citation_title=Visualizing Algorithms;citation_author=Mike Bostock;citation_publication_date=2014;">
+    <meta name="citation_reference" content="citation_title=How to Fold a Julia Fractal;citation_author=Steven Wittens;citation_publication_date=2013;">
+    <meta name="citation_reference" content="citation_title=Back to the Future of Handwriting Recognition;citation_author=Jack Schaedler;citation_publication_date=2016;">
+    <meta name="citation_reference" content="citation_title=Media for thinking the unthinkable;citation_author=Bret Victor;citation_publication_date=2013;">
+    <meta name="citation_reference" content="citation_title=Learnable programming;citation_author=Bret Victor;citation_publication_date=2012;">
+    <meta name="citation_reference" content="citation_title=Thought as a Technology;citation_author=Michael Nielsen;citation_publication_date=2016;">
+    <meta name="citation_reference" content="citation_title=Toward an Exploratory Medium for Mathematics;citation_author=Michael Nielsen;citation_publication_date=2016;">
+    <meta name="citation_reference" content="citation_title=On Proof and Progress in Mathematics;citation_author=William P Thurston;citation_publication_date=1998;citation_journal_title=New directions in the philosophy of mathematics;">
+    <meta name="citation_reference" content="citation_title=A beginner’s guide to forcing;citation_author=Timothy Y Chow;citation_publication_date=2009;citation_arxiv_id=0712.1320;">
+    <meta name="citation_reference" content="citation_title=Recoltes et Semailles;citation_author=Alexandre Grothendieck;citation_publication_date=1985;citation_journal_title=Reflexions et temoignage sur un passe de mathematicien;">
+    <meta name="citation_reference" content="citation_title=Statement on conceptual contributions in theory;citation_author=Scott Aaronson;citation_author=Allan Borodin;citation_author=Bernard Chazelle;citation_author=Oled Goldreich;citation_author=Shafi Goldwasser;citation_author=Richard Karp;citation_author=Michael Kearns;citation_author=Christos Papadimitriou;citation_author=Madhu Sudan;citation_author=Salil Vadhan;citation_publication_date=2008;citation_journal_title=Shtetl-Optimized;">
+</head>
+
+<body distill-prerendered="" class="vsc-initialized" data-new-gr-c-s-check-loaded="8.899.0" data-gr-ext-installed=""><distill-header distill-prerendered="">
+<style>
+distill-header {
+  position: relative;
+  height: 60px;
+  background-color: hsl(200, 60%, 15%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+distill-header .content {
+  height: 70px;
+  grid-column: page;
+}
+distill-header a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+distill-header a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+distill-header svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+@media(min-width: 1080px) {
+  distill-header {
+    height: 70px;
+  }
+  distill-header a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+  distill-header .logo {
+  }
+}
+distill-header svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+distill-header .logo {
+  font-size: 17px;
+  font-weight: 200;
+}
+distill-header .nav {
+  float: right;
+  font-weight: 300;
+}
+distill-header .nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+<div class="content">
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a>
+  <nav class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+  </nav>
+</div>
+</distill-header>
+  
+<d-front-matter><script type="text/json">{
+  "title": "Research Debt",
+  "description": "Science is a human activity. When we fail to distill and explain research, we accumulate a kind of debt...",
+  "authors": [
+    {
+      "author":"Chris Olah",
+      "authorURL":"https://colah.github.io/",
+      "affiliation":"Google Brain",
+      "affiliationURL":"https://g.co/brain"
+    },
+    {
+      "author":"Shan Carter",
+      "authorURL":"https://shancarter.com/",
+      "affiliation":"Google Brain",
+      "affiliationURL":"https://g.co/brain"
+    }
+  ]
+}</script></d-front-matter>
+  
+<d-title>
+  <figure style="grid-column: page;" class="mountain-illustration">
+    <img src="Research%20Debt_files/debt-mountain.jpg" width="2500px" height="1112px">
+  </figure>
+  <h1>Research Debt</h1>
+</d-title>
+
+
+<d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="https://colah.github.io/">Chris Olah</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://g.co/brain">Google Brain</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://shancarter.com/">Shan Carter</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://g.co/brain">Google Brain</a>
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>March 22, 2017</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p><a href="https://doi.org/10.23915/distill.00005">10.23915/distill.00005</a></p>
+    </div>
+  </div>
+</d-byline><d-article>
+  <style>
+    .mountain-illustration {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      width: 180%;
+      margin-left: -40%;
+    }
+    @media (min-width: 768px) {
+      .mountain-illustration {
+        max-width: 1200px;
+        margin-left: auto;
+        width: 100%;
+      }
+    }
+    dt-article > h1:first-of-type {
+      margin-top: 0;
+    }
+  </style>
+  
+
+
+  <p>Achieving a research-level understanding of most topics is like 
+climbing a mountain. Aspiring researchers must struggle to understand 
+vast bodies of work that came before them, to learn techniques, and to 
+gain intuition. Upon reaching the top, the new researcher begins doing 
+novel work, throwing new stones onto the top of the mountain and making 
+it a little taller for whoever comes next.
+
+  </p><p>Mathematics is a striking example of this. For centuries, 
+countless minds have climbed the mountain range of mathematics and laid 
+new boulders at the top. Over time, different peaks formed, built on top
+ of particularly beautiful results. Now the peaks of mathematics are so 
+numerous and steep that no person can climb them all. Even with a 
+lifetime of dedicated effort, a mathematician may only enjoy some of 
+their vistas.
+
+  </p><p>People expect the climb to be hard. It reflects the tremendous 
+progress and cumulative effort that’s gone into mathematics. The climb 
+is seen as an intellectual pilgrimage, the labor a rite of passage. But 
+the climb could be massively easier. It’s entirely possible to build 
+paths and staircases into these mountains.<d-footnote id="d-footnote-1">That is, really outstanding tutorials, reviews, textbooks, and so on.</d-footnote> The climb isn’t something to be proud of.
+
+  </p><p>The climb isn’t progress: the climb is a mountain of debt.
+
+  </p><h2>The Debt</h2>
+
+  <p>Programmers talk about technical debt: there are ways to write 
+software that are faster in the short run but problematic in the long 
+run. Managers talk about institutional debt: institutions can grow 
+quickly at the cost of bad practices creeping in. Both are easy to 
+accumulate but hard to get rid of.
+
+  </p><p>Research can also have debt. It comes in several forms:
+
+  </p><ul>
+
+  <li> <b>Poor Exposition</b> – Often, there is no good explanation of 
+important ideas and one has to struggle to understand them. This problem
+ is so pervasive that we take it for granted and don’t appreciate how 
+much better things could be.</li>
+
+  <!--Poor exposition is one of the most visible and pervasive forms of research debt (much like poor documentation in technical debt). Explanations of core ideas don’t exist or are hard to follow. The situation is often so bad that we don’t realize exposition could be much better: we accept rope ladders when we could make elevators.-->
+
+  <li> <b>Undigested Ideas</b> – Most ideas start off rough and hard to 
+understand. They become radically easier as we polish them, developing 
+the right analogies, language, and ways of thinking.</li>
+
+
+  <!--Often ideas start off very rough and hard to understand and become radically easier as we polish them, developing the right analogies, language, visualizations and abstractions. For example, at one point calculus was something that only geniuses could understand, but we now teach it in high school: something changed, and I don’t think it was us.<d-footnote>This form of debt seems particularly tragic, because I think people frequently have a much more digested version of the idea in their heads. Unfortunately, they don't communicate it except in personal conversations because it is often hard to communicate and fragile. (An additional challenge is that people often have intuitions they know aren’t 100% right, even though they are useful.) The result is that everyone needs to repolish the ideas for themselves, and the ideas aren’t progressively refined.</d-footnote>-->
+
+  <li> <b>Bad abstractions and notation</b> – Abstractions and notation 
+are the user interface of research, shaping how we think and 
+communicate. Unfortunately, we often get stuck with the first formalisms
+ to develop even when they’re bad.  For example, an object with extra 
+electrons is negative, and <d-cite key="hartl2013tau">pi is wrong</d-cite>.</li>
+
+  <!--* <b>Bad abstractions and notation</b> – Abstractions and notation are the user interface of research. When ideas first develop, formalisms develop with them, for communication and researchers’ own thoughts. These initial formalisms tend to be far from optimal but we often get stuck with them. For example, something with extra electrons negative, and pi is wrong.-->
+
+  <!--* <b>Bad definitions, abstractions, and notation</b> – Formalisms like abstractions and notation are the user interface of research. When ideas first develop, formalisms develop with them, for communication and researchers’ own thoughts. These initial formalisms are often far from the best possible ones. Better formalisms arise over time, from general refinement of ideas, deliberate work on the formalism, or opportunities in new media. Unfortunately, poor formalisms are extremely persistent, even once better ones are found.<d-footnote>One reason bad formalisms persist is that the switching costs are high, but there’s another, subtler reason. Becoming an expert in a field causes the formalisms to become part of you, in the same way language is. When one sees new formalisms, they often feel worse: you’re not fluent in the new notation, so it feels clunky, and you’ve learned to cope with any shortcomings of your familiar formalism that it fixes. Even genuine, significant improvements may seem minor or unimportant to an expert. Sadly, it’s the novice who faces the brunt of the cost.</d-footnote> For example: something with extra electrons is negative, pi is wrong, and topology is better defined in terms of closure.-->
+
+  <!--* <b>Unavailable Tools</b>  – Whether you are a student programming for the first time, or an expert trying to reproduce an experiment, being able to easily dive into topics and get your hands dirty is critical. Availability of tools makes it easier to learn because people can test their mental models.<d-footnote>Rapid feedback is a documentation all of its own, and quick results are an incredible motivation</d-footnote> It also facilitates the reproduction of results and the translation of research into application. Sadly, these tools are often not public, or the public versions are unusable.-->
+
+  <li> <b>Noise</b> – Being a researcher is like standing in the middle 
+of a construction site. Countless papers scream for your attention and 
+there’s no easy way to filter or summarize them.<d-footnote id="d-footnote-2">Because
+ most work is explained poorly, it takes a lot of energy to understand 
+each piece of work. For many papers, one wants a simple one sentence 
+explanation of it, but needs to fight with it to get that sentence. 
+Because the simplest way to get the attention of interested parties is 
+to get everyone’s attention, we get flooded with work. Because we 
+incentivize people being “prolific,” we get flooded with a lot of work…</d-footnote> We think noise is the main way experts experience research debt.</li>
+
+
+  <!--* <b>Noise</b> – If becoming a researcher is like climbing a mountain, being a researcher is often like standing in the middle of construction site: loud. When hundreds of papers are published each day, with no easy way to filter or summarize them, the energy needed to keep up with a field is too high.<d-footnote>Because most work is explained poorly, it takes a lot of energy to understand each piece of work. For many papers, I want a simple one sentence explanation of it, but need to fight with it to get that sentence. Because the simplest way to get the attention of interested parties is to get everyone’s attention, we get flooded with work. Because we incentivize people being “prolific,” we get flooded with a lot of work…</d-footnote> I think noise is the main way experts experience research debt.-->
+
+</ul>
+
+  <p>The insidious thing about research debt is that it’s normal. 
+Everyone takes it for granted, and doesn’t realize that things could be 
+different. For example, it’s normal to give very mediocre explanations 
+of research, and people perceive that to be the ceiling of explanation 
+quality. On the rare occasions that truly excellent explanations come 
+along, people see them as one-off miracles rather than a sign that we 
+could systematically be doing better.
+
+
+
+  <!--These problems arise from trading short term gains for long term costs, much like technical debt. However, research debt is different in two important ways. Firstly, it’s hard to see because it so incredibly pervasive. Secondly, the cost of the debt primarily falls on other people, especially newcomers, in the form of interpretive labor. -->
+
+  </p><h2>Interpretive Labor</h2>
+
+  <p>There’s a tradeoff between the energy put into explaining an idea, 
+and the energy needed to understand it. On one extreme, the explainer 
+can painstakingly craft a beautiful explanation, leading their audience 
+to understanding without even realizing it could have been difficult. On
+ the other extreme, the explainer can do the absolute minimum and 
+abandon their audience to struggle. This energy is called <a href="https://acesounderglass.com/2015/06/09/interpretive-labor/">interpretive labor</a> <d-cite key="nostrand2015interpretive,graeber2015utopia"></d-cite>.
+
+  </p><p>Many explanations are not one-to-one. People give lectures, 
+write books, or communicate online. In these one-to-many cases, each 
+member of the audience pays the cost of understanding, even though the 
+cost of explaining stays the same.<d-footnote id="d-footnote-3">More formally, if <i>N</i> people are trying to understand each other, it takes each one <i>O(1)</i> effort to write an explanation of their ideas but <i>O(N)</i> effort to understand each of the other <i>N-1</i> people’s ideas. The result is that energy cost looks like <i>O(a + bN)</i> where <i>a</i> and <i>b</i>
+ are coefficients for the trade off between energy on the explanation 
+side and energy on the understanding side. That is a is the energy spent
+ on explaining and b is the corresponding effort needed to understand. 
+This is similar to ideas in  <d-cite key="brooks1986mythical">The Mythical Man-Month</d-cite></d-footnote> As a result, the cost of understanding has a multiplier in the interpretive labor tradeoff — sometimes a huge multiplier.<d-footnote id="d-footnote-4">For
+ example, Christopher’s average blog post is read by over 100,000 
+people; if he can save each reader just one second, he’s saved humanity 
+30 hours.</d-footnote>
+
+  </p><figure class="l-body-outset" style="margin-top:0px; margin-bottom: 0px;">
+  <img src="Research%20Debt_files/publish-one-many-crop.jpg">
+  </figure>
+
+  <p>In research, we often have a group of researchers all trying to 
+understand each other. Just like before, the cost of explaining stays 
+constant as the group grows, but the cost of understanding increases 
+with each new member. At some size, the effort to understand everyone 
+else becomes too much. As a defense mechanism, people specialize, 
+focusing on a narrower area of interest. The maintainable size of the 
+field is controlled by how its members trade off the energy between 
+communicating and understanding.
+
+  <!--<p>Interpretive labor is most obviously linked to “poor exposition” component of technical debt, but I think the same mechanism is behind most of it. Thoughtfully picking notation and abstractions is interpretive labor, making it easier for others to understand and think. Polishing an idea, figuring out the right framing, analogies, and pictures is interpretive labor. Making your work easy to filter and quickly get the core idea of is interpretive labor.-->
+
+
+  </p><p>Research debt is the accumulation of missing interpretive 
+labor. It’s extremely natural for young ideas to go through a stage of 
+debt, like early prototypes in engineering. The problem is that we often
+ stop at that point. Young ideas aren’t ending points for us to put in a
+ paper and abandon. When we let things stop there the debt piles up. It 
+becomes harder to understand and build on each other’s work and the 
+field fragments.
+
+  </p><h2>Clear Thinking</h2>
+
+  <p>It’s worth being clear that research debt isn’t just about ideas 
+not being explained well. It’s a lack of digesting ideas – or, at least,
+ a lack of the public version of ideas being digested.<d-footnote id="d-footnote-5">Often,
+ some individuals have a much more developed version of an idea than is 
+publicly shared. There are a lot of reasons for not sharing it (in 
+particular, they’re often not traditionally publishable).</d-footnote> It’s a communal messiness of thought.
+
+  </p><p>Developing good abstractions, notations, visualizations, and so
+ forth, is improving the user interfaces for ideas. This helps both with
+ understanding ideas for the first time and with thinking clearly about 
+them. Conversely, if we can’t explain an idea well, that’s often a sign 
+that we don’t understand it as well as we could.
+
+  </p><p>It shouldn’t be that surprising that these two largely go hand 
+in hand. Part of thinking is having a conversation with ourselves.
+
+
+      <!--
+        Do we want to talk about clarity of thought?
+      -->
+
+  </p><h2>Research Distillation</h2>
+
+  <p>Research distillation is the opposite of research debt. It can be 
+incredibly satisfying, combining deep scientific understanding, empathy,
+ and design to do justice to our research and lay bare beautiful 
+insights.
+
+  </p><p>Distillation is also hard. It’s tempting to think of explaining
+ an idea as just putting a layer of polish on it, but good explanations 
+often involve transforming the idea. This kind of refinement of an idea 
+can take just as much effort and deep understanding as the initial 
+discovery.
+
+  </p><p>This leaves us with no easy way out. We can’t solve research 
+debt by having one person write a textbook: their energy is spread too 
+thin to polish every idea from scratch. We can’t outsource distillation 
+to less skilled non-experts: refining and explaining ideas requires 
+creativity and deep understanding, just as much as novel research.
+
+  </p><p>Research distillation doesn’t have to be you, but it does have to be us.
+
+  </p><h2>Where are the Distillers?</h2>
+
+  <p>Like the theoretician, the experimentalist or the research 
+engineer, the research distiller is an integral role for a healthy 
+research community. Right now, almost no one is filling it.
+
+  </p><p>Why do researchers not work on distillation? One possibility is
+ perverse incentives, like wanting your work to look difficult. Those 
+certainly exist, but we don’t think they’re the main factor.<d-footnote id="d-footnote-6">
+    There are a lot of perverse incentives that push against explaining 
+things well, sharing data, and so forth. This is especially true when 
+the work you are doing isn’t that interesting or isn’t reproducible and 
+you want to obscure that. Or if you have a lot of competitors and don’t 
+want them to catch up.<br>However, our experience is that most good 
+researchers don’t seem that motivated by these kind of factors. Instead,
+ the main issue is that it isn’t worthwhile for them to divert energy 
+from pursuing results to distill things. Perhaps things are different in
+ other fields, or I’m not cynical enough.</d-footnote>
+  Another possibility is that they don’t enjoy research distillation. Again, we don’t think that’s what’s going on.</p>
+
+  <p>Lots of people want to work on research distillation. 
+Unfortunately, it’s very difficult to do so, because we don’t support 
+them.<d-footnote id="d-footnote-7">There is a strange kind of informal 
+support for people working on research distillation. Christopher has 
+personally benefitted a great deal from this. But it’s unreliable and 
+not widely advertised, which makes it hard to build a career on.</d-footnote>
+
+  </p><p>An aspiring research distiller lacks many things  that are easy
+ to take for granted: a career path, places to learn, examples and role 
+models. Underlying this is a deeper issue: their work isn’t seen as a 
+real research contribution. We need to fix this.</p>
+
+
+
+  <h2>An Ecosystem for Distillation</h2>
+
+  <p>If you are excited to distill ideas, seek clarity, and build 
+beautiful explanations, we are letting you down. You have something 
+precious to contribute and we aren’t supporting you the way we should.
+
+  </p><p>The <a href="http://distill.pub/about">Distill Ecosystem</a> is an attempt to better support this kind of work. Right now, it has three parts:
+
+  </p><ul>
+    <li>The Distill Journal – A venue to give traditional validation to non-traditional contributions.</li>
+    <li>The Distill Prize – A $10,000 prize to acknowledge outstanding explanations of machine learning.</li>
+    <li>Distill Infrastructure – Tools for making beautiful interactive essays.</li>
+  </ul>
+
+  <p>This is just a start: there’s a lot more that needs to be done. A 
+complete ecosystem for this kind of work needs several other components,
+ including places where one can learn these skills and reliable sources 
+of employment doing this kind of work. We’re optimistic that will come 
+with time.
+
+    <!-- Double use of ecosystem feels strange -->
+
+    <!-- A publication gradient? -->
+
+    <!--
+        What are the stakes?
+         Who should clean up the debt?
+         What does research distillation look like?
+         How do I get started in research distillation?
+         Are researchers deliberatly opaque?
+     -->
+
+  </p><hr>
+  <h2>Further Reading</h2>
+  <figure style="grid-column: kicker; margin: 0 0 0 0;">
+    <img src="Research%20Debt_files/headstand.jpg" style="max-width: 200px;">
+  </figure>
+
+  <ul>
+
+    <li><b>Visual Mathematics:</b>
+
+        Several mathematicians have made remarkable efforts to visually explain certain topics. Needham’s tour-de-force <d-cite key="needham1998visual"><i>Visual Complex Analysis</i></d-cite>
+ is particularly striking, but there are several lovely examples of new 
+clarity being brought to a topic by visually reformulating it <d-cite key="carter2009visual,needham1993visual,needhamUnpublished"></d-cite> and, on a smaller scale, <a href="http://mathoverflow.net/questions/8846/proofs-without-words">a plethora of visual proofs</a>.
+  </li>
+  <li>
+    <p><b>Explorable Explanations:</b>
+
+    There’s a loose community exploring how the interactive medium 
+enabled by computers can be used to communicate and think in ways 
+previously impossible. These ideas start, as many ideas in computing do,
+ with work done by Douglas Engelbart<d-cite key="Engelbart:1968:RCA:1476589.1476645"></d-cite> and Alan Kay<d-cite key="Kay:1977:PDM:1300728.1301186"></d-cite>.</p>
+
+    <p>More recently, <a href="http://explorableexplanations.com/">Explorable Explanations</a> have started to reimagine what an essay can be in this new medium. This started with Bret Victor’s <d-cite key="victor2011explorable">foundational essay</d-cite> and has been further developed by amazing examples (eg. <d-cite key="bostock2014visualizing,wittens2013how,schaedler2016back"></d-cite>).
+
+    </p><p>There are also explorations of how we can augment our ability
+ to think in this new medium, bringing previously inaccessible ideas 
+within reach. Once again, Bret Victor has wonderful ideas <d-cite key="victor2013media,victor2012learnable"></d-cite>, as does Michael Nielsen <d-cite key="nielsen2016thought,nielsen2016towards"></d-cite>.
+    </p>
+
+  </li>
+  <li><b>Research Distribution:</b>
+
+    Over last few decades, there’s been a big push for research to be freely available online. This includes the formation of <a href="https://arxiv.org/">arXiv.org</a> and <a href="https://www.plos.org/">PLOS</a>, and <a href="http://oad.simmons.edu/oadwiki/Journal_declarations_of_independence">journal editorial boards resigning</a> to start open-access journals.
+
+     <p>Increasingly, the challenge is filtering accessible content. Karpathy’s <a href="http://www.arxiv-sanity.com/">ArXiv Sanity</a> is a lovely tool for this. Crowd curation by online communities also helps a great deal.</p>
+  </li>
+
+  <li> <b>Open-Notebook Science:</b>
+    Open notebook science, like Dror Bar-Natan’s <a href="http://drorbn.net/AcademicPensieve/">Academic Pensieve</a>, and  massively-collaborative research projects like the <a href="https://polymathprojects.org/">Polymath Project</a>, separate the sharing of results from formal publishing.
+    <p>This seems really important. Traditionally, if one doesn’t turn 
+research into a paper, it’s basically as though you didn’t do it. This 
+creates a strong incentive for all research to be dressed up as an 
+important paper, increasing noise. </p>
+
+    <!--
+      By separating the sharing of results from the formal publishing, open science changes publishing vs not-publishing from being binary to a continuous spectrum.
+     -->
+  </li>
+
+  <li> <b>Discussion of Debt and Distillation:</b>
+    A number of mathematicians have discussed what we call research 
+distillation. Some great comments and references are collected in this <a href="http://mathoverflow.net/questions/43690/whats-a-mathematician-to-do">MathOverflow thread</a> —
+ I’d draw particular attention to Thurston’s account of accidentally 
+killing a field by drowning it in research debt in section 6 of <d-cite key="thurston1998proof"></d-cite>.
+    
+    <p>Other nice thoughts in this space include the idea of an “open exposition problem” <d-cite key="chow2009beginner"></d-cite>, Grothendieck’s “rising sea” approach to mathematics <d-cite key="grothendieck1985recoltes"></d-cite>, and recent calls to value conceptual progress in CS more <d-cite key="aaronson2008statement"></d-cite>.</p>
+  </li>
+  </ul>
+
+</d-article>
+<d-appendix class="centered">
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+  <h3>Acknowledgments</h3>
+  <p>We’re extremely grateful for the advice and assistance of Jennifer Daniel in illustrating this article. </p>
+  <p>This essay has greatly benefitted from the comments of many people,
+ including: Dandelion Mané, Emma Pierson, Michael Nielsen, Cassandra 
+Xia, Geoffrey Irving, Elizabeth Van Nostrand, Maithra Raghu, Greg 
+Brockman, Hannah Davis, Devon Zuegel, Wojciech Zaremba, Vikas Sindhwani,
+ Pierre Sermanet, Mike Schuster, George Dahl, Jascha Sohl-dickstein, 
+Adam Roberts, Greg Corrado, Samy Bengio, Yomna Nasser, Katherine Ye, 
+Dave Rushton-Smith, Martin Wattenberg, Fernanda Viegas, Eric Breck,	
+Aaron Courville. </p>
+
+  <h3>Author Contributions</h3>
+  <p>This essay was primarily written by Chris Olah and illustrated by Shan Carter.</p>
+<d-footnote-list style="">
+<style>
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+</style>
+
+<h3>Footnotes</h3>
+<ol><li id="d-footnote-1-listing">That is, really outstanding tutorials, reviews, textbooks, and so on.<a class="footnote-backlink" href="#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing">Because
+ most work is explained poorly, it takes a lot of energy to understand 
+each piece of work. For many papers, one wants a simple one sentence 
+explanation of it, but needs to fight with it to get that sentence. 
+Because the simplest way to get the attention of interested parties is 
+to get everyone’s attention, we get flooded with work. Because we 
+incentivize people being “prolific,” we get flooded with a lot of work…<a class="footnote-backlink" href="#d-footnote-2">[↩]</a></li><li id="d-footnote-3-listing">More formally, if <i>N</i> people are trying to understand each other, it takes each one <i>O(1)</i> effort to write an explanation of their ideas but <i>O(N)</i> effort to understand each of the other <i>N-1</i> people’s ideas. The result is that energy cost looks like <i>O(a + bN)</i> where <i>a</i> and <i>b</i>
+ are coefficients for the trade off between energy on the explanation 
+side and energy on the understanding side. That is a is the energy spent
+ on explaining and b is the corresponding effort needed to understand. 
+This is similar to ideas in  <d-cite key="brooks1986mythical">The Mythical Man-Month</d-cite><a class="footnote-backlink" href="#d-footnote-3">[↩]</a></li><li id="d-footnote-4-listing">For
+ example, Christopher’s average blog post is read by over 100,000 
+people; if he can save each reader just one second, he’s saved humanity 
+30 hours.<a class="footnote-backlink" href="#d-footnote-4">[↩]</a></li><li id="d-footnote-5-listing">Often,
+ some individuals have a much more developed version of an idea than is 
+publicly shared. There are a lot of reasons for not sharing it (in 
+particular, they’re often not traditionally publishable).<a class="footnote-backlink" href="#d-footnote-5">[↩]</a></li><li id="d-footnote-6-listing">
+    There are a lot of perverse incentives that push against explaining 
+things well, sharing data, and so forth. This is especially true when 
+the work you are doing isn’t that interesting or isn’t reproducible and 
+you want to obscure that. Or if you have a lot of competitors and don’t 
+want them to catch up.<br>However, our experience is that most good 
+researchers don’t seem that motivated by these kind of factors. Instead,
+ the main issue is that it isn’t worthwhile for them to divert energy 
+from pursuing results to distill things. Perhaps things are different in
+ other fields, or I’m not cynical enough.<a class="footnote-backlink" href="#d-footnote-6">[↩]</a></li><li id="d-footnote-7-listing">There
+ is a strange kind of informal support for people working on research 
+distillation. Christopher has personally benefitted a great deal from 
+this. But it’s unreliable and not widely advertised, which makes it hard
+ to build a career on.<a class="footnote-backlink" href="#d-footnote-7">[↩]</a></li></ol>
+</d-footnote-list><d-citation-list distill-prerendered="true"><style>
+d-citation-list {
+  contain: style;
+}
+
+d-citation-list .references {
+  grid-column: text;
+}
+
+d-citation-list .references .title {
+  font-weight: 500;
+}
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="hartl2013tau"><span class="title">The Tau Manifesto</span>   <a href="http://tauday.com/">[link]</a><br>Hartl, M., 2013. </li><li id="nostrand2015interpretive"><span class="title">Interpretive Labor</span>   <a href="https://acesounderglass.com/2015/06/09/interpretive-labor/">[link]</a><br>Van Nostrand, E., 2015. </li><li id="graeber2015utopia"><span class="title">The utopia of rules: On technology, stupidity, and the secret joys of bureaucracy</span> <br>Graeber, D., 2015. Melville House.</li><li id="brooks1986mythical"><span class="title">The Mythical Man-Month</span> <br>Brooks, F., 1986. Tutorial, Vol 11, pp. 35--42. </li><li id="needham1998visual"><span class="title">Visual Complex Analysis</span> <br>Needham, T., 1998. Oxford University Press.</li><li id="carter2009visual"><span class="title">Visual Group Theory</span> <br>Carter, N., 2009. MAA.</li><li id="needham1993visual"><span class="title">A visual explanation of Jensen's inequality</span> <br>Needham, T., 1993. The American mathematical monthly, Vol 100(8), pp. 768--771. JSTOR. <a href="https://doi.org/10.2307/2324783" style="text-decoration:inherit;">DOI: 10.2307/2324783</a></li><li id="needhamUnpublished"><span class="title">Visual Differential Geometry</span> <br>Needham, T., Work In Progress. </li><li id="Engelbart:1968:RCA:1476589.1476645"><span class="title">A Research Center for Augmenting Human Intellect</span>   <a href="http://doi.acm.org/10.1145/1476589.1476645">[link]</a><br>Engelbart,
+ D.C. and English, W.K., 1968. Proceedings of the December 9-11, 1968, 
+Fall Joint Computer Conference, Part I, pp. 395--410. ACM. <a href="https://doi.org/10.1145/1476589.1476645" style="text-decoration:inherit;">DOI: 10.1145/1476589.1476645</a></li><li id="Kay:1977:PDM:1300728.1301186"><span class="title">Personal Dynamic Media</span>   <a href="http://dx.doi.org/10.1109/C-M.1977.217672">[link]</a><br>Kay, A. and Goldberg, A., 1977. Computer, Vol 10(3), pp. 31--41. IEEE Computer Society Press. <a href="https://doi.org/10.1109/C-M.1977.217672" style="text-decoration:inherit;">DOI: 10.1109/C-M.1977.217672</a></li><li id="victor2011explorable"><span class="title">Explorable explanations</span>   <a href="http://worrydream.com/ExplorableExplanations/">[link]</a><br>Victor, B., 2011. </li><li id="bostock2014visualizing"><span class="title">Visualizing Algorithms</span>   <a href="https://bost.ocks.org/mike/algorithms/">[link]</a><br>Bostock, M., 2014. </li><li id="wittens2013how"><span class="title">How to Fold a Julia Fractal</span>   <a href="http://acko.net/blog/how-to-fold-a-julia-fractal/">[link]</a><br>Wittens, S., 2013. </li><li id="schaedler2016back"><span class="title">Back to the Future of Handwriting Recognition</span>   <a href="http://jackschaedler.github.io/handwriting-recognition/">[link]</a><br>Schaedler, J., 2016. </li><li id="victor2013media"><span class="title">Media for thinking the unthinkable</span>   <a href="http://worrydream.com/MediaForThinkingTheUnthinkable/">[link]</a><br>Victor, B., 2013. </li><li id="victor2012learnable"><span class="title">Learnable programming</span>   <a href="http://worrydream.com/LearnableProgramming/">[link]</a><br>Victor, B., 2012. </li><li id="nielsen2016thought"><span class="title">Thought as a Technology</span>   <a href="http://cognitivemedium.com/tat/index.html">[HTML]</a><br>Nielsen, M., 2016. </li><li id="nielsen2016towards"><span class="title">Toward an Exploratory Medium for Mathematics</span>   <a href="http://cognitivemedium.com/emm/emm.html">[HTML]</a><br>Nielsen, M., 2016. </li><li id="thurston1998proof"><span class="title">On Proof and Progress in Mathematics</span>   <a href="https://arxiv.org/pdf/math/9404236v1.pdf">[PDF]</a><br>Thurston, W.P., 1998. New directions in the philosophy of mathematics, pp. 337--55. </li><li id="chow2009beginner"><span class="title">A beginner’s guide to forcing</span>   <a href="https://arxiv.org/pdf/0712.1320.pdf">[PDF]</a><br>Chow, T.Y., 2009. Communicating mathematics, Vol 479, pp. 25--40. American Mathematical Soc.</li><li id="grothendieck1985recoltes"><span class="title">Recoltes et Semailles</span> <br>Grothendieck, A., 1985. Reflexions et temoignage sur un passe de mathematicien, pp. 621. </li><li id="aaronson2008statement"><span class="title">Statement on conceptual contributions in theory</span>   <a href="http://www.scottaaronson.com/blog/?p=315">[link]</a><br>Aaronson,
+ S., Borodin, A., Chazelle, B., Goldreich, O., Goldwasser, S., Karp, R.,
+ Kearns, M., Papadimitriou, C., Sudan, M. and Vadhan, S., 2008. 
+Shtetl-Optimized. </li></ol></d-citation-list><distill-appendix>
+<style>
+  distill-appendix {
+    contain: layout style;
+  }
+
+  distill-appendix .citation {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  distill-appendix > * {
+    grid-column: text;
+  }
+</style>
+
+    <h3 id="updates-and-corrections">Updates and Corrections</h3>
+    <p><a href="https://github.com/distillpub/post--research-debt/compare/1a67729cbd182036957ded8cd71565c8bc7ab5bb...7b8c8c19cd732a2cdd8266074f841559e0140b58">View all changes</a> to this article since it was first published.
+    If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--research-debt/issues/new">create an issue on GitHub</a>. </p>
+    
+    <h3 id="reuse">Reuse</h3>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--research-debt">source available on GitHub</a>,
+ unless noted otherwise. The figures that have been reused from other 
+sources don’t fall under this license and can be recognized by a note in
+ their caption: “Figure from …”.</p>
+    
+    <h3 id="citation">Citation</h3>
+    <p>For attribution in academic contexts, please cite this work as</p>
+    <pre class="citation short">Olah &amp; Carter, "Research Debt", Distill, 2017.</pre>
+    <p>BibTeX citation</p>
+    <pre class="citation long">@article{olah2017research,
+  author = {Olah, Chris and Carter, Shan},
+  title = {Research Debt},
+  journal = {Distill},
+  year = {2017},
+  note = {https://distill.pub/2017/research-debt},
+  doi = {10.23915/distill.00005}
+}</pre>
+    </distill-appendix></d-appendix>
+
+<d-bibliography><script type="text/json">[["needham1998visual",{"title":"Visual Complex Analysis","author":"Needham, Tristan","year":"1998","publisher":"Oxford University Press","type":"book"}],["needhamUnpublished",{"title":"Visual Differential Geometry","author":"Needham, Tristan","year":"Work In Progress","type":"book"}],["nielsen2016thought",{"title":"Thought as a Technology","author":"Nielsen, Michael","year":"2016","url":"http://cognitivemedium.com/tat/index.html","type":"misc"}],["nielsen2016towards",{"title":"Toward an Exploratory Medium for Mathematics","author":"Nielsen, Michael","year":"2016","url":"http://cognitivemedium.com/emm/emm.html","type":"misc"}],["thurston1998proof",{"title":"On Proof and Progress in Mathematics","author":"Thurston, William P","journal":"New directions in the philosophy of mathematics","pages":"337--55","year":"1998","url":"https://arxiv.org/pdf/math/9404236v1.pdf","type":"article"}],["carter2009visual",{"title":"Visual Group Theory","author":"Carter, Nathan","year":"2009","publisher":"MAA","type":"book"}],["brooks1986mythical",{"title":"The Mythical Man-Month","author":"Brooks, Fred","journal":"Tutorial","volume":"11","pages":"35--42","year":"1986","type":"article"}],["victor2011explorable",{"title":"Explorable explanations","author":"Victor, Bret","year":"2011","url":"http://worrydream.com/ExplorableExplanations/","type":"misc"}],["victor2012learnable",{"title":"Learnable programming","author":"Victor, Bret","year":"2012","url":"http://worrydream.com/LearnableProgramming/","type":"misc"}],["victor2013media",{"title":"Media for thinking the unthinkable","author":"Victor, Bret","year":"2013","url":"http://worrydream.com/MediaForThinkingTheUnthinkable/","type":"misc"}],["hartl2013tau",{"title":"The Tau Manifesto","author":"Hartl, Michael","year":"2013","url":"http://tauday.com","type":"misc"}],["bostock2014visualizing",{"title":"Visualizing Algorithms","author":"Bostock, Mike","year":"2014","url":"https://bost.ocks.org/mike/algorithms/","type":"misc"}],["wittens2013how",{"title":"How to Fold a Julia Fractal","year":"2013","author":"Wittens, Steven","url":"http://acko.net/blog/how-to-fold-a-julia-fractal/","type":"misc"}],["schaedler2016back",{"title":"Back to the Future of Handwriting Recognition","author":"Schaedler, Jack","year":"2016","url":"http://jackschaedler.github.io/handwriting-recognition/","type":"misc"}],["nostrand2015interpretive",{"title":"Interpretive Labor","author":"Van Nostrand, Elizabeth","year":"2015","url":"https://acesounderglass.com/2015/06/09/interpretive-labor/","type":"misc"}],["needham1993visual",{"title":"A visual explanation of Jensen's inequality","author":"Needham, Tristan","journal":"The American mathematical monthly","volume":"100","number":"8","pages":"768--771","year":"1993","publisher":"JSTOR","doi":"10.2307/2324783","type":"article"}],["graeber2015utopia",{"title":"The utopia of rules: On technology, stupidity, and the secret joys of bureaucracy","author":"Graeber, David","year":"2015","publisher":"Melville House","type":"book"}],["Kay:1977:PDM:1300728.1301186",{"author":"Kay, A. and Goldberg, A.","title":"Personal Dynamic Media","journal":"Computer","issue_date":"March 1977","volume":"10","number":"3","month":"mar","year":"1977","issn":"0018-9162","pages":"31--41","numpages":"11","url":"http://dx.doi.org/10.1109/C-M.1977.217672","doi":"10.1109/C-M.1977.217672","acmid":"1301186","publisher":"IEEE Computer Society Press","address":"Los Alamitos, CA, USA","type":"article"}],["Engelbart:1968:RCA:1476589.1476645",{"author":"Engelbart, Douglas C. and English, William K.","title":"A Research Center for Augmenting Human Intellect","booktitle":"Proceedings of the December 9-11, 1968, Fall Joint Computer Conference, Part I","series":"AFIPS '68 (Fall, part I)","year":"1968","location":"San Francisco, California","pages":"395--410","numpages":"16","url":"http://doi.acm.org/10.1145/1476589.1476645","doi":"10.1145/1476589.1476645","acmid":"1476645","publisher":"ACM","address":"New York, NY, USA","type":"inproceedings"}],["chow2009beginner",{"title":"A beginner’s guide to forcing","author":"Chow, Timothy Y","journal":"Communicating mathematics","volume":"479","pages":"25--40","year":"2009","publisher":"American Mathematical Soc.","url":"https://arxiv.org/pdf/0712.1320.pdf","type":"article"}],["aaronson2008statement",{"title":"Statement on conceptual contributions in theory","author":"Aaronson, Scott and Borodin, Allan and Chazelle, Bernard and Goldreich, Oled and Goldwasser, Shafi and Karp, Richard and Kearns, Michael and Papadimitriou, Christos and Sudan, Madhu and Vadhan, Salil","journal":"Shtetl-Optimized","year":"2008","url":"http://www.scottaaronson.com/blog/?p=315","type":"article"}],["grothendieck1985recoltes",{"title":"Recoltes et Semailles","author":"Grothendieck, Alexandre","journal":"Reflexions et temoignage sur un passe de mathematicien","pages":"621","year":"1985","type":"article"}]]</script></d-bibliography>
+
+
+
+<distill-footer>
+<style>
+
+:host {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: hsl(180, 5%, 15%); /*hsl(200, 60%, 15%);*/
+  text-align: left;
+  contain: content;
+}
+
+.footer-container .logo svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+
+.footer-container .logo svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+
+.footer-container .logo {
+  font-size: 17px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+.footer-container {
+  grid-column: text;
+}
+
+.footer-container .nav {
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.footer-container .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 6px;
+  text-decoration: none;
+}
+
+</style>
+
+<div class="footer-container">
+
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a> is dedicated to clear explanations of machine learning
+
+  <div class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/archive/">Archive</a>
+    <a href="https://distill.pub/rss.xml">RSS</a>
+    <a href="https://github.com/distillpub">GitHub</a>
+    <a href="https://twitter.com/distillpub">Twitter</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; ISSN 2476-0757
+  </div>
+
+</div>
+
+</distill-footer><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83741880-1', 'auto');
+  ga('send', 'pageview');
+</script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

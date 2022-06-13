@@ -1,3 +1,22 @@
+tmp
+tmp2
+*.tar.gz
+*.tar
+done/
+errored/
+fallback_needed/
+files/
+out/
+outtxt/
+*.pkl
+*.tex
+error_log.txt
+align_data/lesswrong/urls
+grobid-0.7.1/
+pdf_only/
+grobid_conversion/
+0.7.1.zip
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

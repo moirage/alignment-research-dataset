@@ -89,8 +89,11 @@ class MediumBlog(templates.Dataset):
             return [], relativedelta(years=1)
 
     def _get_entries_from_archive(self, response):
-        soup = BeautifulSoup(response.content, 'html.parser')
-        articles = soup.find_all("div", class_="postArticle postArticle--short js-postArticle js-trackPostPresentation js-trackPostScrolls")
+        soup = BeautifulSoup(response.content, "html.parser")
+        articles = soup.find_all(
+            "div",
+            class_="postArticle postArticle--short js-postArticle js-trackPostPresentation js-trackPostScrolls",
+        )
 
         for article in articles:
             if self.is_first:
@@ -103,8 +106,8 @@ class MediumBlog(templates.Dataset):
                 continue
             title = title.contents[0]
             subtitle = article.find("h4", class_="graf--subtitle")
-            subtitle = subtitle.contents[0] if subtitle is not None else ''
-            article_url = article.find_all("a")[3]['href'].split('?')[0]
+            subtitle = subtitle.contents[0] if subtitle is not None else ""
+            article_url = article.find_all("a")[3]["href"].split("?")[0]
 
             content = self._get_article(article_url)
             text = self.cleaner.clean(content)
@@ -113,14 +116,16 @@ class MediumBlog(templates.Dataset):
                 "content": content,
                 "text": text,
                 "metadata": {
-                    "article_url": article_url,
+                    "source_url": self.url,
+                    "url": article_url,
+                    "source_type": "medium_blog",
                     "title": self._to_text(title),
                     "subtitle": self._to_text(subtitle),
                 }
             }
 
     def _get_entries_from_main(self, response):
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(response.content, "html.parser")
         articles = soup.find_all("article")
 
         for article in articles:
@@ -134,14 +139,16 @@ class MediumBlog(templates.Dataset):
                 continue
             title = title.contents[0]
 
-            article_url = article.find_all("a")[0]['href'].split('?')[0]
+            article_url = article.find_all("a")[0]["href"].split("?")[0]
             article_url = urljoin(self.url, article_url)
 
             content = self._get_article(article_url)
             text = self.cleaner.clean(content)
 
             yield {
-                "article_url": article_url,
+                "source": self.url,
+                "source_type": "medium_blog",
+                "url": article_url,
                 "title": self._to_text(title),
                 "content": content,
                 "text": text,
@@ -150,13 +157,13 @@ class MediumBlog(templates.Dataset):
     def _get_article(self, url):
         logger.info("Fetching {}".format(url))
         article = requests.get(url, allow_redirects=True)
-        article_soup = BeautifulSoup(article.text, 'html.parser')
+        article_soup = BeautifulSoup(article.text, "html.parser")
 
-        sections = article_soup.find_all('section')
+        sections = article_soup.find_all("section")
         blocks = []
 
         for section in sections:
-            for block in section.find_all(['h1', 'h2', 'h3', 'p']):
+            for block in section.find_all(["h1", "h2", "h3", "p"]):
                 blocks.append(block.text)
 
         return "\n\n".join(blocks)

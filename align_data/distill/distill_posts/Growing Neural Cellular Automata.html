@@ -1,0 +1,2953 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="Growing%20Neural%20Cellular%20Automata_files/template.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="Growing%20Neural%20Cellular%20Automata_files/analytics.js"></script><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="Growing%20Neural%20Cellular%20Automata_files/webcomponents-loader.js"></script><script src="Growing%20Neural%20Cellular%20Automata_files/webcomponents-hi.js"></script>
+  
+  
+  <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+  <style></style>
+  <script src="Growing%20Neural%20Cellular%20Automata_files/twgl.js"></script>
+  <script type="module" src="Growing%20Neural%20Cellular%20Automata_files/ca.js"></script>
+  <script type="module" src="Growing%20Neural%20Cellular%20Automata_files/demo.js"></script>
+<link rel="stylesheet" href="Growing%20Neural%20Cellular%20Automata_files/katex.css" crossorigin="anonymous">
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA99JREFUeNrsG4t1ozDMzQSM4A2ODUonKBucN2hugtIJ6E1AboLcBiQTkJsANiAb9OCd/OpzMWBJBl5TvaeXPiiyJetry0J8wW3D3QpjRh3GjneXDq+fSQA9s2mH9x3KDhN4foJfCb8N/Jrv+2fnDn8vLRQOplWHVYdvHZYdZsBcZP1vBmh/n8DzEmhUQDPaOuP9pFuY+JwJHwHnCLQE2tnWBGEyXozY9xCUgHMhhjE2I4heVWtgIkZ83wL6Qgxj1obfWBxymPwe+b00BCCRNPbwfb60yleAkkBHGT5AEehIYz7eJrFDMF9CvH4wwhcGHiHMneFvLDQwlwvMLQq58trRcYBWfYn0A0OgHWQUSu25mE+BnoYKnnEJoeIWAifzOv7vLWd2ZKRfWAIme3tOiUaQ3UnLkb0xj1FxRIeEGKaGIHOs9nEgLaaA9i0JRYo1Ic67wJW86KSKE/ZAM8KuVMk8ITVhmxUxJ3Cl2xlm9Vtkeju1+mpCQNxaEGNCY8bs9X2YqwNoQeGjBWut/ma0QAWy/TqAsHx9wSya3I5IRxOfTC+leG+kA/4vSeEcGBtNUN6byhu3+keEZCQJUNh8MAO7HL6H8pQLnsW/Hd4T4lv93TPjfM7A46iEEqbB5EDOvwYNW6tGNZzT/o+CZ6sqZ6wUtR/wf7mi/VL8iNciT6rHih48Y55b4nKCHJCCzb4y0nwFmin3ZEMIoLfZF8F7nncFmvnWBaBj7CGAYA/WGJsUwHdYqVDwAmNsUgAx4CGgAA7GOOxADYOFWOaIKifuVYzmOpREqA21Mo7aPsgiY1PhOMAmxtR+AUbYH3Id2wc0SAFIQTsn9IUGWR8k9jx3vtXSiAacFxTAGakBk9UudkNECd6jLe+6HrshshvIuC6IlLMRy7er+JpcKma24SlE4cFZSZJDGVVrsNvitQhQrDhW0jfiOLfFd47C42eHT56D/BK0To+58Ahj+cAT8HT1UWlfLZCCd/uKawzU0Rh2EyIX/Icqth3niG8ybNroezwe6khdCNxRN+l4XGdOLVLlOOt2hTRJlr1ETIuMAltVTMz70mJrkdGAaZLSmnBEqmAE32JCMmuTlCnRgsBENtOUpHhvvsYIL0ibnBkaC6QvKcR7738GKp0AKnim7xgUSNv1bpS8QwhBt8r+EP47v/oyRK/S34yJ9nT+AN0Tkm4OdB9E4BsmXM3SnMlRFUrtp6IDpV2eKzdYvF3etm3KhQksbOLChGkSmcBdmcEwvqkrMy5BzL00NZeu3qPYJOOuCc+5NjcWKXQxFvTa3NoXJ4d8in7fiAUuTt781dkvuHX4K8AA2Usy7yNKLy0AAAAASUVORK5CYII=">
+    <link href="https://distill.pub/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
+  
+    <title>Growing Neural Cellular Automata</title>
+    
+    <link rel="canonical" href="https://distill.pub/2020/growing-ca">
+    
+    <!--  https://schema.org/Article -->
+    <meta property="description" itemprop="description" content="Training an end-to-end differentiable, self-organising cellular automata model of morphogenesis, able to both grow and regenerate specific patterns.">
+    <meta property="article:published" itemprop="datePublished" content="2020-02-11">
+    <meta property="article:created" itemprop="dateCreated" content="2020-02-11">
+    
+    <meta property="article:modified" itemprop="dateModified" content="2020-08-27T04:52:49.000Z">
+    
+    <meta property="article:author" content="Alexander Mordvintsev">
+    <meta property="article:author" content="Ettore Randazzo">
+    <meta property="article:author" content="Eyvind Niklasson">
+    <meta property="article:author" content="Michael Levin">
+    <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Growing Neural Cellular Automata">
+    <meta property="og:description" content="Training an end-to-end differentiable, self-organising cellular automata model of morphogenesis, able to both grow and regenerate specific patterns.">
+    <meta property="og:url" content="https://distill.pub/2020/growing-ca">
+    <meta property="og:image" content="https://distill.pub/2020/growing-ca/thumbnail.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Distill">
+  
+    <!--  https://dev.twitter.com/cards/types/summary -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Growing Neural Cellular Automata">
+    <meta name="twitter:description" content="Training an end-to-end differentiable, self-organising cellular automata model of morphogenesis, able to both grow and regenerate specific patterns.">
+    <meta name="twitter:url" content="https://distill.pub/2020/growing-ca">
+    <meta name="twitter:image" content="https://distill.pub/2020/growing-ca/thumbnail.jpg">
+    <meta name="twitter:image:width" content="560">
+    <meta name="twitter:image:height" content="295">
+  
+      <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+    <meta name="citation_title" content="Growing Neural Cellular Automata">
+    <meta name="citation_fulltext_html_url" content="https://distill.pub/2020/growing-ca">
+    <meta name="citation_volume" content="5">
+    <meta name="citation_issue" content="2">
+    <meta name="citation_firstpage" content="e23">
+    <meta name="citation_doi" content="10.23915/distill.00023">
+    <meta name="citation_journal_title" content="Distill">
+    <meta name="citation_journal_abbrev" content="Distill">
+    <meta name="citation_issn" content="2476-0757">
+    <meta name="citation_fulltext_world_readable" content="">
+    <meta name="citation_online_date" content="2020/02/11">
+    <meta name="citation_publication_date" content="2020/02/11">
+    <meta name="citation_author" content="Mordvintsev, Alexander">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Randazzo, Ettore">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Niklasson, Eyvind">
+    <meta name="citation_author_institution" content="Google">
+    <meta name="citation_author" content="Levin, Michael">
+    <meta name="citation_author_institution" content="Allen Discovery Center at Tufts University">
+    <meta name="citation_reference" content="citation_title=Top-down models in biology: explanation and control of complex living systems above the molecular level;citation_author=Giovanni Pezzulo;citation_author=Michael Levin;citation_publication_date=2016;citation_journal_title=Journal of The Royal Society Interface;citation_volume=13;citation_number=124;">
+    <meta name="citation_reference" content="citation_title=Re-membering the body: applications of computational neuroscience to the top-down control of regeneration of limbs and other complex organs;citation_author=G. Pezzulo;citation_author=M. Levin;citation_publication_date=2015;citation_journal_title=Integr. Biol.;citation_volume=7;citation_number=12;">
+    <meta name="citation_reference" content="citation_title=Transmembrane voltage potential controls embryonic eye patterning in Xenopus laevis;citation_author=Vaibhav P. Pai;citation_author=Sherry Aw;citation_author=Tal Shomrat;citation_author=Joan M. Lemire;citation_author=Michael Levin;citation_publication_date=2012;citation_journal_title=Development;citation_volume=139;citation_number=2;">
+    <meta name="citation_reference" content="citation_title=Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks;citation_author=Tim Salimans;citation_author=Diederik P. Kingma;citation_publication_date=2016;citation_arxiv_id=1602.07868;">
+    <meta name="citation_reference" content="citation_title=The chemical basis of morphogenesis;citation_author=Alan Mathison Turing;citation_publication_date=1990;citation_journal_title=Bulletin of mathematical biology;citation_volume=52;citation_number=1-2;">
+    <meta name="citation_reference" content="citation_title=Complex Patterns in a Simple System;citation_author=John E. Pearson;citation_publication_date=1993;citation_journal_title=Science;citation_volume=261;citation_number=5118;">
+    <meta name="citation_reference" content="citation_title=Theory of Self-Reproducing Automata;citation_author=John Von Neumann;citation_author=Arthur W. Burks;citation_publication_date=1966;">
+    <meta name="citation_reference" content="citation_title=MATHEMATICAL GAMES;citation_author=Martin Gardner;citation_publication_date=1970;citation_journal_title=Scientific American;citation_volume=223;citation_number=4;">
+    <meta name="citation_reference" content="citation_title=A New Kind of Science;citation_author=Stephen Wolfram;citation_publication_date=2002;">
+    <meta name="citation_reference" content="citation_title=Generalization of Conway's &quot;Game of Life&quot; to a continuous domain - SmoothLife;citation_author=Stephan Rafler;citation_publication_date=2011;">
+    <meta name="citation_reference" content="citation_title=Lenia: Biology of Artificial Life;citation_author=Bert Wang-Chak Chan;citation_publication_date=2019;citation_journal_title=Complex Systems;citation_volume=28;citation_number=3;">
+    <meta name="citation_reference" content="citation_title=Intrinsically Motivated Exploration for Automated Discovery of Patterns in Morphogenetic Systems;citation_author=Chris Reinke;citation_author=Mayalen Etcheverry;citation_author=Pierre-Yves Oudeyer;citation_publication_date=2019;citation_journal_title=ArXiv;citation_volume=abs/1908.06663;">
+    <meta name="citation_reference" content="citation_title=Evolving Self-organizing Cellular Automata Based on Neural Network Genotypes;citation_author=Wilfried Elmenreich;citation_author=Istvan Fehervari;citation_publication_date=2011;">
+    <meta name="citation_reference" content="citation_title=CA-NEAT: Evolved Compositional Pattern Producing Networks for Cellular Automata Morphogenesis and Replication;citation_author=Stefano Nichele;citation_author=Mathias Berild Ose;citation_author=Sebastian Risi;citation_author=Gunnar Tufte;citation_publication_date=2018;citation_journal_title=IEEE Transactions on Cognitive and Developmental Systems;citation_volume=10;">
+    <meta name="citation_reference" content="citation_title=Evolving a Self-Repairing, Self-Regulating, French Flag Organism;citation_author=Julian Miller;citation_publication_date=2004;citation_volume=3102;">
+    <meta name="citation_reference" content="citation_title=Learning Cellular Automaton Dynamics with Neural Networks;citation_author=N. H. Wulff;citation_author=J. A. Hertz;citation_publication_date=1992;">
+    <meta name="citation_reference" content="citation_title=Cellular automata as convolutional neural networks;citation_author=William Gilpin;citation_publication_date=2018;citation_arxiv_id=1809.02942;">
+    <meta name="citation_reference" content="citation_title=Neural GPUs Learn Algorithms;citation_author=Lukasz Kaiser;citation_author=Ilya Sutskever;citation_publication_date=2015;citation_journal_title=CoRR;citation_volume=abs/1511.08228;">
+    <meta name="citation_reference" content="citation_title=Improving the Neural GPU Architecture for Algorithm Learning;citation_author=Karlis Freivalds;citation_author=Renars Liepins;citation_publication_date=2017;citation_journal_title=ArXiv;citation_volume=abs/1702.08727;">
+    <meta name="citation_reference" content="citation_title=A Comprehensive Survey on Graph Neural Networks;citation_author=Zonghan Wu;citation_author=Shirui Pan;citation_author=Fengwen Chen;citation_author=Guodong Long;citation_author=Chengqi Zhang;citation_author=Philip S. Yu;citation_publication_date=2019;">
+    <meta name="citation_reference" content="citation_title=Convolutional Networks on Graphs for Learning Molecular Fingerprints;citation_author=David Duvenaud;citation_author=Dougal Maclaurin;citation_author=Jorge Aguilera-Iparraguirre;citation_author=Rafael G\'{o}mez-Bombarelli;citation_author=Timothy Hirzel;citation_author=Al\'{a}n Aspuru-Guzik;citation_author=Ryan P. Adams;citation_publication_date=2015;">
+    <meta name="citation_reference" content="citation_title=Dynamic Graph CNN for Learning on Point Clouds;citation_author=Yue Wang;citation_author=Yongbin Sun;citation_author=Ziwei Liu;citation_author=Sanjay E. Sarma;citation_author=Michael M. Bronstein;citation_author=Justin M. Solomon;citation_publication_date=2019;citation_journal_title=ACM Transactions on Graphics;citation_volume=38;citation_number=5;">
+    <meta name="citation_reference" content="citation_title=Learning to Control Self- Assembling Morphologies: A Study of Generalization via Modularity;citation_author=Deepak Pathak;citation_author=Chris Lu;citation_author=Trevor Darrell;citation_author=Phillip Isola;citation_author=Alexei A. Efros;citation_publication_date=2019;">
+    <meta name="citation_reference" content="citation_title=Flocks, Herds and Schools: A Distributed Behavioral Model;citation_author=Craig W. Reynolds;citation_publication_date=1987;citation_journal_title=SIGGRAPH Comput. Graph.;citation_volume=21;citation_number=4;">
+    <meta name="citation_reference" content="citation_title=Mergeable nervous systems for robots;citation_author=Nithin Mathews;citation_author=Anders Lyhne Christensen;citation_author=Rehan O’Grady;citation_author=Francesco Mondada;citation_author=Marco Dorigo;citation_publication_date=2017;citation_journal_title=Nature communications;citation_volume=8;citation_number=1;">
+    <meta name="citation_reference" content="citation_title=Kilobot: A low cost scalable robot system for collective behaviors;citation_author=M. {Rubenstein};citation_author=C. {Ahler};citation_author=R. {Nagpal};citation_publication_date=2012;citation_volume=;citation_number=;">
+    <meta name="citation_reference" content="citation_title=What Bodies Think About: Bioelectric Computation Outside the Nervous System;citation_author=Michael Levin;citation_publication_date=2018;">
+    <meta name="citation_reference" content="citation_title=A scalable pipeline for designing reconfigurable organisms;citation_author=Sam Kriegman;citation_author=Douglas Blackiston;citation_author=Michael Levin;citation_author=Josh Bongard;citation_publication_date=2020;citation_journal_title=Proceedings of the National Academy of Sciences;citation_volume=117;citation_number=4;">
+    <meta name="citation_reference" content="citation_title=Perspective: The promise of multi-cellular engineered living systems;citation_author=Roger D. Kamm;citation_author=Rashid Bashir;citation_author=Natasha Arora;citation_author=Roy D. Dar;citation_author=Martha U. Gillette;citation_author=Linda G. Griffith;citation_author=Melissa L. Kemp;citation_author=Kathy Kinlaw;citation_author=Michael Levin;citation_author=Adam C. Martin;citation_author=Todd C. McDevitt;citation_author=Robert M. Nerem;citation_author=Mark J. Powers;citation_author=Taher A. Saif;citation_author=James Sharpe;citation_author=Shuichi Takayama;citation_author=Shoji Takeuchi;citation_author=Ron Weiss;citation_author=Kaiming Ye;citation_author=Hannah G. Yevick;citation_author=Muhammad H. Zaman;citation_publication_date=2018;citation_journal_title=APL Bioengineering;citation_volume=2;citation_number=4;">
+    <meta name="citation_reference" content="citation_title=Physiological inputs regulate species-specific anatomy during embryogenesis and regeneration;citation_author=Kelly G. Sullivan;citation_author=Maya Emmons-Bell;citation_author=Michael Levin;citation_publication_date=2016;citation_journal_title=Communicative \&amp;amp; Integrative Biology;citation_volume=9;citation_number=4;">
+    <meta name="citation_reference" content="citation_title=Long-range neural and gap junction protein-mediated cues control polarity during planarian regeneration;citation_author=Néstor J. Oviedo;citation_author=Junji Morokuma;citation_author=Peter Walentek;citation_author=Ido P. Kema;citation_author=Man Bock Gu;citation_author=Joo-Myung Ahn;citation_author=Jung Shan Hwang;citation_author=Takashi Gojobori;citation_author=Michael Levin;citation_publication_date=2010;citation_journal_title=Developmental Biology;citation_volume=339;citation_number=1;">
+    <meta name="citation_reference" content="citation_title=Long-Term, Stochastic Editing of Regenerative Anatomy via Targeting Endogenous Bioelectric Gradients;citation_author=Fallon Durant;citation_author=Junji Morokuma;citation_author=Christopher Fields;citation_author=Katherine Williams;citation_author=Dany Spencer Adams;citation_author=Michael Levin;citation_publication_date=2017;citation_journal_title=Biophysical Journal;citation_volume=112;citation_number=10;">
+    <meta name="citation_reference" content="citation_title=Pattern Regeneration in Coupled Networks;citation_author=Douglas G. Moore;citation_author=Sara I. Walker;citation_author=Michael Levin;citation_publication_date=2018;citation_journal_title=Artificial Life Conference Proceedings;citation_volume=;citation_number=30;">
+    <meta name="citation_reference" content="citation_title=Bioelectrical control of positional information in development and regeneration: A review of conceptual and computational advances;citation_author=Alexis Pietak;citation_author=Michael Levin;citation_publication_date=2018;citation_journal_title=Progress in Biophysics and Molecular Biology;citation_volume=137;">
+    <meta name="citation_reference" content="citation_title=Modeling Cell Migration in a Simulated Bioelectrical Signaling Network for Anatomical Regeneration;citation_author=Giordano B. S. Ferreira;citation_author=Matthias Scheutz;citation_author=Michael Levin;citation_publication_date=2018;citation_journal_title=Artificial Life Conference Proceedings;citation_volume=;citation_number=30;">
+    <meta name="citation_reference" content="citation_title=Investigating the effects of noise on a cell-to-cell communication mechanism for structure regeneration;citation_author=Giordano B. S. Ferreira;citation_author=Matthias Scheutz;citation_author=Michael Levin;citation_publication_date=2017;citation_journal_title=Artificial Life Conference Proceedings;citation_volume=;citation_number=29;">
+    <meta name="citation_reference" content="citation_title=Social Intelligence;citation_author=Blaise Aguera y Arcas;citation_publication_date=2019;">
+    <meta name="citation_reference" content="citation_title=Inceptionism: Going deeper into neural networks;citation_author=Alexander Mordvintsev;citation_author=Christopher Olah;citation_author=Mike Tyka;citation_publication_date=2015;citation_journal_title=Google Research Blog;">
+</head>
+
+<body distill-prerendered="" class="vsc-initialized" data-new-gr-c-s-check-loaded="8.899.0" data-gr-ext-installed=""><distill-header distill-prerendered="">
+<style>
+distill-header {
+  position: relative;
+  height: 60px;
+  background-color: hsl(200, 60%, 15%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+distill-header .content {
+  height: 70px;
+  grid-column: page;
+}
+distill-header a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+distill-header a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+distill-header svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+@media(min-width: 1080px) {
+  distill-header {
+    height: 70px;
+  }
+  distill-header a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+  distill-header .logo {
+  }
+}
+distill-header svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+distill-header .logo {
+  font-size: 17px;
+  font-weight: 200;
+}
+distill-header .nav {
+  float: right;
+  font-weight: 300;
+}
+distill-header .nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+<div class="content">
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a>
+  <nav class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+  </nav>
+</div>
+</distill-header>
+  <d-front-matter>
+    <script type="text/json">
+      {
+        "title": "Growing Neural Cellular Automata",
+        "description": "Training an end-to-end differentiable, self-organising cellular automata model of morphogenesis, able to both grow and regenerate specific patterns.",
+        "authors": [
+          {
+            "author": "Alexander Mordvintsev",
+            "authorURL": "https://znah.net/",
+            "affiliation": "Google",
+            "affiliationURL": "https://ai.google/"
+          },
+          {
+            "author": "Ettore Randazzo",
+            "authorURL": "",
+            "affiliation": "Google",
+            "affiliationURL": "https://ai.google/"
+          },
+          {
+            "author": "Eyvind Niklasson",
+            "authorURL": "https://eyvind.me/",
+            "affiliation": "Google",
+            "affiliationURL": "https://ai.google/"
+          },
+          {
+            "author": "Michael Levin",
+            "authorURL": "http://www.drmichaellevin.org",
+            "affiliation": "Allen Discovery Center at Tufts University",
+            "affiliationURL": "http://allencenter.tufts.edu"
+          }
+        ],
+        "katex": {
+          "delimiters": [
+            {
+              "left": "$",
+              "right": "$",
+              "display": false
+            },
+            {
+              "left": "$$",
+              "right": "$$",
+              "display": true
+            }
+          ]
+        }
+      }
+    </script>
+  </d-front-matter>
+
+  <style>
+    /* ****************************************
+       * Thread Info
+       ******************************************/
+
+    .thread-info {
+      background-color: hsl(54, 78%, 96%);
+      border-left: solid hsl(54, 33%, 67%) 1px;
+      padding: 1em;
+      color: hsla(0, 0%, 0%, 0.67);
+    }
+
+    #thread-nav {
+      margin-top: 20;
+      margin-bottom: 1.5rem;
+      display: grid;
+      grid-template-columns: 45px 2fr 3fr;
+      grid-template-areas:
+        'thread-icon explanation explanation '
+        'thread-icon prev next';
+      grid-column-gap: 1.5em;
+    }
+
+    @media (min-width: 768px) {
+      #thread-nav {
+        grid-template-columns: 65px 3fr 2fr;
+      }
+    }
+
+    #thread-nav .thread-icon {
+      grid-area: thread-icon;
+      padding: 0.5em;
+      justify-self: center;
+    }
+
+    #thread-nav .explanation {
+      grid-area: explanation;
+      font-size: 85%;
+      color: hsl(0, 0%, 0.33);
+    }
+
+    #thread-nav .prev {
+      grid-area: prev;
+    }
+
+    #thread-nav .prev::before {
+      content: '← Previous Article';
+    }
+
+    #thread-nav .overview {
+      scroll-behavior: smooth;
+    }
+
+    #thread-nav .overview::before {
+      content: '↑';
+      white-space: nowrap;
+      margin-right: 0.5em;
+    }
+
+    #thread-nav .next {
+      grid-area: next;
+      scroll-behavior: smooth;
+    }
+
+    #thread-nav .next::before {
+      content: 'Next Article →';
+    }
+
+    #thread-nav .next::before,
+    #thread-nav .prev::before {
+      display: block;
+      white-space: nowrap;
+      padding: 0.5em 0;
+      font-size: 80%;
+      font-weight: bold;
+      margin-top: 0px;
+      margin-right: 0.5em;
+      text-transform: uppercase;
+    }
+
+    #thread-nav .prev,
+    #thread-nav .next,
+    #thread-nav .overview {
+      font-size: 80%;
+      line-height: 1.5em;
+      font-weight: 600;
+      border-bottom: none;
+      color: #2e6db7;
+      /* margin-top: 0.25em; */
+      letter-spacing: 0.25px;
+    }
+
+    figure {
+      text-align: center;
+      margin-bottom: 0.5em;
+      margin-top: 0.5em;
+    }
+    figure img {
+      max-width: 100%;
+      width: unset;
+    }
+    video {
+      max-width: 100%;
+    }
+    .colab-root {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.75);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px !important;
+      text-decoration: none;
+      color: #aaa;
+      border: none;
+      font-weight: 300;
+      border: solid 1px rgba(0, 0, 0, 0.08);
+      border-bottom-color: rgba(0, 0, 0, 0.15);
+      text-transform: uppercase;
+      line-height: 16px;
+    }
+
+    span.colab-span {
+      background-image: url(images/colab.svg);
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position-y: 2px;
+      display: inline-block;
+      padding-left: 24px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+
+    a.colab-root:hover {
+      color: #666;
+      background: white;
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    /* TOC */
+    @media (max-width: 1000px) {
+      d-contents {
+        justify-self: start;
+        align-self: start;
+        grid-column-start: 2;
+        grid-column-end: 6;
+        padding-bottom: 0.5em;
+        margin-bottom: 1em;
+        padding-left: 0.25em;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    @media (min-width: 1000px) {
+      d-contents {
+        align-self: start;
+        grid-column-start: 1;
+        grid-column-end: 4;
+        justify-self: end;
+        padding-right: 3em;
+        padding-left: 2em;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    @media (min-width: 1180px) {
+      d-contents {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        justify-self: end;
+        padding-right: 3em;
+        padding-left: 2em;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    d-contents nav h3 {
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+
+    d-contents nav a {
+      color: rgba(0, 0, 0, 0.8);
+      border-bottom: none;
+      text-decoration: none;
+    }
+
+    d-contents li {
+      list-style-type: none;
+    }
+
+    d-contents ul {
+      padding-left: 1em;
+    }
+
+    d-contents nav ul li {
+      margin-bottom: 0.25em;
+    }
+
+    d-contents nav a:hover {
+      text-decoration: underline solid rgba(0, 0, 0, 0.6);
+    }
+
+    d-contents nav ul {
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+    d-contents nav > div {
+      display: block;
+      outline: none;
+      margin-bottom: 0.5em;
+    }
+
+    d-contents nav > div > a {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    d-contents nav > div > a:hover,
+    d-contents nav > ul > li > a:hover {
+      text-decoration: none;
+    }
+
+    /* code blocks to margins */
+    @media (min-width: 1600px) {
+      d-code {
+        margin-top: -10px;
+        grid-column-start: 12;
+        grid-column-end: 14;
+      }
+    }
+    /* so title is on one line */
+    d-title h1,
+    d-title p {
+      grid-column: middle;
+    }
+  </style>
+  <script>
+    // hack to edit font size in code snippets. guaranteed a better way to do
+    // this, but I'm not a webdev
+    window.onload = function () {
+      setTimeout(() => {
+        document.querySelectorAll('d-code').forEach(function (e) {
+          e.shadowRoot.querySelector('#code-container').style.fontSize = '0.7em'
+        })
+      }, 3000)
+    }
+  </script>
+  <d-title>
+    <h1>Growing Neural Cellular Automata</h1>
+    <p>Differentiable Model of Morphogenesis</p>
+
+<svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path><path d="M0 0h24v24H0z" fill="none"></path></symbol>
+    <symbol id="pauseIcon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path><path d="M0 0h24v24H0z" fill="none"></path></symbol>
+    <symbol id="resetIcon" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"></path></symbol>
+</svg>
+
+<style>
+#demo {
+    font-size: 14px;
+    user-select: none;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-auto-flow: column;
+    row-gap: 10px;
+}
+
+.hint a {
+  color: inherit;
+}
+
+@media (min-width: 1000px) {
+  #demo {
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: auto auto;
+  }
+  #demo-controls {
+    grid-row: 1/3;
+  }
+}
+
+#demo-canvas {
+    border: 1px solid lightgrey;
+    image-rendering: pixelated;
+    touch-action: none;
+    width: 100%;
+}
+
+#demo-controls {
+    line-height: 1em;
+    display: grid;
+    grid-template-columns: 120px auto;
+    grid-template-rows: auto 60px 80px 75px 1fr;
+    row-gap: 20px;
+    overflow: hidden;
+}
+
+@media (min-width: 1000px){
+  #demo-controls {
+    grid-template-rows: auto 60px 80px 100px 1fr;
+  }
+}
+
+#pattern-selector {
+    grid-column: 1/3;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    justify-items: center;
+}
+@media (max-width: 1000px) and  (min-width: 500px) {
+  #pattern-selector {
+    grid-template-columns: repeat(10, auto);
+  }
+}
+
+#pattern-selector * {
+    width: 40px;
+    height: 40px;
+    background-image: url('images/emoji.png');
+    cursor: pointer;
+}
+.icon {
+    width: 30px; height: 30px;
+    background: steelblue;
+    fill: white;
+    border-radius: 20px;
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
+}
+#model-selector {
+    line-height: 1.4em;
+}
+#demo-tip{
+    display: grid;
+    grid-template-columns: 40px auto;
+    align-items: center;
+    column-gap: 10px;
+    margin-bottom: 20px;
+}
+#pointer {
+    width: 40px;
+}
+#status {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: monospace;
+}
+#model-hints {
+    color: rgba(0, 0, 0, 0.6);
+    grid-column: 1/3;
+}
+#model-hints span {
+    display: none;
+}
+.hint {
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.4em;
+    user-select: text;
+}
+
+input[type=range] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 95%; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+  margin-bottom: 8px;
+}
+
+.hint a {
+  font-size: 90%;
+}
+
+@media (max-width: 350px) {
+  .hint a {
+    font-size: 75%;
+  }
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+
+  /* Hides the slider so custom styles can be added */
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+/* Thumb */
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: steelblue;
+  cursor: pointer;
+  margin-top: -6px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: steelblue;
+  cursor: pointer;
+  border: none;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: grey;
+  cursor: pointer;
+}
+
+/* Track */
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  border: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  border: none;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  border: none;
+}
+input[type=range]::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.1);
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.1);
+}
+input[type=range]::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.1);
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+input[type="radio"] {
+    background-color: steelblue;
+}
+
+#colab-hero-div { 
+  grid-column: 1/3;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: rgba(0, 0, 0, 0.1);
+  padding-top: 15px;
+}
+
+#colab-hero {
+  margin: auto;
+  display: block;
+  text-align: center;
+  width: 200px;
+  height: 16px;
+}
+
+</style>
+
+<div class="l-body-outset grid" id="demo">
+
+    <canvas id="demo-canvas" width="576" height="576"></canvas>
+
+    <div id="demo-tip">
+            <img id="pointer" src="Growing%20Neural%20Cellular%20Automata_files/pointer.svg">
+            <div class="hint">
+                Click or tap the image to erase the part of the pattern and see it regenerate.
+                Double clicking places a new seed cell on the grid.                
+            </div>
+    </div>
+
+    <div id="demo-controls">
+        <div id="pattern-selector">
+        <div id="🦎" style="background-position-x: 0px; opacity: 1;"></div><div id="😀" style="background-position-x: -40px; opacity: 0.2;"></div><div id="💥" style="background-position-x: -80px; opacity: 0.2;"></div><div id="👁" style="background-position-x: -120px; opacity: 0.2;"></div><div id="🐠" style="background-position-x: -160px; opacity: 0.2;"></div><div id="🦋" style="background-position-x: -200px; opacity: 0.2;"></div><div id="🐞" style="background-position-x: -240px; opacity: 0.2;"></div><div id="🕸" style="background-position-x: -280px; opacity: 0.2;"></div><div id="🥨" style="background-position-x: -320px; opacity: 0.2;"></div><div id="🎄" style="background-position-x: -360px; opacity: 0.2;"></div></div>
+        <div>
+            <span id="play-pause">
+                <svg class="icon" id="play" style="display: none;"><use xlink:href="#playIcon"></use></svg>
+                <svg class="icon" id="pause" style="display: inline;"><use xlink:href="#pauseIcon"></use></svg>
+            </span>
+            <svg class="icon" id="reset"><use xlink:href="#resetIcon"></use></svg>
+        </div>
+        <div>
+            Speed: <span id="speedLabel">1x</span><br>
+            <input type="range" id="speed" min="-3" max="3" step="1" value="0"><br>
+            <div id="status">
+                Step <span id="stepCount">64</span>
+                (<span id="ips">35.8</span> step/s)
+            </div>
+        </div>
+        <div id="model-selector">
+            Model type:<br>
+            <input type="radio" name="model" id="ex1"> <label for="ex1">Growing</label><br>
+            <input type="radio" name="model" id="ex2"> <label for="ex2">Persistent</label><br>
+            <input type="radio" name="model" id="ex3" checked="checked"> <label for="ex3">Regenerating</label><br>        
+        </div>
+        <div style="white-space: nowrap;">
+            Rotation <span id="rotationLabel">0°</span>&nbsp;<span class="hint"><a href="#experiment-4">[experiment 4]</a></span>
+            <br>
+            <input type="range" id="rotation" min="0" max="360" step="1" value="0"><br>
+        </div>
+        <div id="model-hints" class="hint">
+            <span id="ex1-hint" style="display: none;">
+                <b>Growing</b> models were trained to generate patterns, 
+                but don't know how to persist them. Some patterns explode, some decay,
+                but some happen to be almost stable or even regenerate parts!
+                <a href="#experiment-1">[experiment 1]</a>
+            </span>
+            <span id="ex2-hint" style="display: none;">
+                <b>Persistent</b> models are trained to make the pattern stay for a prolonged
+                period of time. Interstingly, they often develop some regenerative
+                capabilities without being explicitly instructed to do so
+                <a href="#experiment-2">[experiment 2]</a>.
+            </span>
+            <span id="ex3-hint" style="display: inline;">
+                <b>Regenerating</b> models were subject to pattern damages during
+                training, so their regenerative capabilities are much stronger,
+                especially in the central area. <a href="#experiment-3">[experiment 3]</a>
+
+            </span>
+        </div>
+        <div id="colab-hero-div">
+          <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb" class="colab-root" id="colab-hero">Try in a <span class="colab-span">Notebook</span></a>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { createDemo } from './demo.js'
+    createDemo('demo');
+</script>
+  </d-title>
+
+  <d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="https://znah.net/">Alexander Mordvintsev</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <span class="name">Ettore Randazzo</span>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://eyvind.me/">Eyvind Niklasson</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="https://ai.google/">Google</a>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="http://www.drmichaellevin.org/">Michael Levin</a>
+        </p>
+        <p class="affiliation">
+        <a class="affiliation" href="http://allencenter.tufts.edu/">Allen Discovery Center at Tufts University</a>
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>Feb. 11, 2020</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p><a href="https://doi.org/10.23915/distill.00023">10.23915/distill.00023</a></p>
+    </div>
+  </div>
+</d-byline>
+
+<d-article>
+<d-contents>
+  <nav class="l-text toc figcaption">
+    <h3>Contents</h3>
+    <div><a href="#model">Model</a></div>
+    <div><a href="#experiment-1">Experiments</a></div>
+    <ul>
+      <li><a href="#experiment-1">Learning to Grow</a></li>
+      <li><a href="#experiment-2">What persists, exists</a></li>
+      <li><a href="#experiment-3">Learning to regenerate</a></li>
+      <li><a href="#experiment-4">Rotating the perceptive field</a></li>
+    </ul>
+    <div><a href="#related-work">Related Work</a></div>
+    <div><a href="#discussion">Discussion</a></div>
+  </nav>
+</d-contents>
+
+<section id="thread-nav" class="thread-info" style="margin-top: 10px; margin-bottom: 40px">
+  <img class="thread-icon" src="Growing%20Neural%20Cellular%20Automata_files/multiple-pages.svg" width="43px" height="50px">
+  <p class="explanation">
+    This article is part of the
+    <a href="https://distill.pub/2020/selforg/">Differentiable Self-organizing Systems Thread</a>,
+    an experimental format collecting invited short articles delving into
+    differentiable self-organizing systems, interspersed with critical
+    commentary from several experts in adjacent fields.
+  </p>
+  <a class="prev" href="https://distill.pub/2020/selforg/">Differentiable Self-organizing Systems Thread</a>
+  <a class="next" href="https://distill.pub/2020/selforg/mnist/">Self-classifying MNIST Digits</a>
+</section>
+
+  <p>
+    Most multicellular organisms begin their life as a single egg cell - a
+    single cell whose progeny reliably self-assemble into highly complex
+    anatomies with many organs and tissues in precisely the same arrangement
+    each time. The ability to build their own bodies is probably the most
+    fundamental skill every living creature possesses. Morphogenesis (the
+    process of an organism’s shape development) is one of the most striking
+    examples of a phenomenon called <i>self-organisation</i>. Cells, the tiny
+    building blocks of bodies, communicate with their neighbors to decide the
+    shape of organs and body plans, where to grow each organ, how to
+    interconnect them, and when to eventually stop. Understanding the interplay
+    of the emergence of complex outcomes from simple rules and
+    homeostatic<d-footnote id="d-footnote-1">
+      Self-regulatory feedback loops trying maintain the body in a stable state
+      or preserve its correct overall morphology under external
+      perturbations</d-footnote>
+    feedback loops is an active area of research
+    <d-cite key="PezzuloGiovanniLevin2016,C5IB00221D"></d-cite>. What is clear
+    is that evolution has learned to exploit the laws of physics and computation
+    to implement the highly robust morphogenetic software that runs on
+    genome-encoded cellular hardware.
+  </p>
+
+  <p>
+    This process is extremely robust to perturbations. Even when the organism is
+    fully developed, some species still have the capability to repair damage - a
+    process known as regeneration. Some creatures, such as salamanders, can
+    fully regenerate vital organs, limbs, eyes, or even parts of the brain!
+    Morphogenesis is a surprisingly adaptive process. Sometimes even a very
+    atypical development process can result in a viable organism - for example,
+    when an early mammalian embryo is cut in two, each half will form a complete
+    individual - monozygotic twins!
+  </p>
+
+  <p>
+    The biggest puzzle in this field is the question of how the cell collective
+    knows what to build and when to stop. The sciences of genomics and stem cell
+    biology are only part of the puzzle, as they explain the distribution of
+    specific components in each cell, and the establishment of different types
+    of cells. While we know of many genes that are <i>required</i> for the
+    process of regeneration, we still do not know the algorithm that is
+    <i>sufficient</i> for cells to know how to build or remodel complex organs
+    to a very specific anatomical end-goal. Thus, one major lynch-pin of future
+    work in biomedicine is the discovery of the process by which large-scale
+    anatomy is specified within cell collectives, and how we can rewrite this
+    information to have rational control of growth and form. It is also becoming
+    clear that the software of life possesses numerous modules or subroutines,
+    such as “build an eye here”, which can be activated with simple signal
+    triggers<d-cite key="Pai313"></d-cite>. Discovery of such subroutines and a
+    mapping out of the developmental logic is a new field at the intersection of
+    developmental biology and computer science. An important next step is to try
+    to formulate computational models of this process, both to enrich the
+    conceptual toolkit of biologists and to help translate the discoveries of
+    biology into better robotics and computational technology.
+  </p>
+
+  <p>
+    Imagine if we could design systems of the same plasticity and robustness as
+    biological life: structures and machines that could grow and repair
+    themselves. Such technology would transform the current efforts in
+    regenerative medicine, where scientists and clinicians seek to discover the
+    inputs or stimuli that could cause cells in the body to build structures on
+    demand as needed. To help crack the puzzle of the morphogenetic code, and
+    also exploit the insights of biology to create self-repairing systems in
+    real life, we try to replicate some of the desired properties in an
+    <i>in silico</i> experiment.
+  </p>
+
+  <h2 id="model">Model</h2>
+  <p>
+    Those in engineering disciplines and researchers often use many kinds of
+    simulations incorporating local interaction, including systems of partial
+    derivative equation (PDEs), particle systems, and various kinds of Cellular
+    Automata (CA). We will focus on Cellular Automata models as a roadmap for
+    the effort of identifying cell-level rules which give rise to complex,
+    regenerative behavior of the collective. CAs typically consist of a grid of
+    cells being iteratively updated, with the same set of rules being applied to
+    each cell at every step. The new state of a cell depends only on the states
+    of the few cells in its immediate neighborhood. Despite their apparent
+    simplicity, CAs often demonstrate rich, interesting behaviours, and have a
+    long history of being applied to modeling biological phenomena.
+  </p>
+
+  <p>
+    Let’s try to develop a cellular automata update rule that, starting from a
+    single cell, will produce a predefined multicellular pattern on a 2D grid.
+    This is our analogous toy model of organism development. To design the CA,
+    we must specify the possible cell states, and their update function. Typical
+    CA models represent cell states with a set of discrete values, although
+    variants using vectors of continuous values exist. The use of continuous
+    values has the virtue of allowing the update rule to be a differentiable
+    function of the cell’s neighbourhood’s states. The rules that guide
+    individual cell behavior based on the local environment are analogous to the
+    low-level hardware specification encoded by the genome of an organism.
+    Running our model for a set amount of steps from a starting configuration
+    will reveal the patterning behavior that is enabled by such hardware.
+  </p>
+
+  <p>
+    So - what is so special about differentiable update rules? They will allow
+    us to use the powerful language of loss functions to express our wishes, and
+    the extensive existing machinery around gradient-based numerical
+    optimization to fulfill them. The art of stacking together differentiable
+    functions, and optimizing their parameters to perform various tasks has a
+    long history. In recent years it has flourished under various names, such as
+    (Deep) Neural Networks, Deep Learning or Differentiable Programming.
+  </p>
+
+  <p>
+    </p><figure style="
+        margin-left: auto;
+        margin-right: auto;
+        grid-column: page;
+        width: 100%;
+        max-width: 2000px;
+      ">
+      <object data="Growing%20Neural%20Cellular%20Automata_files/model.svg" type="image/svg+xml" style="width: 100%"></object>
+      <figcaption style="">A single update step of the model.</figcaption>
+    </figure>
+  <p></p>
+
+  <h3>Cell State</h3>
+  <p>
+    We will represent each cell state as a vector of 16 real values (see the
+    figure above). The first three channels represent the cell color visible to
+    us (RGB). The target pattern has color channel values in range <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>0</mn><mi mathvariant="normal">.</mi><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mi mathvariant="normal">.</mi><mn>0</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[0.0, 1.0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mopen">[</span><span class="mord mathrm">0</span><span class="mord mathrm">.</span><span class="mord mathrm">0</span><span class="mpunct">,</span><span class="mord mathrm">1</span><span class="mord mathrm">.</span><span class="mord mathrm">0</span><span class="mclose">]</span></span></span></span></span>
+    and an <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.0037em;">α</span></span></span></span></span> equal to 1.0 for foreground pixels, and 0.0 for background.
+  </p>
+
+  <p>
+    The alpha channel (<span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.0037em;">α</span></span></span></span></span>) has a special meaning: it demarcates living
+    cells, those belonging to the pattern being grown. In particular, cells
+    having <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>α</mi><mo>&gt;</mo><mn>0</mn><mi mathvariant="normal">.</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha &gt; 0.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="mrel">&gt;</span><span class="mord mathrm">0</span><span class="mord mathrm">.</span><span class="mord mathrm">1</span></span></span></span></span> and their neighbors are considered “living”. Other
+    cells are “dead” or empty and have their state vector values explicitly set
+    to 0.0 at each time step. Thus cells with <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>α</mi><mo>&gt;</mo><mn>0</mn><mi mathvariant="normal">.</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha &gt; 0.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="mrel">&gt;</span><span class="mord mathrm">0</span><span class="mord mathrm">.</span><span class="mord mathrm">1</span></span></span></span></span> can be thought of
+    as “mature”, while their neighbors with <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>α</mi><mo>≤</mo><mn>0</mn><mi mathvariant="normal">.</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha \leq 0.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="mrel">≤</span><span class="mord mathrm">0</span><span class="mord mathrm">.</span><span class="mord mathrm">1</span></span></span></span></span> are “growing”, and
+    can become mature if their alpha passes the 0.1 threshold.
+  </p>
+
+  <figure>
+    <img src="Growing%20Neural%20Cellular%20Automata_files/alive2.svg" style="width: 300px">
+    <figcaption>
+      <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo>⃗</mo></mover><mo>→</mo><mn>0</mn><mi mathvariant="normal">.</mi><mn>0</mn><mn>0</mn></mrow><annotation encoding="application/x-tex">\vec{state} \rightarrow 0.00</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.89852em;"></span><span class="strut bottom" style="height:0.89852em;vertical-align:0em;"></span><span class="base"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.89852em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span></span><span style="top:-3.18408em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0em;"><span>⃗</span></span></span></span></span></span></span><span class="mrel">→</span><span class="mord mathrm">0</span><span class="mord mathrm">.</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span></span></span></span></span> when no neighbour with <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>α</mi><mo>&gt;</mo><mn>0</mn><mi mathvariant="normal">.</mi><mn>1</mn><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha &gt; 0.10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.0037em;">α</span><span class="mrel">&gt;</span><span class="mord mathrm">0</span><span class="mord mathrm">.</span><span class="mord mathrm">1</span><span class="mord mathrm">0</span></span></span></span></span>
+    </figcaption>
+  </figure>
+
+  <p>
+    Hidden channels don’t have a predefined meaning, and it’s up to the update
+    rule to decide what to use them for. They can be interpreted as
+    concentrations of some chemicals, electric potentials or some other
+    signaling mechanism that are used by cells to orchestrate the growth. In
+    terms of our biological analogy - all our cells share the same genome
+    (update rule) and are only differentiated by the information encoded the
+    chemical signalling they receive, emit, and store internally (their state
+    vectors).
+  </p>
+
+  <h3>Cellular Automaton rule</h3>
+  <p>
+    Now it’s time to define the update rule. Our CA runs on a regular 2D grid of
+    16-dimensional vectors, essentially a 3D array of shape [height, width, 16].
+    We want to apply the same operation to each cell, and the result of this
+    operation can only depend on the small (3x3) neighborhood of the cell. This
+    is heavily reminiscent of the convolution operation, one of the cornerstones
+    of signal processing and differential programming. Convolution is a linear
+    operation, but it can be combined with other per-cell operations to produce
+    a complex update rule, capable of learning the desired behaviour. Our cell
+    update rule can be split into the following phases, applied in order:
+  </p>
+
+  <p>
+    <strong>Perception.</strong> This step defines what each cell perceives of
+    the environment surrounding it. We implement this via a 3x3 convolution with
+    a fixed kernel. One may argue that defining this kernel is superfluous -
+    after all we could simply have the cell learn the requisite perception
+    kernel coefficients. Our choice of fixed operations are motivated by the
+    fact that real life cells often rely only on chemical gradients to guide the
+    organism development. Thus, we are using classical Sobel filters to estimate
+    the partial derivatives of cell state channels in the <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>x</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.71444em;"></span><span class="strut bottom" style="height:0.71444em;vertical-align:0em;"></span><span class="base"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.05556em;"><span>⃗</span></span></span></span></span></span></span></span></span></span></span> and
+    <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>y</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.71444em;"></span><span class="strut bottom" style="height:0.9088799999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.11112em;"><span>⃗</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"></span></span></span></span></span></span></span></span> directions, forming a 2D gradient vector in each direction, for
+    each state channel. We concatenate those gradients with the cells own
+    states, forming a <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mn>6</mn><mo>∗</mo><mn>2</mn><mo>+</mo><mn>1</mn><mn>6</mn><mo>=</mo><mn>4</mn><mn>8</mn></mrow><annotation encoding="application/x-tex">16*2+16=48</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base"><span class="mord mathrm">1</span><span class="mord mathrm">6</span><span class="mbin">∗</span><span class="mord mathrm">2</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mord mathrm">6</span><span class="mrel">=</span><span class="mord mathrm">4</span><span class="mord mathrm">8</span></span></span></span></span> dimensional <i>perception vector</i>, or
+    rather <i>percepted vector, </i>for each cell.
+  </p>
+
+  <d-code block="" language="python">
+    <p>def perceive(state_grid):</p>
+    <p>sobel_x = [[-1, 0, +1],</p>
+    <p>[-2, 0, +2],</p>
+    <p>[-1, 0, +1]]</p>
+    <p>sobel_y = transpose(sobel_x)</p>
+    <p># Convolve sobel filters with states</p>
+    <p># in x, y and channel dimension.</p>
+    <p>grad_x = conv2d(sobel_x, state_grid)</p>
+    <p>grad_y = conv2d(sobel_y, state_grid)</p>
+    <p># Concatenate the cell’s state channels,</p>
+    <p># the gradients of channels in x and</p>
+    <p># the gradient of channels in y.</p>
+    <p>perception_grid = concat(</p>
+    <p>state_grid, grad_x, grad_y, axis=2)</p>
+    <p>return perception_grid</p>
+  </d-code>
+
+  <p>
+    <strong>Update rule.</strong> Each cell now applies a series of operations
+    to the perception vector, consisting of typical differentiable programming
+    building blocks, such as 1x1-convolutions and ReLU nonlinearities, which we
+    call the cell’s “update rule”. Recall that the update rule is learned, but
+    every cell runs the same update rule. The network parametrizing this update
+    rule consists of approximately 8,000 parameters. Inspired by residual neural
+    networks, the update rule outputs an incremental update to the cell’s state,
+    which applied to the cell before the next time step. The update rule is
+    designed to exhibit “do-nothing” initial behaviour - implemented by
+    initializing the weights of the final convolutional layer in the update rule
+    with zero. We also forego applying a ReLU to the output of the last layer of
+    the update rule as the incremental updates to the cell state must
+    necessarily be able to both add or subtract from the state.
+  </p>
+
+  <d-code block="" language="python">
+    <p>def update(perception_vector):</p>
+    <p># The following pseudocode operates on</p>
+    <p># a single cell’s perception vector.</p>
+    <p># Our reference implementation uses 1D</p>
+    <p># convolutions for performance reasons.</p>
+    <p>x = dense(perception_vector, output_len=128)</p>
+    <p>x = relu(x)</p>
+    <p>ds = dense(x, output_len=16, weights_init=0.0)</p>
+    <p>return ds</p>
+  </d-code>
+
+  <p>
+    <strong>Stochastic cell update.</strong> Typical cellular automata update
+    all cells simultaneously. This implies the existence of a global clock,
+    synchronizing all cells. Relying on global synchronisation is not something
+    one expects from a self-organising system. We relax this requirement by
+    assuming that each cell performs an update independently, waiting for a
+    random time interval between updates. To model this behaviour we apply a
+    random per-cell mask to update vectors, setting all update values to zero
+    with some predefined probability (we use 0.5 during training). This
+    operation can be also seen as an application of per-cell dropout to update
+    vectors.
+  </p>
+
+  <d-code block="" language="python">
+    <p>def stochastic_update(state_grid, ds_grid):</p>
+    <p># Zero out a random fraction of the updates.</p>
+    <p>rand_mask = cast(random(64, 64) &lt; 0.5, float32)</p>
+    <p>ds_grid = ds_grid * rand_mask</p>
+    <p>return state_grid + ds_grid</p>
+  </d-code>
+
+  <p>
+    <strong>Living cell masking.</strong> We want to model the growth process
+    that starts with a single cell, and don’t want empty cells to participate in
+    computations or carry any hidden state. We enforce this by explicitly
+    setting all channels of empty cells to zeros. A cell is considered empty if
+    there is no “mature” (alpha&gt;0.1) cell in its 3x3 neightborhood.
+  </p>
+
+  <d-code block="" language="python">
+    <p>def alive_masking(state_grid):</p>
+    <p># Take the alpha channel as the measure of “life”.</p>
+    <p>alive = max_pool(state_grid[:,&nbsp;:, 3], (3,3)) &gt; 0.1</p>
+    <p>state_grid = state_grid * cast(alive, float32)</p>
+    <p>return state_grid</p>
+  </d-code>
+
+  <h2 id="experiment-1">Experiment 1: Learning to Grow</h2>
+  <p>
+    </p><figure style="
+        margin-left: auto;
+        margin-right: auto;
+        grid-column: page;
+        width: 100%;
+        max-width: 900px;
+      ">
+      <object data="Growing%20Neural%20Cellular%20Automata_files/training.svg" type="image/svg+xml" style="width: 100%"></object>
+      <figcaption>Training regime for learning a target pattern.</figcaption>
+    </figure>
+  <p></p>
+  <p>
+    In our first experiment, we simply train the CA to achieve a target image
+    after a random number of updates. This approach is quite naive and will run
+    into issues. But the challenges it surfaces will help us refine future
+    attempts.
+  </p>
+
+  <p>
+    We initialize the grid with zeros, except a single seed cell in the center,
+    which will have all channels except RGB<d-footnote id="d-footnote-2">
+      We set RGB channels of the seed to zero because we want it to be visible
+      on the white background.</d-footnote>
+    set to one. Once the grid is initialized, we iteratively apply the update
+    rule. We sample a random number of CA steps from the [64, 96]<d-footnote id="d-footnote-3">
+      This should be a sufficient number of steps to grow the pattern of the
+      size we work with (40x40), even considering the stochastic nature of our
+      update rule.</d-footnote>
+    range for each training step, as we want the pattern to be stable across a
+    number of iterations. At the last step we apply pixel-wise L2 loss between
+    RGBA channels in the grid and the target pattern. This loss can be
+    differentiably optimized<d-footnote id="d-footnote-4">
+      We observed training instabilities, that were manifesting themselves as
+      sudden jumps of the loss value in the later stages of the training. We
+      managed to mitigate them by applying per-variable L2 normalization to
+      parameter gradients. This may have the effect similar to the weight
+      normalization <d-cite key="Salimans2016WeightNA"></d-cite>. Other training
+      parameters are available in the accompanying source code.</d-footnote>
+    with respect to the update rule parameters by backpropagation-through-time,
+    the standard method of training recurrent neural networks.
+  </p>
+
+  <p>
+    Once the optimisation converges, we can run simulations to see how our
+    learned CAs grow patterns starting from the seed cell. Let’s see what
+    happens when we run it for longer than the number of steps used during
+    training. The animation below shows the behaviour of a few different models,
+    trained to generate different emoji patterns.
+  </p>
+
+  <p>
+    </p><figure><div class="vsc-controller"></div>
+      <video loop="" autoplay="autoplay" playsinline="" muted="muted" width="640px">
+        <source src="Growing%20Neural%20Cellular%20Automata_files/unstable.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>
+        Many of the patterns exhibit instability for longer time periods.
+        <br><br>
+        <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=4O4tzfe-GRJ7" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a>
+      </figcaption>
+    </figure>
+  <p></p>
+
+  <p>
+    We can see that different training runs can lead to models with drastically
+    different long term behaviours. Some tend to die out, some don’t seem to
+    know how to stop growing, but some happen to be almost stable! How can we
+    steer the training towards producing persistent patterns all the time?
+  </p>
+  <h2 id="experiment-2">Experiment 2: What persists, exists</h2>
+  <p>
+    One way of understanding why the previous experiment was unstable is to draw
+    a parallel to dynamical systems. We can consider every cell to be a
+    dynamical system, with each cell sharing the same dynamics, and all cells
+    being locally coupled amongst themselves. When we train our cell update
+    model we are adjusting these dynamics. Our goal is to find dynamics that
+    satisfy a number of properties. Initially, we wanted the system to evolve
+    from the seed pattern to the target pattern - a trajectory which we achieved
+    in Experiment 1. Now, we want to avoid the instability we observed - which
+    in our dynamical system metaphor consists of making the target pattern an
+    attractor.
+  </p>
+
+  <p>
+    One strategy to achieve this is letting the CA iterate for much longer time
+    and periodically applying the loss against the target, training the system
+    by backpropagation through these longer time intervals. Intuitively we claim
+    that with longer time intervals and several applications of loss, the model
+    is more likely to create an attractor for the target shape, as we
+    iteratively mold the dynamics to return to the target pattern from wherever
+    the system has decided to venture. However, longer time periods
+    substantially increase the training time and more importantly, the memory
+    requirements, given that the entire episode’s intermediate activations must
+    be stored in memory for a backwards-pass to occur.
+  </p>
+
+  <p>
+    Instead, we propose a “sample pool” based strategy to a similar effect. We
+    define a pool of seed states to start the iterations from, initially filled
+    with the single black pixel seed state. We then sample a batch from this
+    pool which we use in our training step. To prevent the equivalent of
+    “catastrophic forgetting” we replace one sample in this batch with the
+    original, single-pixel seed state. After concluding the training step&nbsp;, we
+    replace samples in the pool that were sampled for the batch with the output
+    states from the training step over this batch. The animation below shows a
+    random sample of the entries in the pool every 20 training steps.
+  </p>
+  <d-code block="" language="python">
+    <p>def pool_training():</p>
+    <p># Set alpha and hidden channels to (1.0).</p>
+    <p>seed = zeros(64, 64, 16)</p>
+    <p>seed[64//2, 64//2, 3:] = 1.0</p>
+    <p>target = targets[‘lizard’]</p>
+    <p>pool = [seed] * 1024</p>
+    <p>for i in range(training_iterations):</p>
+    <p>idxs, batch = pool.sample(32)</p>
+    <p># Sort by loss, descending.</p>
+    <p>batch = sort_desc(batch, loss(batch))</p>
+    <p># Replace the highest-loss sample with the seed.</p>
+    <p>batch[0] = seed</p>
+    <p># Perform training.</p>
+    <p>outputs, loss = train(batch, target)</p>
+    <p># Place outputs back in the pool.</p>
+    <p>pool[idxs] = outputs</p>
+  </d-code>
+
+  <p>
+    </p><figure><div class="vsc-controller"></div>
+      <video loop="" autoplay="autoplay" playsinline="" muted="muted">
+        <source src="Growing%20Neural%20Cellular%20Automata_files/pool.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>
+        A random sample of the patterns in the pool during training, sampled
+        every 20 training steps. <br><br>
+        <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=B4JAbAJf6Alw" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a>
+      </figcaption>
+    </figure>
+  <p></p>
+
+  <p>
+    Early on in the training process, the random dynamics in the system allow
+    the model to end up in various incomplete and incorrect states. As these
+    states are sampled from the pool, we refine the dynamics to be able to
+    recover from such states. Finally, as the model becomes more robust at going
+    from a seed state to the target state, the samples in the pool reflect this
+    and are more likely to be very close to the target pattern, allowing the
+    training to refine these almost completed patterns further.
+  </p>
+
+  <p>
+    Essentially, we use the previous final states as new starting points to
+    force our CA to learn how to persist or even improve an already formed
+    pattern, in addition to being able to grow it from a seed. This makes it
+    possible to add a periodical loss for significantly longer time intervals
+    than otherwise possible, encouraging the generation of an attractor as the
+    target shape in our coupled system. We also noticed that reseeding the
+    highest loss sample in the batch, instead of a random one, makes training
+    more stable at the initial stages, as it helps to clean up the low quality
+    states from the pool.
+  </p>
+
+  <p>
+    Here is what a typical training progress of a CA rule looks like. The cell
+    rule learns to stabilize the pattern in parallel to refining its features.
+  </p>
+
+  <p>
+    </p><figure><div class="vsc-controller"></div>
+      <video loop="" autoplay="autoplay" playsinline="" muted="muted">
+        <source src="Growing%20Neural%20Cellular%20Automata_files/train_steps_damage_0.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>
+        CA behaviour at training steps 100, 500, 1000, 4000. <br><br>
+        <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=nqvkfl9W4ODI" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a>
+      </figcaption>
+    </figure>
+  <p></p>
+
+  <h2 id="experiment-3">Experiment 3: Learning to regenerate</h2>
+  <p>
+    In addition to being able to grow their own bodies, living creatures are
+    great at maintaining them. Not only does worn out skin get replaced with new
+    skin, but very heavy damage to complex vital organs can be regenerated in
+    some species. Is there a chance that some of the models we trained above
+    have regenerative capabilities?
+  </p>
+
+  <p>
+    </p><figure><div class="vsc-controller"></div>
+      <video loop="" autoplay="autoplay" playsinline="" muted="muted">
+        <source src="Growing%20Neural%20Cellular%20Automata_files/regen1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>
+        Patterns exhibit some regenerative properties upon being damaged, but
+        not full re-growth. <br><br>
+        <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=S5JRLGxX1dnX" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a>
+      </figcaption>
+    </figure>
+  <p></p>
+  <p>
+    The animation above shows three different models trained using the same
+    settings. We let each of the models develop a pattern over 100 steps, then
+    damage the final state in five different ways: by removing different halves
+    of the formed pattern, and by cutting out a square from the center. Once
+    again, we see that these models show quite different out-of-training mode
+    behaviour. For example “the lizard” develops quite strong regenerative
+    capabilities, without being explicitly trained for it!
+  </p>
+
+  <p>
+    Since we trained our coupled system of cells to generate an attractor
+    towards a target shape from a single cell, it was likely that these systems,
+    once damaged, would generalize towards non-self-destructive reactions.
+    That’s because the systems were trained to grow, stabilize, and never
+    entirely self-destruct. Some of these systems might naturally gravitate
+    towards regenerative capabilities, but nothing stops them from developing
+    different behaviors such as explosive mitoses (uncontrolled growth),
+    unresponsiveness to damage (overstabilization), or even self destruction,
+    especially for the more severe types of damage.
+  </p>
+
+  <p>
+    If we want our model to show more consistent and accurate regenerative
+    capabilities, we can try to increase the basin of attraction for our target
+    pattern - increase the space of cell configurations that naturally gravitate
+    towards our target shape. We will do this by damaging a few pool-sampled
+    states before each training step. The system now has to be capable of
+    regenerating from states damaged by randomly placed erasing circles. Our
+    hope is that this will generalize to regenerational capabilities from
+    various types of damage.
+  </p>
+
+  <p>
+    </p><figure><div class="vsc-controller"></div>
+      <video loop="" autoplay="autoplay" playsinline="" muted="muted">
+        <source src="Growing%20Neural%20Cellular%20Automata_files/batches.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>
+        Damaging samples in the pool encourages the learning of robust
+        regenerative qualities. Row 1 are samples from the pool, Row 2 are their
+        respective states after iterating the model.<br><br>
+        <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=QeXZKb5v2gxj" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a>
+      </figcaption>
+    </figure>
+  <p></p>
+  <p>
+    The animation above shows training progress, which includes sample damage.
+    We sample 8 states from the pool. Then we replace the highest-loss sample
+    (top-left-most in the above) with the seed state, and damage the three
+    lowest-loss (top-right-most) states by setting a random circular region
+    within the pattern to zeros. The bottom row shows states after iteration
+    from the respective top-most starting state. As in Experiment 2, the
+    resulting states get injected back into the pool.
+  </p>
+
+  <p>
+    </p><figure><div class="vsc-controller"></div>
+      <video loop="" autoplay="autoplay" playsinline="" muted="muted">
+        <source src="Growing%20Neural%20Cellular%20Automata_files/regen2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>
+        Patterns exposed to damage during training exhibit astounding
+        regenerative capabilities. <br><br>
+        <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=TDzJM69u4_8p" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a>
+      </figcaption>
+    </figure>
+  <p></p>
+  <p>
+    As we can see from the animation above, models that were exposed to damage
+    during training are much more robust, including to types of damage not
+    experienced in the training process (for instance rectangular damage as
+    above).
+  </p>
+
+  <h2 id="experiment-4">Experiment 4: Rotating the perceptive field</h2>
+  <p>
+    As previously described, we model the cell’s perception of its neighbouring
+    cells by estimating the gradients of state channels in <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>x</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.71444em;"></span><span class="strut bottom" style="height:0.71444em;vertical-align:0em;"></span><span class="base"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.05556em;"><span>⃗</span></span></span></span></span></span></span></span></span></span></span> and
+    <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>y</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.71444em;"></span><span class="strut bottom" style="height:0.9088799999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.11112em;"><span>⃗</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"></span></span></span></span></span></span></span></span> using Sobel filters. A convenient analogy is that each agent has
+    two sensors (chemosensory receptors, for instance) pointing in orthogonal
+    directions that can sense the gradients in the concentration of certain
+    chemicals along the axis of the sensor. What happens if we rotate those
+    sensors? We can do this by rotating the Sobel kernels.
+  </p>
+  <figure>
+    <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mo fence="true">[</mo><mtable><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>K</mi><mi>x</mi></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>K</mi><mi>y</mi></msub></mrow></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><mo>=</mo><mrow><mo fence="true">[</mo><mtable><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>cos</mi><mi>θ</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mo>−</mo><mi>sin</mi><mi>θ</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>sin</mi><mi>θ</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>cos</mi><mi>θ</mi></mrow></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow><mo>∗</mo><mrow><mo fence="true">[</mo><mtable><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>S</mi><mi>o</mi><mi>b</mi><mi>e</mi><msub><mi>l</mi><mi>x</mi></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>S</mi><mi>o</mi><mi>b</mi><mi>e</mi><msub><mi>l</mi><mi>y</mi></msub></mrow></mstyle></mtd></mtr></mtable><mo fence="true">]</mo></mrow></mrow><annotation encoding="application/x-tex"> \begin{bmatrix} K_x \\ K_y \end{bmatrix} = \begin{bmatrix} \cos \theta &amp;
+    -\sin \theta \\ \sin \theta &amp; \cos \theta \end{bmatrix} * \begin{bmatrix}
+    Sobel_x \\ Sobel_y \end{bmatrix} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.45em;"></span><span class="strut bottom" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="base"><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathit" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathit" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span></span><span class="mrel">=</span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop">cos</span><span class="mord mathit" style="margin-right:0.02778em;">θ</span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop">sin</span><span class="mord mathit" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">−</span><span class="mop">sin</span><span class="mord mathit" style="margin-right:0.02778em;">θ</span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop">cos</span><span class="mord mathit" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span></span><span class="mbin">∗</span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathit">o</span><span class="mord mathit">b</span><span class="mord mathit">e</span><span class="mord"><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span><span style="top:-2.4099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathit">o</span><span class="mord mathit">b</span><span class="mord mathit">e</span><span class="mord"><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9500000000000004em;"></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span></span></span></span></span></span>
+  </figure>
+  <p>
+    This simple modification of the perceptive field produces rotated versions
+    of the pattern for an angle of choosing without retraining as seen below.
+  </p>
+  <p>
+    </p><figure>
+      <img src="Growing%20Neural%20Cellular%20Automata_files/rotation.png" style="width: 448px">
+      <figcaption>
+        Rotating the axis along which the perception step computes gradients
+        brings about rotated versions of the pattern. <br><br>
+        <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=1CVR9MeYnjuY" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a>
+      </figcaption>
+    </figure>
+  <p></p>
+
+  <p>
+    In a perfect world, not quantized by individual cells in a pixel-lattice,
+    this would not be too surprising, as, after all, one would expect the
+    perceived gradients in <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>x</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.71444em;"></span><span class="strut bottom" style="height:0.71444em;vertical-align:0em;"></span><span class="base"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.05556em;"><span>⃗</span></span></span></span></span></span></span></span></span></span></span> and <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>y</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.71444em;"></span><span class="strut bottom" style="height:0.9088799999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.11112em;"><span>⃗</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"></span></span></span></span></span></span></span></span> to be invariant to the chosen
+    angle - a simple change of frame of reference. However, it is important to
+    note that things are not as simple in a pixel based model. Rotating pixel
+    based graphics involves computing a mapping that’s not necessarily bijective
+    and classically involves interpolating between pixels to achieve the desired
+    result. This is because a single pixel, when rotated, will now likely
+    overlap several pixels. The successful growth of patterns as above suggests
+    a certain robustness to the underlying conditions outside of those
+    experienced during training.
+  </p>
+  <h2 id="related-work">Related Work</h2>
+  <h3>CA and PDEs</h3>
+  <p>
+    There exists an extensive body of literature that describes the various
+    flavours of cellular automata and PDE systems, and their applications to
+    modelling physical, biological or even social systems. Although it would be
+    impossible to present a just overview of this field in a few lines, we will
+    describe some prominent examples that inspired this work. Alan Turing
+    introduced his famous Turing patterns back in 1952
+    <d-cite key="turing1990chemical"></d-cite>, suggesting how
+    reaction-diffusion systems can be a valid model for chemical behaviors
+    during morphogenesis. A particularly inspiring reaction-diffusion model that
+    stood the test of time is the Gray-Scott model
+    <d-cite key="Pearson189"></d-cite>, which shows an extreme variety of
+    behaviors controlled by just a few variables.
+  </p>
+
+  <p>
+    Ever since von Neumann introduced CAs
+    <d-cite key="10.5555/1102024"></d-cite> as models for self-replication they
+    have captivated researchers’ minds, who observed extremely complex
+    behaviours emerging from very simple rules. Likewise, the a broader audience
+    outside of academia were seduced by CA’s life-like behaviours thanks to
+    Conway’s Game of Life <d-cite key="10.2307/24927642"></d-cite>. Perhaps
+    motivated in part by the proof that something as simple as the Rule 110 is
+    Turing complete, Wolfram’s “<i>A New Kind of Science”</i>
+    <d-cite key="Wolfram2002ANK"></d-cite> asks for a paradigm shift centered
+    around the extensive usage of elementary computer programs such as CA as
+    tools for understanding the world.
+  </p>
+
+  <p>
+    More recently, several researchers generalized Conway’s Game of life to work
+    on more continuous domains. We were particularly inspired by Rafler’s
+    SmoothLife <d-cite key="rafler2011generalization"></d-cite> and Chan’s Lenia
+    <d-cite key="Chan_2019, Reinke2019IntrinsicallyME"></d-cite>, the latter of
+    which also discovers and classifies entire species of “lifeforms”.
+  </p>
+
+  <p>
+    A number of researchers have used evolutionary algorithms to find CA rules
+    that reproduce predefined simple patterns
+    <d-cite key="10.1007/978-3-642-19167-1_2, Nichele2018CANEATEC"></d-cite>.
+    For example, J. Miller <d-cite key="Miller2004"></d-cite> proposed an
+    experiment similar to ours, using evolutionary algorithms to design a CA
+    rule that could build and regenerate the French flag, starting from a seed
+    cell.
+  </p>
+  <h3>Neural Networks and Self-Organisation</h3>
+  <p>
+    The close relation between Convolutional Neural Networks and Cellular
+    Automata has already been observed by a number of researchers
+    <d-cite key="wulff1993learning, Gilpin2018CellularAA"></d-cite>. The
+    connection is so strong it allowed us to build Neural CA models using
+    components readily available in popular ML frameworks. Thus, using a
+    different jargon, our Neural CA could potentially be named “Recurrent
+    Residual Convolutional Networks with ‘per-pixel’ Dropout”.
+  </p>
+
+  <p>
+    The Neural GPU
+    <d-cite key="Kaiser2015NeuralGPU, Freivalds2017ImprovingTN"></d-cite> offers
+    a computational architecture very similar to ours, but applied in the
+    context of learning multiplication and a sorting algorithm.
+  </p>
+
+  <p>
+    Looking more broadly, we think that the concept of self-organisation is
+    finding its way into mainstream machine learning with popularisation of
+    Graph Neural Network <d-cite key="wu2019comprehensive"></d-cite> models.
+    Typically, GNNs run a repeated computation across vertices of a (possibly
+    dynamic) graph. Vertices communicate locally through graph edges, and
+    aggregate global information required to perform the task over multiple
+    rounds of message exchanges, just as atoms can be thought of as
+    communicating with each other to produce the emergent properties of a
+    molecule <d-cite key="NIPS2015_5954"></d-cite>, or even points of a point
+    cloud talk to their neighbors to figure out their global shape
+    <d-cite key="Wang_2019"></d-cite>.
+  </p>
+  <p>
+    Self-organization also appeared in fascinating contemporary work using more
+    traditional dynamic graph networks, where the authors evolved
+    Self-Assembling Agents to solve a variety of virtual tasks
+    <d-cite key="pathak19assemblies"></d-cite>.
+  </p>
+  <h3>Swarm Robotics</h3>
+  <p>
+    One of the most remarkable demonstrations of the power of self-organisation
+    is when it is applied to swarm modeling. Back in 1987, Reynolds’ Boids
+    <d-cite key="boids"></d-cite> simulated the flocking behaviour of birds with
+    just a tiny set of handcrafted rules. Nowadays, we can embed tiny robots
+    with programs and test their collective behavior on physical agents, as
+    demonstrated by work such as Mergeable Nervous Systems
+    <d-cite key="mathews2017mergeable"></d-cite> and Kilobots
+    <d-cite key="kilobots"></d-cite>. To the best of our knowledge, programs
+    embedded into swarm robots are currently designed by humans. We hope our
+    work can serve as an inspiration for the field and encourage the design of
+    collective behaviors through differentiable modeling.
+  </p>
+  <h2 id="discussion">Discussion</h2>
+  <h3>Embryogenetic Modeling</h3>
+
+  <p>
+    </p><figure><div class="vsc-controller"></div>
+      <video loop="" autoplay="autoplay" playsinline="" muted="muted">
+        <source src="Growing%20Neural%20Cellular%20Automata_files/planarian.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>
+        Regeneration-capable 2-headed planarian, the creature that inspired this
+        work <d-cite style="text-align: left" key="WhatBodiesThink"></d-cite>
+        <br><br>
+        <a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=fQ1u2MqFy7Ni" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a>
+      </figcaption>
+    </figure>
+  <p></p>
+  <p>
+    This article describes a toy embryogenesis and regeneration model. This is a
+    major direction for future work, with many applications in biology and
+    beyond. In addition to the implications for understanding the evolution and
+    control of regeneration, and harnessing this understanding for biomedical
+    repair, there is the field of bioengineering. As the field transitions from
+    synthetic biology of single cell collectives to a true synthetic morphology
+    of novel living machines <d-cite key="Kriegman1853, Kamm2018"></d-cite>, it
+    will be essential to develop strategies for programming system-level
+    capabilities, such as anatomical homeostasis (regenerative repair). It has
+    long been known that regenerative organisms can restore a specific
+    anatomical pattern; however, more recently it’s been found that the target
+    morphology is not hard coded by the DNA, but is maintained by a
+    physiological circuit that stores a setpoint for this anatomical homeostasis
+    <d-cite key="doi:10.1080/19420889.2016.1192733"></d-cite>. Techniques are
+    now available for re-writing this setpoint, resulting for example
+    <d-cite key="OVIEDO2010188,DURANT20172231"></d-cite> in 2-headed flatworms
+    that, when cut into pieces in plain water (with no more manipulations)
+    result in subsequent generations of 2-headed regenerated worms (as shown
+    above). It is essential to begin to develop models of the computational
+    processes that store the system-level target state for swarm behavior
+    <d-cite key="doi:10.1162/isal_a_00043, PIETAK201852, doi:10.1162/isal_a_00041, doi:10.1162/isal_a_029"></d-cite>, so that efficient strategies can be developed for rationally editing this
+    information structure, resulting in desired large-scale outcomes (thus
+    defeating the inverse problem that holds back regenerative medicine and many
+    other advances).
+  </p>
+  <h3>Engineering and machine learning</h3>
+  <p>
+    The models described in this article run on the powerful GPU of a modern
+    computer or a smartphone. Yet, let’s speculate about what a “more physical”
+    implementation of such a system could look like. We can imagine it as a grid
+    of tiny independent computers, simulating individual cells. Each of those
+    computers would require approximately 10Kb of ROM to store the “cell
+    genome”: neural network weights and the control code, and about 256 bytes of
+    RAM for the cell state and intermediate activations. The cells must be able
+    to communicate their 16-value state vectors to neighbors. Each cell would
+    also require an RGB-diode to display the color of the pixel it represents. A
+    single cell update would require about 10k multiply-add operations and does
+    not have to be synchronised across the grid. We propose that cells might
+    wait for random time intervals between updates. The system described above
+    is uniform and decentralised. Yet, our method provides a way to program it
+    to reach the predefined global state, and recover this state in case of
+    multi-element failures and restarts. We therefore conjecture this kind of
+    modeling may be used for designing reliable, self-organising agents. On the
+    more theoretical machine learning front, we show an instance of a
+    decentralized model able to accomplish remarkably complex tasks. We believe
+    this direction to be opposite to the more traditional global modeling used
+    in the majority of contemporary work in the deep learning field, and we hope
+    this work to be an inspiration to explore more decentralized learning
+    modeling.
+  </p>
+
+<section id="thread-nav" class="thread-info" style="margin-top: 10px; margin-bottom: 40px">
+  <img class="thread-icon" src="Growing%20Neural%20Cellular%20Automata_files/multiple-pages.svg" width="43px" height="50px">
+  <p class="explanation">
+    This article is part of the
+    <a href="https://distill.pub/2020/selforg/">Differentiable Self-organizing Systems Thread</a>,
+    an experimental format collecting invited short articles delving into
+    differentiable self-organizing systems, interspersed with critical
+    commentary from several experts in adjacent fields.
+  </p>
+  <a class="prev" href="https://distill.pub/2020/selforg/">Differentiable Self-organizing Systems Thread</a>
+  <a class="next" href="https://distill.pub/2020/selforg/mnist/">Self-classifying MNIST Digits</a>
+</section>
+</d-article>
+<d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+  <h3>Acknowledgments</h3>
+  <p>
+    We would like to thank Blaise Aguera y Arcas for his support, as well as for
+    teasing our work in his excellent 2019 talk at NeurIPS
+    <d-cite key="SocialIntelligence"></d-cite>. We also thank Jyrki Alakuijala
+    for his continuous support. We thank Damien Henry, Mark Sandler, Sean Silva
+    and Bert Chan for their review of our early drafts, and Andrew Jackson for
+    proofreading the text.
+  </p>
+
+  <p>
+    On the Distill side, we are especially grateful to Chris Olah for reviewing
+    the article draft, insightful comments on text and diagrams, and general
+    support of the publication.
+  </p>
+  <h3>Author Contributions</h3>
+  <p>
+    <strong>Research:</strong> Alexander came up with the Self-Organising
+    Asynchronous Neural Cellular Automata model and Ettore contributed to its
+    design. Ettore designed and performed most of the experiments for this work.
+    Alexander supervised the entire process and contributed extensively to the
+    later stages of development by performing experiments and refining the
+    model.
+  </p>
+
+  <p>
+    The idea of applying neural networks to understanding regeneration, and to
+    designing self-organising systems, was proposed by Michael Levin in his
+    email to Alexander, that was sent following the DeepDream
+    <d-cite key="mordvintsev2015inceptionism"></d-cite> publication by Alexander
+    in 2015. Alexander’s proposal of this model and this work were inspired by
+    the talk <d-cite key="WhatBodiesThink"></d-cite> given by Michael at NeurIPS
+    2018 as well as the subsequent email exchange between Alexander and Michael.
+  </p>
+
+  <p>
+    <strong>Demos:</strong> Alexander created both the WebGL and the tf.js demo.
+    Ettore contributed to the tf.js demo.
+  </p>
+
+  <p>
+    <strong>Writing &amp; Diagrams:</strong> Alexander outlined the structure of the
+    article, and contributed to the content throughout. Ettore contributed to
+    the content throughout. Eyvind drew all the diagrams, contributed to the
+    content throughout, and wrote all of the pseudocode. Michael made extensive
+    contributions to the article text, providing the biological context and
+    motivation for this work.
+  </p>
+  <h3>Implementation details</h3>
+  <p>
+    <strong>WebGL playground.</strong> Starting from our first experiments on
+    Neural CA growth and regeneration, we wanted to challenge our models with
+    new situations not seen during training, like removing large portions of the
+    pattern, or seeding multiple instances side-by-side. To facilitate
+    exploration and sharing of our models, we created a TensorFlow.js playground
+    that allowed us to interact with trained models right in a browser. The code
+    for exporting and loading CA models in TF.js format is available in the
+    accompanying Colab notebook.
+  </p>
+
+  <p>
+    While writing this article, we decided to see how far one can push the
+    performance and portability of this interactive playground. We reimplemented
+    all necessary operations from scratch using the WebGL API and GLSL shader
+    language. This implementation powers the demo that can be found on the top
+    of this page. We decided to quantize all model parameters and
+    activations<d-footnote id="d-footnote-5">
+      We noticed that our models are more sensitive to the accuracy of small
+      magnitude activation values, rather than the large ones. That’s why we use
+      the non-linear <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>arctan</mi></mrow><annotation encoding="application/x-tex">\arctan</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.61508em;"></span><span class="strut bottom" style="height:0.61508em;vertical-align:0em;"></span><span class="base"><span class="mop">arctan</span></span></span></span></span> function to compress the unbounded activation
+      values to the bounded segment, preserving the highest accuracy around
+      zero.</d-footnote>
+    to 8-bit values, in order to maximize the performance and compatibility with
+    mobile hardware.
+  </p>
+
+  <p>
+    The quantization was largely an afterthought, and was not accounted for
+    during training. That’s why there are slight differences in models’
+    behaviours between the online demo and the Python version. However, most of
+    the CAs that we’ve trained managed to survive the somewhat draconic
+    quantization without severe artifacts, although in a few cases we had to
+    resort to selecting the best model checkpoint between a few training runs.
+  </p>
+
+  <p>
+    <strong>Colaboratory Notebook.</strong> All of the experiments, images and
+    videos in this article can be recreated using the single notebook referenced
+    at the beginning of the article. Images have a “Recreate in Colab” button
+    which brings you to the corresponding cell that generated the image. Our
+    reference implementation of the Neural CA was written while striving to be
+    as concise and simple as possible and thus foregoes many performance
+    optimizations and tricks one could implement. For the core of the CA - the
+    neural network parametrizing the update rule - the full code is contained in
+    the tf.keras.Model NeuralCA class. Note that this network consists of just
+    8.3K parameters - minute by most standards and we suspect it could be
+    minimized further employing pruning or other forms of compression. The
+    update loop consists of a native python loop iteratively applying the
+    aforementioned update function, and making use of various techniques we’ve
+    described in the article, such as having a sample pool and applying damage
+    to the starting seeds. The rest of the notebook consists of code to generate
+    and visualize the various images and videos employed in this article,
+    utilizing models pre-trained by us using this very same colab. These
+    pre-trained models can be easily recreated in a matter of minutes with a
+    current generation GPU or one provided for free in Colab.
+  </p>
+
+  <d-footnote-list style="">
+<style>
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+</style>
+
+<h3>Footnotes</h3>
+<ol><li id="d-footnote-1-listing">
+      Self-regulatory feedback loops trying maintain the body in a stable state
+      or preserve its correct overall morphology under external
+      perturbations<a class="footnote-backlink" href="#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing">
+      We set RGB channels of the seed to zero because we want it to be visible
+      on the white background.<a class="footnote-backlink" href="#d-footnote-2">[↩]</a></li><li id="d-footnote-3-listing">
+      This should be a sufficient number of steps to grow the pattern of the
+      size we work with (40x40), even considering the stochastic nature of our
+      update rule.<a class="footnote-backlink" href="#d-footnote-3">[↩]</a></li><li id="d-footnote-4-listing">
+      We observed training instabilities, that were manifesting themselves as
+      sudden jumps of the loss value in the later stages of the training. We
+      managed to mitigate them by applying per-variable L2 normalization to
+      parameter gradients. This may have the effect similar to the weight
+      normalization <d-cite key="Salimans2016WeightNA"></d-cite>. Other training
+      parameters are available in the accompanying source code.<a class="footnote-backlink" href="#d-footnote-4">[↩]</a></li><li id="d-footnote-5-listing">
+      We noticed that our models are more sensitive to the accuracy of small
+      magnitude activation values, rather than the large ones. That’s why we use
+      the non-linear <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>arctan</mi></mrow><annotation encoding="application/x-tex">\arctan</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.61508em;"></span><span class="strut bottom" style="height:0.61508em;vertical-align:0em;"></span><span class="base"><span class="mop">arctan</span></span></span></span></span> function to compress the unbounded activation
+      values to the bounded segment, preserving the highest accuracy around
+      zero.<a class="footnote-backlink" href="#d-footnote-5">[↩]</a></li></ol>
+</d-footnote-list>
+  <d-citation-list distill-prerendered="true"><style>
+d-citation-list {
+  contain: style;
+}
+
+d-citation-list .references {
+  grid-column: text;
+}
+
+d-citation-list .references .title {
+  font-weight: 500;
+}
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="PezzuloGiovanniLevin2016"><span class="title">Top-down models in biology: explanation and control of complex living systems above the molecular level</span>   <a href="https://royalsocietypublishing.org/doi/abs/10.1098/rsif.2016.0555">[link]</a><br>Pezzulo, G. and Levin, M., 2016. Journal of The Royal Society Interface, Vol 13(124), pp. 20160555.  <a href="https://doi.org/10.1098/rsif.2016.0555" style="text-decoration:inherit;">DOI: 10.1098/rsif.2016.0555</a></li><li id="C5IB00221D"><span class="title">Re-membering
+ the body: applications of computational neuroscience to the top-down 
+control of regeneration of limbs and other complex organs</span>   <a href="http://dx.doi.org/10.1039/C5IB00221D">[link]</a><br>Pezzulo, G. and Levin, M., 2015. Integr. Biol., Vol 7(12), pp. 1487-1517. The Royal Society of Chemistry. <a href="https://doi.org/10.1039/C5IB00221D" style="text-decoration:inherit;">DOI: 10.1039/C5IB00221D</a></li><li id="Pai313"><span class="title">Transmembrane voltage potential controls embryonic eye patterning in Xenopus laevis</span>   <a href="https://dev.biologists.org/content/139/2/313">[link]</a><br>Pai,
+ V.P., Aw, S., Shomrat, T., Lemire, J.M. and Levin, M., 2012. 
+Development, Vol 139(2), pp. 313--323. The Company of Biologists Ltd. <a href="https://doi.org/10.1242/dev.073759" style="text-decoration:inherit;">DOI: 10.1242/dev.073759</a></li><li id="Salimans2016WeightNA"><span class="title">Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks</span>   <a href="http://arxiv.org/pdf/1602.07868.pdf">[PDF]</a><br>Salimans, T. and Kingma, D.P., 2016. NIPS. </li><li id="turing1990chemical"><span class="title">The chemical basis of morphogenesis</span>   <a href="https://doi.org/10.1007/BF02459572">[link]</a><br>Turing, A.M., 1990. Bulletin of mathematical biology, Vol 52(1-2), pp. 153--197. Springer. <a href="https://doi.org/10.1007/BF02459572" style="text-decoration:inherit;">DOI: 10.1007/BF02459572</a></li><li id="Pearson189"><span class="title">Complex Patterns in a Simple System</span>   <a href="https://science.sciencemag.org/content/261/5118/189">[link]</a><br>Pearson, J.E., 1993. Science, Vol 261(5118), pp. 189--192. American Association for the Advancement of Science. <a href="https://doi.org/10.1126/science.261.5118.189" style="text-decoration:inherit;">DOI: 10.1126/science.261.5118.189</a></li><li id="10.5555/1102024"><span class="title">Theory of Self-Reproducing Automata</span> <br>Neumann, J.V. and Burks, A.W., 1966. University of Illinois Press.</li><li id="10.2307/24927642"><span class="title">MATHEMATICAL GAMES</span>   <a href="http://www.jstor.org/stable/24927642">[link]</a><br>Gardner, M., 1970. Scientific American, Vol 223(4), pp. 120--123. Scientific American, a division of Nature America, Inc.</li><li id="Wolfram2002ANK"><span class="title">A New Kind of Science</span>   <a href="https://www.wolframscience.com/">[link]</a><br>Wolfram, S., 2002. Wolfram Media.</li><li id="rafler2011generalization"><span class="title">Generalization of Conway's "Game of Life" to a continuous domain - SmoothLife</span> <br>Rafler, S., 2011. </li><li id="Chan_2019"><span class="title">Lenia: Biology of Artificial Life</span>   <a href="http://dx.doi.org/10.25088/complexsystems.28.3.251">[link]</a><br>Chan, B.W., 2019. Complex Systems, Vol 28(3), pp. 251–286. Wolfram Research, Inc. <a href="https://doi.org/10.25088/complexsystems.28.3.251" style="text-decoration:inherit;">DOI: 10.25088/complexsystems.28.3.251</a></li><li id="Reinke2019IntrinsicallyME"><span class="title">Intrinsically Motivated Exploration for Automated Discovery of Patterns in Morphogenetic Systems</span> <br>Reinke, C., Etcheverry, M. and Oudeyer, P., 2019. ArXiv, Vol abs/1908.06663. </li><li id="10.1007/978-3-642-19167-1_2"><span class="title">Evolving Self-organizing Cellular Automata Based on Neural Network Genotypes</span> <br>Elmenreich, W. and Fehervari, I., 2011. Self-Organizing Systems, pp. 16--25. Springer Berlin Heidelberg.</li><li id="Nichele2018CANEATEC"><span class="title">CA-NEAT: Evolved Compositional Pattern Producing Networks for Cellular Automata Morphogenesis and Replication</span> <br>Nichele,
+ S., Ose, M.B., Risi, S. and Tufte, G., 2018. IEEE Transactions on 
+Cognitive and Developmental Systems, Vol 10, pp. 687-700. </li><li id="Miller2004"><span class="title">Evolving a Self-Repairing, Self-Regulating, French Flag Organism</span> <br>Miller, J., 2004. , Vol 3102, pp. 129-139.  <a href="https://doi.org/10.1007/978-3-540-24854-5_12" style="text-decoration:inherit;">DOI: 10.1007/978-3-540-24854-5_12</a></li><li id="wulff1993learning"><span class="title">Learning Cellular Automaton Dynamics with Neural Networks</span>   <a href="https://papers.nips.cc/paper/703-learning-cellular-automaton-dynamics-with-neural-networks.pdf">[PDF]</a><br>Wulff,
+ N.H. and Hertz, J.A., 1992. Proceedings of the 5th International 
+Conference on Neural Information Processing Systems, pp. 631–638. Morgan
+ Kaufmann Publishers Inc. <a href="https://doi.org/10.5555/2987061.2987139" style="text-decoration:inherit;">DOI: 10.5555/2987061.2987139</a></li><li id="Gilpin2018CellularAA"><span class="title">Cellular automata as convolutional neural networks</span>   <a href="http://arxiv.org/pdf/1809.02942.pdf">[PDF]</a><br>Gilpin, W., 2018. Physical review. E, Vol 100 3-1, pp. 032402. </li><li id="Kaiser2015NeuralGPU"><span class="title">Neural GPUs Learn Algorithms</span> <br>Kaiser, L. and Sutskever, I., 2015. CoRR, Vol abs/1511.08228. </li><li id="Freivalds2017ImprovingTN"><span class="title">Improving the Neural GPU Architecture for Algorithm Learning</span> <br>Freivalds, K. and Liepins, R., 2017. ArXiv, Vol abs/1702.08727. </li><li id="wu2019comprehensive"><span class="title">A Comprehensive Survey on Graph Neural Networks</span> <br>Wu, Z., Pan, S., Chen, F., Long, G., Zhang, C. and Yu, P.S., 2019. </li><li id="NIPS2015_5954"><span class="title">Convolutional Networks on Graphs for Learning Molecular Fingerprints</span>   <a href="http://papers.nips.cc/paper/5954-convolutional-networks-on-graphs-for-learning-molecular-fingerprints.pdf">[PDF]</a><br>Duvenaud,
+ D., Maclaurin, D., Aguilera-Iparraguirre, J., G\'{o}mez-Bombarelli, R.,
+ Hirzel, T., Aspuru-Guzik, A. and Adams, R.P., 2015. Proceedings of the 
+28th International Conference on Neural Information Processing Systems -
+ Volume 2, pp. 2224–2232. MIT Press. <a href="https://doi.org/10.5555/2969442.2969488" style="text-decoration:inherit;">DOI: 10.5555/2969442.2969488</a></li><li id="Wang_2019"><span class="title">Dynamic Graph CNN for Learning on Point Clouds</span>   <a href="http://dx.doi.org/10.1145/3326362">[link]</a><br>Wang,
+ Y., Sun, Y., Liu, Z., Sarma, S.E., Bronstein, M.M. and Solomon, J.M., 
+2019. ACM Transactions on Graphics, Vol 38(5), pp. 1–12. Association for
+ Computing Machinery (ACM). <a href="https://doi.org/10.1145/3326362" style="text-decoration:inherit;">DOI: 10.1145/3326362</a></li><li id="pathak19assemblies"><span class="title">Learning to Control Self- Assembling Morphologies: A Study of Generalization via Modularity</span>   <a href="https://pathak22.github.io/modular-assemblies/">[link]</a><br>Pathak, D., Lu, C., Darrell, T., Isola, P. and Efros, A.A., 2019. NeurIPS. </li><li id="boids"><span class="title">Flocks, Herds and Schools: A Distributed Behavioral Model</span>   <a href="https://doi.org/10.1145/37402.37406">[link]</a><br>Reynolds, C.W., 1987. SIGGRAPH Comput. Graph., Vol 21(4), pp. 25–34. Association for Computing Machinery. <a href="https://doi.org/10.1145/37402.37406" style="text-decoration:inherit;">DOI: 10.1145/37402.37406</a></li><li id="mathews2017mergeable"><span class="title">Mergeable nervous systems for robots</span> <br>Mathews,
+ N., Christensen, A.L., O’Grady, R., Mondada, F. and Dorigo, M., 2017. 
+Nature communications, Vol 8(1), pp. 1--7. Nature Publishing Group. <a href="https://doi.org/10.1038/s41467-017-00109-2" style="text-decoration:inherit;">DOI: 10.1038/s41467-017-00109-2</a></li><li id="kilobots"><span class="title">Kilobot: A low cost scalable robot system for collective behaviors</span> <br>{Rubenstein},
+ M., {Ahler}, C. and {Nagpal}, R., 2012. 2012 IEEE International 
+Conference on Robotics and Automation, Vol (), pp. 3293-3298.  <a href="https://doi.org/10.1109/ICRA.2012.6224638" style="text-decoration:inherit;">DOI: 10.1109/ICRA.2012.6224638</a></li><li id="WhatBodiesThink"><span class="title">What Bodies Think About: Bioelectric Computation Outside the Nervous System</span>   <a href="http://www.youtube.com/watch?v=RjD1aLm4Thg">[link]</a><br>Levin, M., 2018. </li><li id="Kriegman1853"><span class="title">A scalable pipeline for designing reconfigurable organisms</span>   <a href="https://www.pnas.org/content/117/4/1853">[link]</a><br>Kriegman,
+ S., Blackiston, D., Levin, M. and Bongard, J., 2020. Proceedings of the
+ National Academy of Sciences, Vol 117(4), pp. 1853--1859. National 
+Academy of Sciences. <a href="https://doi.org/10.1073/pnas.1910837117" style="text-decoration:inherit;">DOI: 10.1073/pnas.1910837117</a></li><li id="Kamm2018"><span class="title">Perspective: The promise of multi-cellular engineered living systems</span>   <a href="https://doi.org/10.1063/1.5038337">[link]</a><br>Kamm,
+ R.D., Bashir, R., Arora, N., Dar, R.D., Gillette, M.U., Griffith, L.G.,
+ Kemp, M.L., Kinlaw, K., Levin, M., Martin, A.C., McDevitt, T.C., Nerem,
+ R.M., Powers, M.J., Saif, T.A., Sharpe, J., Takayama, S., Takeuchi, S.,
+ Weiss, R., Ye, K., Yevick, H.G. and Zaman, M.H., 2018. APL 
+Bioengineering, Vol 2(4), pp. 040901.  <a href="https://doi.org/10.1063/1.5038337" style="text-decoration:inherit;">DOI: 10.1063/1.5038337</a></li><li id="doi:10.1080/19420889.2016.1192733"><span class="title">Physiological inputs regulate species-specific anatomy during embryogenesis and regeneration</span>   <a href="https://doi.org/10.1080/19420889.2016.1192733">[link]</a><br>Sullivan,
+ K.G., Emmons-Bell, M. and Levin, M., 2016. Communicative \&amp; 
+Integrative Biology, Vol 9(4), pp. e1192733. Taylor &amp; Francis. <a href="https://doi.org/10.1080/19420889.2016.1192733" style="text-decoration:inherit;">DOI: 10.1080/19420889.2016.1192733</a></li><li id="OVIEDO2010188"><span class="title">Long-range neural and gap junction protein-mediated cues control polarity during planarian regeneration</span>   <a href="http://www.sciencedirect.com/science/article/pii/S001216060901402X">[link]</a><br>Oviedo,
+ N.J., Morokuma, J., Walentek, P., Kema, I.P., Gu, M.B., Ahn, J., Hwang,
+ J.S., Gojobori, T. and Levin, M., 2010. Developmental Biology, Vol 
+339(1), pp. 188 - 199.  <a href="https://doi.org/https://doi.org/10.1016/j.ydbio.2009.12.012" style="text-decoration:inherit;">DOI: https://doi.org/10.1016/j.ydbio.2009.12.012</a></li><li id="DURANT20172231"><span class="title">Long-Term, Stochastic Editing of Regenerative Anatomy via Targeting Endogenous Bioelectric Gradients</span>   <a href="http://www.sciencedirect.com/science/article/pii/S0006349517304277">[link]</a><br>Durant,
+ F., Morokuma, J., Fields, C., Williams, K., Adams, D.S. and Levin, M., 
+2017. Biophysical Journal, Vol 112(10), pp. 2231 - 2243.  <a href="https://doi.org/https://doi.org/10.1016/j.bpj.2017.04.011" style="text-decoration:inherit;">DOI: https://doi.org/10.1016/j.bpj.2017.04.011</a></li><li id="doi:10.1162/isal_a_00043"><span class="title">Pattern Regeneration in Coupled Networks</span>   <a href="https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_00043">[link]</a><br>Moore, D.G., Walker, S.I. and Levin, M., 2018. Artificial Life Conference Proceedings, Vol (30), pp. 204-205.  <a href="https://doi.org/10.1162/isal/_a/_00043" style="text-decoration:inherit;">DOI: 10.1162/isal\_a\_00043</a></li><li id="PIETAK201852"><span class="title">Bioelectrical
+ control of positional information in development and regeneration: A 
+review of conceptual and computational advances</span>   <a href="http://www.sciencedirect.com/science/article/pii/S0079610718300415">[link]</a><br>Pietak, A. and Levin, M., 2018. Progress in Biophysics and Molecular Biology, Vol 137, pp. 52 - 68.  <a href="https://doi.org/https://doi.org/10.1016/j.pbiomolbio.2018.03.008" style="text-decoration:inherit;">DOI: https://doi.org/10.1016/j.pbiomolbio.2018.03.008</a></li><li id="doi:10.1162/isal_a_00041"><span class="title">Modeling Cell Migration in a Simulated Bioelectrical Signaling Network for Anatomical Regeneration</span>   <a href="https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_00041">[link]</a><br>Ferreira, G.B.S., Scheutz, M. and Levin, M., 2018. Artificial Life Conference Proceedings, Vol (30), pp. 194-201.  <a href="https://doi.org/10.1162/isal/_a/_00041" style="text-decoration:inherit;">DOI: 10.1162/isal\_a\_00041</a></li><li id="doi:10.1162/isal_a_029"><span class="title">Investigating the effects of noise on a cell-to-cell communication mechanism for structure regeneration</span>   <a href="https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_029">[link]</a><br>Ferreira, G.B.S., Scheutz, M. and Levin, M., 2017. Artificial Life Conference Proceedings, Vol (29), pp. 170-177.  <a href="https://doi.org/10.1162/isal/_a/_029" style="text-decoration:inherit;">DOI: 10.1162/isal\_a\_029</a></li><li id="SocialIntelligence"><span class="title">Social Intelligence</span>   <a href="https://slideslive.com/38922302">[link]</a><br>Arcas, B.A.y., 2019. </li><li id="mordvintsev2015inceptionism"><span class="title">Inceptionism: Going deeper into neural networks</span>   <a href="https://research.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html">[HTML]</a><br>Mordvintsev, A., Olah, C. and Tyka, M., 2015. Google Research Blog. </li></ol></d-citation-list>
+  <d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+ </d-appendix><distill-appendix>
+<style>
+  distill-appendix {
+    contain: layout style;
+  }
+
+  distill-appendix .citation {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  distill-appendix > * {
+    grid-column: text;
+  }
+</style>
+
+    <h3 id="updates-and-corrections">Updates and Corrections</h3>
+    <p>
+    If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--growing-ca/issues/new">create an issue on GitHub</a>. </p>
+    
+    <h3 id="reuse">Reuse</h3>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--growing-ca">source available on GitHub</a>,
+ unless noted otherwise. The figures that have been reused from other 
+sources don’t fall under this license and can be recognized by a note in
+ their caption: “Figure from …”.</p>
+    
+    <h3 id="citation">Citation</h3>
+    <p>For attribution in academic contexts, please cite this work as</p>
+    <pre class="citation short">Mordvintsev, et al., "Growing Neural Cellular Automata", Distill, 2020.</pre>
+    <p>BibTeX citation</p>
+    <pre class="citation long">@article{mordvintsev2020growing,
+  author = {Mordvintsev, Alexander and Randazzo, Ettore and Niklasson, Eyvind and Levin, Michael},
+  title = {Growing Neural Cellular Automata},
+  journal = {Distill},
+  year = {2020},
+  note = {https://distill.pub/2020/growing-ca},
+  doi = {10.23915/distill.00023}
+}</pre>
+    </distill-appendix></d-appendix>
+
+  <d-bibliography><script type="text/json">[["Miller2004",{"author":"Miller, Julian","year":"2004","month":"06","pages":"129-139","title":"Evolving a Self-Repairing, Self-Regulating, French Flag Organism","volume":"3102","doi":"10.1007/978-3-540-24854-5_12","type":"article"}],["Elmenreich2011EvolvingSC",{"author":"Elmenreich, Wilfried and Fehervari, Istvan","editor":"Bettstetter, Christian and Gershenson, Carlos","title":"Evolving Self-organizing Cellular Automata Based on Neural Network Genotypes","booktitle":"Self-Organizing Systems","year":"2011","publisher":"Springer Berlin Heidelberg","address":"Berlin, Heidelberg","pages":"16--25","abstract":"This paper depicts and evaluates an evolutionary design process for generating a complex self-organizing multicellular system based on Cellular Automata (CA). We extend the model of CA with a neural network that controls the cell behavior according to its internal state. The model is used to evolve an Artificial Neural Network controlling the cell behavior in a way a previously defined reference pattern emerges by interaction of the cells. Generating simple regular structures such as flags can be learned relatively easy, but for complex patterns such as for example paintings or photographs the output is only a rough approximation of the overall mean color scheme. The application of a genotypical template for all cells in the automaton greatly reduces the search space for the evolutionary algorithm, which makes the presented morphogenetic approach a promising and innovative method for overcoming the complexity limits of evolutionary design approaches.","isbn":"978-3-642-19167-1","type":"InProceedings"}],["Morphogenesis1993",{"author":"Prusinkiewicz, Przemyslaw","title":"Visual Models of Morphogenesis","journal":"Artificial Life","volume":"1","number":"1\\_2","pages":"61-74","year":"1993","url":"https://doi.org/10.1162/artl.1993.1.61","doi":"10.1162/artl.1993.1.1\\_2.61","type":"article"}],["CANEAT2018",{"author":"S. {Nichele} and M. B. {Ose} and S. {Risi} and G. {Tufte}","journal":"IEEE Transactions on Cognitive and Developmental Systems","title":"CA-NEAT: Evolved Compositional Pattern Producing Networks for Cellular Automata Morphogenesis and Replication","year":"2018","volume":"10","number":"3","pages":"687-700","doi":"10.1109/TCDS.2017.2737082","ISSN":"2379-8939","month":"Sep.","issn":"2379-8939","type":"article"}],["Gilpin2018CellularAA",{"title":"Cellular automata as convolutional neural networks","author":"William Gilpin","journal":"Physical review. E","year":"2018","volume":"100 3-1","pages":"032402","url":"https://arxiv.org/abs/1809.02942","type":"article"}],["wulff1993learning",{"author":"Wulff, N. H. and Hertz, J. A.","title":"Learning Cellular Automaton Dynamics with Neural Networks","year":"1992","isbn":"1558602747","publisher":"Morgan Kaufmann Publishers Inc.","address":"San Francisco, CA, USA","booktitle":"Proceedings of the 5th International Conference on Neural Information Processing Systems","pages":"631–638","numpages":"8","location":"Denver, Colorado","doi":"10.5555/2987061.2987139","series":"NIPS’92","url":"https://papers.nips.cc/paper/703-learning-cellular-automaton-dynamics-with-neural-networks.pdf","type":"inproceedings"}],["Kaiser2015NeuralGPU",{"title":"Neural GPUs Learn Algorithms","author":"Lukasz Kaiser and Ilya Sutskever","journal":"CoRR","year":"2015","volume":"abs/1511.08228","type":"article"}],["Freivalds2017ImprovingTN",{"title":"Improving the Neural GPU Architecture for Algorithm Learning","author":"Karlis Freivalds and Renars Liepins","journal":"ArXiv","year":"2017","volume":"abs/1702.08727","type":"article"}],["wu2019comprehensive",{"title":"A Comprehensive Survey on Graph Neural Networks","author":"Zonghan Wu and Shirui Pan and Fengwen Chen and Guodong Long and Chengqi Zhang and Philip S. Yu","year":"2019","eprint":"1901.00596","archivePrefix":"arXiv","primaryClass":"cs.LG","archiveprefix":"arXiv","primaryclass":"cs.LG","type":"misc"}],["Wang_2019",{"title":"Dynamic Graph CNN for Learning on Point Clouds","volume":"38","ISSN":"0730-0301","url":"http://dx.doi.org/10.1145/3326362","DOI":"10.1145/3326362","number":"5","journal":"ACM Transactions on Graphics","publisher":"Association for Computing Machinery (ACM)","author":"Wang, Yue and Sun, Yongbin and Liu, Ziwei and Sarma, Sanjay E. and Bronstein, Michael M. and Solomon, Justin M.","year":"2019","month":"Oct","pages":"1–12","issn":"0730-0301","doi":"10.1145/3326362","type":"article"}],["NIPS2015_5954",{"author":"Duvenaud, David and Maclaurin, Dougal and Aguilera-Iparraguirre, Jorge and G\\'{o}mez-Bombarelli, Rafael and Hirzel, Timothy and Aspuru-Guzik, Al\\'{a}n and Adams, Ryan P.","title":"Convolutional Networks on Graphs for Learning Molecular Fingerprints","year":"2015","publisher":"MIT Press","address":"Cambridge, MA, USA","booktitle":"Proceedings of the 28th International Conference on Neural Information Processing Systems - Volume 2","pages":"2224–2232","numpages":"9","location":"Montreal, Canada","series":"NIPS’15","url":"http://papers.nips.cc/paper/5954-convolutional-networks-on-graphs-for-learning-molecular-fingerprints.pdf","doi":"10.5555/2969442.2969488","type":"inproceedings"}],["NeuralODE",{"title":"Neural Ordinary Differential Equations","author":"Chen, Tian Qi and Rubanova, Yulia and Bettencourt, Jesse and Duvenaud, David K","booktitle":"Advances in Neural Information Processing Systems 31","editor":"S. Bengio and H. Wallach and H. Larochelle and K. Grauman and N. Cesa-Bianchi and R. Garnett","pages":"6571--6583","year":"2018","publisher":"Curran Associates, Inc.","url":"http://papers.nips.cc/paper/7892-neural-ordinary-differential-equations.pdf","type":"article"}],["Chan_2019",{"title":"Lenia: Biology of Artificial Life","volume":"28","ISSN":"0891-2513","url":"http://dx.doi.org/10.25088/complexsystems.28.3.251","DOI":"10.25088/complexsystems.28.3.251","number":"3","journal":"Complex Systems","publisher":"Wolfram Research, Inc.","author":"Chan, Bert Wang-Chak","year":"2019","month":"Oct","pages":"251–286","issn":"0891-2513","doi":"10.25088/complexsystems.28.3.251","type":"article"}],["rafler2011generalization",{"title":"Generalization of Conway's \"Game of Life\" to a continuous domain - SmoothLife","author":"Stephan Rafler","year":"2011","eprint":"1111.1567","archivePrefix":"arXiv","primaryClass":"nlin.CG","archiveprefix":"arXiv","primaryclass":"nlin.CG","type":"misc"}],["10.1007/978-3-642-19167-1_2",{"author":"Elmenreich, Wilfried and Fehervari, Istvan","editor":"Bettstetter, Christian and Gershenson, Carlos","title":"Evolving Self-organizing Cellular Automata Based on Neural Network Genotypes","booktitle":"Self-Organizing Systems","year":"2011","publisher":"Springer Berlin Heidelberg","address":"Berlin, Heidelberg","pages":"16--25","abstract":"This paper depicts and evaluates an evolutionary design process for generating a complex self-organizing multicellular system based on Cellular Automata (CA). We extend the model of CA with a neural network that controls the cell behavior according to its internal state. The model is used to evolve an Artificial Neural Network controlling the cell behavior in a way a previously defined reference pattern emerges by interaction of the cells. Generating simple regular structures such as flags can be learned relatively easy, but for complex patterns such as for example paintings or photographs the output is only a rough approximation of the overall mean color scheme. The application of a genotypical template for all cells in the automaton greatly reduces the search space for the evolutionary algorithm, which makes the presented morphogenetic approach a promising and innovative method for overcoming the complexity limits of evolutionary design approaches.","isbn":"978-3-642-19167-1","type":"InProceedings"}],["Nichele2018CANEATEC",{"title":"CA-NEAT: Evolved Compositional Pattern Producing Networks for Cellular Automata Morphogenesis and Replication","author":"Stefano Nichele and Mathias Berild Ose and Sebastian Risi and Gunnar Tufte","journal":"IEEE Transactions on Cognitive and Developmental Systems","year":"2018","volume":"10","pages":"687-700","type":"article"}],["Wolfram2002ANK",{"Author":"Wolfram, Stephen","Title":"A New Kind of Science","Year":"2002","Publisher":"Wolfram Media","ISBN":"1579550088","URL":"https://www.wolframscience.com","Language":"English","author":"Wolfram, Stephen","title":"A New Kind of Science","year":"2002","publisher":"Wolfram Media","isbn":"1579550088","url":"https://www.wolframscience.com","language":"English","type":"book"}],["10.5555/1102024",{"author":"Neumann, John Von and Burks, Arthur W.","title":"Theory of Self-Reproducing Automata","year":"1966","publisher":"University of Illinois Press","address":"USA","type":"book"}],["Pearson189",{"author":"Pearson, John E.","title":"Complex Patterns in a Simple System","volume":"261","number":"5118","pages":"189--192","year":"1993","doi":"10.1126/science.261.5118.189","publisher":"American Association for the Advancement of Science","abstract":"Numerical simulations of a simple reaction-diffusion model reveal a surprising variety of irregular spatiotemporal patterns. These patterns arise in response to finite-amplitude perturbations. Some of them resemble the steady irregular patterns recently observed in thin gel reactor experiments. Others consist of spots that grow until they reach a critical size, at which time they divide in two. If in some region the spots become overcrowded, all of the spots in that region decay into the uniform background.","issn":"0036-8075","URL":"https://science.sciencemag.org/content/261/5118/189","eprint":"https://science.sciencemag.org/content/261/5118/189.full.pdf","journal":"Science","url":"https://science.sciencemag.org/content/261/5118/189","type":"article"}],["turing1990chemical",{"title":"The chemical basis of morphogenesis","author":"Turing, Alan Mathison","journal":"Bulletin of mathematical biology","volume":"52","number":"1-2","pages":"153--197","year":"1990","publisher":"Springer","doi":"10.1007/BF02459572","url":"https://doi.org/10.1007/BF02459572","type":"article"}],["10.2307/24927642",{"ISSN":"00368733, 19467087","URL":"http://www.jstor.org/stable/24927642","author":"Martin Gardner","journal":"Scientific American","number":"4","pages":"120--123","publisher":"Scientific American, a division of Nature America, Inc.","title":"MATHEMATICAL GAMES","volume":"223","year":"1970","issn":"00368733, 19467087","url":"http://www.jstor.org/stable/24927642","type":"article"}],["Reinke2019IntrinsicallyME",{"title":"Intrinsically Motivated Exploration for Automated Discovery of Patterns in Morphogenetic Systems","author":"Chris Reinke and Mayalen Etcheverry and Pierre-Yves Oudeyer","journal":"ArXiv","year":"2019","volume":"abs/1908.06663","type":"article"}],["PezzuloGiovanniLevin2016",{"author":"Pezzulo, Giovanni and Levin, Michael ","title":"Top-down models in biology: explanation and control of complex living systems above the molecular level","journal":"Journal of The Royal Society Interface","volume":"13","number":"124","pages":"20160555","year":"2016","doi":"10.1098/rsif.2016.0555","URL":"https://royalsocietypublishing.org/doi/abs/10.1098/rsif.2016.0555","eprint":"https://royalsocietypublishing.org/doi/pdf/10.1098/rsif.2016.0555","abstract":"It is widely assumed in developmental biology and bioengineering that optimal understanding and control of complex living systems follows from models of molecular events. The success of reductionism has overshadowed attempts at top-down models and control policies in biological systems. However, other fields, including physics, engineering and neuroscience, have successfully used the explanations and models at higher levels of organization, including least-action principles in physics and control-theoretic models in computational neuroscience. Exploiting the dynamic regulation of pattern formation in embryogenesis and regeneration requires new approaches to understand how cells cooperate towards large-scale anatomical goal states. Here, we argue that top-down models of pattern homeostasis serve as proof of principle for extending the current paradigm beyond emergence and molecule-level rules. We define top-down control in a biological context, discuss the examples of how cognitive neuroscience and physics exploit these strategies, and illustrate areas in which they may offer significant advantages as complements to the mainstream paradigm. By targeting system controls at multiple levels of organization and demystifying goal-directed (cybernetic) processes, top-down strategies represent a roadmap for using the deep insights of other fields for transformative advances in regenerative medicine and systems bioengineering. ","url":"https://royalsocietypublishing.org/doi/abs/10.1098/rsif.2016.0555","type":"article"}],["C5IB00221D",{"author":"Pezzulo, G. and Levin, M.","title":"Re-membering the body: applications of computational neuroscience to the top-down control of regeneration of limbs and other complex organs","journal":"Integr. Biol.","year":"2015","volume":"7","issue":"12","pages":"1487-1517","publisher":"The Royal Society of Chemistry","doi":"10.1039/C5IB00221D","url":"http://dx.doi.org/10.1039/C5IB00221D","abstract":"A major goal of regenerative medicine and bioengineering is the regeneration of complex organs{,} such as limbs{,} and the capability to create artificial constructs (so-called biobots) with defined morphologies and robust self-repair capabilities. Developmental biology presents remarkable examples of systems that self-assemble and regenerate complex structures toward their correct shape despite significant perturbations. A fundamental challenge is to translate progress in molecular genetics into control of large-scale organismal anatomy{,} and the field is still searching for an appropriate theoretical paradigm for facilitating control of pattern homeostasis. However{,} computational neuroscience provides many examples in which cell networks – brains – store memories (e.g.{,} of geometric configurations{,} rules{,} and patterns) and coordinate their activity towards proximal and distant goals. In this Perspective{,} we propose that programming large-scale morphogenesis requires exploiting the information processing by which cellular structures work toward specific shapes. In non-neural cells{,} as in the brain{,} bioelectric signaling implements information processing{,} decision-making{,} and memory in regulating pattern and its remodeling. Thus{,} approaches used in computational neuroscience to understand goal-seeking neural systems offer a toolbox of techniques to model and control regenerative pattern formation. Here{,} we review recent data on developmental bioelectricity as a regulator of patterning{,} and propose that target morphology could be encoded within tissues as a kind of memory{,} using the same molecular mechanisms and algorithms so successfully exploited by the brain. We highlight the next steps of an unconventional research program{,} which may allow top-down control of growth and form for numerous applications in regenerative medicine and synthetic bioengineering.","type":"Article"}],["Kriegman1853",{"author":"Kriegman, Sam and Blackiston, Douglas and Levin, Michael and Bongard, Josh","title":"A scalable pipeline for designing reconfigurable organisms","volume":"117","number":"4","pages":"1853--1859","year":"2020","doi":"10.1073/pnas.1910837117","publisher":"National Academy of Sciences","abstract":"Most technologies are made from steel, concrete, chemicals, and plastics, which degrade over time and can produce harmful ecological and health side effects. It would thus be useful to build technologies using self-renewing and biocompatible materials, of which the ideal candidates are living systems themselves. Thus, we here present a method that designs completely biological machines from the ground up: computers automatically design new machines in simulation, and the best designs are then built by combining together different biological tissues. This suggests others may use this approach to design a variety of living machines to safely deliver drugs inside the human body, help with environmental remediation, or further broaden our understanding of the diverse forms and functions life may adopt.Living systems are more robust, diverse, complex, and supportive of human life than any technology yet created. However, our ability to create novel lifeforms is currently limited to varying existing organisms or bioengineering organoids in vitro. Here we show a scalable pipeline for creating functional novel lifeforms: AI methods automatically design diverse candidate lifeforms in silico to perform some desired function, and transferable designs are then created using a cell-based construction toolkit to realize living systems with the predicted behaviors. Although some steps in this pipeline still require manual intervention, complete automation in future would pave the way to designing and deploying unique, bespoke living systems for a wide range of functions.","issn":"0027-8424","URL":"https://www.pnas.org/content/117/4/1853","eprint":"https://www.pnas.org/content/117/4/1853.full.pdf","journal":"Proceedings of the National Academy of Sciences","url":"https://www.pnas.org/content/117/4/1853","type":"article"}],["Kamm2018",{"author":"Kamm,Roger D. and Bashir,Rashid and Arora,Natasha and Dar,Roy D. and Gillette,Martha U. and Griffith,Linda G. and Kemp,Melissa L. and Kinlaw,Kathy and Levin,Michael and Martin,Adam C. and McDevitt,Todd C. and Nerem,Robert M. and Powers,Mark J. and Saif,Taher A. and Sharpe,James and Takayama,Shuichi and Takeuchi,Shoji and Weiss,Ron and Ye,Kaiming and Yevick,Hannah G. and Zaman,Muhammad H. ","title":"Perspective: The promise of multi-cellular engineered living systems","journal":"APL Bioengineering","volume":"2","number":"4","pages":"040901","year":"2018","doi":"10.1063/1.5038337","URL":"https://doi.org/10.1063/1.5038337","eprint":"https://doi.org/10.1063/1.5038337","url":"https://doi.org/10.1063/1.5038337","type":"article"}],["mordvintsev2015inceptionism",{"title":"Inceptionism: Going deeper into neural networks","author":"Mordvintsev, Alexander and Olah, Christopher and Tyka, Mike","journal":"Google Research Blog","year":"2015","url":"https://research.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html","type":"article"}],["WhatBodiesThink",{"title":"What Bodies Think About: Bioelectric Computation Outside the Nervous System","year":"2018","organization":"NeurIPS","author":"Michael Levin","url":"http://www.youtube.com/watch?v=RjD1aLm4Thg","type":"online"}],["SocialIntelligence",{"title":"Social Intelligence","year":"2019","organization":"NeurIPS","author":"Blaise Aguera y Arcas","url":"https://slideslive.com/38922302","type":"online"}],["Salimans2016WeightNA",{"title":"Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks","author":"Tim Salimans and Diederik P. Kingma","booktitle":"NIPS","year":"2016","url":"https://arxiv.org/abs/1602.07868","type":"inproceedings"}],["boids",{"author":"Reynolds, Craig W.","title":"Flocks, Herds and Schools: A Distributed Behavioral Model","year":"1987","issue_date":"August 1987","publisher":"Association for Computing Machinery","address":"New York, NY, USA","volume":"21","number":"4","issn":"0097-8930","url":"https://doi.org/10.1145/37402.37406","doi":"10.1145/37402.37406","journal":"SIGGRAPH Comput. Graph.","month":"aug","pages":"25–34","numpages":"10","type":"article"}],["mathews2017mergeable",{"title":"Mergeable nervous systems for robots","author":"Mathews, Nithin and Christensen, Anders Lyhne and O’Grady, Rehan and Mondada, Francesco and Dorigo, Marco","journal":"Nature communications","volume":"8","number":"1","pages":"1--7","year":"2017","doi":"10.1038/s41467-017-00109-2","publisher":"Nature Publishing Group","type":"article"}],["kilobots",{"author":"M. {Rubenstein} and C. {Ahler} and R. {Nagpal}","booktitle":"2012 IEEE International Conference on Robotics and Automation","title":"Kilobot: A low cost scalable robot system for collective behaviors","year":"2012","volume":"","number":"","pages":"3293-3298","keywords":"decentralised control;multi-robot systems;research and development;low cost scalable robot system;collective behaviors;robotics research;decentralized cooperating robots;testing collective algorithms;robot design;Kilobot collective;Robot sensing systems;Robot kinematics;Batteries;Collision avoidance;Switches","doi":"10.1109/ICRA.2012.6224638","ISSN":"1050-4729","month":"May","issn":"1050-4729","type":"INPROCEEDINGS"}],["pathak19assemblies",{"Author":"Pathak, Deepak and\n  Lu, Chris and Darrell, Trevor and\n  Isola, Phillip and Efros, Alexei A.","Title":"Learning to Control Self-\n  Assembling Morphologies: A Study of\n  Generalization via Modularity","Booktitle":"NeurIPS","Year":"2019","url":"https://pathak22.github.io/modular-assemblies/","author":"Pathak, Deepak and Lu, Chris and Darrell, Trevor and Isola, Phillip and Efros, Alexei A.","title":"Learning to Control Self- Assembling Morphologies: A Study of Generalization via Modularity","booktitle":"NeurIPS","year":"2019","type":"inproceedings"}],["OVIEDO2010188",{"title":"Long-range neural and gap junction protein-mediated cues control polarity during planarian regeneration","journal":"Developmental Biology","volume":"339","number":"1","pages":"188 - 199","year":"2010","issn":"0012-1606","doi":"https://doi.org/10.1016/j.ydbio.2009.12.012","url":"http://www.sciencedirect.com/science/article/pii/S001216060901402X","author":"Néstor J. Oviedo and Junji Morokuma and Peter Walentek and Ido P. Kema and Man Bock Gu and Joo-Myung Ahn and Jung Shan Hwang and Takashi Gojobori and Michael Levin","type":"article"}],["DURANT20172231",{"title":"Long-Term, Stochastic Editing of Regenerative Anatomy via Targeting Endogenous Bioelectric Gradients","journal":"Biophysical Journal","volume":"112","number":"10","pages":"2231 - 2243","year":"2017","issn":"0006-3495","doi":"https://doi.org/10.1016/j.bpj.2017.04.011","url":"http://www.sciencedirect.com/science/article/pii/S0006349517304277","author":"Fallon Durant and Junji Morokuma and Christopher Fields and Katherine Williams and Dany Spencer Adams and Michael Levin","type":"article"}],["Pai313",{"author":"Pai, Vaibhav P. and Aw, Sherry and Shomrat, Tal and Lemire, Joan M. and Levin, Michael","title":"Transmembrane voltage potential controls embryonic eye patterning in Xenopus laevis","volume":"139","number":"2","pages":"313--323","year":"2012","doi":"10.1242/dev.073759","publisher":"The Company of Biologists Ltd","issn":"0950-1991","URL":"https://dev.biologists.org/content/139/2/313","eprint":"https://dev.biologists.org/content/139/2/313.full.pdf","journal":"Development","url":"https://dev.biologists.org/content/139/2/313","type":"article"}],["doi:10.1080/19420889.2016.1192733",{"author":"Kelly G. Sullivan and Maya Emmons-Bell and Michael Levin","title":"Physiological inputs regulate species-specific anatomy during embryogenesis and regeneration","journal":"Communicative \\& Integrative Biology","volume":"9","number":"4","pages":"e1192733","year":"2016","publisher":"Taylor & Francis","doi":"10.1080/19420889.2016.1192733","URL":"https://doi.org/10.1080/19420889.2016.1192733","eprint":"https://doi.org/10.1080/19420889.2016.1192733","url":"https://doi.org/10.1080/19420889.2016.1192733","type":"article"}],["doi:10.1162/isal_a_00043",{"author":"Moore, Douglas G. and Walker, Sara I. and Levin, Michael","title":"Pattern Regeneration in Coupled Networks","journal":"Artificial Life Conference Proceedings","volume":"","number":"30","pages":"204-205","year":"2018","doi":"10.1162/isal\\_a\\_00043","URL":"https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_00043","eprint":"https://www.mitpressjournals.org/doi/pdf/10.1162/isal_a_00043","url":"https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_00043","type":"article"}],["PIETAK201852",{"title":"Bioelectrical control of positional information in development and regeneration: A review of conceptual and computational advances","journal":"Progress in Biophysics and Molecular Biology","volume":"137","pages":"52 - 68","year":"2018","note":"Biological Challenges in Morphogenesis","issn":"0079-6107","doi":"https://doi.org/10.1016/j.pbiomolbio.2018.03.008","url":"http://www.sciencedirect.com/science/article/pii/S0079610718300415","author":"Alexis Pietak and Michael Levin","type":"article"}],["doi:10.1162/isal_a_00041",{"author":"Ferreira, Giordano B. S. and Scheutz, Matthias and Levin, Michael","title":"Modeling Cell Migration in a Simulated Bioelectrical Signaling Network for Anatomical Regeneration","journal":"Artificial Life Conference Proceedings","volume":"","number":"30","pages":"194-201","year":"2018","doi":"10.1162/isal\\_a\\_00041","URL":"https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_00041","eprint":"https://www.mitpressjournals.org/doi/pdf/10.1162/isal_a_00041","url":"https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_00041","type":"article"}],["doi:10.1162/isal_a_029",{"author":"Ferreira, Giordano B. S. and Scheutz, Matthias and Levin, Michael","title":"Investigating the effects of noise on a cell-to-cell communication mechanism for structure regeneration","journal":"Artificial Life Conference Proceedings","volume":"","number":"29","pages":"170-177","year":"2017","doi":"10.1162/isal\\_a\\_029","URL":"https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_029","eprint":"https://www.mitpressjournals.org/doi/pdf/10.1162/isal_a_029","url":"https://www.mitpressjournals.org/doi/abs/10.1162/isal_a_029","type":"article"}]]</script></d-bibliography>
+
+<distill-footer>
+<style>
+
+:host {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: hsl(180, 5%, 15%); /*hsl(200, 60%, 15%);*/
+  text-align: left;
+  contain: content;
+}
+
+.footer-container .logo svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+
+.footer-container .logo svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+
+.footer-container .logo {
+  font-size: 17px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+.footer-container {
+  grid-column: text;
+}
+
+.footer-container .nav {
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.footer-container .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 6px;
+  text-decoration: none;
+}
+
+</style>
+
+<div class="footer-container">
+
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a> is dedicated to clear explanations of machine learning
+
+  <div class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/archive/">Archive</a>
+    <a href="https://distill.pub/rss.xml">RSS</a>
+    <a href="https://github.com/distillpub">GitHub</a>
+    <a href="https://twitter.com/distillpub">Twitter</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; ISSN 2476-0757
+  </div>
+
+</div>
+
+</distill-footer><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83741880-1', 'auto');
+  ga('send', 'pageview');
+</script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

@@ -29,8 +29,8 @@ class GDrive(templates.Dataset):
         self.local_out = self.local_path + 'books_text/'
         self.AIS_scrape_local = os.listdir(self.local_out) if os.path.exists(self.local_path) else []
         self.weblink_pattern = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
-        if os.path.exists(os.getcwd()+'/pandoc/pandoc'):
-            os.environ.setdefault('PYPANDOC_PANDOC', os.getcwd()+'/pandoc/pandoc')
+        if os.path.exists(os.getcwd() + "/pandoc/pandoc"):
+            os.environ.setdefault("PYPANDOC_PANDOC", os.getcwd() + "/pandoc/pandoc")
 
     def fetch_entries(self) -> typing.Iterable[dict]:
         os.makedirs(self.local_path) if not os.path.exists(self.local_path) else ''
@@ -78,38 +78,47 @@ class GDrive(templates.Dataset):
                 metadata = epub_meta.get_epub_metadata(self.local_out + 'tmp.epub')
                 metadata = self._augment_metadata(metadata)
                 # remove linebreaks in middle of sentence
-                os.system("awk ' /^$/ { print; } /./ { printf(\"%s \", $0); } ' " + self.local_out + "tmp.txt > " + self.local_out + newName + '.txt')
-                with open(self.local_out + newName + '.json', 'w') as fp:
-                  json.dump(metadata, fp)
-        os.system('rm ' + self.local_out + "tmp.txt")
-        os.system('rm ' + self.local_out + "tmp.epub")
+                os.system(
+                    "awk ' /^$/ { print; } /./ { printf(\"%s \", $0); } ' "
+                    + self.local_out
+                    + "tmp.txt > "
+                    + self.local_out
+                    + newName
+                    + ".txt"
+                )
+                with open(self.local_out + newName + ".json", "w") as fp:
+                    json.dump(metadata, fp)
+        os.system("rm " + self.local_out + "tmp.txt")
+        os.system("rm " + self.local_out + "tmp.epub")
         self.AIS_scrape_local = os.listdir(self.local_out)
 
     def _clean_txt(self, min_length=10):
         # remove short lines and replace links
         for fName in self.AIS_scrape_local:
-            if 'txt' in fName:
-                os.rename(self.local_out + fName , self.local_out + 'tmp.txt')
-                with open(self.local_out + 'tmp.txt') as f, open(self.local_out + fName,'w') as f2:
+            if "txt" in fName:
+                os.rename(self.local_out + fName, self.local_out + "tmp.txt")
+                with open(self.local_out + "tmp.txt") as f, open(
+                    self.local_out + fName, "w"
+                ) as f2:
                     for x in f:
-                        stripped_x = re.sub(r'http\S+' , 'ʬ' , x);
+                        stripped_x = re.sub(r"http\S+", "ʬ", x)
                         if len(stripped_x) >= min_length:
                             f2.write(stripped_x)
-        os.system('rm ' + self.local_out + "tmp.txt")
+        os.system("rm " + self.local_out + "tmp.txt")
         self.AIS_scrape_local = os.listdir(self.local_out)
 
     def _jsonify_everything(self):
         # convert everything into a dictionary and add metadata from epub
         for fName in self.AIS_scrape_local:
-            if 'txt' in fName:
-              with open(self.local_out + fName[:-3] + 'json' , 'r') as json_file:
-                metadata = json.load(json_file)
-              with open(self.local_out + fName , 'r') as text_file:
-                contents = text_file.read()
-              metadata["text"] = contents
-              with open(self.local_out + fName[:-3] + 'json', 'w') as json_file:
-                  json.dump(metadata, json_file)
-              os.system('rm ' + self.local_out + fName)
+            if "txt" in fName:
+                with open(self.local_out + fName[:-3] + "json", "r") as json_file:
+                    metadata = json.load(json_file)
+                with open(self.local_out + fName, "r") as text_file:
+                    contents = text_file.read()
+                metadata["text"] = contents
+                with open(self.local_out + fName[:-3] + "json", "w") as json_file:
+                    json.dump(metadata, json_file)
+                os.system("rm " + self.local_out + fName)
         self.AIS_scrape_local = os.listdir(self.local_out)
 
     def _merge_everything(self):

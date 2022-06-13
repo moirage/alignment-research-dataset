@@ -34,7 +34,7 @@ class WordpressBlog(templates.Dataset):
             if ('feed' not in d) or ('title' not in d['feed']) or (d['feed']['title'] == last_title):
                 logger.info("Not a valid page. It looks like we've reached the end.")
                 break
-            last_title = d['feed']['title']
+            last_title = d["feed"]["title"]
 
             for entry in d["entries"]:
                 content = entry["content"][0]["value"]

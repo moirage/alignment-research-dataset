@@ -1,0 +1,3146 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://distill.pub/2019/advex-bugs-discussion/response-4/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/template.v2.js"></script><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script async="" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/analytics.js"></script><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/webcomponents-loader.js"></script><script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/webcomponents-hi.js"></script>
+    
+    
+    <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+    <style>
+        .subgrid {
+	grid-column: screen;
+	display: grid;
+	grid-template-columns: inherit;
+	grid-template-rows: inherit;
+	grid-column-gap: inherit;
+	grid-row-gap: inherit;
+}
+
+d-figure.base-grid {
+	grid-column: screen;
+	background: hsl(0, 0%, 97%);
+	padding: 20px 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+d-figure {
+	margin-bottom: 1em;
+	position: relative;
+}
+
+d-figure > figure {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.shaded-figure {
+	background-color: hsl(0, 0%, 97%);
+	border-top: 1px solid hsla(0, 0%, 0%, 0.1);
+	border-bottom: 1px solid hsla(0, 0%, 0%, 0.1);
+	padding: 30px 0;
+}
+
+.pointer {
+	position: absolute;
+	width: 26px;
+	height: 26px;
+	top: 26px;
+	left: -48px;
+}
+
+#rebuttal,
+.response-info {
+	margin: 1em 0;
+	background-color: hsl(228, 50%, 97%);
+	border-left: solid hsl(229, 50%, 25%) 3px;
+	padding: 1em;
+}
+
+#rebuttal,
+.rebuttal-info {
+	color: hsl(129, 50%, 15%);
+	background-color: hsl(128, 50%, 97%);
+	border-left: solid hsl(128, 50%, 25%) 3px;
+	margin-bottom: 0.5em;
+}
+
+#rebuttal figure {
+	background: white;
+	padding: 1em;
+	border-radius: 1em;
+}
+
+    </style>
+    <style>
+        /* line 6, source/sass/image-picker.scss */
+ul.thumbnails.image_picker_selector {
+  overflow: auto;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px; }
+  /* line 15, source/sass/image-picker.scss */
+  ul.thumbnails.image_picker_selector ul {
+    overflow: auto;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px; }
+  /* line 25, source/sass/image-picker.scss */
+  ul.thumbnails.image_picker_selector li.group_title {
+    float: none; }
+  /* line 30, source/sass/image-picker.scss */
+  ul.thumbnails.image_picker_selector li {
+    margin: 0px 12px 12px 0px;
+    float: left; }
+    /* line 35, source/sass/image-picker.scss */
+    ul.thumbnails.image_picker_selector li .thumbnail {
+      padding: 6px;
+      border: 1px solid #DDD;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none; }
+      /* line 42, source/sass/image-picker.scss */
+      ul.thumbnails.image_picker_selector li .thumbnail img {
+        -webkit-user-drag: none; }
+    /* line 48, source/sass/image-picker.scss */
+    ul.thumbnails.image_picker_selector li .thumbnail.selected {
+      background: #08C; }
+    </style>
+    <style>
+        ul.thumbnails.image_picker_selector {
+  display: flex;
+  flex-direction: row;
+}
+
+    </style>
+    <style>
+        div.juxtapose {
+	width: 100%;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+div.jx-slider {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	color: #f3f3f3;
+}
+
+
+div.jx-handle {
+	position: absolute;
+	height: 100%;
+	width: 40px;
+	cursor: col-resize;
+	z-index: 15;
+	margin-left: -20px;
+}
+
+.vertical div.jx-handle {
+	height: 40px;
+	width: 100%;
+	cursor: row-resize;
+	margin-top: -20px;
+	margin-left: 0;
+}
+
+div.jx-control {
+	height: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	width: 3px;
+	background-color: currentColor;
+}
+
+.vertical div.jx-control {
+	height: 3px;
+	width: 100%;
+	background-color: currentColor;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+div.jx-controller {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	height: 60px;
+	width: 9px;
+	margin-left: -3px;
+	background-color: currentColor;
+}
+
+.vertical div.jx-controller {
+	height: 9px;
+	width: 100px;
+	margin-left: auto;
+	margin-right: auto;
+	top: -3px;
+	position: relative;
+}
+
+div.jx-arrow {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	width: 0;
+	height: 0;
+	transition: all .2s ease;
+}
+
+.vertical div.jx-arrow {
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	width: 0;
+	height: 0;
+	transition: all .2s ease;
+}
+
+
+div.jx-arrow.jx-left {
+	left: 2px;
+	border-style: solid;
+	border-width: 8px 8px 8px 0;
+	border-color: transparent currentColor transparent transparent;
+}
+
+div.jx-arrow.jx-right {
+	right: 2px;
+	border-style: solid;
+	border-width: 8px 0 8px 8px;
+	border-color: transparent transparent transparent currentColor;
+}
+
+.vertical div.jx-arrow.jx-left {
+	left: 0px;
+	top: 2px;
+	border-style: solid;
+	border-width: 0px 8px 8px 8px;
+	border-color: transparent transparent currentColor transparent;
+}
+
+.vertical div.jx-arrow.jx-right {
+	right: 0px;
+	top: auto;
+	bottom: 2px;
+	border-style: solid;
+	border-width: 8px 8px 0 8px;
+	border-color: currentColor transparent transparent transparent;
+}
+
+div.jx-handle:hover div.jx-arrow.jx-left,
+div.jx-handle:active div.jx-arrow.jx-left {
+	left: -1px;
+}
+
+div.jx-handle:hover div.jx-arrow.jx-right,
+div.jx-handle:active div.jx-arrow.jx-right {
+	right: -1px;
+}
+
+.vertical div.jx-handle:hover div.jx-arrow.jx-left,
+.vertical div.jx-handle:active div.jx-arrow.jx-left {
+	left: 0px;
+	top: 0px;
+}
+
+.vertical div.jx-handle:hover div.jx-arrow.jx-right,
+.vertical div.jx-handle:active div.jx-arrow.jx-right {
+	right: 0px;
+	bottom: 0px;
+}
+
+
+div.jx-image {
+	position: absolute;
+	height: 100%;
+	display: inline-block;
+	top: 0;
+	overflow: hidden;
+	-webkit-backface-visibility: hidden;
+}
+
+.vertical div.jx-image {
+	width: 100%;
+	left: 0;
+	top: auto;
+}
+
+div.jx-image img {
+	height: 100%;
+	width: auto;
+	z-index: 5;
+	position: absolute;
+	margin-bottom: 0;
+
+	max-height: none;
+	max-width: none;
+	max-height: initial;
+	max-width: initial;
+}
+
+.vertical div.jx-image img {
+	height: auto;
+	width: 100%;
+}
+
+div.jx-image.jx-left {
+	left: 0;
+	background-position: left;
+}
+
+div.jx-image.jx-left img {
+	left: 0;
+}
+
+div.jx-image.jx-right {
+	right: 0;
+	background-position: right;
+}
+
+div.jx-image.jx-right img {
+	right: 0;
+	bottom: 0;
+}
+
+
+.veritcal div.jx-image.jx-left {
+	top: 0;
+	background-position: top;
+}
+
+.veritcal div.jx-image.jx-left img {
+	top: 0;
+}
+
+.vertical div.jx-image.jx-right {
+	bottom: 0;
+	background-position: bottom;
+}
+
+.veritcal div.jx-image.jx-right img {
+	bottom: 0;
+}
+
+
+div.jx-image div.jx-label {
+	font-size: 1em;
+	padding: .25em .75em;
+	position: relative;
+	display: inline-block;
+	top: 0;
+	background-color: #000; /* IE 8 */
+	background-color: rgba(0,0,0,.7);
+	color: white;
+	z-index: 10;
+	white-space: nowrap;
+	line-height: 18px;
+	vertical-align: middle;
+}
+
+div.jx-image.jx-left div.jx-label {
+	float: left;
+	left: 0;
+}
+
+div.jx-image.jx-right div.jx-label {
+	float: right;
+	right: 0;
+}
+
+.vertical div.jx-image div.jx-label {
+	display: table;
+	position: absolute;
+}
+
+.vertical div.jx-image.jx-right div.jx-label {
+	left: 0;
+	bottom: 0;
+	top: auto;
+}
+
+div.jx-credit {
+	line-height: 1.1;
+	font-size: 0.75em;
+}
+
+div.jx-credit em {
+	font-weight: bold;
+	font-style: normal;
+}
+
+
+/* Animation */
+
+div.jx-image.transition {
+	transition: width .5s ease;
+}
+
+div.jx-handle.transition {
+	transition: left .5s ease;
+}
+
+.vertical div.jx-image.transition {
+	transition: height .5s ease;
+}
+
+.vertical div.jx-handle.transition {
+	transition: top .5s ease;
+}
+
+/* Knight Lab Credit */
+a.jx-knightlab {
+	background-color: #000; /* IE 8 */
+	background-color: rgba(0,0,0,.25);
+	bottom: 0;
+	display: table;
+	height: 14px;
+	line-height: 14px;
+	padding: 1px 4px 1px 5px;
+	position: absolute;
+	right: 0;
+	text-decoration: none;
+	z-index: 10;
+}
+
+a.jx-knightlab div.knightlab-logo {
+	display: inline-block;
+	vertical-align: middle;
+	height: 8px;
+	width: 8px;
+	background-color: #c34528;
+	transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	top: -1.25px;
+	position: relative;
+	cursor: pointer;
+}
+
+a.jx-knightlab:hover {
+	background-color: #000; /* IE 8 */
+	background-color: rgba(0,0,0,.35);
+}
+a.jx-knightlab:hover div.knightlab-logo {
+	background-color: #ce4d28;
+}
+
+a.jx-knightlab span.juxtapose-name {
+	display: table-cell;
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: 300;
+	color: white;
+	font-size: 10px;
+	padding-left: 0.375em;
+	vertical-align: middle;
+	line-height: normal;
+	text-shadow: none;
+}
+
+/* keyboard accessibility */
+div.jx-controller:focus,
+div.jx-image.jx-left div.jx-label:focus,
+div.jx-image.jx-right div.jx-label:focus,
+a.jx-knightlab:focus {
+	background: #eae34a;
+	color: #000;
+}
+a.jx-knightlab:focus span.juxtapose-name{
+	color: #000;
+	border: none;
+}
+    </style>
+    <script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/jquery.min.js"></script>
+    <script>"use strict";
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+}var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    return protoProps && defineProperties(Constructor.prototype, protoProps), staticProps && defineProperties(Constructor, staticProps), Constructor;
+  };
+}();(function () {
+  var ImagePicker,
+      ImagePickerOption,
+      both_array_are_equal,
+      sanitized_options,
+      indexOf = [].indexOf;jQuery.fn.extend({ imagepicker: function imagepicker() {
+      var opts = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};return this.each(function () {
+        var select;if ((select = jQuery(this)).data("picker") && select.data("picker").destroy(), select.data("picker", new ImagePicker(this, sanitized_options(opts))), null != opts.initialized) return opts.initialized.call(select.data("picker"));
+      });
+    } }), sanitized_options = function sanitized_options(opts) {
+    var default_options;return default_options = { hide_select: !0, show_label: !1, initialized: void 0, changed: void 0, clicked: void 0, selected: void 0, limit: void 0, limit_reached: void 0, font_awesome: !1 }, jQuery.extend(default_options, opts);
+  }, both_array_are_equal = function both_array_are_equal(a, b) {
+    var i, j, len, x;if (!a || !b || a.length !== b.length) return !1;for (a = a.slice(0), b = b.slice(0), a.sort(), b.sort(), i = j = 0, len = a.length; j < len; i = ++j) {
+      if (x = a[i], b[i] !== x) return !1;
+    }return !0;
+  }, ImagePicker = function () {
+    function ImagePicker(select_element) {
+      var opts1 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};_classCallCheck(this, ImagePicker), this.sync_picker_with_select = this.sync_picker_with_select.bind(this), this.opts = opts1, this.select = jQuery(select_element), this.multiple = "multiple" === this.select.attr("multiple"), null != this.select.data("limit") && (this.opts.limit = parseInt(this.select.data("limit"))), this.build_and_append_picker();
+    }return _createClass(ImagePicker, [{ key: "destroy", value: function value() {
+        var j, len, ref;for (j = 0, len = (ref = this.picker_options).length; j < len; j++) {
+          ref[j].destroy();
+        }return this.picker.remove(), this.select.off("change", this.sync_picker_with_select), this.select.removeData("picker"), this.select.show();
+      } }, { key: "build_and_append_picker", value: function value() {
+        return this.opts.hide_select && this.select.hide(), this.select.on("change", this.sync_picker_with_select), null != this.picker && this.picker.remove(), this.create_picker(), this.select.after(this.picker), this.sync_picker_with_select();
+      } }, { key: "sync_picker_with_select", value: function value() {
+        var j, len, option, ref, results;for (results = [], j = 0, len = (ref = this.picker_options).length; j < len; j++) {
+          (option = ref[j]).is_selected() ? results.push(option.mark_as_selected()) : results.push(option.unmark_as_selected());
+        }return results;
+      } }, { key: "create_picker", value: function value() {
+        return this.picker = jQuery("<ul class='thumbnails image_picker_selector'></ul>"), this.picker_options = [], this.recursively_parse_option_groups(this.select, this.picker), this.picker;
+      } }, { key: "recursively_parse_option_groups", value: function value(scoped_dom, target_container) {
+        var container, j, k, len, len1, option, option_group, ref, ref1, results;for (j = 0, len = (ref = scoped_dom.children("optgroup")).length; j < len; j++) {
+          option_group = ref[j], option_group = jQuery(option_group), (container = jQuery("<ul></ul>")).append(jQuery("<li class='group_title'>" + option_group.attr("label") + "</li>")), target_container.append(jQuery("<li class='group'>").append(container)), this.recursively_parse_option_groups(option_group, container);
+        }for (ref1 = function () {
+          var l, len1, ref1, results1;for (results1 = [], l = 0, len1 = (ref1 = scoped_dom.children("option")).length; l < len1; l++) {
+            option = ref1[l], results1.push(new ImagePickerOption(option, this, this.opts));
+          }return results1;
+        }.call(this), results = [], k = 0, len1 = ref1.length; k < len1; k++) {
+          option = ref1[k], this.picker_options.push(option), option.has_image() && results.push(target_container.append(option.node));
+        }return results;
+      } }, { key: "has_implicit_blanks", value: function value() {
+        var option;return function () {
+          var j, len, ref, results;for (results = [], j = 0, len = (ref = this.picker_options).length; j < len; j++) {
+            (option = ref[j]).is_blank() && !option.has_image() && results.push(option);
+          }return results;
+        }.call(this).length > 0;
+      } }, { key: "selected_values", value: function value() {
+        return this.multiple ? this.select.val() || [] : [this.select.val()];
+      } }, { key: "toggle", value: function value(imagepicker_option, original_event) {
+        var new_values, old_values, selected_value;if (old_values = this.selected_values(), selected_value = imagepicker_option.value().toString(), this.multiple ? indexOf.call(this.selected_values(), selected_value) >= 0 ? ((new_values = this.selected_values()).splice(jQuery.inArray(selected_value, old_values), 1), this.select.val([]), this.select.val(new_values)) : null != this.opts.limit && this.selected_values().length >= this.opts.limit ? null != this.opts.limit_reached && this.opts.limit_reached.call(this.select) : this.select.val(this.selected_values().concat(selected_value)) : this.has_implicit_blanks() && imagepicker_option.is_selected() ? this.select.val("") : this.select.val(selected_value), !both_array_are_equal(old_values, this.selected_values()) && (this.select.change(), null != this.opts.changed)) return this.opts.changed.call(this.select, old_values, this.selected_values(), original_event);
+      } }]), ImagePicker;
+  }(), ImagePickerOption = function () {
+    function ImagePickerOption(option_element, picker) {
+      var opts1 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};_classCallCheck(this, ImagePickerOption), this.clicked = this.clicked.bind(this), this.picker = picker, this.opts = opts1, this.option = jQuery(option_element), this.create_node();
+    }return _createClass(ImagePickerOption, [{ key: "destroy", value: function value() {
+        return this.node.find(".thumbnail").off("click", this.clicked);
+      } }, { key: "has_image", value: function value() {
+        return null != this.option.data("img-src");
+      } }, { key: "is_blank", value: function value() {
+        return !(null != this.value() && "" !== this.value());
+      } }, { key: "is_selected", value: function value() {
+        var select_value;return select_value = this.picker.select.val(), this.picker.multiple ? jQuery.inArray(this.value(), select_value) >= 0 : this.value() === select_value;
+      } }, { key: "mark_as_selected", value: function value() {
+        return this.node.find(".thumbnail").addClass("selected");
+      } }, { key: "unmark_as_selected", value: function value() {
+        return this.node.find(".thumbnail").removeClass("selected");
+      } }, { key: "value", value: function value() {
+        return this.option.val();
+      } }, { key: "label", value: function value() {
+        return this.option.data("img-label") ? this.option.data("img-label") : this.option.text();
+      } }, { key: "clicked", value: function value(event) {
+        if (this.picker.toggle(this, event), null != this.opts.clicked && this.opts.clicked.call(this.picker.select, this, event), null != this.opts.selected && this.is_selected()) return this.opts.selected.call(this.picker.select, this, event);
+      } }, { key: "create_node", value: function value() {
+        var image, imgAlt, imgClass, thumbnail;return this.node = jQuery("<li/>"), this.option.data("font_awesome") ? (image = jQuery("<i>")).attr("class", "fa-fw " + this.option.data("img-src")) : (image = jQuery("<img class='image_picker_image'/>")).attr("src", this.option.data("img-src")), thumbnail = jQuery("<div class='thumbnail'>"), (imgClass = this.option.data("img-class")) && (this.node.addClass(imgClass), image.addClass(imgClass), thumbnail.addClass(imgClass)), (imgAlt = this.option.data("img-alt")) && image.attr("alt", imgAlt), thumbnail.on("click", this.clicked), thumbnail.append(image), this.opts.show_label && thumbnail.append(jQuery("<p/>").html(this.label())), this.node.append(thumbnail), this.node;
+      } }]), ImagePickerOption;
+  }();
+}).call(void 0);</script>
+    <script>'use strict';
+
+/* juxtapose - v1.1.2 - 2015-07-16
+ * Copyright (c) 2015 Alex Duner and Northwestern University Knight Lab
+ */
+
+(function (document, window) {
+
+  var juxtapose = {
+    sliders: [],
+    OPTIMIZATION_ACCEPTED: 1,
+    OPTIMIZATION_WAS_CONSTRAINED: 2
+  };
+
+  var flickr_key = "d90fc2d1f4acc584e08b8eaea5bf4d6c";
+  var FLICKR_SIZE_PREFERENCES = ['Large', 'Medium'];
+
+  function Graphic(properties, slider) {
+    var self = this;
+    this.image = new Image();
+
+    this.loaded = false;
+    this.image.onload = function () {
+      self.loaded = true;
+      slider._onLoaded();
+    };
+
+    this.image.src = properties.src;
+    this.image.alt = properties.alt || '';
+    this.label = properties.label || false;
+    this.credit = properties.credit || false;
+  }
+
+  function FlickrGraphic(properties, slider) {
+    var self = this;
+    this.image = new Image();
+
+    this.loaded = false;
+    this.image.onload = function () {
+      self.loaded = true;
+      slider._onLoaded();
+    };
+
+    this.flickrID = this.getFlickrID(properties.src);
+    this.callFlickrAPI(this.flickrID, self);
+
+    this.label = properties.label || false;
+    this.credit = properties.credit || false;
+  }
+
+  FlickrGraphic.prototype = {
+    getFlickrID: function getFlickrID(url) {
+      if (url.match(/flic.kr\/.+/i)) {
+        var encoded = url.split('/').slice(-1)[0];
+        return base58Decode(encoded);
+      }
+      var idx = url.indexOf("flickr.com/photos/");
+      var pos = idx + "flickr.com/photos/".length;
+      var photo_info = url.substr(pos);
+      if (photo_info.indexOf('/') == -1) return null;
+      if (photo_info.indexOf('/') === 0) photo_info = photo_info.substr(1);
+      id = photo_info.split("/")[1];
+      return id;
+    },
+
+    callFlickrAPI: function callFlickrAPI(id, self) {
+      var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes' + '&api_key=' + flickr_key + '&photo_id=' + id + '&format=json&nojsoncallback=1';
+
+      var request = new XMLHttpRequest();
+      request.open('GET', url, true);
+      request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+          data = JSON.parse(request.responseText);
+          var flickr_url = self.bestFlickrUrl(data.sizes.size);
+          self.setFlickrImage(flickr_url);
+        } else {
+          console.error("There was an error getting the picture from Flickr");
+        }
+      };
+      request.onerror = function () {
+        console.error("There was an error getting the picture from Flickr");
+      };
+      request.send();
+    },
+
+    setFlickrImage: function setFlickrImage(src) {
+      this.image.src = src;
+    },
+
+    bestFlickrUrl: function bestFlickrUrl(ary) {
+      var dict = {};
+      for (var i = 0; i < ary.length; i++) {
+        dict[ary[i].label] = ary[i].source;
+      }
+      for (var j = 0; j < FLICKR_SIZE_PREFERENCES.length; j++) {
+        if (FLICKR_SIZE_PREFERENCES[j] in dict) {
+          return dict[FLICKR_SIZE_PREFERENCES[j]];
+        }
+      }
+      return ary[0].source;
+    }
+  };
+
+  function getNaturalDimensions(DOMelement) {
+    if (DOMelement.naturalWidth && DOMelement.naturalHeight) {
+      return { width: DOMelement.naturalWidth, height: DOMelement.naturalHeight };
+    }
+    // http://www.jacklmoore.com/notes/naturalwidth-and-naturalheight-in-ie/
+    var img = new Image();
+    img.src = DOMelement.src;
+    return { width: img.width, height: img.height };
+  }
+
+  function getImageDimensions(img) {
+    var dimensions = {
+      width: getNaturalDimensions(img).width,
+      height: getNaturalDimensions(img).height,
+      aspect: function aspect() {
+        return this.width / this.height;
+      }
+    };
+    return dimensions;
+  }
+
+  function addClass(element, c) {
+    if (element.classList) {
+      element.classList.add(c);
+    } else {
+      element.className += " " + c;
+    }
+  }
+
+  function removeClass(element, c) {
+    element.className = element.className.replace(/(\S+)\s*/g, function (w, match) {
+      if (match === c) {
+        return '';
+      }
+      return w;
+    }).replace(/^\s+/, '');
+  }
+
+  function setText(element, text) {
+    if (document.body.textContent) {
+      element.textContent = text;
+    } else {
+      element.innerText = text;
+    }
+  }
+
+  function getComputedWidthAndHeight(element) {
+    if (window.getComputedStyle) {
+      return {
+        width: parseInt(getComputedStyle(element).width, 10),
+        height: parseInt(getComputedStyle(element).height, 10)
+      };
+    } else {
+      w = element.getBoundingClientRect().right - element.getBoundingClientRect().left;
+      h = element.getBoundingClientRect().bottom - element.getBoundingClientRect().top;
+      return {
+        width: parseInt(w, 10) || 0,
+        height: parseInt(h, 10) || 0
+      };
+    }
+  }
+
+  function viewport() {
+    var e = window,
+        a = 'inner';
+    if (!('innerWidth' in window)) {
+      a = 'client';
+      e = document.documentElement || document.body;
+    }
+    return { width: e[a + 'Width'], height: e[a + 'Height'] };
+  }
+
+  function getPageX(e) {
+    var pageX;
+    if (e.pageX) {
+      pageX = e.pageX;
+    } else if (e.touches) {
+      pageX = e.touches[0].pageX;
+    } else {
+      pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+    }
+    return pageX;
+  }
+
+  function getPageY(e) {
+    var pageY;
+    if (e.pageY) {
+      pageY = e.pageY;
+    } else if (e.touches) {
+      pageY = e.touches[0].pageY;
+    } else {
+      pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
+    return pageY;
+  }
+
+  function checkFlickr(url) {
+    if (url.match(/flic.kr\/.+/i)) {
+      return true;
+    }
+    var idx = url.indexOf("flickr.com/photos/");
+    if (idx == -1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function base58Decode(encoded) {
+    var alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ',
+        base = alphabet.length;
+    if (typeof encoded !== 'string') {
+      throw '"base58Decode" only accepts strings.';
+    }
+    var decoded = 0;
+    while (encoded) {
+      var alphabetPosition = alphabet.indexOf(encoded[0]);
+      if (alphabetPosition < 0) {
+        throw '"base58Decode" can\'t find "' + encoded[0] + '" in the alphabet: "' + alphabet + '"';
+      }
+      var powerOf = encoded.length - 1;
+      decoded += alphabetPosition * Math.pow(base, powerOf);
+      encoded = encoded.substring(1);
+    }
+    return decoded.toString();
+  }
+
+  function getLeftPercent(slider, input) {
+    var leftPercent;
+    if (typeof input === "string" || typeof input === "number") {
+      leftPercent = parseInt(input, 10);
+    } else {
+      var sliderRect = slider.getBoundingClientRect();
+      var offset = {
+        top: sliderRect.top + document.body.scrollTop + document.documentElement.scrollTop,
+        left: sliderRect.left + document.body.scrollLeft + document.documentElement.scrollLeft
+      };
+      var width = slider.offsetWidth;
+      var pageX = getPageX(input);
+      var relativeX = pageX - offset.left;
+      leftPercent = relativeX / width * 100;
+    }
+    return leftPercent;
+  }
+
+  function getTopPercent(slider, input) {
+    if (typeof input === "string" || typeof input === "number") {
+      topPercent = parseInt(input, 10);
+    } else {
+      var sliderRect = slider.getBoundingClientRect();
+      var offset = {
+        top: sliderRect.top + document.body.scrollTop + document.documentElement.scrollTop,
+        left: sliderRect.left + document.body.scrollLeft + document.documentElement.scrollLeft
+      };
+      var width = slider.offsetHeight;
+      var pageY = getPageY(input);
+      var relativeY = pageY - offset.top;
+      topPercent = relativeY / width * 100;
+    }
+    return topPercent;
+  }
+
+  // values of BOOLEAN_OPTIONS are ignored. just used for 'in' test on keys
+  var BOOLEAN_OPTIONS = { 'animate': true, 'showLabels': true, 'showCredits': true, 'makeResponsive': true };
+  function interpret_boolean(x) {
+    if (typeof x != 'string') {
+      return Boolean(x);
+    }
+    return !(x === 'false' || x === '');
+  }
+
+  function JXSlider(selector, images, options) {
+
+    this.selector = selector;
+
+    var i;
+    this.options = { // new options must have default values set here.
+      animate: true,
+      showLabels: true,
+      showCredits: true,
+      makeResponsive: true,
+      startingPosition: "50%",
+      mode: 'horizontal',
+      callback: null // pass a callback function if you like
+    };
+
+    for (i in this.options) {
+      if (i in options) {
+        if (i in BOOLEAN_OPTIONS) {
+          this.options[i] = interpret_boolean(options[i]);
+        } else {
+          this.options[i] = options[i];
+        }
+      }
+    }
+
+    if (images.length == 2) {
+
+      if (checkFlickr(images[0].src)) {
+        this.imgBefore = new FlickrGraphic(images[0], this);
+      } else {
+        this.imgBefore = new Graphic(images[0], this);
+      }
+
+      if (checkFlickr(images[1].src)) {
+        this.imgAfter = new FlickrGraphic(images[1], this);
+      } else {
+        this.imgAfter = new Graphic(images[1], this);
+      }
+    } else {
+      console.warn("The images parameter takes two Image objects.");
+    }
+
+    if (this.imgBefore.credit || this.imgAfter.credit) {
+      this.options.showCredits = true;
+    } else {
+      this.options.showCredits = false;
+    }
+  }
+
+  JXSlider.prototype = {
+
+    updateSlider: function updateSlider(input, animate) {
+      var leftPercent, rightPercent;
+
+      if (this.options.mode === "vertical") {
+        leftPercent = getTopPercent(this.slider, input);
+      } else {
+        leftPercent = getLeftPercent(this.slider, input);
+      }
+
+      leftPercent = leftPercent.toFixed(2) + "%";
+      var leftPercentNum = parseFloat(leftPercent);
+      rightPercent = 100 - leftPercentNum + "%";
+
+      if (leftPercentNum > 0 && leftPercentNum < 100) {
+        removeClass(this.handle, 'transition');
+        removeClass(this.rightImage, 'transition');
+        removeClass(this.leftImage, 'transition');
+
+        if (this.options.animate && animate) {
+          addClass(this.handle, 'transition');
+          addClass(this.leftImage, 'transition');
+          addClass(this.rightImage, 'transition');
+        }
+
+        if (this.options.mode === "vertical") {
+          this.handle.style.top = leftPercent;
+          this.leftImage.style.height = leftPercent;
+          this.rightImage.style.height = rightPercent;
+        } else {
+          this.handle.style.left = leftPercent;
+          this.leftImage.style.width = leftPercent;
+          this.rightImage.style.width = rightPercent;
+        }
+        this.sliderPosition = leftPercent;
+      }
+    },
+
+    getPosition: function getPosition() {
+      return this.sliderPosition;
+    },
+
+    displayLabel: function displayLabel(element, labelText) {
+      var label = document.createElement("div");
+      label.className = 'jx-label';
+      label.setAttribute('tabindex', 0); //put the controller in the natural tab order of the document
+
+      setText(label, labelText);
+      element.appendChild(label);
+    },
+
+    displayCredits: function displayCredits() {
+      var credit = document.createElement("div");
+      credit.className = "jx-credit";
+
+      text = "<em>Photo Credits:</em>";
+      if (this.imgBefore.credit) {
+        text += " <em>Before</em> " + this.imgBefore.credit;
+      }
+      if (this.imgAfter.credit) {
+        text += " <em>After</em> " + this.imgAfter.credit;
+      }
+
+      credit.innerHTML = text;
+
+      this.wrapper.appendChild(credit);
+    },
+
+    setStartingPosition: function setStartingPosition(s) {
+      this.options.startingPosition = s;
+    },
+
+    checkImages: function checkImages() {
+      if (getImageDimensions(this.imgBefore.image).aspect() == getImageDimensions(this.imgAfter.image).aspect()) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    calculateDims: function calculateDims(width, height) {
+      var ratio = getImageDimensions(this.imgBefore.image).aspect();
+      if (width) {
+        height = width / ratio;
+      } else if (height) {
+        width = height * ratio;
+      }
+      return {
+        width: width,
+        height: height,
+        ratio: ratio
+      };
+    },
+
+    responsivizeIframe: function responsivizeIframe(dims) {
+      //Check the slider dimensions against the iframe (window) dimensions
+      if (dims.height < window.innerHeight) {
+        //If the aspect ratio is greater than 1, imgs are landscape, so letterbox top and bottom
+        if (dims.ratio >= 1) {
+          this.wrapper.style.paddingTop = parseInt((window.innerHeight - dims.height) / 2) + "px";
+        }
+      } else if (dims.height > window.innerHeight) {
+        /* If the image is too tall for the window, which happens at 100% width on large screens,
+         * force dimension recalculation based on height instead of width */
+        dims = this.calculateDims(0, window.innerHeight);
+        this.wrapper.style.paddingLeft = parseInt((window.innerWidth - dims.width) / 2) + "px";
+      }
+      if (this.options.showCredits) {
+        // accommodate the credits box within the iframe
+        dims.height -= 13;
+      }
+      return dims;
+    },
+
+    setWrapperDimensions: function setWrapperDimensions() {
+      var wrapperWidth = getComputedWidthAndHeight(this.wrapper).width;
+      var wrapperHeight = getComputedWidthAndHeight(this.wrapper).height;
+      var dims = this.calculateDims(wrapperWidth, wrapperHeight);
+      // if window is in iframe, make sure images don't overflow boundaries
+      if (window.location !== window.parent.location && !this.options.makeResponsive) {
+        dims = this.responsivizeIframe(dims);
+      }
+
+      this.wrapper.style.height = parseInt(dims.height) + "px";
+      this.wrapper.style.width = parseInt(dims.width) + "px";
+    },
+
+    optimizeWrapper: function optimizeWrapper(maxWidth) {
+      var result = juxtapose.OPTIMIZATION_ACCEPTED;
+      if (this.imgBefore.image.naturalWidth >= maxWidth && this.imgAfter.image.naturalWidth >= maxWidth) {
+        this.wrapper.style.width = maxWidth + "px";
+        result = juxtapose.OPTIMIZATION_WAS_CONSTRAINED;
+      } else if (this.imgAfter.image.naturalWidth < maxWidth) {
+        this.wrapper.style.width = this.imgAfter.image.naturalWidth + "px";
+      } else {
+        this.wrapper.style.width = this.imgBefore.image.naturalWidth + "px";
+      }
+      this.setWrapperDimensions();
+      return result;
+    },
+
+    _onLoaded: function _onLoaded() {
+
+      if (this.imgBefore && this.imgBefore.loaded === true && this.imgAfter && this.imgAfter.loaded === true) {
+
+        this.wrapper = document.querySelector(this.selector);
+        addClass(this.wrapper, 'juxtapose');
+
+        this.wrapper.style.width = getNaturalDimensions(this.imgBefore.image).width;
+        this.setWrapperDimensions();
+
+        this.slider = document.createElement("div");
+        this.slider.className = 'jx-slider';
+        this.wrapper.appendChild(this.slider);
+
+        if (this.options.mode != "horizontal") {
+          addClass(this.slider, this.options.mode);
+        }
+
+        this.handle = document.createElement("div");
+        this.handle.className = 'jx-handle';
+
+        this.rightImage = document.createElement("div");
+        this.rightImage.className = 'jx-image jx-right';
+        this.rightImage.appendChild(this.imgAfter.image);
+
+        this.leftImage = document.createElement("div");
+        this.leftImage.className = 'jx-image jx-left';
+        this.leftImage.appendChild(this.imgBefore.image);
+
+        this.labCredit = document.createElement("a");
+        this.labCredit.setAttribute('href', 'http://juxtapose.knightlab.com');
+        this.labCredit.setAttribute('target', '_blank');
+        this.labCredit.className = 'jx-knightlab';
+        this.labLogo = document.createElement("div");
+        this.labLogo.className = 'knightlab-logo';
+        this.labCredit.appendChild(this.labLogo);
+        this.projectName = document.createElement("span");
+        this.projectName.className = 'juxtapose-name';
+        setText(this.projectName, 'JuxtaposeJS');
+        this.labCredit.appendChild(this.projectName);
+
+        this.slider.appendChild(this.handle);
+        this.slider.appendChild(this.leftImage);
+        this.slider.appendChild(this.rightImage);
+        //this.slider.appendChild(this.labCredit);
+
+        this.leftArrow = document.createElement("div");
+        this.rightArrow = document.createElement("div");
+        this.control = document.createElement("div");
+        this.controller = document.createElement("div");
+
+        this.leftArrow.className = 'jx-arrow jx-left';
+        this.rightArrow.className = 'jx-arrow jx-right';
+        this.control.className = 'jx-control';
+        this.controller.className = 'jx-controller';
+
+        this.controller.setAttribute('tabindex', 0); //put the controller in the natural tab order of the document
+        this.controller.setAttribute('role', 'slider');
+        this.controller.setAttribute('aria-valuenow', 50);
+        this.controller.setAttribute('aria-valuemin', 0);
+        this.controller.setAttribute('aria-valuemax', 100);
+
+        this.handle.appendChild(this.leftArrow);
+        this.handle.appendChild(this.control);
+        this.handle.appendChild(this.rightArrow);
+        this.control.appendChild(this.controller);
+
+        this._init();
+      }
+    },
+
+    _init: function _init() {
+
+      if (this.checkImages() === false) {
+        console.warn(this, "Check that the two images have the same aspect ratio for the slider to work correctly.");
+      }
+
+      this.updateSlider(this.options.startingPosition, false);
+
+      if (this.options.showLabels === true) {
+        if (this.imgBefore.label) {
+          this.displayLabel(this.leftImage, this.imgBefore.label);
+        }
+        if (this.imgAfter.label) {
+          this.displayLabel(this.rightImage, this.imgAfter.label);
+        }
+      }
+
+      if (this.options.showCredits === true) {
+        this.displayCredits();
+      }
+
+      var self = this;
+      window.addEventListener("resize", function () {
+        self.setWrapperDimensions();
+      });
+
+      // Set up Javascript Events
+      // On mousedown, call updateSlider then set animate to false
+      // (if animate is true, adds css transition when updating).
+
+      this.slider.addEventListener("mousedown", function (e) {
+        e = e || window.event;
+        e.preventDefault();
+        self.updateSlider(e, true);
+        var animate = true;
+
+        this.addEventListener("mousemove", function (e) {
+          e = e || window.event;
+          e.preventDefault();
+          if (animate) {
+            self.updateSlider(e, false);
+          }
+        });
+
+        var mouseUpFunc = function mouseUpFunc(e) {
+          e = e || window.event;
+          e.preventDefault();
+          e.stopPropagation();
+          this.removeEventListener('mouseup', mouseUpFunc);
+          animate = false;
+        };
+
+        this.addEventListener('mouseup', mouseUpFunc);
+      });
+
+      this.slider.addEventListener("touchstart", function (e) {
+        e = e || window.event;
+        e.preventDefault();
+        e.stopPropagation();
+        self.updateSlider(e, true);
+
+        this.addEventListener("touchmove", function (e) {
+          e = e || window.event;
+          e.preventDefault();
+          e.stopPropagation();
+          self.updateSlider(event, false);
+        });
+      });
+
+      /* keyboard accessibility */
+
+      this.handle.addEventListener("keydown", function (e) {
+        e = e || window.event;
+        var key = e.which || e.keyCode;
+        var ariaValue = parseFloat(this.style.left);
+
+        //move jx-controller left
+        if (key == 37) {
+          ariaValue = ariaValue - 1;
+          var leftStart = parseFloat(this.style.left) - 1;
+          self.updateSlider(leftStart, false);
+          self.controller.setAttribute('aria-valuenow', ariaValue);
+        }
+
+        //move jx-controller right
+        if (key == 39) {
+          ariaValue = ariaValue + 1;
+          var rightStart = parseFloat(this.style.left) + 1;
+          self.updateSlider(rightStart, false);
+          self.controller.setAttribute('aria-valuenow', ariaValue);
+        }
+      });
+
+      //toggle right-hand image visibility
+      this.leftImage.addEventListener("keydown", function (event) {
+        var key = event.which || event.keyCode;
+        if (key == 13 || key == 32) {
+          self.updateSlider("90%", true);
+          self.controller.setAttribute('aria-valuenow', 90);
+        }
+      });
+
+      //toggle left-hand image visibility
+      this.rightImage.addEventListener("keydown", function (event) {
+        var key = event.which || event.keyCode;
+        if (key == 13 || key == 32) {
+          self.updateSlider("10%", true);
+          self.controller.setAttribute('aria-valuenow', 10);
+        }
+      });
+
+      juxtapose.sliders.push(this);
+
+      if (this.options.callback && typeof this.options.callback == 'function') {
+        this.options.callback(this);
+      }
+    }
+
+  };
+
+  /*
+    Given an element that is configured with the proper data elements, make a slider out of it.
+    Normally this will just be used by scanPage.
+  */
+  juxtapose.makeSlider = function (element, idx) {
+    if (typeof idx == 'undefined') {
+      idx = juxtapose.sliders.length; // not super threadsafe...
+    }
+
+    var w = element;
+
+    var images = w.querySelectorAll('img');
+
+    var options = {};
+    // don't set empty string into options, that's a false false.
+    if (w.getAttribute('data-animate')) {
+      options.animate = w.getAttribute('data-animate');
+    }
+    if (w.getAttribute('data-showlabels')) {
+      options.showLabels = w.getAttribute('data-showlabels');
+    }
+    if (w.getAttribute('data-showcredits')) {
+      options.showCredits = w.getAttribute('data-showcredits');
+    }
+    if (w.getAttribute('data-startingposition')) {
+      options.startingPosition = w.getAttribute('data-startingposition');
+    }
+    if (w.getAttribute('data-mode')) {
+      options.mode = w.getAttribute('data-mode');
+    }
+    if (w.getAttribute('data-makeresponsive')) {
+      options.mode = w.getAttribute('data-makeresponsive');
+    }
+
+    specificClass = 'juxtapose-' + idx;
+    addClass(element, specificClass);
+
+    selector = '.' + specificClass;
+
+    if (w.innerHTML) {
+      w.innerHTML = '';
+    } else {
+      w.innerText = '';
+    }
+
+    slider = new juxtapose.JXSlider(selector, [{
+      src: images[0].src,
+      label: images[0].getAttribute('data-label'),
+      credit: images[0].getAttribute('data-credit'),
+      alt: images[0].alt
+    }, {
+      src: images[1].src,
+      label: images[1].getAttribute('data-label'),
+      credit: images[1].getAttribute('data-credit'),
+      alt: images[1].alt
+    }], options);
+  };
+
+  //Enable HTML Implementation
+  juxtapose.scanPage = function () {
+    var elements = document.querySelectorAll('.juxtapose');
+    for (var i = 0; i < elements.length; i++) {
+      juxtapose.makeSlider(elements[i], i);
+    }
+  };
+
+  juxtapose.JXSlider = JXSlider;
+  window.juxtapose = juxtapose;
+
+  juxtapose.scanPage();
+})(document, window);
+
+// addEventListener polyfill / jonathantneal
+!window.addEventListener && function (WindowPrototype, DocumentPrototype, ElementPrototype, addEventListener, removeEventListener, dispatchEvent, registry) {
+  WindowPrototype[addEventListener] = DocumentPrototype[addEventListener] = ElementPrototype[addEventListener] = function (type, listener) {
+    var target = this;
+
+    registry.unshift([target, type, listener, function (event) {
+      event.currentTarget = target;
+      event.preventDefault = function () {
+        event.returnValue = false;
+      };
+      event.stopPropagation = function () {
+        event.cancelBubble = true;
+      };
+      event.target = event.srcElement || target;
+
+      listener.call(target, event);
+    }]);
+
+    this.attachEvent("on" + type, registry[0][3]);
+  };
+
+  WindowPrototype[removeEventListener] = DocumentPrototype[removeEventListener] = ElementPrototype[removeEventListener] = function (type, listener) {
+    for (var index = 0, register; register = registry[index]; ++index) {
+      if (register[0] == this && register[1] == type && register[2] == listener) {
+        return this.detachEvent("on" + type, registry.splice(index, 1)[0][3]);
+      }
+    }
+  };
+
+  WindowPrototype[dispatchEvent] = DocumentPrototype[dispatchEvent] = ElementPrototype[dispatchEvent] = function (eventObject) {
+    return this.fireEvent("on" + eventObject.type, eventObject);
+  };
+}(Window.prototype, HTMLDocument.prototype, Element.prototype, "addEventListener", "removeEventListener", "dispatchEvent", []);</script>
+    <script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/d3.min.js"></script>
+<link rel="stylesheet" href="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/katex.min.css" crossorigin="anonymous">
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA99JREFUeNrsG4t1ozDMzQSM4A2ODUonKBucN2hugtIJ6E1AboLcBiQTkJsANiAb9OCd/OpzMWBJBl5TvaeXPiiyJetry0J8wW3D3QpjRh3GjneXDq+fSQA9s2mH9x3KDhN4foJfCb8N/Jrv+2fnDn8vLRQOplWHVYdvHZYdZsBcZP1vBmh/n8DzEmhUQDPaOuP9pFuY+JwJHwHnCLQE2tnWBGEyXozY9xCUgHMhhjE2I4heVWtgIkZ83wL6Qgxj1obfWBxymPwe+b00BCCRNPbwfb60yleAkkBHGT5AEehIYz7eJrFDMF9CvH4wwhcGHiHMneFvLDQwlwvMLQq58trRcYBWfYn0A0OgHWQUSu25mE+BnoYKnnEJoeIWAifzOv7vLWd2ZKRfWAIme3tOiUaQ3UnLkb0xj1FxRIeEGKaGIHOs9nEgLaaA9i0JRYo1Ic67wJW86KSKE/ZAM8KuVMk8ITVhmxUxJ3Cl2xlm9Vtkeju1+mpCQNxaEGNCY8bs9X2YqwNoQeGjBWut/ma0QAWy/TqAsHx9wSya3I5IRxOfTC+leG+kA/4vSeEcGBtNUN6byhu3+keEZCQJUNh8MAO7HL6H8pQLnsW/Hd4T4lv93TPjfM7A46iEEqbB5EDOvwYNW6tGNZzT/o+CZ6sqZ6wUtR/wf7mi/VL8iNciT6rHih48Y55b4nKCHJCCzb4y0nwFmin3ZEMIoLfZF8F7nncFmvnWBaBj7CGAYA/WGJsUwHdYqVDwAmNsUgAx4CGgAA7GOOxADYOFWOaIKifuVYzmOpREqA21Mo7aPsgiY1PhOMAmxtR+AUbYH3Id2wc0SAFIQTsn9IUGWR8k9jx3vtXSiAacFxTAGakBk9UudkNECd6jLe+6HrshshvIuC6IlLMRy7er+JpcKma24SlE4cFZSZJDGVVrsNvitQhQrDhW0jfiOLfFd47C42eHT56D/BK0To+58Ahj+cAT8HT1UWlfLZCCd/uKawzU0Rh2EyIX/Icqth3niG8ybNroezwe6khdCNxRN+l4XGdOLVLlOOt2hTRJlr1ETIuMAltVTMz70mJrkdGAaZLSmnBEqmAE32JCMmuTlCnRgsBENtOUpHhvvsYIL0ibnBkaC6QvKcR7738GKp0AKnim7xgUSNv1bpS8QwhBt8r+EP47v/oyRK/S34yJ9nT+AN0Tkm4OdB9E4BsmXM3SnMlRFUrtp6IDpV2eKzdYvF3etm3KhQksbOLChGkSmcBdmcEwvqkrMy5BzL00NZeu3qPYJOOuCc+5NjcWKXQxFvTa3NoXJ4d8in7fiAUuTt781dkvuHX4K8AA2Usy7yNKLy0AAAAASUVORK5CYII=">
+    <link href="https://distill.pub/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
+  
+    <title>A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features': Adversarially Robust Neural Style Transfer</title>
+    
+    <link rel="canonical" href="https://distill.pub/2019/advex-bugs-discussion/response-4">
+    
+    <!--  https://schema.org/Article -->
+    <meta property="description" itemprop="description" content="An experiment showing adversarial robustness makes neural style transfer work on a non-VGG architecture">
+    <meta property="article:published" itemprop="datePublished" content="2019-08-06">
+    <meta property="article:created" itemprop="dateCreated" content="2019-08-06">
+    
+    <meta property="article:modified" itemprop="dateModified" content="2019-08-06T21:57:11.000Z">
+    
+    <meta property="article:author" content="Reiichiro Nakano">
+    <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;: Adversarially Robust Neural Style Transfer">
+    <meta property="og:description" content="An experiment showing adversarial robustness makes neural style transfer work on a non-VGG architecture">
+    <meta property="og:url" content="https://distill.pub/2019/advex-bugs-discussion/response-4">
+    <meta property="og:image" content="https://distill.pub/2019/advex-bugs-discussion/response-4/thumbnail.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Distill">
+  
+    <!--  https://dev.twitter.com/cards/types/summary -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;: Adversarially Robust Neural Style Transfer">
+    <meta name="twitter:description" content="An experiment showing adversarial robustness makes neural style transfer work on a non-VGG architecture">
+    <meta name="twitter:url" content="https://distill.pub/2019/advex-bugs-discussion/response-4">
+    <meta name="twitter:image" content="https://distill.pub/2019/advex-bugs-discussion/response-4/thumbnail.jpg">
+    <meta name="twitter:image:width" content="560">
+    <meta name="twitter:image:height" content="295">
+  
+      <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+    <meta name="citation_title" content="A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;: Adversarially Robust Neural Style Transfer">
+    <meta name="citation_fulltext_html_url" content="https://distill.pub/2019/advex-bugs-discussion/response-4">
+    <meta name="citation_volume" content="4">
+    <meta name="citation_issue" content="8">
+    <meta name="citation_firstpage" content="e00019.4">
+    <meta name="citation_doi" content="10.23915/distill.00019.4">
+    <meta name="citation_journal_title" content="Distill">
+    <meta name="citation_journal_abbrev" content="Distill">
+    <meta name="citation_issn" content="2476-0757">
+    <meta name="citation_fulltext_world_readable" content="">
+    <meta name="citation_online_date" content="2019/08/06">
+    <meta name="citation_publication_date" content="2019/08/06">
+    <meta name="citation_author" content="Nakano, Reiichiro">
+    <meta name="citation_reference" content="citation_title=Adversarial examples are not bugs, they are features;citation_author=Andrew Ilyas;citation_author=Shibani Santurkar;citation_author=Dimitris Tsipras;citation_author=Logan Engstrom;citation_author=Brandon Tran;citation_author=Aleksander Madry;citation_publication_date=2019;citation_arxiv_id=1905.02175;">
+    <meta name="citation_reference" content="citation_title=Very deep convolutional networks for large-scale image recognition;citation_author=Karen Simonyan;citation_author=Andrew Zisserman;citation_publication_date=2014;citation_arxiv_id=1409.1556;">
+    <meta name="citation_reference" content="citation_title=A Neural Algorithm of Artistic Style;citation_author=Leon A. Gatys;citation_author=Alexander S. Ecker;citation_author=Matthias Bethge;citation_publication_date=2015;citation_arxiv_id=1508.06576;">
+    <meta name="citation_reference" content="citation_title=Differentiable Image Parameterizations;citation_author=Alexander Mordvintsev;citation_author=Nicola Pezzotti;citation_author=Ludwig Schubert;citation_author=Chris Olah;citation_publication_date=2018;citation_journal_title=Distill;">
+    <meta name="citation_reference" content="citation_title=Feature Visualization;citation_author=Chris Olah;citation_author=Alexander Mordvintsev;citation_author=Ludwig Schubert;citation_publication_date=2017;citation_journal_title=Distill;">
+    <meta name="citation_reference" content="citation_title=Learning Perceptually-Aligned Representations via Adversarial Robustness;citation_author=Logan Engstrom;citation_author=Andrew Ilyas;citation_author=Shibani Santurkar;citation_author=Dimitris Tsipras;citation_author=Brandon Tran;citation_author=Aleksander Madry;citation_publication_date=2019;citation_arxiv_id=1906.00945;">
+    <meta name="citation_reference" content="citation_title=On the limited memory BFGS method for large scale optimization;citation_author=Dong C Liu;citation_author=Jorge Nocedal;citation_publication_date=1989;citation_journal_title=Mathematical programming;citation_volume=45;citation_number=1-3;">
+    <meta name="citation_reference" content="citation_title=Deconvolution and checkerboard artifacts;citation_author=Augustus Odena;citation_author=Vincent Dumoulin;citation_author=Chris Olah;citation_publication_date=2016;citation_journal_title=Distill;citation_volume=1;citation_number=10;">
+    <meta name="citation_reference" content="citation_title=Geodesics of learned representations;citation_author=Olivier J. Henaff;citation_author=Eero P. Simoncelli;citation_publication_date=2016;citation_journal_title=CoRR;citation_volume=abs/1511.06394;">
+    <meta name="citation_reference" content="citation_title=Batch Normalization is a Cause of Adversarial Vulnerability;citation_author=Angus Galloway;citation_author=Anna Golubeva;citation_author=Thomas Tanay;citation_author=Medhat Moussa;citation_author=Graham W. Taylor;citation_publication_date=2019;citation_journal_title=ArXiv;citation_volume=abs/1905.02161;">
+    <meta name="citation_reference" content="citation_title=Benchmarking Neural Network Robustness to Common Corruptions and Perturbations;citation_author=Dan Hendrycks;citation_author=Thomas G. Dietterich;citation_publication_date=2019;citation_journal_title=ArXiv;citation_volume=abs/1903.12261;">
+    <meta name="citation_reference" content="citation_title=Is Robustness the Cost of Accuracy? - A Comprehensive Study on the Robustness of 18 Deep Image Classification Models;citation_author=Dong Su;citation_author=Huan Zhang;citation_author=Hongge Chen;citation_author=Jinfeng Yi;citation_author=Pin-Yu Chen;citation_author=Yupeng Gao;citation_publication_date=2018;citation_journal_title=ArXiv;citation_volume=abs/1808.01688;">
+    <meta name="citation_reference" content="citation_title=ImageNet Classification with Deep Convolutional Neural Networks;citation_author=Alex Krizhevsky;citation_author=Ilya Sutskever;citation_author=Geoffrey E. Hinton;citation_publication_date=2012;">
+    <meta name="citation_reference" content="citation_title=Neural Style transfer with Deep Learning;citation_author=Dávid Komorowicz;citation_publication_date=2016;citation_journal_title=https://dawars.me;">
+    <meta name="citation_reference" content="citation_title=The Building Blocks of Interpretability;citation_author=Chris Olah;citation_author=Arvind Satyanarayan;citation_author=Ian Johnson;citation_author=Shan Carter;citation_author=Ludwig Schubert;citation_author=Katherine Ye;citation_author=Alexander Mordvintsev;citation_publication_date=2018;citation_journal_title=Distill;">
+<style id="svelte-1eb0vow-style">.visual-toc.svelte-1eb0vow{counter-reset:toc-heading;display:grid;grid-auto-flow:dense;grid-template-columns:1fr 1fr 1fr;grid-gap:16px}@media(min-width: 1000px){.visual-toc.svelte-1eb0vow{grid-gap:8px;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr}}@media(min-width: 1180px){.visual-toc.svelte-1eb0vow{grid-gap:20px}}.visual-toc-item.svelte-1eb0vow{display:flex;flex-flow:column}.visual-toc-top.svelte-1eb0vow{flex-grow:1;border:1px solid #E5E5E5;border-radius:5px;overflow:hidden;text-decoration:none;transition:box-shadow 0.35s, transform 0.35s;transform:scale(1.0);display:flex;flex-flow:column}.visual-toc-top.svelte-1eb0vow:hover{box-shadow:0px 1px 4px rgba(0,0,0,0.05);transform:scale(1.02);transition:box-shadow 0.15s, transform 0.15s}.visual-toc-heading.svelte-1eb0vow,.visual-toc-subheading.svelte-1eb0vow{display:block;line-height:1.3em;font-size:85%;padding:0.5em 1em 1em 1em}.visual-toc-heading.svelte-1eb0vow{counter-increment:toc-heading;color:#333;font-weight:600}.visual-toc-heading.svelte-1eb0vow::before{display:block;content:"Section " counter(toc-heading);font-weight:400;text-transform:uppercase;font-size:0.6rem;color:#666}.visual-toc-subheading.svelte-1eb0vow{display:none;color:#666;font-size:75%}.visual-toc-colab.svelte-1eb0vow{border-radius:5px;border:dashed 1px rgba(0,0,0,0.1);margin-top:1em;padding-left:1.2em;padding-right:1.2em;padding-top:0.25em;padding-bottom:0.25em;text-transform:uppercase;color:#aaa;font-size:10.5px;line-height:24px}.visual-toc-colab.svelte-1eb0vow>img.svelte-1eb0vow{position:relative;top:4px}.visual-toc-item.svelte-1eb0vow:hover .visual-toc-colab>img.svelte-1eb0vow{filter:unset}.visual-toc-colab.svelte-1eb0vow:hover{background-color:hsl(0, 0%, 97%);border-color:rgba(0,0,0,0.2);color:#888}a.svelte-1eb0vow{display:block;text-decoration:none;cursor:pointer}a.svelte-1eb0vow canvas{width:100%}</style><style id="svelte-hyyx41-style">.colab-root.svelte-hyyx41{display:inline-block;background:rgba(255, 255, 255, 0.75);padding:4px 8px;border-radius:4px;font-size:11px!important;text-decoration:none;color:#aaa;border:none;font-weight:300;border:solid 1px rgba(0, 0, 0, 0.08);border-bottom-color:rgba(0, 0, 0, 0.15);text-transform:uppercase;line-height:16px}span.svelte-hyyx41{background-image:url(images/colab.svg);background-repeat:no-repeat;background-size:20px;background-position-y:2px;display:inline-block;padding-left:24px;border-radius:4px;text-decoration:none}a.svelte-hyyx41:hover{color:#666;background:white;border-color:rgba(0, 0, 0, 0.2)}</style></head>
+
+<body distill-prerendered=""><distill-header distill-prerendered="">
+<style>
+distill-header {
+  position: relative;
+  height: 60px;
+  background-color: hsl(200, 60%, 15%);
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+distill-header .content {
+  height: 70px;
+  grid-column: page;
+}
+distill-header a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+distill-header a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+distill-header svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+@media(min-width: 1080px) {
+  distill-header {
+    height: 70px;
+  }
+  distill-header a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+  distill-header .logo {
+  }
+}
+distill-header svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+distill-header .logo {
+  font-size: 17px;
+  font-weight: 200;
+}
+distill-header .nav {
+  float: right;
+  font-weight: 300;
+}
+distill-header .nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+<div class="content">
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a>
+  <nav class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+  </nav>
+</div>
+</distill-header>
+
+    <d-front-matter>
+        <script type="text/json">{
+  "title": "A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features': Adversarially Robust Neural Style Transfer",
+  "description": "An experiment showing adversarial robustness makes neural style transfer work on a non-VGG architecture",
+  "authors": [
+    {
+      "author": "Reiichiro Nakano",
+      "authorURL": "https://reiinakano.com/",
+      "affiliation": "",
+      "affiliationURL": ""
+    }
+  ],
+  "katex": {
+    "delimiters": [
+      {
+        "left": "$",
+        "right": "$",
+        "display": false
+      },
+      {
+        "left": "$$",
+        "right": "$$",
+        "display": true
+      }
+    ]
+  }
+  }</script>
+    </d-front-matter>
+
+    <d-title>
+        <h1>Adversarially Robust Neural Style Transfer</h1>
+    </d-title>
+
+    <d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="https://reiinakano.com/">Reiichiro Nakano</a>
+        </p>
+        <p class="affiliation">
+        
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>Aug. 6, 2019</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p><a href="https://doi.org/10.23915/distill.00019.4">10.23915/distill.00019.4</a></p>
+    </div>
+  </div>
+</d-byline><d-article>
+
+        <style>
+    #rebuttal,
+    .comment-info {
+        background-color: hsl(54, 78%, 96%);
+        border-left: solid hsl(54, 33%, 67%) 1px;
+        padding: 1em;
+        color: hsla(0, 0%, 0%, 0.67);
+    }
+
+    #header-info {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        display: grid;
+        grid-template-columns: 65px max-content 1fr;
+        grid-template-areas:
+            "icon explanation explanation"
+            "icon back comment";
+        grid-column-gap: 1.5em;
+    }
+
+    #header-info .icon-multiple-pages {
+        grid-area: icon;
+        padding: 0.5em;
+        content: url(images/multiple-pages.svg);
+    }
+
+    #header-info .explanation {
+        grid-area: explanation;
+        font-size: 85%;
+    }
+
+    #header-info .back {
+        grid-area: back;
+    }
+
+    #header-info .back::before {
+
+        content: "←";
+        margin-right: 0.5em;
+    }
+
+    #header-info .comment {
+        grid-area: comment;
+        scroll-behavior: smooth;
+    }
+
+    #header-info .comment::before {
+        content: "↓";
+        margin-right: 0.5em;
+    }
+
+    #header-info a.back,
+    #header-info a.comment {
+        font-size: 80%;
+        font-weight: 600;
+        border-bottom: none;
+        text-transform: uppercase;
+        color: #2e6db7;
+        display: block;
+        margin-top: 0.25em;
+        letter-spacing: 0.25px;
+    }
+</style>
+
+<section id="header-info" class="comment-info">
+    <div class="icon-multiple-pages"></div>
+    <p class="explanation">
+        This article is part of a discussion of the Ilyas et al. paper
+        <em>“Adversarial examples are not bugs, they are features”.</em>
+        You can learn more in the
+        <a href="https://distill.pub/2019/advex-bugs-discussion/">
+            main discussion article
+        </a>.
+    </p>
+    <a id="header-info-back-link" class="back" href="https://distill.pub/2019/advex-bugs-discussion/#commentaries">Other Comments</a>
+    <a id="header-info-comment-link" class="comment" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#rebuttal">Comment by Ilyas et al.</a>
+</section>
+
+
+        <p>
+            A figure in Ilyas, et. al.<d-cite key="ilyas2019adversarial"></d-cite> that struck me as particularly
+            interesting
+            was the following graph showing a correlation between adversarial transferability between architectures and
+            their
+            tendency to learn similar non-robust features.
+        </p>
+
+        <figure id="figure-agent-adversarial">
+            <img class="l-body" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/transferability.png">
+            <figcaption>
+                Adversarial transferability vs test accuracy of different architectures trained on ResNet-50′s
+                non-robust features.
+            </figcaption>
+        </figure>
+
+        <p>
+            One way to interpret this graph is that it shows how well a particular architecture is able to capture
+            non-robust features in an image.
+            <d-footnote id="d-footnote-1">Since the non-robust features are defined by the non-robust features ResNet-50 captures,
+                <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi><mi>R</mi><msub><mi>F</mi><mrow><mi>r</mi><mi>e</mi><mi>s</mi><mi>n</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">NRF_{resnet}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.02778em;">r</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">s</span><span class="mord mathit mtight">n</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>, what this graph really shows is how well an architecture captures <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi><mi>R</mi><msub><mi>F</mi><mrow><mi>r</mi><mi>e</mi><mi>s</mi><mi>n</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">NRF_{resnet}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.02778em;">r</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">s</span><span class="mord mathit mtight">n</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>.
+            </d-footnote>
+        </p>
+
+        <p>
+            Notice how far back VGG<d-cite key="simonyan2014very"></d-cite> is compared to the other models.
+        </p>
+
+        <p>
+            In the unrelated field of neural style transfer<d-cite key="gatys2015"></d-cite>, VGG-based<d-cite key="simonyan2014very"></d-cite> neural networks are also quite special since non-VGG architectures are
+            known to not work very well <d-footnote id="d-footnote-2">This phenomenon is discussed at length in <a href="https://www.reddit.com/r/MachineLearning/comments/7rrrk3/d_eat_your_vggtables_or_why_does_neural_style/">this
+                    Reddit thread</a>.</d-footnote> without some sort of parameterization trick <d-cite key="mordvintsev2018differentiable"></d-cite>.
+            The above interpretation of the graph provides an alternative explanation for this phenomenon.
+            <b>Since VGG is unable to capture non-robust features as well as other architectures, the outputs for style
+                transfer actually look more correct to humans!</b>
+            <d-footnote id="d-footnote-3">To follow this argument, note that the perceptual losses used in neural style transfer are
+                dependent on matching features learned by a separately trained image classifier. If these learned
+                features don’t make sense to humans (non-robust features), the outputs for neural style transfer won’t
+                make sense either.</d-footnote>
+        </p>
+
+        <p>
+            Before proceeding, let’s quickly discuss the results obtained by Mordvintsev, et. al.<d-cite key="mordvintsev2018differentiable"></d-cite> in <a href="https://distill.pub/2018/differentiable-parameterizations/">Differentiable Image
+                Parameterizations</a>, where they show that non-VGG architectures can work for style transfer by using a
+            simple technique previously established in feature visualization<d-cite key="olah2017feature"></d-cite>.
+            In their experiment, instead of optimizing the output image in RGB space, they optimize it in Fourier space,
+            and run the image through a series of transformations (e.g jitter, rotation, scaling) before passing it
+            through the neural network.
+        </p>
+
+        <p>
+            Can we reconcile this result with our hypothesis linking neural style transfer and non-robust features?
+        </p>
+
+        <p>
+            One possible theory is that all of these image transformations <i>weaken</i> or even <i>destroy</i>
+            non-robust features.
+            Since the optimization can no longer reliably manipulate non-robust features to bring down the loss, it is
+            forced to use robust features instead, which are presumably more resistant to the applied image
+            transformations (a rotated and jittered flappy ear still looks like a flappy ear).
+        </p>
+
+        <h2>A quick experiment</h2>
+
+        <p>
+            Testing our hypothesis is fairly straightforward:
+            Use an adversarially robust classifier for neural style transfer<d-cite key="gatys2015"></d-cite> and see
+            what happens.
+        </p>
+
+        <p>
+            I evaluated a regularly trained (non-robust) ResNet-50 with a robustly trained ResNet-50 from Engstrom, et.
+            al.<d-cite key="engstrom2019learning"></d-cite> on their performance on neural style transfer<d-cite key="gatys2015"></d-cite>.
+            For comparison, I performed the same algorithm with a regular VGG-19<d-cite key="simonyan2014very"></d-cite>
+           &nbsp;.
+        </p>
+
+        <p>
+            To ensure a fair comparison despite the different networks having different optimal hyperparameters, I
+            performed a small grid search for each image and manually picked the best output per network.
+            Further details can be read in a footnote
+            <d-footnote id="d-footnote-4">
+                L-BFGS<d-cite key="liu1989limited"></d-cite> was used for optimization as it showed faster convergence
+                over Adam.
+                For ResNet-50, the style layers used were the ReLu outputs after each of the 4 residual blocks,
+                <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>2</mn><mi mathvariant="normal">_</mi><mi>x</mi><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>3</mn><mi mathvariant="normal">_</mi><mi>x</mi><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>4</mn><mi mathvariant="normal">_</mi><mi>x</mi><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>5</mn><mi mathvariant="normal">_</mi><mi>x</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[relu2\_x, relu3\_x, relu4\_x, relu5\_x]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.06em;vertical-align:-0.31em;"></span><span class="base"><span class="mopen">[</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">2</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">3</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">4</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">5</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span><span class="mclose">]</span></span></span></span></span> while the content layer used was <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>4</mn><mi mathvariant="normal">_</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">relu4\_x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">4</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span></span></span></span></span>.
+                For VGG-19, style layers <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>1</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>2</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>3</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>4</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>5</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[relu1\_1,relu2\_1,relu3\_1,relu4\_1,relu5\_1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.06em;vertical-align:-0.31em;"></span><span class="base"><span class="mopen">[</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">1</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">2</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">3</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">4</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">5</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mclose">]</span></span></span></span></span> were used with a content layer
+                <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>4</mn><mi mathvariant="normal">_</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">relu4\_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">4</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">2</span></span></span></span></span>.
+                In VGG-19, max pooling layers were replaced with avg pooling layers, as stated in Gatys, et. al<d-cite key="gatys2015"></d-cite>.
+            </d-footnote>
+            or observed in the accompanying Colaboratory notebook.
+        </p>
+
+        <p>
+            The results of this experiment can be explored in the diagram below.
+        </p>
+
+        <style>
+            #style-transfer-slider.juxtapose {
+                max-height: 512px;
+                max-width: 512px;
+            }
+        </style>
+        <figure>
+            <div class="l-body">
+                <b>Content image</b>
+                <select id="content-select" class="image-picker" style="display: none;">
+                    <option data-img-src="images/thumbnails/ben.jpg" value="ben"></option>
+                    <option data-img-src="images/thumbnails/dancing.jpg" value="dancing"></option>
+                    <option data-img-src="images/thumbnails/tubingen.jpg" value="tubingen"></option>
+                    <option data-img-src="images/thumbnails/stata.jpg" value="stata"></option>
+                </select><ul class="thumbnails image_picker_selector"><li><div class="thumbnail selected"><img class="image_picker_image" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/ben.jpg"></div></li><li><div class="thumbnail"><img class="image_picker_image" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/dancing.jpg"></div></li><li><div class="thumbnail"><img class="image_picker_image" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/tubingen.jpg"></div></li><li><div class="thumbnail"><img class="image_picker_image" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/stata.jpg"></div></li></ul>
+                <b>Style image</b>
+                <select id="style-select" class="image-picker" style="display: none;">
+                    <option data-img-src="images/thumbnails/scream.jpg" value="scream"></option>
+                    <option data-img-src="images/thumbnails/starrynight.jpg" value="starry"></option>
+                    <option data-img-src="images/thumbnails/woman.jpg" value="woman"></option>
+                    <option data-img-src="images/thumbnails/picasso.jpg" value="picasso"></option>
+                </select><ul class="thumbnails image_picker_selector"><li><div class="thumbnail selected"><img class="image_picker_image" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/scream.jpg"></div></li><li><div class="thumbnail"><img class="image_picker_image" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/starrynight.jpg"></div></li><li><div class="thumbnail"><img class="image_picker_image" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/woman.jpg"></div></li><li><div class="thumbnail"><img class="image_picker_image" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/picasso.jpg"></div></li></ul>
+                <label><input id="check-compare-vgg" type="checkbox"><small>&nbsp; Compare VGG or Robust
+                        ResNet</small></label>
+                <div id="style-transfer-slider" class="align-center juxtapose" style="padding-top: 10px; height: 512px; width: 512px;"><div class="jx-slider"><div class="jx-handle" style="left: 50%;"><div class="jx-arrow jx-left"></div><div class="jx-control"><div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div></div><div class="jx-arrow jx-right"></div></div><div class="jx-image jx-left" style="width: 50%;"><img src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/ben_scream_nonrobust.jpg" alt=""><div class="jx-label" tabindex="0">Non-robust ResNet50</div></div><div class="jx-image jx-right" style="width: 50%;"><img src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/ben_scream_robust.jpg" alt=""><div class="jx-label" tabindex="0">Robust ResNet50</div></div></div></div>
+            </div>
+            <figcaption class="add-colab-link" style="grid-column: text; padding-top: 20px;"><a href="https://colab.research.google.com/github/reiinakano/adversarially-robust-neural-style-transfer/blob/master/Robust_Neural_Style_Transfer.ipynb" class="colab-root svelte-hyyx41">Reproduce in a <span class="svelte-hyyx41">Notebook</span></a></figcaption>
+        </figure>
+        <script>'use strict';
+
+// I don't know how to write JavaScript without a bundler. Please someone save me.
+
+(function () {
+
+  // Initialize slider
+  var currentContent = 'ben';
+  var currentStyle = 'scream';
+  var currentLeft = 'nonrobust';
+
+  var compareVGGCheck = document.getElementById("check-compare-vgg");
+  var styleTransferSliderDiv = document.getElementById("style-transfer-slider");
+
+  function refreshSlider() {
+    while (styleTransferSliderDiv.firstChild) {
+      styleTransferSliderDiv.removeChild(styleTransferSliderDiv.firstChild);
+    }
+    var imgPath1 = 'images/style-transfer/' + currentContent + '_' + currentStyle + '_' + currentLeft + '.jpg';
+    var imgPath2 = 'images/style-transfer/' + currentContent + '_' + currentStyle + '_robust.jpg';
+    new juxtapose.JXSlider('#style-transfer-slider', [{
+      src: imgPath1, // TODO: Might need to use absolute_url?
+      label: currentLeft === 'nonrobust' ? 'Non-robust ResNet50' : 'VGG'
+    }, {
+      src: imgPath2,
+      label: 'Robust ResNet50'
+    }], {
+      animate: true,
+      showLabels: true,
+      showCredits: false,
+      startingPosition: "50%",
+      makeResponsive: true
+    });
+  }
+
+  refreshSlider();
+
+  compareVGGCheck.onclick = function (evt) {
+    currentLeft = evt.target.checked ? 'vgg' : 'nonrobust';
+    refreshSlider();
+  };
+
+  // Initialize selector
+  $("#content-select").imagepicker({
+    changed: function changed(oldVal, newVal, event) {
+      currentContent = newVal;
+      refreshSlider();
+    }
+  });
+  $("#style-select").imagepicker({
+    changed: function changed(oldVal, newVal, event) {
+      currentStyle = newVal;
+      refreshSlider();
+    }
+  });
+})();</script>
+
+        <p>
+            Success!
+            The robust ResNet shows drastic improvement over the regular ResNet.
+            Remember, all we did was switch the ResNet’s weights, the rest of the code for performing style transfer is
+            exactly the same!
+        </p>
+
+        <p>
+            A more interesting comparison can be done between VGG-19 and the robust ResNet.
+            At first glance, the robust ResNet’s outputs seem on par with VGG-19.
+            Looking closer, however, the ResNet’s outputs seem slightly noisier and exhibit some artifacts
+            <d-footnote id="d-footnote-5">This is more obvious when the output image is initialized not with the content image, but with
+                Gaussian noise.</d-footnote>.
+        </p>
+
+        <link rel="stylesheet" href="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/artifacts.css">
+        <div class="deepdream-examples l-body-outset">
+            <figure class="example" style="margin-bottom:20px;">
+                <div class="original" data-focus="10,0.43,0.21">
+                    <img src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/vgg_texture.jpg">
+                    <div class="reticle" style="width: 5%; height: 10%; top: 21%; left: 43%;"></div>
+                </div>
+                <div class="closeup">
+                    <img src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/vgg_texture.jpg" style="width: 2000%; height: 1000%; top: -160%; left: -810%;">
+                </div>
+                <figcaption>
+                    Texture synthesized with VGG.<br>
+                    <em>Mild artifacts.</em>
+                </figcaption>
+            </figure>
+            <figure class="example" style="margin-top:20px;">
+                <div class="original" data-focus="10,0.64,0.74">
+                    <img src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/resnet_texture.jpg">
+                    <div class="reticle" style="width: 5%; height: 10%; top: 74%; left: 64%;"></div>
+                </div>
+                <div class="closeup">
+                    <img src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/resnet_texture.jpg" style="width: 2000%; height: 1000%; top: -690%; left: -1230%;">
+                </div>
+                <figcaption>
+                    Texture synthesized with robust ResNet.<br>
+                    <em>Severe artifacts.</em>
+                </figcaption>
+                <script src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/artifacts.js"></script>
+            </figure>
+        </div>
+
+        <figcaption style="margin-top:-20px;padding-bottom:20px;">
+            A comparison of artifacts between textures synthesized by VGG and ResNet.
+            Interact by hovering around the images.
+            This diagram was repurposed from
+            <a href="https://distill.pub/2016/deconv-checkerboard/">
+                Deconvolution and Checkerboard Artifacts
+            </a>
+            by Odena, et. al.
+        </figcaption>
+
+        <p>
+            It is currently unclear exactly what causes these artifacts.
+            One theory is that they are checkerboard artifacts<d-cite key="odena2016deconvolution"></d-cite>
+            caused by
+            non-divisible kernel size and stride in the convolution layers.
+            They could also be artifacts caused by the presence of max pooling layers<d-cite key="Hnaff2016GeodesicsOL">
+            </d-cite> in ResNet.
+            An interesting implication is that these artifacts, while problematic, seem orthogonal to the
+            problem that
+            adversarial robustness solves in neural style transfer.
+        </p>
+
+        <h2>VGG remains a mystery</h2>
+
+        <p>
+            Although this experiment started because of an observation about a special characteristic of VGG
+            nets, it
+            did not provide an explanation for this phenomenon.
+            Indeed, if we are to accept the theory that adversarial robustness is the reason VGG works out of
+            the box
+            with neural style transfer, surely we’d find some indication in existing literature that VGG is
+            naturally
+            more robust than other architectures.
+        </p>
+
+        <p>
+            A few papers<d-cite key="Galloway2019BatchNI,Hendrycks2019BenchmarkingNN,Su2018IsRT"></d-cite>
+            indeed show
+            that VGG architectures are slightly more robust than ResNet.
+            However, they also show that AlexNet<d-cite key="krizhevsky2012"></d-cite>, not known to work well
+            for
+            neural style transfer<d-footnote id="d-footnote-6">As shown by Dávid Komorowicz<d-cite key="komorowicz2016neural">
+                </d-cite> in
+                this <a href="https://dawars.me/neural-style-transfer-deep-learning/">blog post</a>.
+            </d-footnote>, is
+            <i>above</i> VGG in terms of this “natural robustness”.
+        </p>
+
+        <p>
+            Perhaps adversarial robustness just happens to incidentally fix or cover up the true reason non-VGG
+            architectures fail at style transfer (or other similar algorithms
+            <d-footnote id="d-footnote-7">
+                In fact, neural style transfer is not the only pretrained classifier-based iterative image
+                optimization
+                technique that magically works better with adversarial robustness. In Engstrom, et. al.<d-cite key="engstrom2019learning"></d-cite>, they show that feature visualization via activation
+                maximization<d-cite key="olah2017feature"></d-cite> works on robust classifiers <i>without</i>
+                enforcing
+                any priors or regularization (e.g. image transformations and decorrelated parameterization) used
+                by
+                previous work<d-cite key="olah2017feature,olah2018the"></d-cite>. In a recent chat with Chris
+                Olah, he
+                pointed out that the aforementioned feature visualization techniques actually work well on VGG
+                <i>without</i> these priors, just like style transfer!
+            </d-footnote>
+            ) i.e. adversarial robustness is a sufficient but unnecessary condition for good style transfer.
+            Whatever the reason, I believe that further examination of VGG is a very interesting direction for
+            future
+            work.
+        </p>
+
+        <div class="comment-info">
+    To cite Ilyas et al.’s response, please cite their
+    <a href="https://distill.pub/2019/advex-bugs-discussion/original-authors/#citation">collection of responses</a>.
+</div>
+
+
+        <section id="rebuttal">
+
+            <p><b>Response Summary</b>: Very interesting
+                results, highlighting the effect of non-robust features and the utility of
+                robust models for downstream tasks. We’re excited to see what kind of impact
+                robustly trained models will have in neural network art! We were also really
+                intrigued by the mysteriousness of VGG in the context of style transfer<d-cite key="gatys2015">
+                </d-cite>. As such, we took a
+                deeper dive which found some interesting links between robustness and style
+                transfer that suggest that perhaps robustness does indeed play a role here. </p>
+
+            <p><b>Response</b>: These experiments are really cool! It is interesting that
+                preventing the reliance of a model on non-robust features improves performance
+                on style transfer, even without an explicit task-related objective (i.e. we
+                didn’t train the networks to be better for style transfer). </p>
+
+            <p> We also found the discussion of VGG as a “mysterious network” really
+                interesting — it would be valuable to understand what factors drive style transfer
+                performance more generally. Though not a complete answer, we made a couple of
+                observations while investigating further: </p>
+
+            <p><i>Style transfer does work with AlexNet: </i>One wrinkle in the idea that
+                robustness is the “secret ingredient” to style transfer could be that VGG is not
+                the most naturally robust network — AlexNet is. However, based on our own
+                testing, style transfer does seem to work with AlexNet out-of-the-box, as
+                long as we use a few early layers in the network (in a similar manner to
+                VGG): </p>
+            <figure>
+                <img class="l-body" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/alexnetworks.png">
+                <figcaption>
+                    Style transfer using AlexNet, using conv_1 through conv_4.
+                </figcaption>
+            </figure>
+
+            <p>
+                Observe that even though style transfer still works, there are checkerboard
+                patterns emerging — this seems to be a similar phenomenon to the one noticed
+                in the comment in the context of robust models.
+                This might be another indication that these two phenomena (checkerboard
+                patterns and style transfer working) are not as intertwined as previously
+                thought.
+            </p>
+
+            <p><i>From prediction robustness to layer robustness: </i> Another
+                potential wrinkle here is that both AlexNet and VGG are not that
+                much more robust than ResNets (for which style transfer completely fails),
+                and yet seem to have dramatically better performance. To try to
+                explain this, recall that style transfer is implemented as a minimization of a
+                combined objective consisting of a style loss and a content loss. We found,
+                however, that the network we use to compute the
+                style loss is far more important
+                than the one for the content loss. The following demo illustrates this — we can
+                actually use a non-robust ResNet for the content loss and everything works just
+                fine:</p>
+            <figure>
+                <img class="l-body" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/stylematters.png">
+                <figcaption>
+                    <span style="hyphens: manual;">Style transfer seems to be rather
+                        invariant to the choice of content network used, and very sensitive
+                        to the style network used.</span>
+                </figcaption>
+            </figure>
+
+            <p>Therefore, from now on, we use a fixed ResNet-50 for the content loss as a
+                control, and only worry about the style loss. </p>
+
+            <p>Now, note that the way that style loss works is by using the first few
+                layers of the relevant network. Thus, perhaps it is not about the robustness of
+                VGG’s predictions, but instead about the robustness of the layers that we actually use
+                for style transfer? </p>
+
+            <p> To test this hypothesis, we measure the robustness of a layer <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.10764em;">f</span></span></span></span></span> as:
+            </p>
+
+            <span><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>R</mi><mo>(</mo><mi>f</mi><mo>)</mo><mo>=</mo><mfrac><mrow><msub><mi mathvariant="double-struck">E</mi><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>∼</mo><mi>D</mi></mrow></msub><mrow><mo fence="true">[</mo><msub><mi>max</mi><msup><mi>x</mi><mo mathvariant="normal">′</mo></msup></msub><mi mathvariant="normal">∥</mi><mi>f</mi><mo>(</mo><msup><mi>x</mi><mo mathvariant="normal">′</mo></msup><mo>)</mo><mo>−</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>)</mo><msub><mi mathvariant="normal">∥</mi><mn>2</mn></msub><mo fence="true">]</mo></mrow></mrow><mrow><msub><mi mathvariant="double-struck">E</mi><mrow><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo>∼</mo><mi>D</mi></mrow></msub><mrow><mo fence="true">[</mo><mi mathvariant="normal">∥</mi><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>)</mo><mo>−</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>2</mn></msub><mo>)</mo><msub><mi mathvariant="normal">∥</mi><mn>2</mn></msub><mo fence="true">]</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+                R(f) = \frac{\mathbb{E}_{x_1\sim D}\left[\max_{x’} \|f(x’) - f(x_1)\|_2 \right]}
+                {\mathbb{E}_{x_1, x_2 \sim D}\left[\|f(x_1) - f(x_2)\|_2\right]}
+            </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.428892em;"></span><span class="strut bottom" style="height:2.401em;vertical-align:-0.972108em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.428892em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord mathbb">E</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathit mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathit mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mrel mtight">∼</span><span class="mord mathit mtight" style="margin-right:0.02778em;">D</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">[</span><span class="mord mathrm">∥</span><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathrm">∥</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">]</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6769999999999996em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord mathbb">E</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathit mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mrel mtight">∼</span><span class="mord mathit mtight" style="margin-right:0.02778em;">D</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2501em;"></span></span></span></span></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">[</span><span class="mop"><span class="mop">max</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathit mtight">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">∥</span><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathrm">∥</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">]</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.972108em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></span>
+
+            <p> Essentially, this quantity tells us how much we can change the
+                output of that layer <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span></span></span></span></span> within a small ball, normalized by how far apart
+                representations are between images in general. We’ve plotted this value for
+                the first few layers in a couple of different networks below: </p>
+            <figure>
+                <img class="l-body" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/robustnesses.png" style="width: 80%;">
+                <figcaption>
+                    <span style="hyphens: manual;">The robustness <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>R</mi><mo>(</mo><mi>f</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">R(f)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mclose">)</span></span></span></span></span> of the first
+                        four layers of VGG16, AlexNet, and robust/standard ResNet-50
+                        trained on ImageNet.</span>
+                </figcaption>
+            </figure>
+
+            <p> Here, it becomes clear that, the first few layers of VGG and AlexNet are
+                actually almost as robust as the first few layers of the robust ResNet!
+                This is perhaps a more convincing indication that robustness might have
+                something to with VGG’s success in style transfer after all.
+            </p>
+
+            <p> Finally, suppose we restrict style transfer to only use a single layer of
+                the network when computing the style loss<d-footnote id="d-footnote-8">Usually style transfer uses
+                    several layers in the loss function to get the most visually appealing results — here we’re only interested in whether or not style transfer works (i.e.
+                    actually confers some style onto the image).</d-footnote>. Again, the more
+                robust layers seem to indeed work better for style transfer! Since all of the
+                layers in the robust ResNet are robust, style transfer yields non-trivial
+                results even using the last layer alone. Conversely, VGG and AlexNet seem to
+                excel in the earlier layers (where they are non-trivially robust) but fail when
+                using exclusively later (non-robust) layers: </p>
+
+            <figure>
+                <img class="l-body" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/styletransfer.png">
+                <figcaption>
+                    <!-- <span class="figure-number">Figure 1:</span> -->
+                    <span style="hyphens: manual;">Style transfer using a single layer. The
+                        names of the layers and their robustness <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>R</mi><mo>(</mo><mi>f</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">R(f)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mclose">)</span></span></span></span></span> are printed below
+                        each style transfer result. We find that for both networks, the robust
+                        layers seem to work (for the robust ResNet, every layer is robust).</span>
+                </figcaption>
+            </figure>
+
+            <p> Of course, there is much more work to be done here, but we are excited
+                to see further work into understanding the role of both robustness and the VGG
+                in network-based image manipulation. </p>
+        </section>
+
+        <div class="comment-info">
+    You can find more responses in the <a href="https://distill.pub/2019/advex-bugs-discussion/"> main discussion article</a>.
+</div>
+
+
+    </d-article>
+
+
+
+    <d-appendix>
+<style>
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+</style>
+
+
+        <h3>Acknowledgments</h3>
+        <p>
+            The experiment in this article was built on top of Engstrom, et. al.’s<d-cite key="engstrom2019learning">
+            </d-cite> <a href="https://distill.pub/2019/advex-bugs-discussion/response-4/">open-sourced code and model weights</a>.
+            Chris Olah pointed out that feature visualization works well on VGG without priors or regularization.
+            Andrew Ilyas pointed out literature that showed VGG networks were slightly more robust than ResNet.
+        </p>
+
+        <p>
+            The diagram comparing artifacts was repurposed from Odena et. al.’s<d-cite key="odena2016deconvolution">
+            </d-cite> <a href="https://distill.pub/2016/deconv-checkerboard/">Deconvolution and Checkerboard
+                Artifacts</a>.
+        </p>
+
+        <p>
+            All experiments were performed on Google Colaboratory.
+        </p>
+
+        <d-footnote-list style="">
+<style>
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+</style>
+
+<h3>Footnotes</h3>
+<ol><li id="d-footnote-1-listing">Since the non-robust features are defined by the non-robust features ResNet-50 captures,
+                <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi><mi>R</mi><msub><mi>F</mi><mrow><mi>r</mi><mi>e</mi><mi>s</mi><mi>n</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">NRF_{resnet}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.02778em;">r</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">s</span><span class="mord mathit mtight">n</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>, what this graph really shows is how well an architecture captures <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi><mi>R</mi><msub><mi>F</mi><mrow><mi>r</mi><mi>e</mi><mi>s</mi><mi>n</mi><mi>e</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">NRF_{resnet}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.02778em;">r</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">s</span><span class="mord mathit mtight">n</span><span class="mord mathit mtight">e</span><span class="mord mathit mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span></span>.
+            <a class="footnote-backlink" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#d-footnote-1">[↩]</a></li><li id="d-footnote-2-listing">This phenomenon is discussed at length in <a href="https://www.reddit.com/r/MachineLearning/comments/7rrrk3/d_eat_your_vggtables_or_why_does_neural_style/">this
+                    Reddit thread</a>.<a class="footnote-backlink" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#d-footnote-2">[↩]</a></li><li id="d-footnote-3-listing">To follow this argument, note that the perceptual losses used in neural style transfer are
+                dependent on matching features learned by a separately trained image classifier. If these learned
+                features don’t make sense to humans (non-robust features), the outputs for neural style transfer won’t
+                make sense either.<a class="footnote-backlink" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#d-footnote-3">[↩]</a></li><li id="d-footnote-4-listing">
+                L-BFGS<d-cite key="liu1989limited"></d-cite> was used for optimization as it showed faster convergence
+                over Adam.
+                For ResNet-50, the style layers used were the ReLu outputs after each of the 4 residual blocks,
+                <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>2</mn><mi mathvariant="normal">_</mi><mi>x</mi><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>3</mn><mi mathvariant="normal">_</mi><mi>x</mi><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>4</mn><mi mathvariant="normal">_</mi><mi>x</mi><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>5</mn><mi mathvariant="normal">_</mi><mi>x</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[relu2\_x, relu3\_x, relu4\_x, relu5\_x]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.06em;vertical-align:-0.31em;"></span><span class="base"><span class="mopen">[</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">2</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">3</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">4</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">5</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span><span class="mclose">]</span></span></span></span></span> while the content layer used was <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>4</mn><mi mathvariant="normal">_</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">relu4\_x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">4</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathit">x</span></span></span></span></span>.
+                For VGG-19, style layers <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>1</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>2</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>3</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>4</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>5</mn><mi mathvariant="normal">_</mi><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[relu1\_1,relu2\_1,relu3\_1,relu4\_1,relu5\_1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.06em;vertical-align:-0.31em;"></span><span class="base"><span class="mopen">[</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">1</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">2</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">3</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">4</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">5</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">1</span><span class="mclose">]</span></span></span></span></span> were used with a content layer
+                <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>l</mi><mi>u</mi><mn>4</mn><mi mathvariant="normal">_</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">relu4\_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">u</span><span class="mord mathrm">4</span><span class="mord mathrm" style="margin-right:0.02778em;">_</span><span class="mord mathrm">2</span></span></span></span></span>.
+                In VGG-19, max pooling layers were replaced with avg pooling layers, as stated in Gatys, et. al<d-cite key="gatys2015"></d-cite>.
+            <a class="footnote-backlink" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#d-footnote-4">[↩]</a></li><li id="d-footnote-5-listing">This is more obvious when the output image is initialized not with the content image, but with
+                Gaussian noise.<a class="footnote-backlink" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#d-footnote-5">[↩]</a></li><li id="d-footnote-6-listing">As shown by Dávid Komorowicz<d-cite key="komorowicz2016neural">
+                </d-cite> in
+                this <a href="https://dawars.me/neural-style-transfer-deep-learning/">blog post</a>.
+            <a class="footnote-backlink" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#d-footnote-6">[↩]</a></li><li id="d-footnote-7-listing">
+                In fact, neural style transfer is not the only pretrained classifier-based iterative image
+                optimization
+                technique that magically works better with adversarial robustness. In Engstrom, et. al.<d-cite key="engstrom2019learning"></d-cite>, they show that feature visualization via activation
+                maximization<d-cite key="olah2017feature"></d-cite> works on robust classifiers <i>without</i>
+                enforcing
+                any priors or regularization (e.g. image transformations and decorrelated parameterization) used
+                by
+                previous work<d-cite key="olah2017feature,olah2018the"></d-cite>. In a recent chat with Chris
+                Olah, he
+                pointed out that the aforementioned feature visualization techniques actually work well on VGG
+                <i>without</i> these priors, just like style transfer!
+            <a class="footnote-backlink" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#d-footnote-7">[↩]</a></li><li id="d-footnote-8-listing">Usually style transfer uses
+                    several layers in the loss function to get the most visually appealing results — here we’re only interested in whether or not style transfer works (i.e.
+                    actually confers some style onto the image).<a class="footnote-backlink" href="https://distill.pub/2019/advex-bugs-discussion/response-4/#d-footnote-8">[↩]</a></li></ol>
+</d-footnote-list>
+        <d-citation-list distill-prerendered="true"><style>
+d-citation-list {
+  contain: style;
+}
+
+d-citation-list .references {
+  grid-column: text;
+}
+
+d-citation-list .references .title {
+  font-weight: 500;
+}
+</style><h3 id="references">References</h3><ol id="references-list" class="references"><li id="ilyas2019adversarial"><span class="title">Adversarial examples are not bugs, they are features</span> <br>Ilyas, A., Santurkar, S., Tsipras, D., Engstrom, L., Tran, B. and Madry, A., 2019. arXiv preprint arXiv:1905.02175. </li><li id="simonyan2014very"><span class="title">Very deep convolutional networks for large-scale image recognition</span> <br>Simonyan, K. and Zisserman, A., 2014. arXiv preprint arXiv:1409.1556. </li><li id="gatys2015"><span class="title">A Neural Algorithm of Artistic Style</span>   <a href="http://arxiv.org/pdf/1508.06576.pdf">[PDF]</a><br>Gatys, L.A., Ecker, A.S. and Bethge, M., 2015. CoRR, Vol abs/1508.06576. </li><li id="mordvintsev2018differentiable"><span class="title">Differentiable Image Parameterizations</span> <br>Mordvintsev, A., Pezzotti, N., Schubert, L. and Olah, C., 2018. Distill.  <a href="https://doi.org/10.23915/distill.00012" style="text-decoration:inherit;">DOI: 10.23915/distill.00012</a></li><li id="olah2017feature"><span class="title">Feature Visualization</span>   <a href="https://distill.pub/2017/feature-visualization">[link]</a><br>Olah, C., Mordvintsev, A. and Schubert, L., 2017. Distill.  <a href="https://doi.org/10.23915/distill.00007" style="text-decoration:inherit;">DOI: 10.23915/distill.00007</a></li><li id="engstrom2019learning"><span class="title">Learning Perceptually-Aligned Representations via Adversarial Robustness</span> <br>Engstrom, L., Ilyas, A., Santurkar, S., Tsipras, D., Tran, B. and Madry, A., 2019. arXiv preprint arXiv:1906.00945. </li><li id="liu1989limited"><span class="title">On the limited memory BFGS method for large scale optimization</span> <br>Liu, D.C. and Nocedal, J., 1989. Mathematical programming, Vol 45(1-3), pp. 503--528. Springer.</li><li id="odena2016deconvolution"><span class="title">Deconvolution and checkerboard artifacts</span>   <a href="http://distill.pub/2016/deconv-checkerboard/">[link]</a><br>Odena, A., Dumoulin, V. and Olah, C., 2016. Distill, Vol 1(10), pp. e3.  <a href="https://doi.org/distill.00003" style="text-decoration:inherit;">DOI: distill.00003</a></li><li id="Hnaff2016GeodesicsOL"><span class="title">Geodesics of learned representations</span> <br>Henaff, O.J. and Simoncelli, E.P., 2016. CoRR, Vol abs/1511.06394. </li><li id="Galloway2019BatchNI"><span class="title">Batch Normalization is a Cause of Adversarial Vulnerability</span> <br>Galloway, A., Golubeva, A., Tanay, T., Moussa, M. and Taylor, G.W., 2019. ArXiv, Vol abs/1905.02161. </li><li id="Hendrycks2019BenchmarkingNN"><span class="title">Benchmarking Neural Network Robustness to Common Corruptions and Perturbations</span> <br>Hendrycks, D. and Dietterich, T.G., 2019. ArXiv, Vol abs/1903.12261. </li><li id="Su2018IsRT"><span class="title">Is Robustness the Cost of Accuracy? - A Comprehensive Study on the Robustness of 18 Deep Image Classification Models</span> <br>Su, D., Zhang, H., Chen, H., Yi, J., Chen, P. and Gao, Y., 2018. ArXiv, Vol abs/1808.01688. </li><li id="krizhevsky2012"><span class="title">ImageNet Classification with Deep Convolutional Neural Networks</span>   <a href="http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf">[PDF]</a><br>Krizhevsky, A., Sutskever, I. and Hinton, G.E., 2012. Proceedings of the 25th International Conference on Neural Information Processing Systems - Volume 1, pp. 1097--1105. </li><li id="komorowicz2016neural"><span class="title">Neural Style transfer with Deep Learning</span>   <a href="https://dawars.me/neural-style-transfer-deep-learning/">[link]</a><br>Komorowicz, D., 2016. https://dawars.me. </li><li id="olah2018the"><span class="title">The Building Blocks of Interpretability</span> <br>Olah, C., Satyanarayan, A., Johnson, I., Carter, S., Schubert, L., Ye, K. and Mordvintsev, A., 2018. Distill.  <a href="https://doi.org/10.23915/distill.00010" style="text-decoration:inherit;">DOI: 10.23915/distill.00010</a></li></ol></d-citation-list>
+    <distill-appendix>
+<style>
+  distill-appendix {
+    contain: layout style;
+  }
+
+  distill-appendix .citation {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  distill-appendix > * {
+    grid-column: text;
+  }
+</style>
+
+    <h3 id="updates-and-corrections">Updates and Corrections</h3>
+    <p>
+    If you see mistakes or want to suggest changes, please <a href="https://github.com/distillpub/post--ilyas-response-4/issues/new">create an issue on GitHub</a>. </p>
+    
+    <h3 id="reuse">Reuse</h3>
+    <p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a class="github" href="https://github.com/distillpub/post--ilyas-response-4">source available on GitHub</a>, unless noted otherwise. The figures that have been reused from other sources don’t fall under this license and can be recognized by a note in their caption: “Figure from …”.</p>
+    
+    <h3 id="citation">Citation</h3>
+    <p>For attribution in academic contexts, please cite this work as</p>
+    <pre class="citation short">Nakano, "A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features': Adversarially Robust Neural Style Transfer", Distill, 2019.</pre>
+    <p>BibTeX citation</p>
+    <pre class="citation long">@article{nakano2019a,
+  author = {Nakano, Reiichiro},
+  title = {A Discussion of 'Adversarial Examples Are Not Bugs, They Are Features': Adversarially Robust Neural Style Transfer},
+  journal = {Distill},
+  year = {2019},
+  note = {https://distill.pub/2019/advex-bugs-discussion/response-4},
+  doi = {10.23915/distill.00019.4}
+}</pre>
+    </distill-appendix></d-appendix>
+
+    <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
+    <d-bibliography><script type="text/json">[["olah2017feature",{"author":"Olah, Chris and Mordvintsev, Alexander and Schubert, Ludwig","title":"Feature Visualization","journal":"Distill","year":"2017","url":"https://distill.pub/2017/feature-visualization","doi":"10.23915/distill.00007","type":"article"}],["gatys2015",{"author":"Leon A. Gatys and Alexander S. Ecker and Matthias Bethge","title":"A Neural Algorithm of Artistic Style","journal":"CoRR","volume":"abs/1508.06576","year":"2015","url":"http://arxiv.org/abs/1508.06576","archivePrefix":"arXiv","eprint":"1508.06576","timestamp":"Wed, 07 Jun 2017 14:41:58 +0200","biburl":"http://dblp.org/rec/bib/journals/corr/GatysEB15a","bibsource":"dblp computer science bibliography, http://dblp.org","archiveprefix":"arXiv","type":"article"}],["krizhevsky2012",{"author":"Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E.","title":"ImageNet Classification with Deep Convolutional Neural Networks","booktitle":"Proceedings of the 25th International Conference on Neural Information Processing Systems - Volume 1","series":"NIPS'12","year":"2012","pages":"1097--1105","url":"http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf","type":"inproceedings"}],["odena2016deconvolution",{"title":"Deconvolution and checkerboard artifacts","author":"Odena, Augustus and Dumoulin, Vincent and Olah, Chris","journal":"Distill","volume":"1","number":"10","pages":"e3","year":"2016","doi":"distill.00003","url":"http://distill.pub/2016/deconv-checkerboard/","type":"article"}],["ilyas2019adversarial",{"title":"Adversarial examples are not bugs, they are features","author":"Ilyas, Andrew and Santurkar, Shibani and Tsipras, Dimitris and Engstrom, Logan and Tran, Brandon and Madry, Aleksander","journal":"arXiv preprint arXiv:1905.02175","year":"2019","type":"article"}],["engstrom2019learning",{"title":"Learning Perceptually-Aligned Representations via Adversarial Robustness","author":"Engstrom, Logan and Ilyas, Andrew and Santurkar, Shibani and Tsipras, Dimitris and Tran, Brandon and Madry, Aleksander","journal":"arXiv preprint arXiv:1906.00945","year":"2019","type":"article"}],["Santurkar2019ComputerVW",{"title":"Computer Vision with a Single (Robust) Classifier","author":"Shibani Santurkar and Dimitris Tsipras and Brandon Tran and Andrew Ilyas and Logan Engstrom and Aleksander Madry","year":"2019","type":"inproceedings"}],["mordvintsev2018differentiable",{"author":"Mordvintsev, Alexander and Pezzotti, Nicola and Schubert, Ludwig and Olah, Chris","title":"Differentiable Image Parameterizations","journal":"Distill","year":"2018","note":"https://distill.pub/2018/differentiable-parameterizations","doi":"10.23915/distill.00012","type":"article"}],["Hnaff2016GeodesicsOL",{"title":"Geodesics of learned representations","author":"Olivier J. Henaff and Eero P. Simoncelli","journal":"CoRR","year":"2016","volume":"abs/1511.06394","type":"article"}],["Galloway2019BatchNI",{"title":"Batch Normalization is a Cause of Adversarial Vulnerability","author":"Angus Galloway and Anna Golubeva and Thomas Tanay and Medhat Moussa and Graham W. Taylor","journal":"ArXiv","year":"2019","volume":"abs/1905.02161","type":"article"}],["Hendrycks2019BenchmarkingNN",{"title":"Benchmarking Neural Network Robustness to Common Corruptions and Perturbations","author":"Dan Hendrycks and Thomas G. Dietterich","journal":"ArXiv","year":"2019","volume":"abs/1903.12261","type":"article"}],["Su2018IsRT",{"title":"Is Robustness the Cost of Accuracy? - A Comprehensive Study on the Robustness of 18 Deep Image Classification Models","author":"Dong Su and Huan Zhang and Hongge Chen and Jinfeng Yi and Pin-Yu Chen and Yupeng Gao","journal":"ArXiv","year":"2018","volume":"abs/1808.01688","type":"article"}],["simonyan2014very",{"title":"Very deep convolutional networks for large-scale image recognition","author":"Simonyan, Karen and Zisserman, Andrew","journal":"arXiv preprint arXiv:1409.1556","year":"2014","type":"article"}],["liu1989limited",{"title":"On the limited memory BFGS method for large scale optimization","author":"Liu, Dong C and Nocedal, Jorge","journal":"Mathematical programming","volume":"45","number":"1-3","pages":"503--528","year":"1989","publisher":"Springer","type":"article"}],["olah2018the",{"author":"Olah, Chris and Satyanarayan, Arvind and Johnson, Ian and Carter, Shan and Schubert, Ludwig and Ye, Katherine and Mordvintsev, Alexander","title":"The Building Blocks of Interpretability","journal":"Distill","year":"2018","note":"https://distill.pub/2018/building-blocks","doi":"10.23915/distill.00010","type":"article"}],["komorowicz2016neural",{"title":"Neural Style transfer with Deep Learning","url":"https://dawars.me/neural-style-transfer-deep-learning/","journal":"https://dawars.me","author":"Dávid Komorowicz","year":"2016","month":"Nov","type":"misc"}]]</script></d-bibliography>
+
+<script type="text/javascript" src="./A Discussion of &#39;Adversarial Examples Are Not Bugs, They Are Features&#39;_ Adversarially Robust Neural Style Transfer_files/index.bundle.js"></script>
+<distill-footer>
+<style>
+
+:host {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: hsl(180, 5%, 15%); /*hsl(200, 60%, 15%);*/
+  text-align: left;
+  contain: content;
+}
+
+.footer-container .logo svg {
+  width: 24px;
+  position: relative;
+  top: 4px;
+  margin-right: 2px;
+}
+
+.footer-container .logo svg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 3px;
+}
+
+.footer-container .logo {
+  font-size: 17px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+.footer-container {
+  grid-column: text;
+}
+
+.footer-container .nav {
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.footer-container .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 6px;
+  text-decoration: none;
+}
+
+</style>
+
+<div class="footer-container">
+
+  <a href="https://distill.pub/" class="logo">
+    <svg viewBox="-607 419 64 64">
+  <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
+</svg>
+
+    Distill
+  </a> is dedicated to clear explanations of machine learning
+
+  <div class="nav">
+    <a href="https://distill.pub/about/">About</a>
+    <a href="https://distill.pub/journal/">Submit</a>
+    <a href="https://distill.pub/prize/">Prize</a>
+    <a href="https://distill.pub/archive/">Archive</a>
+    <a href="https://distill.pub/rss.xml">RSS</a>
+    <a href="https://github.com/distillpub">GitHub</a>
+    <a href="https://twitter.com/distillpub">Twitter</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; ISSN 2476-0757
+  </div>
+
+</div>
+
+</distill-footer><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83741880-1', 'auto');
+  ga('send', 'pageview');
+</script></body></html>

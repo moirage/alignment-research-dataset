@@ -53,18 +53,23 @@ class OtherBlog(templates.Dataset):
 
         elem = browser.find_element_by_tag_name(tag_name)
         if do_scroll:
-            [elem.send_keys(Keys.PAGE_DOWN) and time.sleep(SCROLL_SLEEP) for _ in range(NO_OF_PAGEDOWN)]
+            [
+                elem.send_keys(Keys.PAGE_DOWN) and time.sleep(SCROLL_SLEEP)
+                for _ in range(NO_OF_PAGEDOWN)
+            ]
 
         time.sleep(DELAY_GET)
 
         post_elems = browser.find_elements_by_class_name(class_name)
-        post_hrefs = [post.get_attribute('href') for post in post_elems]
+        post_hrefs = [post.get_attribute("href") for post in post_elems]
         if post_hrefs[0] is None:
-            post_hrefs = [browser.find_element_by_link_text(post.text).get_attribute('href') for post in post_elems]
+            post_hrefs = [
+                browser.find_element_by_link_text(post.text).get_attribute("href")
+                for post in post_elems
+            ]
         browser.close()
 
         return post_hrefs
-
 
     def _get_article(self, url):
         logger.info("Fetching {}".format(url))

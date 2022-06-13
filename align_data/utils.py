@@ -5,6 +5,10 @@ import re
 import time
 import html2text
 from urllib.parse import urlparse
+import os
+from functools import reduce
+import operator
+
 
 htmlformatter = html2text.HTML2Text()
 htmlformatter.ignore_links = True
@@ -81,3 +85,39 @@ def url_to_filename(url):
     url = urlparse(url)
     path = url.path.lstrip(os.sep).rstrip(os.sep).split(os.sep)
     return "-".join([url.netloc] + list(filter(None, path)))
+
+
+class ExitCodeError(Exception):
+    pass
+
+
+def sh(x):
+    if os.system(x):
+        raise ExitCodeError()
+
+
+def ls(x):
+    return [x + "/" + fn for fn in os.listdir(x)]
+
+
+def lsr(x):
+    if os.path.isdir(x):
+        return reduce(operator.add, map(lsr, ls(x)), [])
+    else:
+        return [x]
+
+
+def fwrite(fname, content):
+    with open(fname, "w") as fh:
+        fh.write(content)
+
+
+def fread(fname):
+    with open(fname) as fh:
+        return fh.read()
+
+
+def chdir_up_n(n):
+    """Goes up n times in the directory tree."""
+    for i in range(n):
+        os.chdir("..")
