@@ -1,71 +1,89 @@
-import argparse
-import jsonlines
+from dataclasses import dataclass
 import os
-from collections import OrderedDict
-from urllib.parse import urlparse
-
+import fire
+import shutil
+from dataclasses import dataclass
+from typing import List , Union
 import align_data
 from align_data.common.utils import EntryWriter
+from align_data.postprocess.add_an_to_datasets import add_alignment_newsletter_summaries_to_datasets
+from align_data.postprocess.merge_jsonl_files import merge_all_files
 
+@dataclass
+class AlignmentDataset:
+    out_path : str = "data"
 
-def cmd_list(args):
-    for name in align_data.ALL_DATASETS:
-        print(name)
+    def __init__(self) -> None:
+        """
+        This function does nothing
+        """
+        pass
 
+    def cmd_list(self) -> List[str]:
+        """
+        `cmd_list` is a function that takes in a self parameter and returns a list of strings
+        :return: A list of all the datasets
+        """
+        for name in align_data.ALL_DATASETS:
+            print(name)
+        return align_data.ALL_DATASETS
 
-def cmd_fetch(args):
-    with EntryWriter(args.name, args.path) as writer:
-        for entry in align_data.get_dataset(args.name).fetch_entries():
-            writer.write(entry)
+    def cmd_fetch(self , name) -> None:
+        """
+        > This function takes a dataset name and writes the entries of that dataset to a file
+        
+        :param name: The name of the dataset to fetch
+        :return: The path to the file that was written to.
+        """
+        with EntryWriter(name, self.out_path) as writer:
+            for entry in align_data.get_dataset(name).fetch_entries():
+                writer.write(entry)
 
+        return os.path.join(self.out_path, name + ".jsonl")
 
-def cmd_fetch_all(args):
-    for name in align_data.ALL_DATASETS:
-        print(name)
-        if not os.path.exists(os.path.join(args.path, name + ".jsonl")):
-            with EntryWriter(name, args.path) as writer:
-                for entry in align_data.get_dataset(name).fetch_entries():
-                    writer.write(entry)
-    os.system(
-        "mv data/alignment_newsletter_separate_summaries.jsonl data/processed/alignment_newsletter_separate_summaries.jsonl"
-    )
-    os.system("rm data/alignment_newsletter.jsonl")
-    os.system("python3 add_an_to_datasets.py")
-    os.system("python3 merge_jsonl_files.py")
+    def cmd_fetch_all(self) -> str:
+        """
+        It downloads all the datasets, moves the alignment_newsletter.jsonl file to the processed
+        folder, deletes the alignment_newsletter.jsonl file, adds the alignment_newsletter_summaries to
+        the datasets, and merges all the files
+        :return: The path to the merged file.
+        """
+        for name in align_data.ALL_DATASETS:
+            print(name)
+            self.cmd_fetch(name)
 
+        shutil.move(os.path.join(self.out_path , "alignment_newsletter_separate_summaries.jsonl"),
+                    os.path.join(self.out_path, "/processed/" , "alignment_newsletter_separate_summaries.jsonl"))
 
-def create_arg_parser():
-    parser = argparse.ArgumentParser(description="Fetch datasets.")
-    subparsers = parser.add_subparsers(
-        title="commands", description="valid commands", help="additional help"
-    )
+        shutil.rmtree(os.path.join(self.out_path, "alignment_newsletter.jsonl"))
 
-    list_cmd = subparsers.add_parser("list", help="List available datasets.")
-    list_cmd.set_defaults(func=cmd_list)
+        add_alignment_newsletter_summaries_to_datasets(path_to_processed_jsonl = os.path.join("/processed/" , "alignment_newsletter_separate_summaries.jsonl") , out_path=self.out_path)
+        
+        return merge_all_files(out_dir = self.out_path)
 
-    fetch_cmd = subparsers.add_parser("fetch", help="Fetch datasets.")
-    fetch_cmd.set_defaults(func=cmd_fetch)
-    fetch_cmd.add_argument("name", help="Name of dataset to fetch.")
-    fetch_cmd.add_argument("--path", default="data", help="Path to save datasets.")
+def main(command : str , out_path : str = "data" , dataset_name : str = None ) -> Union[str , List[str]]:
+    """
+    It downloads the alignment dataset from the internet and saves it to a local directory
+    
+    :param command: The command to run. Can be one of:
+    :type command: str
+    :param out_path: The path to the directory where the data will be downloaded, defaults to data
+    :type out_path: str (optional)
+    :param dataset_name: The name of the dataset to fetch
+    :type dataset_name: str
+    :return: A list of strings.
+    """
 
-    fetch_all_cmd = subparsers.add_parser("fetch-all", help="Fetch all datasets.")
-    fetch_all_cmd.set_defaults(func=cmd_fetch_all)
-    fetch_all_cmd.add_argument("--path", default="data", help="Path to save datasets.")
+    assert command in [ "list" , "fetch" , "fetch-all" ] , f"Invalid command: {command}"
 
-    return parser
+    al_dataset = AlignmentDataset(out_path)
 
-
-def main():
-    parser = create_arg_parser()
-    args = parser.parse_args()
-
-    if getattr(args, "func", None) is None:
-        # No subcommand was given
-        parser.print_help()
-        return
-
-    args.func(args)
-
+    if command == "list":
+        return al_dataset.cmd_list()
+    elif command == "fetch":
+        return al_dataset.cmd_fetch(dataset_name)
+    elif command == "fetch-all":
+        return al_dataset.cmd_fetch_all(None)
 
 if __name__ == "__main__":
-    main()
+    fire.Fire(main())
