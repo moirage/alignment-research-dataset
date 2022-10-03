@@ -8,16 +8,12 @@ import align_data
 from align_data.common.utils import EntryWriter
 from align_data.postprocess.add_an_to_datasets import add_alignment_newsletter_summaries_to_datasets
 from align_data.postprocess.merge_jsonl_files import merge_all_files
+from align_data.analysis.count_tokens import count_token
 
 @dataclass
 class AlignmentDataset:
-    out_path : str = "data"
 
-    def __init__(self) -> None:
-        """
-        This function does nothing
-        """
-        pass
+    out_path : str = "data"
 
     def cmd_list(self) -> List[str]:
         """
@@ -35,6 +31,7 @@ class AlignmentDataset:
         :param name: The name of the dataset to fetch
         :return: The path to the file that was written to.
         """
+        assert name in align_data.ALL_DATASETS , f"{name} is not a valid dataset name"
         with EntryWriter(name, self.out_path) as writer:
             for entry in align_data.get_dataset(name).fetch_entries():
                 writer.write(entry)
@@ -61,11 +58,19 @@ class AlignmentDataset:
         
         return merge_all_files(out_dir = self.out_path)
 
-def main(command : str , out_path : str = "data" , dataset_name : str = None ) -> Union[str , List[str]]:
+    def cmd_count_tokens(self , merged_dataset_path : str) -> None:
+        """
+        This function counts the number of tokens, words, and characters in the dataset
+        :return: None
+        """
+        assert os.path.exists(merged_dataset_path) , "The path to the merged dataset does not exist"
+        count_token(merged_dataset_path)
+
+def main(command : str , out_path : str = "data" , dataset_name : str = None ) -> Union[str , List[str] , None]:
     """
     It downloads the alignment dataset from the internet and saves it to a local directory
     
-    :param command: The command to run. Can be one of:
+    :param command: The command to run. Can be one of: list, fetch, fetch_all, count_tokens
     :type command: str
     :param out_path: The path to the directory where the data will be downloaded, defaults to data
     :type out_path: str (optional)
@@ -84,6 +89,9 @@ def main(command : str , out_path : str = "data" , dataset_name : str = None ) -
         return al_dataset.cmd_fetch(dataset_name)
     elif command == "fetch-all":
         return al_dataset.cmd_fetch_all(None)
+    elif command == "count-tokens":
+        al_dataset.cmd_count_tokens()
+        return None
 
 if __name__ == "__main__":
-    fire.Fire(main())
+    fire.Fire(main)

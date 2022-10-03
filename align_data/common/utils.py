@@ -16,7 +16,7 @@ htmlformatter.ignore_images = True
 htmlformatter.body_width = 0
 
 class EntryWriter:
-    def __init__(self, name, path):
+    def __init__(self, name, path, overwrite=False):
         """
         name: name of the blog, used as the file name
         path: path to save the blog posts
@@ -27,8 +27,8 @@ class EntryWriter:
         jsonl_file = os.path.join(path, name + '.jsonl')
         txt_file = os.path.join(path, name + '.txt')
 
-        self.jsonl_writer = jsonlines.open(jsonl_file, mode='w')
-        self.text_writer = open(txt_file, mode='w')
+        self.jsonl_writer = jsonlines.open(jsonl_file, mode='a') if not overwrite else jsonlines.open(jsonl_file, mode='w')
+        self.text_writer = open(txt_file, mode='a') if not overwrite else open(txt_file, 'w')
         self.entry_idx = 0
 
     def __enter__(self):

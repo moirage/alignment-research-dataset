@@ -26,3 +26,4 @@ webdriver-manager==3.7.0
 wget
 zstandard
 tqdm
+transformers
