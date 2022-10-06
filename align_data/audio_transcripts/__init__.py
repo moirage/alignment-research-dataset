@@ -1,14 +1,7 @@
 from .audio_transcripts import AudioTranscripts
-
+import os
 
 AUDIO_TRANSCRIPTS_REGISTRY = [
-    AudioTranscripts(
-        "https://drive.google.com/uc?id=13JiAHAWakTTNQqGEXgiL0mjsuVka4-Sm",
-        "scraped-transcripts",
-        "transcripts",
-        True,
-    ),
-    # AudioTranscripts(
-    #     "otter_ai_cleaned_transcripts", ""
-    # ),
+    AudioTranscripts( name = "audio_transcripts", 
+                    otter_zip_url = "https://drive.google.com/uc?id=13JiAHAWakTTNQqGEXgiL0mjsuVka4-Sm")
 ]

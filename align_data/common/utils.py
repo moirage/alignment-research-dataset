@@ -40,7 +40,7 @@ class EntryWriter:
 
     def write(self, entry):
         # Save the entry in JSONL file
-        self.jsonl_writer.write(entry)
+        self.jsonl_writer.write(entry.toJSON())
 
         # Save the entry in plain text, mainly for debugging
         print("[ENTRY {}]".format(self.entry_idx), file=self.text_writer)

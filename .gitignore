@@ -106,3 +106,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+__MACOSX/
+*.backup
+test.py
+*.zip
+transcripts/
+waitbutwhy/
+carado.moe/
