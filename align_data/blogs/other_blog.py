@@ -1,46 +1,60 @@
+from dataclasses import dataclass
 import requests
 import time
-import re
+import logging
+import sys
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
-from bs4 import BeautifulSoup
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-from urllib.parse import urljoin
-
 from align_data.common import utils
+from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
+
+logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
+                    level=logging.INFO, stream=sys.stdout)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
-class OtherBlog:
+@dataclass
+class OtherBlog(AlignmentDataset):
     """
     Fetches articles from a different blog by collecting links to articles from an index page.
 
     """
 
-    def __init__(self, url, class_name, do_scroll=True):
-        self.url = url
-        self.class_name = class_name
-        self.do_scroll = do_scroll
-        self.cleaner = utils.HtmlCleaner(
-            ["You might also like\.\.\..*", "\\n+", "\#\# Create your profile.*"],
-            ["", "\\n", ""],
-            True,
-        )
-        self.name = utils.url_to_filename(url)
+    url : str
+    class_name : str
 
-        self.is_first = True
+    def __post_init__(self):
+        self.setup()
+        self.cleaner = utils.HtmlCleaner(
+             ["You might also like\.\.\..*", "\\n+", "\#\# Create your profile.*"],
+             ["", "\\n", ""],
+             True,
+        )
 
     def fetch_entries(self):
         post_hrefs = self._selenium_get_post_hrefs(
-            self.url, self.class_name, self.do_scroll
+            self.url, self.class_name, True
         )
-        for post_href in post_hrefs:
+        for ii , post_href in enumerate(post_hrefs):
+            if self._entry_done(ii):
+                logger.info(f"Already done {ii}")
+                continue
             content = self._get_article(post_href)
             text = self.cleaner.clean(content, True)
-            yield {"text": text, "url": self.url, "title": text.split("\n")[0]}
+            
+            new_entry = DataEntry({
+                "text": text, 
+                "url": self.url, 
+                "title": text.split("\n")[0],
+                "source" : self.name,
+                "date_published" : "n/a",
+            })
+            new_entry.add_id()
+            yield new_entry
 
     def _selenium_get_post_hrefs(
         self,
@@ -78,7 +92,7 @@ class OtherBlog:
         return post_hrefs
 
     def _get_article(self, url):
-        print("Fetching {}".format(url))
+        logger.info("Fetching {}".format(url))
         article = requests.get(url, allow_redirects=True)
 
         return article.text

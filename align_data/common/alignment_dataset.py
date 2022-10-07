@@ -41,7 +41,7 @@ class AlignmentDataset:
         
         with jsonlines.open(self.write_jsonl_path, mode='r') as reader:
             for ii , entry in enumerate(reader):
-                logger.info(f"Found {entry['title']}")
+                logger.info(f"Found {entry['title']} number {ii} in {self.write_jsonl_path}")
                 self.done_ids.append((self.name , ii))
     
     def __str__(self) -> str:
@@ -54,7 +54,7 @@ class AlignmentDataset:
         """
         Check if entry is already done
         """
-        return entry in self.done_ids
+        return (self.name , entry) in self.done_ids
 
 
 class DataEntry(UserDict):
