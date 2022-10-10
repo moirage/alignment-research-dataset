@@ -1,27 +1,45 @@
+from calendar import c
+from dataclasses import dataclass , field
 import feedparser
-import os
+import logging
+import sys
 
 from align_data.common import utils
+from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
+
+from typing import List
 
 
-class WordpressBlog:
-    def __init__(self, url, strip=[], max_pages=2000):
+logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
+                    level=logging.INFO, stream=sys.stdout)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
+@dataclass
+class WordpressBlog(AlignmentDataset):
+    url : str
+    strip : List = field(default_factory=lambda: [])
+    max_pages : int = 2000
+    def __post_init__(self):
         """
         url: URL of the blog
         strip: list of regexes to strip from the HTML
         max_pages: maximum number of RSS pages to fetch
         """
-        self.blog_url = url
-        self.feed_url = url + "/feed"
-        self.cleaner = utils.HtmlCleaner(strip)
-        self.max_pages = max_pages
-        self.name = utils.url_to_filename(url)
+        self.setup()
+        self.feed_url = self.url + "/feed"
+        self.cleaner = utils.HtmlCleaner(self.strip)
+        self.max_pages = self.max_pages
+        self.name = utils.url_to_filename(self.url)
 
     def fetch_entries(self):
         last_title = ""
+        counter = 0
         for page in range(0, self.max_pages):
-            paged_url = "{}?paged={}".format(self.feed_url, page + 1)
-            print("Fetching {} (max={})".format(paged_url, self.max_pages))
+
+            paged_url = f"{self.feed_url}?paged={page + 1}"
+            logger.info(f"Fetching {paged_url} (max={self.max_pages})")
             d = feedparser.parse(paged_url)
 
             if (
@@ -29,14 +47,28 @@ class WordpressBlog:
                 or ("title" not in d["feed"])
                 or (d["feed"]["title"] == last_title)
             ):
-                print("Not a valid page. It looks like we've reached the end.")
+                logger.info("Not a valid page. It looks like we've reached the end.")
                 break
+            
             last_title = d["feed"]["title"]
 
             for entry in d["entries"]:
+                if self._entry_done(counter):
+                    logger.info(f"Already done {counter}")
+                    counter += 1
+                    continue
+                
                 content_text = self.cleaner.clean(entry["content"][0]["value"])
                 text = entry["title"] + "\n\n" + content_text
-                entry["text"] = text
-                entry["source"] = self.blog_url
-                entry["source_type"] = "wordpress-blog"
-                yield entry
+                
+                new_entry = DataEntry({
+                    "text": text, 
+                    "url": self.url, 
+                    "title": text.split("\n")[0],
+                    "source" : self.name,
+                    "date_published" : "n/a",  
+                })
+                new_entry.add_id()
+                
+                yield new_entry
+                counter += 1

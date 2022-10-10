@@ -1,42 +1,41 @@
+from dataclasses import dataclass
 from bs4 import BeautifulSoup
 from markdownify import MarkdownConverter
 import os
-import json
 import re
+import logging 
+import sys
 
+from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
 
-class Distill:
-    def __init__(self, name):
-        self.name = name
-        self.entries = {}
+logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
+                    level=logging.INFO, stream=sys.stdout)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
+@dataclass
+class Distill(AlignmentDataset):
+    
+    DISTILL_POSTS_DIR : str
+        
+    def __post_init__(self):
+        self.setup()
+        self.file_list = os.listdir(self.DISTILL_POSTS_DIR)
+        logger.info(f"Found {len(self.file_list)} files in {self.DISTILL_POSTS_DIR}")
+        logger.info(f"Found {len(self.done_ids)} done files")
+        
     def fetch_entries(self):
-        print(f"Fetching {self.name} entries")
-
-        DISTILL_POSTS_DIR = "align_data/distill/distill_posts/"
-
-        # TODO: fix the part below, the distill_posts.jsonl gets created in data/ but is not needed
-        self.convert_distill_dir2jsonl_file(
-            DISTILL_POSTS_DIR, "data/distill_posts.jsonl"
-        )
-
-        os.makedirs("data/processed/jsons/", exist_ok=True)
-
-        json.dump(
-            self.entries,
-            open(f"data/processed/jsons/distill.json", "w"),
-        )
-        print(f"Finished updating {self.name}.json.")
-
-        input("Fix any errors in the json and press enter to continue...")
-
-        self.entries = json.load(open(f"data/processed/jsons/distill.json", "r"))
-
-        print(
-            f"Converting {self.name}.json to {self.name}.jsonl and {self.name}.txt..."
-        )
-        for k in self.entries.keys():
-            yield self.entries[k]
+        logger.info(f"Fetching {self.name} entries")
+        for ii , filename in enumerate(self.file_list):
+            if self._entry_done(ii):
+                logger.info(f"Already done {ii}")
+                continue
+            logger.info(f"Fetching {self.name} entry {filename}")
+            with open(os.path.join(self.DISTILL_POSTS_DIR, filename), "r") as f:
+                html = f.read()
+            
+            yield self.fetch_individual_entries(html)
+                
 
     def fetch_individual_entries(self, html):
         soup = BeautifulSoup(html, "html.parser")
@@ -49,21 +48,18 @@ class Distill:
         # same for dates
         date = soup.find("meta", {"property": "article:published"})
         # if content in date is not None, then get the content
-        if date is not None:
-            date_published = date.get("content")
-        else:
-            date_published = None
+        date_published = date.get("content") if date is not None else None
 
         # find the href with doi in it
         doi = soup.find_all("a", {"href": True})
         doi = [link.get("href") for link in doi if "doi" in link.get("href")]
-        if len(doi) > 0:
-            doi = doi[0]
-        else:
-            doi = None
+        doi = doi[0] if len(doi) > 0 else None
 
         # the body is in the tag d-article
         body = soup.find("d-article")
+        if body is None: body = soup.find("dt-article")
+
+        
         # the abstract is the first ptag in the body
         try:
             abstract = body.find("p").text.replace("\n", " ")
@@ -96,7 +92,8 @@ class Distill:
         body = re.sub(r"(?<!\n)\n(?!\n)|\n{3,}", "\n\n", body)
 
         # build the json
-        self.entries[self.i] = {
+        new_entry = DataEntry({
+            "url": "n/a", 
             "source": "distill",
             "source_type": "html",
             "converted_with": "python",
@@ -108,23 +105,8 @@ class Distill:
             "doi": doi,
             "text": body,
             "bibliography_bib": references,
-        }
+        })
+        new_entry.add_id()
+        return new_entry
 
-        self.i += 1
 
-    def convert_distill_dir2jsonl_file(self, input_dir, output_file):
-        self.i = 0
-        with open(output_file, "w") as f:
-            for file in os.listdir(input_dir):
-                try:
-                    if file.endswith(".html"):
-                        with open(os.path.join(input_dir, file), "r") as f1:
-                            html = f1.read()
-                            paper_json = self.fetch_individual_entries(html)
-                            f1.close()
-                        f.write(f"{paper_json}\n")
-                except:
-                    print(f"Error processing {file}")
-                    pass
-                finally:
-                    f1.close()
