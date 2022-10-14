@@ -1,30 +1,56 @@
-import datetime, dateutil.parser as dparser, glob, time, requests, re, json, os
+from dataclasses import dataclass
+import datetime
+import dateutil.parser as dparser
+import glob
+import time
+import requests
+import re
+import os
 from bs4 import BeautifulSoup
+import logging
+import sys
 
-class GreaterWrong:
+from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
+
+
+logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
+                    level=logging.DEBUG, stream=sys.stdout)
+
+logger = logging.getLogger(__name__)
+
+@dataclass
+class GreaterWrong(AlignmentDataset):
 
     """
     This class allows you to scrape posts and comments from GreaterWrong. 
     GreaterWrong contains all the posts from LessWrong (which contains the Alignment Forum) and the EA Forum.
     """
 
-    def __init__(self, name):
-        self.name = name
+    def __post_init__(self):
+        self.setup()
+        self.output_dir = self.write_jsonl_path.parent / "raw" / self.name
+        self.output_dir.mkdir_p()
 
     def fetch_entries(self):
-        print(f"Grabbing most recent links (grabs all links if /{self.name}_urls/ is empty)...")
+        logger.debug(
+            f"Grabbing most recent links (grabs all links if /{self.name}_urls/ is empty)...")
         self.get_all_links()
-        print("Converting each link to a json with post & comments...")
-        print(
+        logger.debug("Converting each link to a json with post & comments...")
+        logger.debug(
             "[Using only the latest urls, change variable url_directory in greaterwrong.py to point at a specific url_folder]"
         )
         # specify url_directory to the specific url_file you want
-        for post in self.urls_to_json_scrape(file_prefix=self.name, url_directory=""):
-            yield post
+        for ii , post in enumerate(self.urls_to_json_scrape(file_prefix=self.name, url_directory="")):
+            if self._entry_done(ii):
+                logger.debug(f"Already done {ii}")
+                continue
+            new_entry = DataEntry(post)
+            new_entry.add_id()
+            yield new_entry
 
     def get_latest_file(self):
         list_of_files = sorted(
-            glob.glob(f"align_data/greaterwrong/{self.name}_urls/*")
+            glob.glob( self.output_dir / f"{self.name}_urls/*")
         )  # * means all if need specific format then *.csv
         return list_of_files[-1]
 
@@ -35,7 +61,8 @@ class GreaterWrong:
 
     def add_20_to_url(self, url):
         current_post_amount = re.findall(r"\d+", url)[0]
-        url = url.replace(current_post_amount, str(int(current_post_amount) + 20))
+        url = url.replace(current_post_amount, str(
+            int(current_post_amount) + 20))
         return url
 
     def subtract_one_day(self, date):
@@ -55,20 +82,24 @@ class GreaterWrong:
         return url
 
     def get_all_links(self):
-        if not os.path.exists(f"align_data/greaterwrong//{self.name}_urls"):
-            os.makedirs(f"align_data/greaterwrong//{self.name}_urls/")
+        if not os.path.exists( self.output_dir / f"{self.name}_urls"):
+            os.makedirs(self.output_dir / f"{self.name}_urls/")
         today = datetime.datetime.today().strftime("%Y-%m-%d")
-        url_for_today = f"align_data/greaterwrong/{self.name}_urls/" + today + "_links.txt"
+        url_for_today = self.output_dir / f"{self.name}_urls/" + \
+            today + "_links.txt"
         # check if there's a url_link for today, return if so
         if os.path.isfile(url_for_today):
+            logger.debug(f"Already have links for today: {today}")
             return
 
         # else grab most recent urls
+        logger.debug("Grabbing most recent links...")
         try:
             latest_file_name = self.get_latest_file()
             with open(latest_file_name) as previous_file:
                 latest_url = previous_file.readline().rstrip()
         except:  # empty files
+            logger.debug("No previous files, starting from scratch...")
             latest_url = "n/a"
 
         with open(url_for_today, "w") as f:
@@ -81,7 +112,7 @@ class GreaterWrong:
             while not found_latest_url:
                 iterations += 1
                 if iterations % 100 == 0:
-                    print("Currently: ", iterations)
+                    logger.debug(f"Currently: {iterations}")
                 try:
                     # Find All Post Title tags for each page, then the url for the post
                     soup = self.url_to_soup(initial_url)
@@ -95,15 +126,15 @@ class GreaterWrong:
                     initial_url = self.add_20_to_url(initial_url)
                     time.sleep(1)
                 except Exception as e:
-                    print(e)
-                    print("iterations: ", iterations)
-                    print("total files ~= ", iterations * 20)
+                    logger.debug(e)
+                    logger.debug(f"iterations: {iterations}")
+                    logger.debug(f"total files ~= {iterations * 20}")
                     break
 
     def chunks(self, lst, n):
         """Yield successive n-sized chunks from lst."""
         for i in range(0, len(lst), n):
-            yield lst[i : i + n]
+            yield lst[i: i + n]
 
     def get_tag_list(self, soup, separator="/"):
         tags_html = soup.find("div", {"id": "tags"})
@@ -133,7 +164,8 @@ class GreaterWrong:
         commentID_location = url.find("?commentId=") + len("?commentId=")
         id = url[commentID_location:]
         date = comment.select_one(".date").text.strip()
-        date = datetime.datetime.strptime(date, "%d %b %Y %H:%M %Z").isoformat()[0:-3]
+        date = datetime.datetime.strptime(
+            date, "%d %b %Y %H:%M %Z").isoformat()[0:-3]
         username = comment.select_one(".author").text.strip()
         karma_temp = comment.select_one(".karma-value")
         karma_list = karma_temp.text.strip().split(" ")
@@ -168,7 +200,8 @@ class GreaterWrong:
                     # print("deleted comment at: ", url, " w/ subcomment", sub_comment_parent)
                     continue
                 try:
-                    json_subcomment = self.recursive_comment(sub_comment_parent)
+                    json_subcomment = self.recursive_comment(
+                        sub_comment_parent)
                     json_comment["comments"].append(json_subcomment)
                 except:
                     pass
@@ -237,34 +270,38 @@ class GreaterWrong:
         if url_directory:
             url_filename_suffix = url_directory
         else:  # get latest urls
-            url_filename_suffix = self.latest_url_file_name(f"align_data/greaterwrong/{self.name}_urls")
+            url_filename_suffix = self.latest_url_file_name(
+                self.output_dir / f"{self.name}_urls")
         # Create unproccessed_url directory if it doesn't exist already
-        if not os.path.exists(f"align_data/greaterwrong/unprocessed_{self.name}_urls"):
-            os.makedirs(f"align_data/greaterwrong/unprocessed_{self.name}_urls")
+        if not os.path.exists(self.output_dir / f"unprocessed_{self.name}_urls"):
+            os.makedirs(
+                self.output_dir / f"unprocessed_{self.name}_urls")
         # Run files in unprocessed if they exist (may contain problem files)
-        unprocessed_urls = os.listdir(f"align_data/greaterwrong/unprocessed_{self.name}_urls")
+        unprocessed_urls = os.listdir(
+            self.output_dir / f"unprocessed_{self.name}_urls")
         if unprocessed_urls:  # if not empty
             url_filename_list = unprocessed_urls
         else:  # Create files to process
-            url_filename = f"align_data/greaterwrong/{self.name}_urls/{url_filename_suffix}"
+            url_filename = self.output_dir / f"{self.name}_urls/{url_filename_suffix}"
             with open(url_filename, "r") as file:
                 # Split into separate files for every 1000 urls
                 lines = file.read().splitlines()
                 list_of_url_by_1000 = list(self.chunks(lines, 1000))
                 for index, urls_1000 in enumerate(list_of_url_by_1000):
                     with open(
-                        f"align_data/greaterwrong/unprocessed_{self.name}_urls/{index}_{url_filename_suffix}", "w"
+                        self.output_dir / f"unprocessed_{self.name}_urls/{index}_{url_filename_suffix}", "w"
                     ) as url_1000_file:
                         url_1000_file.writelines("\n".join(urls_1000))
-            url_filename_list = os.listdir(f"align_data/greaterwrong/unprocessed_{self.name}_urls")
+            url_filename_list = os.listdir(
+                self.output_dir / f"unprocessed_{self.name}_urls")
 
         current_post_iter = 0
         for url_filename in url_filename_list:
-            with open(f"align_data/greaterwrong/unprocessed_{self.name}_urls/{url_filename}", "r") as file:
+            with open(self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}", "r") as file:
                 for url_link in file:
                     # Show current iter post
                     if current_post_iter % 50 == 0:
-                        print("current posts: ", current_post_iter)
+                        logger.debug("current posts: {current_post_iter}")
 
                     full_url_link = url_link_prefix + url_link.rstrip("\n")
                     r = requests.get(full_url_link)
@@ -290,17 +327,18 @@ class GreaterWrong:
                         karma_list = karma_temp.text.split(" ")
                         karma = karma_list[0]
                         post_content = self.add_consistent_newlines(
-                            soup.select_one(".body-text.post-body").text.strip()
+                            soup.select_one(
+                                ".body-text.post-body").text.strip()
                         )
                         tags = self.get_tag_list(soup, "/")
                     except:  # Event or missing url
-                        print("Missing url at: ", full_url_link)
+                        logger.debug(f"Missing url at: {full_url_link}")
                         continue
 
                     # json object to save text in format
                     json_post_and_comments.append(
                         {
-                            "id": full_url_link.split("/")[4],
+                            # "id": full_url_link.split("/")[4],
                             "title": post_title,
                             "authors": author,
                             "date_published": date,
@@ -326,7 +364,7 @@ class GreaterWrong:
                                 1
                             ]
                             json_post_and_comments[current_post_iter][
-                            "omega_karma"
+                                "omega_karma"
                             ] = karma_list[3]
                         elif self.name == "eaforum":
                             json_post_and_comments[current_post_iter][
@@ -353,9 +391,11 @@ class GreaterWrong:
                     yield json_post_and_comments[current_post_iter]
                     current_post_iter += 1
             # remove url from unprocessed folder
-            os.remove(f"align_data/greaterwrong/unprocessed_{self.name}_urls/{url_filename}")
+            os.remove(
+                self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}")
 
-if __name__ == "__main__":
-    gw = GreaterWrong()
-    for post in gw.fetch_entries():
-        print(post)
+
+# if __name__ == "__main__":
+#     gw = GreaterWrong()
+#     for post in gw.fetch_entries():
+#         logger.debug(post)

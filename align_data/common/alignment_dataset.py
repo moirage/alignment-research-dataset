@@ -1,12 +1,11 @@
-from dataclasses import dataclass , field
+from dataclasses import dataclass
 from collections import UserDict
 import hashlib
-import json
-from typing import List, Optional
 import os
 import logging
 import jsonlines
-import sys
+from path import Path
+
 
 INIT_DICT = {
     "source" : None,
@@ -19,12 +18,7 @@ INIT_DICT = {
 
 TEXT_LEN = 1000
 
-
-logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
-                    level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 @dataclass
 class AlignmentDataset:
@@ -33,7 +27,7 @@ class AlignmentDataset:
 
     def setup(self) -> None:
 
-        self.write_jsonl_path = os.path.join(os.path.abspath( os.path.dirname( __file__ ) ) , "../../data/" + self.name + ".jsonl")
+        self.write_jsonl_path = Path(os.path.join(os.path.abspath( os.path.dirname( __file__ ) ) , "../../data/" + self.name + ".jsonl"))
         
         if not os.path.exists(self.write_jsonl_path):
             logger.info(f"No previous data found at {self.write_jsonl_path}")

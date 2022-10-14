@@ -3,14 +3,8 @@ from dataclasses import dataclass
 import pandas as pd
 from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
 import logging
-import sys
-import jsonlines
-import os
 
-logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
-                    level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
     
 @dataclass
 class AlignmentNewsletter(AlignmentDataset):

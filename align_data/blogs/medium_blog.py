@@ -2,15 +2,12 @@ from dataclasses import dataclass
 import requests
 from bs4 import BeautifulSoup
 import bs4
-from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
+from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 import logging
-import sys
 from urllib.parse import urljoin
+from markdownify import markdownify
 
-logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
-                    level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 @dataclass
 class MediumBlog(AlignmentDataset):
@@ -33,24 +30,24 @@ class MediumBlog(AlignmentDataset):
     but various fixes were added to handle a wider range of Medium blogs.
     """
 
-    url : str
+    url: str
 
     def __post_init__(self):
         self.setup()
+
+    def fetch_entries(self):
         logger.info(f"Fetching entries from {self.url}")
         response = requests.get(self.url, allow_redirects=True)
         soup = BeautifulSoup(response.content, "html.parser")
         self.articles = soup.find_all("article")
         logger.info(f"Found {len(self.articles)} articles")
 
-
-    def fetch_entries(self):
-        for ii , article in enumerate(self.articles):
+        for ii, article in enumerate(self.articles):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue
             logger.info(f"Processing {ii}")
-            
+
             title = article.find("h2")
             if title is None:
                 continue
@@ -66,30 +63,20 @@ class MediumBlog(AlignmentDataset):
                 "source_type": "medium_blog",
                 "url": article_url,
                 "title": self._to_text(title),
-                "date_published" : "n/a",
+                "date_published": "n/a",
                 "text": text,
             })
-            
+
             new_entry.add_id()
 
             yield new_entry
-             
-             
+
     def _to_text(self, s):
         if type(s) is bs4.element.Tag:
             return s.text
         return s
-    
+
     def _get_article(self, url):
         logger.info("Fetching {}".format(url))
         article = requests.get(url, allow_redirects=True)
-        article_soup = BeautifulSoup(article.text, "html.parser")
-
-        sections = article_soup.find_all("section")
-        blocks = []
-
-        for section in sections:
-            for block in section.find_all(["h1", "h2", "h3", "p"]):
-                blocks.append(block.text)
-
-        return "\n\n".join(blocks)
+        return markdownify(article.content)

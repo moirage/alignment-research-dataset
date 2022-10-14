@@ -4,9 +4,6 @@ from .medium_blog import MediumBlog
 from .gwern_blog import GwernBlog
 from .other_blog import OtherBlog
 
-# from align_data.ebooks.mdebooks import MDEBooks
-
-
 BLOG_REGISTRY = [
     WordpressBlog(name = "aiimpacts.org",
                   url = "https://aiimpacts.org" ,
@@ -53,7 +50,4 @@ BLOG_REGISTRY = [
                   gdrive_address="https://drive.google.com/uc?id=18T0LcYirruBW4c_fDQMEWAkA2KqSE1of",
                   markdown_path="waitbutwhy",
                   ),
-    # MDEBooks(
-    #     "https://drive.google.com/uc?id=1jRtk3LSa1cWxAYu0DO0VGFY-J710FCfB", "mdebooks"
-    # ),
 ]

@@ -1,27 +1,48 @@
-from align_data.common.utils import *
-import json
+from dataclasses import dataclass
+import requests
+import logging
+from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
 
-class Stampy():
-    def __init__(self):
-        self.url = "https://stampy.ai/wiki/Special:Ask/mainlabel%3D/format%3Djson/searchlabel%3DJSON/template%3DACard/userparam%3DQA/sort%3DStampCount/order%3Ddesc/offset%3D0/limit%3D500/-5B-5BCategory:Answers-5D-5D-20-5B-5BOutOfScope::false-5D-5D-20-5B-5BCanonical::true-5D-5D/-3F%3D-2D-23-2D/-3FAnswer/-3FStampedBy/-3FTags-23-2D/prettyprint%3Dtrue/unescape%3Dtrue"
-        self.name = "stampy.ai"
-        self.PROJECT_DIR = os.getcwd()
+logger = logging.getLogger(__name__)
+
+@dataclass
+class Stampy(AlignmentDataset):
+
+    index_url : str
+
+    def __post_init__(self):
+        self.setup()
 
     def fetch_entries(self):
-        print("Fetching stampy entries")
-        sh("mkdir -p data/raw/stampy")
-        sh(f"wget {self.url} -O {self.PROJECT_DIR}/data/raw/stampy/stampy.json")
-        with open(f"{self.PROJECT_DIR}/data/raw/stampy/stampy.json") as f:
-            entries = json.load(f)
-        qa_entry = {}
-        for i, question in enumerate(list(entries["results"].keys())):
-            qa_entry[i] = entries["results"][question]
-            qa_entry[i]["question"] = ' '.join(question.split("to ")[1:])
-            qa_entry[i]["answer"] = entries["results"][question]["printouts"]["Answer"]
-            qa_entry[i]["text"] = "Question: " + qa_entry[i]["question"] + "\n\nAnswer: " + entries["results"][question]["printouts"]["Answer"][0]
+        
+        entries = dict(requests.get(self.index_url).json())
+        for ii, entry in enumerate(entries["results"].keys()):
+            if self._entry_done(ii):
+                logger.info(f"Already done {ii}")
+                continue
+            qa_entry = entries["results"][entry]
+            qa_entry["question"] = ' '.join(entry.split("to ")[1:])
+            qa_entry["answer"] = entries["results"][entry]["printouts"]["Answer"]
+            qa_entry["text"] = "Question: " + qa_entry["question"] + "\n\nAnswer: " + entries["results"][entry]["printouts"]["Answer"][0]
             # if there is more than one answer, add the rest
-            for i in range(1, len(entries["results"][question]["printouts"]["Answer"])):
-                qa_entry[i]["text"] += f"\n\nAnswer {str(i)}: " + entries["results"][question]["printouts"]["Answer"][i]
-        for i in qa_entry.keys():
-            entry = qa_entry[i]
-            yield entry
+            for jj in range(1, len(entries["results"][entry]["printouts"]["Answer"])):
+                qa_entry["text"] += f"\n\nAnswer {str(jj)}: " + entries["results"][entry]["printouts"]["Answer"][jj]
+
+
+            logger.info(f"Processing {ii}")
+
+            new_entry = DataEntry({
+                "source" : self.name,
+                "source_filetype": "text",
+                "url": "n/a",
+                "title": qa_entry["question"],
+                "authors": "n/a",
+                "date_published": "n/a",
+                "text": qa_entry["text"],
+                "question": qa_entry["question"],
+                "answer": qa_entry["answer"],
+            })
+            logger.info(f"Processing {entry}")
+            new_entry.add_id()
+
+            yield new_entry

@@ -1,15 +1,11 @@
 from dataclasses import dataclass
 import requests
-from align_data.common import utils
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 import logging
-import sys
-import time 
+import time
 
-logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
-                    level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+
 
 @dataclass
 class GwernBlog(AlignmentDataset):
@@ -18,7 +14,7 @@ class GwernBlog(AlignmentDataset):
     """
 
     COOLDOWN: int = 1
-    
+
     def __post_init__(self):
         self.setup()
         self.post_hrefs = ['https://www.gwern.net/Scaling-hypothesis.page',
@@ -30,12 +26,12 @@ class GwernBlog(AlignmentDataset):
                            'https://www.gwern.net/Hyperbolic-Time-Chamber.page']
 
     def fetch_entries(self):
-        for ii , post_href in enumerate(self.post_hrefs):
+        for ii, post_href in enumerate(self.post_hrefs):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue
             text = self._get_article(post_href)
-            
+
             new_entry = DataEntry({
                 "source": "gwern",
                 "url": "post_href",
@@ -44,13 +40,14 @@ class GwernBlog(AlignmentDataset):
                 "date_published": "n/a",
                 "text": text,
             })
-            
+
             new_entry.add_id()
-            
-            yield new_entry #{'text':text,"article_url": self.url,"title": text.split('\n')[0]}
-            
+
+            # {'text':text,"article_url": self.url,"title": text.split('\n')[0]}
+            yield new_entry
+
             time.sleep(self.COOLDOWN)
-            
+
     def _get_article(self, url):
         logger.info("Fetching {}".format(url))
         article = requests.get(url, allow_redirects=True)

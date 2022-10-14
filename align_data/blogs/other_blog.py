@@ -2,20 +2,16 @@ from dataclasses import dataclass
 import requests
 import time
 import logging
-import sys
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
+from markdownify import markdownify
 
 from align_data.common import utils
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 
-logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
-                    level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 @dataclass
 class OtherBlog(AlignmentDataset):
@@ -24,34 +20,34 @@ class OtherBlog(AlignmentDataset):
 
     """
 
-    url : str
-    class_name : str
+    url: str
+    class_name: str
 
     def __post_init__(self):
         self.setup()
         self.cleaner = utils.HtmlCleaner(
-             ["You might also like\.\.\..*", "\\n+", "\#\# Create your profile.*"],
-             ["", "\\n", ""],
-             True,
+            ["You might also like\.\.\..*", "\\n+", "\#\# Create your profile.*"],
+            ["", "\\n", ""],
+            True,
         )
 
     def fetch_entries(self):
         post_hrefs = self._selenium_get_post_hrefs(
             self.url, self.class_name, True
         )
-        for ii , post_href in enumerate(post_hrefs):
+        for ii, post_href in enumerate(post_hrefs):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue
             content = self._get_article(post_href)
             text = self.cleaner.clean(content, True)
-            
+
             new_entry = DataEntry({
-                "text": text, 
-                "url": self.url, 
+                "text": text,
+                "url": self.url,
                 "title": text.split("\n")[0],
-                "source" : self.name,
-                "date_published" : "n/a",
+                "source": self.name,
+                "date_published": "n/a",
             })
             new_entry.add_id()
             yield new_entry
@@ -84,7 +80,8 @@ class OtherBlog(AlignmentDataset):
         post_hrefs = [post.get_attribute("href") for post in post_elems]
         if post_hrefs[0] is None:
             post_hrefs = [
-                browser.find_element_by_link_text(post.text).get_attribute("href")
+                browser.find_element_by_link_text(
+                    post.text).get_attribute("href")
                 for post in post_elems
             ]
         browser.close()
@@ -95,4 +92,4 @@ class OtherBlog(AlignmentDataset):
         logger.info("Fetching {}".format(url))
         article = requests.get(url, allow_redirects=True)
 
-        return article.text
+        return markdownify(article.content)

@@ -6,8 +6,6 @@ from dataclasses import dataclass
 from typing import List , Union
 import align_data
 from align_data.common.utils import EntryWriter
-from align_data.postprocess.add_an_to_datasets import add_alignment_newsletter_summaries_to_datasets
-from align_data.postprocess.merge_jsonl_files import merge_all_files
 from align_data.analysis.count_tokens import count_token
 
 @dataclass
@@ -53,10 +51,8 @@ class AlignmentDataset:
                     os.path.join(self.out_path, "/processed/" , "alignment_newsletter_separate_summaries.jsonl"))
 
         shutil.rmtree(os.path.join(self.out_path, "alignment_newsletter.jsonl"))
-
-        add_alignment_newsletter_summaries_to_datasets(path_to_processed_jsonl = os.path.join("/processed/" , "alignment_newsletter_separate_summaries.jsonl") , out_path=self.out_path)
         
-        return merge_all_files(out_dir = self.out_path)
+        return None #merge_all_files(out_dir = self.out_path)
 
     def cmd_count_tokens(self , merged_dataset_path : str) -> None:
         """

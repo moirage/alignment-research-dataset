@@ -1,20 +1,14 @@
 import arxiv
-import jsonlines
 import requests
 import logging
-import sys
 import time
-import os
 import pandas as pd
 from dataclasses import dataclass
 from markdownify import markdownify
 
-from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
+from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 
-logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
-                    level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 
 @dataclass
@@ -32,7 +26,7 @@ class ArxivPapers(AlignmentDataset):
         self.df_arxiv = self.df[self.df["Url"].str.contains(
             "arxiv.org/abs") == True].drop_duplicates(subset="Url", keep="first")
         self.arxiv_ids = [xx.split('/abs/')[1] for xx in self.df_arxiv.Url]
- 
+
     def _get_arxiv_metadata(self, paper_id) -> arxiv.Result:
         """
         Get metadata from arxiv
@@ -51,34 +45,34 @@ class ArxivPapers(AlignmentDataset):
         output:
             - jsonl file with entries
         """
-        for ii , ids in enumerate(self.arxiv_ids):
+        for ii, ids in enumerate(self.arxiv_ids):
             logger.info(f"Processing {ids}")
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue
-            
+
             markdown = self.process_id(ids)
-            
+
             if markdown is None:
                 continue
-            
+
             paper = self._get_arxiv_metadata(ids)
             new_entry = DataEntry({"url": self._get_arxiv_link(ids),
-                   "source": "arxiv",
-                   "source_type": "html",
-                   "converted_with": "markdownify",
-                   "title": paper.title,
-                   "authors": [str(x) for x in paper.authors],
-                   "date_published": str(paper.published),
-                   "data_last_modified": str(paper.updated),
-                   "abstract": paper.summary.replace("\n", " "),
-                   "author_comment": paper.comment,
-                   "journal_ref": paper.journal_ref,
-                   "doi": paper.doi,
-                   "primary_category": paper.primary_category,
-                   "categories": paper.categories,
-                   "text": markdown,
-                   })
+                                   "source": "arxiv",
+                                   "source_type": "html",
+                                   "converted_with": "markdownify",
+                                   "title": paper.title,
+                                   "authors": [str(x) for x in paper.authors],
+                                   "date_published": str(paper.published),
+                                   "data_last_modified": str(paper.updated),
+                                   "abstract": paper.summary.replace("\n", " "),
+                                   "author_comment": paper.comment,
+                                   "journal_ref": paper.journal_ref,
+                                   "doi": paper.doi,
+                                   "primary_category": paper.primary_category,
+                                   "categories": paper.categories,
+                                   "text": markdown,
+                                   })
             new_entry.add_id()
             yield new_entry
             time.sleep(self.COOLDOWN)
@@ -122,7 +116,7 @@ class ArxivPapers(AlignmentDataset):
         markdown = markdownify(r.content)
         if self._is_dud(markdown):
             return None
-        
+
         mardown_excerpt = markdown.replace('\n', '')[:100]
         logger.info(f"Stripping markdown, {mardown_excerpt}")
         s_markdown = self._strip_markdown(markdown)

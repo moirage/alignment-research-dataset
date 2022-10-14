@@ -1,6 +1,6 @@
 from .greaterwrong import GreaterWrong
 
 GREATERWRONG_REGISTRY = [
-    GreaterWrong("lesswrong"),
-    # GreaterWrong("eaforum")
+    GreaterWrong(name = "lesswrong"),
+    GreaterWrong(name = "eaforum")
 ]

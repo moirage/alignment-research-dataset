@@ -1,5 +1,5 @@
 from calendar import c
-from dataclasses import dataclass , field
+from dataclasses import dataclass, field
 import feedparser
 import logging
 import sys
@@ -9,18 +9,14 @@ from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 
 from typing import List
 
-
-logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
-                    level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 @dataclass
 class WordpressBlog(AlignmentDataset):
-    url : str
-    strip : List = field(default_factory=lambda: [])
-    max_pages : int = 2000
+    url: str
+    strip: List = field(default_factory=lambda: [])
+    max_pages: int = 2000
+
     def __post_init__(self):
         """
         url: URL of the blog
@@ -47,9 +43,10 @@ class WordpressBlog(AlignmentDataset):
                 or ("title" not in d["feed"])
                 or (d["feed"]["title"] == last_title)
             ):
-                logger.info("Not a valid page. It looks like we've reached the end.")
+                logger.info(
+                    "Not a valid page. It looks like we've reached the end.")
                 break
-            
+
             last_title = d["feed"]["title"]
 
             for entry in d["entries"]:
@@ -57,18 +54,18 @@ class WordpressBlog(AlignmentDataset):
                     logger.info(f"Already done {counter}")
                     counter += 1
                     continue
-                
+
                 content_text = self.cleaner.clean(entry["content"][0]["value"])
                 text = entry["title"] + "\n\n" + content_text
-                
+
                 new_entry = DataEntry({
-                    "text": text, 
-                    "url": self.url, 
+                    "text": text,
+                    "url": self.url,
                     "title": text.split("\n")[0],
-                    "source" : self.name,
-                    "date_published" : "n/a",  
+                    "source": self.name,
+                    "date_published": "n/a",
                 })
                 new_entry.add_id()
-                
+
                 yield new_entry
                 counter += 1

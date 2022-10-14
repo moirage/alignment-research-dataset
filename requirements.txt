@@ -1,7 +1,6 @@
 arxiv==1.4.2
 beautifulsoup4
 black
-chardet==3.0.4
 epub_meta==0.0.7
 GitPython
 gdown
@@ -18,7 +17,7 @@ python-magic-bin==0.4.14
 openpyxl
 markdownify
 latex2mathml
-pypandoc
+pypandoc_binary
 requests
 selenium
 urllib3
@@ -27,3 +26,7 @@ wget
 zstandard
 tqdm
 transformers
+fire
+path
+python-docx
+grobid_tei_xml
