@@ -3,6 +3,7 @@ import requests
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 import logging
 import time
+from tqdm import tqdm 
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ class GwernBlog(AlignmentDataset):
 
     def fetch_entries(self):
         self.setup()
-        for ii, post_href in enumerate(self.post_hrefs):
+        for ii, post_href in enumerate(tqdm(self.post_hrefs)):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue

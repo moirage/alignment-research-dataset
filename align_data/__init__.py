@@ -35,5 +35,5 @@ def get_dataset(name):
         return DATASET_MAP[name]
     except KeyError as e:
         print("Available datasets:")
-        pprint(ALL_DATASETS)
+        print(ALL_DATASETS)
         raise KeyError(f"Missing dataset {name}")

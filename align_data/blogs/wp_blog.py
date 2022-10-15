@@ -2,7 +2,7 @@ from calendar import c
 from dataclasses import dataclass, field
 import feedparser
 import logging
-import sys
+from tqdm import trange
 
 from align_data.common import utils
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
@@ -33,7 +33,7 @@ class WordpressBlog(AlignmentDataset):
         self.setup()
         last_title = ""
         counter = 0
-        for page in range(0, self.max_pages):
+        for page in trange(0, self.max_pages):
 
             paged_url = f"{self.feed_url}?paged={page + 1}"
             logger.info(f"Fetching {paged_url} (max={self.max_pages})")

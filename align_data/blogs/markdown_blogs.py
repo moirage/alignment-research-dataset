@@ -4,7 +4,7 @@ import gdown
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 import zipfile
 import logging
-from path import Path
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ class MarkdownBlogs(AlignmentDataset):
 
     def fetch_entries(self):
         self.setup()
-        for ii, filename in enumerate(self.file_list):
+        for ii, filename in enumerate(tqdm(self.file_list)):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii} , {filename}")
                 continue

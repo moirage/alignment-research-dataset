@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import pandas as pd
 from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
 import logging
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
     
@@ -23,7 +24,7 @@ class AlignmentNewsletter(AlignmentDataset):
         summarizer, opinion, prerequisites, read_more, title, authors, date_published, text
         """
         self.setup()
-        for ii , row in self.df.iterrows():
+        for ii , row in tqdm(self.df.iterrows()):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue

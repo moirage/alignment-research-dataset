@@ -7,6 +7,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 from markdownify import markdownify
+from tqdm import tqdm
+from selenium.webdriver.common.by import By
 
 from align_data.common import utils
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
@@ -35,7 +37,7 @@ class OtherBlog(AlignmentDataset):
         post_hrefs = self._selenium_get_post_hrefs(
             self.url, self.class_name, True
         )
-        for ii, post_href in enumerate(post_hrefs):
+        for ii, post_href in enumerate(tqdm(post_hrefs)):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue
@@ -64,10 +66,13 @@ class OtherBlog(AlignmentDataset):
     ):
 
         browser = webdriver.Chrome(ChromeDriverManager().install())
+        browser.implicitly_wait(2) # gives an implicit wait for 20 seconds
+
         browser.get(index_page)
         time.sleep(DELAY_GET)
 
-        elem = browser.find_element_by_tag_name(tag_name)
+        elem = browser.find_element(By.TAG_NAME , tag_name)
+
         if do_scroll:
             [
                 elem.send_keys(Keys.PAGE_DOWN) and time.sleep(SCROLL_SLEEP)
@@ -76,11 +81,11 @@ class OtherBlog(AlignmentDataset):
 
         time.sleep(DELAY_GET)
 
-        post_elems = browser.find_elements_by_class_name(class_name)
+        post_elems = browser.find_elements(By.CLASS_NAME, class_name)
         post_hrefs = [post.get_attribute("href") for post in post_elems]
         if post_hrefs[0] is None:
             post_hrefs = [
-                browser.find_element_by_link_text(
+                browser.find_element(By.LINK_TEXT,
                     post.text).get_attribute("href")
                 for post in post_elems
             ]

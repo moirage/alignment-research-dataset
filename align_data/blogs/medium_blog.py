@@ -6,6 +6,7 @@ from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 import logging
 from urllib.parse import urljoin
 from markdownify import markdownify
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,7 @@ class MediumBlog(AlignmentDataset):
         self.articles = soup.find_all("article")
         logger.info(f"Found {len(self.articles)} articles")
 
-        for ii, article in enumerate(self.articles):
+        for ii, article in enumerate(tqdm(self.articles)):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue

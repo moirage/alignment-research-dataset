@@ -5,6 +5,7 @@ import time
 import pandas as pd
 from dataclasses import dataclass
 from markdownify import markdownify
+from tqdm import tqdm
 
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 
@@ -46,7 +47,7 @@ class ArxivPapers(AlignmentDataset):
             - jsonl file with entries
         """
         self.setup()
-        for ii, ids in enumerate(self.arxiv_ids):
+        for ii, ids in enumerate(tqdm(self.arxiv_ids)):
             logger.info(f"Processing {ids}")
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
