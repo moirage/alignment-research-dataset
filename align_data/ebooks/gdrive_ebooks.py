@@ -17,8 +17,8 @@ class GDrive(AlignmentDataset):
 
     gdrive_adress: str
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
 
         self.local_out = self.write_jsonl_path.parent / 'raw' / 'books_text'
 
@@ -41,7 +41,7 @@ class GDrive(AlignmentDataset):
         )
 
     def fetch_entries(self):
-
+        self.setup()
         for ii, epub_file in enumerate(self.local_out.files('*.epub')):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")

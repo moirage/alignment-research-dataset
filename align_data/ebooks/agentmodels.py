@@ -14,8 +14,8 @@ class AgentModels(AlignmentDataset):
 
     repo: str = 'https://github.com/agentmodels/agentmodels.org.git'
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
         self.raw_path = self.write_jsonl_path.parent / 'raw'
         self._get_files()
 
@@ -28,6 +28,7 @@ class AgentModels(AlignmentDataset):
         self.repo_path = self.raw_path / 'agentmodels.org' / 'chapters'
 
     def fetch_entries(self):
+        self.setup()
         for ii, filename in enumerate(self.repo_path.files('*.md')):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")

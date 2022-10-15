@@ -25,7 +25,7 @@ class AlignmentDataset:
     name : str
     done_ids = []
 
-    def setup(self) -> None:
+    def _setup(self) -> None:
 
         self.write_jsonl_path = Path(os.path.join(os.path.abspath( os.path.dirname( __file__ ) ) , "../../data/" + self.name + ".jsonl"))
         
@@ -41,14 +41,17 @@ class AlignmentDataset:
     def __str__(self) -> str:
         return f"{self.name} dataset will be written to {self.write_jsonl_path}"
 
-    def fetch_entries(self):
-        raise NotImplementedError
-
     def _entry_done(self , entry):
         """
         Check if entry is already done
         """
         return (self.name , entry) in self.done_ids
+
+    def fetch_entries(self):
+        raise NotImplementedError
+
+    def setup(self):
+        raise NotImplementedError
 
 
 class DataEntry(UserDict):

@@ -12,8 +12,8 @@ class MDEBooks(AlignmentDataset):
 
     gdrive_address : str
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
         self.pull_from_gdrive()
 
         logger.info("Unzipping")
@@ -30,6 +30,7 @@ class MDEBooks(AlignmentDataset):
 
 
     def fetch_entries(self):
+        self.setup()
         for ii , filename in enumerate(self.md_files.files('*.md')):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")

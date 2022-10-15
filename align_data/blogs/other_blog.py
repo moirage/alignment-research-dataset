@@ -22,8 +22,8 @@ class OtherBlog(AlignmentDataset):
     url: str
     class_name: str
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
         self.cleaner = utils.HtmlCleaner(
             ["You might also like\.\.\..*", "\\n+", "\#\# Create your profile.*"],
             ["", "\\n", ""],
@@ -31,6 +31,7 @@ class OtherBlog(AlignmentDataset):
         )
 
     def fetch_entries(self):
+        self.setup()
         post_hrefs = self._selenium_get_post_hrefs(
             self.url, self.class_name, True
         )

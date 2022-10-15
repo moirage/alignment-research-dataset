@@ -32,10 +32,11 @@ class MediumBlog(AlignmentDataset):
 
     url: str
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
 
     def fetch_entries(self):
+        self.setup()
         logger.info(f"Fetching entries from {self.url}")
         response = requests.get(self.url, allow_redirects=True)
         soup = BeautifulSoup(response.content, "html.parser")

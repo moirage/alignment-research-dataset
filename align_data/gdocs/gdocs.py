@@ -15,8 +15,8 @@ class Gdocs(AlignmentDataset):
 
     gdrive_address : str
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
         self.local_path = self.write_jsonl_path.parent / "raw"
         self.pull_drom_gdrive()
 
@@ -40,7 +40,7 @@ class Gdocs(AlignmentDataset):
             logger.info("Already downloaded")
 
     def fetch_entries(self):
-
+        self.setup()
         for ii , docx_filename in enumerate(self.gdoc_files.files('*.docx')):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")

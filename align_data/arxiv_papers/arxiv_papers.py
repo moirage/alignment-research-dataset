@@ -13,15 +13,15 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ArxivPapers(AlignmentDataset):
-    papers_csv_path: str
     COOLDOWN: int = 1
-    done_ids = []
 
-    def __post_init__(self) -> None:
+    def setup(self) -> None:
         """
         Load arxiv ids
         """
-        self.setup()
+        self._setup()
+        self.papers_csv_path = self.write_jsonl_path.parent / "raw" / "ai-alignment-papers.csv" 
+
         self.df = pd.read_csv(self.papers_csv_path)
         self.df_arxiv = self.df[self.df["Url"].str.contains(
             "arxiv.org/abs") == True].drop_duplicates(subset="Url", keep="first")
@@ -45,6 +45,7 @@ class ArxivPapers(AlignmentDataset):
         output:
             - jsonl file with entries
         """
+        self.setup()
         for ii, ids in enumerate(self.arxiv_ids):
             logger.info(f"Processing {ids}")
             if self._entry_done(ii):

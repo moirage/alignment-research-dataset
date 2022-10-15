@@ -17,19 +17,20 @@ class WordpressBlog(AlignmentDataset):
     strip: List = field(default_factory=lambda: [])
     max_pages: int = 2000
 
-    def __post_init__(self):
+    def setup(self):
         """
         url: URL of the blog
         strip: list of regexes to strip from the HTML
         max_pages: maximum number of RSS pages to fetch
         """
-        self.setup()
+        self._setup()
         self.feed_url = self.url + "/feed"
         self.cleaner = utils.HtmlCleaner(self.strip)
         self.max_pages = self.max_pages
         self.name = utils.url_to_filename(self.url)
 
     def fetch_entries(self):
+        self.setup()
         last_title = ""
         counter = 0
         for page in range(0, self.max_pages):

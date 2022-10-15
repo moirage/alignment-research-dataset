@@ -15,8 +15,8 @@ class GwernBlog(AlignmentDataset):
 
     COOLDOWN: int = 1
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
         self.post_hrefs = ['https://www.gwern.net/Scaling-hypothesis.page',
                            'https://www.gwern.net/Tanks.page',
                            'https://www.gwern.net/Clippy.page',
@@ -26,6 +26,7 @@ class GwernBlog(AlignmentDataset):
                            'https://www.gwern.net/Hyperbolic-Time-Chamber.page']
 
     def fetch_entries(self):
+        self.setup()
         for ii, post_href in enumerate(self.post_hrefs):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")

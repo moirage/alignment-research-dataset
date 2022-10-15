@@ -10,11 +10,11 @@ class Stampy(AlignmentDataset):
 
     index_url : str
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
 
     def fetch_entries(self):
-        
+        self.setup()
         entries = dict(requests.get(self.index_url).json())
         for ii, entry in enumerate(entries["results"].keys()):
             if self._entry_done(ii):

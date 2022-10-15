@@ -23,8 +23,8 @@ class MarkdownBlogs(AlignmentDataset):
 
     gdrive_address: str
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
         self.markdown_path = self.write_jsonl_path.parent / "raw"
         logger.info(f"Checking if scrape exist in path {self.markdown_path}")
         self.markdown_path.makedirs_p()
@@ -45,6 +45,7 @@ class MarkdownBlogs(AlignmentDataset):
             zip_ref.extractall(self.markdown_path)
 
     def fetch_entries(self):
+        self.setup()
         for ii, filename in enumerate(self.file_list):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii} , {filename}")

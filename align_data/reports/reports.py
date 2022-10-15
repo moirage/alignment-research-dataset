@@ -12,8 +12,8 @@ class Reports(AlignmentDataset):
 
     gdrive_url : str
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
 
         self.local_out = self.write_jsonl_path.parent / 'raw'
 
@@ -33,6 +33,7 @@ class Reports(AlignmentDataset):
         )
 
     def fetch_entries(self):
+        self.setup()
         for ii, filename in enumerate((self.local_out / "report_teis").files("*.xml")):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")

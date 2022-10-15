@@ -13,24 +13,25 @@ class AudioTranscripts(AlignmentDataset):
 
     otter_zip_url: str
 
-    def __post_init__(self):
-        self.setup()
-        self.transcript_path = self.write_jsonl_path.parent / 'raw' / 'transcripts'
+    def setup(self):
+        self._setup()
+        self.transcript_path = self.write_jsonl_path.parent / 'raw' / "transcripts" / "transcripts"
         if not os.path.exists(self.transcript_path):
-            os.makedirs(self.transcript_path)
+            self.transcript_path.mkdir_p()
             self._pull_from_gdrive()
         self.file_list = [xx for xx in self.transcript_path.files('*.md')]
 
     def _pull_from_gdrive(self):
         logger.info("Pulling from gdrive")
         gdown.download(url=self.otter_zip_url,
-                       output=self.transcript_path / "transcripts.zip",
+                       output=self.write_jsonl_path.parent / "transcripts.zip",
                        quiet=False)
         logger.info("Unzipping")
-        with zipfile.ZipFile(self.transcript_path / "transcripts.zip", 'r') as zip_ref:
+        with zipfile.ZipFile(self.write_jsonl_path.parent / "transcripts.zip", 'r') as zip_ref:
             zip_ref.extractall(self.transcript_path)
 
     def fetch_entries(self):
+        self.setup()
         for ii, filename in enumerate(self.file_list):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")

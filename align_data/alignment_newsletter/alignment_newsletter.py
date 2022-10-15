@@ -9,11 +9,11 @@ logger = logging.getLogger(__name__)
 @dataclass
 class AlignmentNewsletter(AlignmentDataset):
     
-    newsletter_xlsx_path: str
     COOLDOWN: int = 1
     
-    def __post_init__(self) -> None:
-        self.setup()
+    def setup(self) -> None:
+        self._setup()
+        self.newsletter_xlsx_path = self.write_jsonl_path.parent / "raw" / "alignment_newsletter.xlsx"
         self.df = pd.read_excel(self.newsletter_xlsx_path)
 
     def fetch_entries(self):
@@ -22,6 +22,7 @@ class AlignmentNewsletter(AlignmentDataset):
         converted_with, source_type, venue, newsletter_category, highlight, newsletter_number,
         summarizer, opinion, prerequisites, read_more, title, authors, date_published, text
         """
+        self.setup()
         for ii , row in self.df.iterrows():
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")

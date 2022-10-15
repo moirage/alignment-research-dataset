@@ -14,7 +14,7 @@ from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
 
 
 logging.basicConfig(format='%(asctime)s | %(levelname)s : %(message)s',
-                    level=logging.DEBUG, stream=sys.stdout)
+                    level=logging.INFO, stream=sys.stdout)
 
 logger = logging.getLogger(__name__)
 
@@ -26,23 +26,24 @@ class GreaterWrong(AlignmentDataset):
     GreaterWrong contains all the posts from LessWrong (which contains the Alignment Forum) and the EA Forum.
     """
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
         self.output_dir = self.write_jsonl_path.parent / "raw" / self.name
         self.output_dir.mkdir_p()
 
     def fetch_entries(self):
-        logger.debug(
+        self.setup()
+        logger.info(
             f"Grabbing most recent links (grabs all links if /{self.name}_urls/ is empty)...")
         self.get_all_links()
-        logger.debug("Converting each link to a json with post & comments...")
-        logger.debug(
+        logger.info("Converting each link to a json with post & comments...")
+        logger.info(
             "[Using only the latest urls, change variable url_directory in greaterwrong.py to point at a specific url_folder]"
         )
         # specify url_directory to the specific url_file you want
         for ii , post in enumerate(self.urls_to_json_scrape(file_prefix=self.name, url_directory="")):
             if self._entry_done(ii):
-                logger.debug(f"Already done {ii}")
+                logger.info(f"Already done {ii}")
                 continue
             new_entry = DataEntry(post)
             new_entry.add_id()
@@ -89,17 +90,17 @@ class GreaterWrong(AlignmentDataset):
             today + "_links.txt"
         # check if there's a url_link for today, return if so
         if os.path.isfile(url_for_today):
-            logger.debug(f"Already have links for today: {today}")
+            logger.info(f"Already have links for today: {today}")
             return
 
         # else grab most recent urls
-        logger.debug("Grabbing most recent links...")
+        logger.info("Grabbing most recent links...")
         try:
             latest_file_name = self.get_latest_file()
             with open(latest_file_name) as previous_file:
                 latest_url = previous_file.readline().rstrip()
         except:  # empty files
-            logger.debug("No previous files, starting from scratch...")
+            logger.info("No previous files, starting from scratch...")
             latest_url = "n/a"
 
         with open(url_for_today, "w") as f:
@@ -112,7 +113,7 @@ class GreaterWrong(AlignmentDataset):
             while not found_latest_url:
                 iterations += 1
                 if iterations % 100 == 0:
-                    logger.debug(f"Currently: {iterations}")
+                    logger.info(f"Currently: {iterations}")
                 try:
                     # Find All Post Title tags for each page, then the url for the post
                     soup = self.url_to_soup(initial_url)
@@ -126,9 +127,9 @@ class GreaterWrong(AlignmentDataset):
                     initial_url = self.add_20_to_url(initial_url)
                     time.sleep(1)
                 except Exception as e:
-                    logger.debug(e)
-                    logger.debug(f"iterations: {iterations}")
-                    logger.debug(f"total files ~= {iterations * 20}")
+                    logger.info(e)
+                    logger.info(f"iterations: {iterations}")
+                    logger.info(f"total files ~= {iterations * 20}")
                     break
 
     def chunks(self, lst, n):
@@ -301,7 +302,7 @@ class GreaterWrong(AlignmentDataset):
                 for url_link in file:
                     # Show current iter post
                     if current_post_iter % 50 == 0:
-                        logger.debug("current posts: {current_post_iter}")
+                        logger.info("current posts: {current_post_iter}")
 
                     full_url_link = url_link_prefix + url_link.rstrip("\n")
                     r = requests.get(full_url_link)
@@ -332,7 +333,7 @@ class GreaterWrong(AlignmentDataset):
                         )
                         tags = self.get_tag_list(soup, "/")
                     except:  # Event or missing url
-                        logger.debug(f"Missing url at: {full_url_link}")
+                        logger.info(f"Missing url at: {full_url_link}")
                         continue
 
                     # json object to save text in format
@@ -393,9 +394,3 @@ class GreaterWrong(AlignmentDataset):
             # remove url from unprocessed folder
             os.remove(
                 self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}")
-
-
-# if __name__ == "__main__":
-#     gw = GreaterWrong()
-#     for post in gw.fetch_entries():
-#         logger.debug(post)

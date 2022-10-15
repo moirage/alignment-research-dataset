@@ -11,8 +11,8 @@ class Arbital(AlignmentDataset):
 
     ARBITAL_SUBSPACES = ['ai_alignment', 'math', 'rationality']
 
-    def __post_init__(self):
-        self.setup()
+    def setup(self):
+        self._setup()
 
         self.headers = {
             'authority': 'arbital.com',
@@ -27,6 +27,8 @@ class Arbital(AlignmentDataset):
         }
 
     def fetch_entries(self):
+        self.setup()
+        
         aliases = []
         for subspace in self.ARBITAL_SUBSPACES:
             aliases += self.get_arbital_page_aliases(subspace=subspace)
