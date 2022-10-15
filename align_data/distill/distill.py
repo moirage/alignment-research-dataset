@@ -11,11 +11,9 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class Distill(AlignmentDataset):
-    
-    DISTILL_POSTS_DIR : str
-        
     def __post_init__(self):
         self.setup()
+        self.DISTILL_POSTS_DIR = self.write_jsonl_path.parent / "raw" / "distill_posts"
         self.file_list = os.listdir(self.DISTILL_POSTS_DIR)
         logger.info(f"Found {len(self.file_list)} files in {self.DISTILL_POSTS_DIR}")
         logger.info(f"Found {len(self.done_ids)} done files")

@@ -73,9 +73,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Data
-data/
-
 # Environments
 .env
 .venv
@@ -114,3 +111,10 @@ test.py
 transcripts/
 waitbutwhy/
 carado.moe/
+*.jsonl
+*.txt
+*.xml
+*.docx
+*.md
+*.txt
+*.epub

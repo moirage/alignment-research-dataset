@@ -35,12 +35,19 @@ class Arbital(AlignmentDataset):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue
-
-            page = self.get_page(alias)
+            try:
+                page = self.get_page(alias)
+            except Exception as e:
+                logger.error(f"Error getting page {alias}: {e}")
+                page = {
+                    'title': 'Error getting page',
+                    'text': 'Error getting page',
+                    'date_published': 'Error getting page',
+                }
             new_entry = DataEntry({
-                'title': page['title'],
-                'text': page['text'],
-                'date_published': page['pageCreatedAt'],
+                'title': page['title'] if 'title' in page else 'n/a',
+                'text': page['text'] if 'text' in page else 'n/a',
+                'date_published': page['pageCreatedAt'] if 'pageCreatedAt' in page else 'n/a',
                 'url': 'n/a',
                 'source': self.name,
                 'source_filetype': 'text',

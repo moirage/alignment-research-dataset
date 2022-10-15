@@ -17,7 +17,6 @@ logger = logging.getLogger(__name__)
 class OtherBlog(AlignmentDataset):
     """
     Fetches articles from a different blog by collecting links to articles from an index page.
-
     """
 
     url: str

@@ -44,10 +44,8 @@ BLOG_REGISTRY = [
     
     MarkdownBlogs(name="carado.moe",
                   gdrive_address="https://drive.google.com/uc?id=17CLAtrWNp4WoRLRPyS1pb2K5IQuMtHIH",
-                  markdown_path="carado.moe",
                   ),
     MarkdownBlogs(name="waitbutwhy",
                   gdrive_address="https://drive.google.com/uc?id=18T0LcYirruBW4c_fDQMEWAkA2KqSE1of",
-                  markdown_path="waitbutwhy",
                   ),
 ]

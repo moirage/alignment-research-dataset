@@ -22,12 +22,11 @@ class MarkdownBlogs(AlignmentDataset):
     """
 
     gdrive_address: str
-    markdown_path: str
 
     def __post_init__(self):
         self.setup()
+        self.markdown_path = self.write_jsonl_path.parent / "raw"
         logger.info(f"Checking if scrape exist in path {self.markdown_path}")
-        self.markdown_path = Path(self.markdown_path)
         self.markdown_path.makedirs_p()
 
         if not (self.markdown_path / f'{self.name}.zip').exists():
