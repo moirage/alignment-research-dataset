@@ -7,6 +7,7 @@ import pypandoc
 from path import Path
 import os
 import docx
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +42,7 @@ class Gdocs(AlignmentDataset):
 
     def fetch_entries(self):
         self.setup()
-        for ii , docx_filename in enumerate(self.gdoc_files.files('*.docx')):
+        for ii , docx_filename in enumerate(tqdm(self.gdoc_files.files('*.docx'))):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue

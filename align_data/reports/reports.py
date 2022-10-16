@@ -4,6 +4,7 @@ from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 import logging
 import zipfile
 import grobid_tei_xml
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ class Reports(AlignmentDataset):
 
     def fetch_entries(self):
         self.setup()
-        for ii, filename in enumerate((self.local_out / "report_teis").files("*.xml")):
+        for ii, filename in enumerate(tqdm((self.local_out / "report_teis").files("*.xml"))):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue

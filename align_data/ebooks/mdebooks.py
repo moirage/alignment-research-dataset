@@ -4,6 +4,7 @@ import gdown
 from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
 import logging
 import zipfile
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +32,7 @@ class MDEBooks(AlignmentDataset):
 
     def fetch_entries(self):
         self.setup()
-        for ii , filename in enumerate(self.md_files.files('*.md')):
+        for ii , filename in enumerate(tqdm(self.md_files.files('*.md'))):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue

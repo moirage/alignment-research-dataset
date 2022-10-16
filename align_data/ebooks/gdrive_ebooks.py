@@ -6,6 +6,7 @@ import epub_meta
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 import logging
 from path import Path
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +43,7 @@ class GDrive(AlignmentDataset):
 
     def fetch_entries(self):
         self.setup()
-        for ii, epub_file in enumerate(self.local_out.files('*.epub')):
+        for ii, epub_file in enumerate(tqdm(self.local_out.files('*.epub'))):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue

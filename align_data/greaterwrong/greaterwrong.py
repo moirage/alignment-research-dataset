@@ -8,6 +8,7 @@ import re
 import os
 from bs4 import BeautifulSoup
 import logging
+from tqdm import tqdm
 import sys
 
 from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
@@ -37,13 +38,29 @@ class GreaterWrong(AlignmentDataset):
             "[Using only the latest urls, change variable url_directory in greaterwrong.py to point at a specific url_folder]"
         )
         # specify url_directory to the specific url_file you want
-        for ii , post in enumerate(self.urls_to_json_scrape(file_prefix=self.name, url_directory="")):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
-                continue
-            new_entry = DataEntry(post)
-            new_entry.add_id()
-            yield new_entry
+
+        url_filename_list = self.get_urls(url_directory="")
+        ii = 0
+        for url_filename in tqdm(url_filename_list):
+            with open(self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}", "r") as file:
+                for url_link in file:
+                    if self._entry_done(ii):
+                        logger.info(f"Already done {ii}")
+                        continue
+                    ii += 1
+                post = self.get_url(self.name , url_link)
+                if post is None:
+                    post = {
+                        "text" : "n/a",
+                        "url" : "n/a",
+                        "title" : "n/a",
+                        "authors" : "n/a",
+                        "date_published" : "n/a",
+                        "source" : self.name
+                    }
+                new_entry = DataEntry(post)
+                new_entry.add_id()
+                yield new_entry
 
     def get_latest_file(self):
         list_of_files = sorted(
@@ -255,14 +272,7 @@ class GreaterWrong(AlignmentDataset):
             latex.insert(0, latex.get("aria-label"))
         return  # insert is in-place, no need to return soup
 
-    def urls_to_json_scrape(self, file_prefix, url_directory=""):
-        if self.name == "lesswrong":
-            url_link_prefix_public_facing = "https://www.lesswrong.com"
-            url_link_prefix = "https://www.greaterwrong.com"
-        elif self.name == "eaforum":
-            url_link_prefix_public_facing = "https://www.forum.effectivealtruism.org"
-            url_link_prefix = "https://ea.greaterwrong.com"
-        json_post_and_comments = []
+    def get_urls(self, url_directory=""):
         # get specific urls if specified
         if url_directory:
             url_filename_suffix = url_directory
@@ -291,102 +301,98 @@ class GreaterWrong(AlignmentDataset):
                         url_1000_file.writelines("\n".join(urls_1000))
             url_filename_list = os.listdir(
                 self.output_dir / f"unprocessed_{self.name}_urls")
+        return url_filename_list
 
-        current_post_iter = 0
-        for url_filename in url_filename_list:
-            with open(self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}", "r") as file:
-                for url_link in file:
-                    # Show current iter post
-                    if current_post_iter % 50 == 0:
-                        logger.info("current posts: {current_post_iter}")
+    def get_url(self, file_prefix , url_link):
+        if self.name == "lesswrong":
+            url_link_prefix_public_facing = "https://www.lesswrong.com"
+            url_link_prefix = "https://www.greaterwrong.com"
+        elif self.name == "eaforum":
+            url_link_prefix_public_facing = "https://www.forum.effectivealtruism.org"
+            url_link_prefix = "https://ea.greaterwrong.com"
+        
+        full_url_link = url_link_prefix + url_link.rstrip("\n")
+        r = requests.get(full_url_link)
+        time.sleep(1)
 
-                    full_url_link = url_link_prefix + url_link.rstrip("\n")
-                    r = requests.get(full_url_link)
-                    time.sleep(1)
+        html = r.content.decode("utf-8")
+        soup = BeautifulSoup(self.cleanHtml(html), "html.parser")
 
-                    html = r.content.decode("utf-8")
-                    soup = BeautifulSoup(self.cleanHtml(html), "html.parser")
+        # encode italics, bold, quotes, etc as text
+        self.encode_html_as_text(soup)
 
-                    # encode italics, bold, quotes, etc as text
-                    self.encode_html_as_text(soup)
+        try:  # Check if missing url
+            post_title = self.add_consistent_newlines(
+                soup.select_one(".post-title").text.strip()[2:]
+            )  # Skip post_title Header_1
+            date = soup.select_one(".date").text.strip()
+            date = datetime.datetime.strptime(
+                date, "%d %b %Y %H:%M %Z"
+            ).isoformat()[0:-3]
+            author = soup.select_one(".author").text.strip()
+            karma_temp = soup.select_one(".karma-value")
+            post_votes = karma_temp.get("title").split(" ")[0]
+            karma_list = karma_temp.text.split(" ")
+            karma = karma_list[0]
+            post_content = self.add_consistent_newlines(
+                soup.select_one(
+                    ".body-text.post-body").text.strip()
+            )
+            tags = self.get_tag_list(soup, "/")
+        except Exception as e:  # Event or missing url
+            logger.error(f"Error: {e}")
+            logger.info(f"Missing url at: {full_url_link}")
+            return None
 
-                    try:  # Check if missing url
-                        post_title = self.add_consistent_newlines(
-                            soup.select_one(".post-title").text.strip()[2:]
-                        )  # Skip post_title Header_1
-                        date = soup.select_one(".date").text.strip()
-                        date = datetime.datetime.strptime(
-                            date, "%d %b %Y %H:%M %Z"
-                        ).isoformat()[0:-3]
-                        author = soup.select_one(".author").text.strip()
-                        karma_temp = soup.select_one(".karma-value")
-                        post_votes = karma_temp.get("title").split(" ")[0]
-                        karma_list = karma_temp.text.split(" ")
-                        karma = karma_list[0]
-                        post_content = self.add_consistent_newlines(
-                            soup.select_one(
-                                ".body-text.post-body").text.strip()
-                        )
-                        tags = self.get_tag_list(soup, "/")
-                    except:  # Event or missing url
-                        logger.info(f"Missing url at: {full_url_link}")
-                        continue
+        # json object to save text in format
+        json_post_and_comment = {
+                # "id": full_url_link.split("/")[4],
+                "title": post_title,
+                "authors": author,
+                "date_published": date,
+                "score": karma,
+                "omega_karma": "",
+                "votes": post_votes,
+                "tags": tags,
+                "url": url_link_prefix_public_facing
+                + url_link.rstrip("\n"),
+                "text": post_content,
+                "source": file_prefix,  # "lesswrong" or "ea" atm
+                "comments": [],
+            }
 
-                    # json object to save text in format
-                    json_post_and_comments.append(
-                        {
-                            # "id": full_url_link.split("/")[4],
-                            "title": post_title,
-                            "authors": author,
-                            "date_published": date,
-                            "score": karma,
-                            "omega_karma": "",
-                            "votes": post_votes,
-                            "tags": tags,
-                            "url": url_link_prefix_public_facing
-                            + url_link.rstrip("\n"),
-                            "text": post_content,
-                            "source": file_prefix,  # "lesswrong" or "ea" atm
-                            "comments": [],
-                        }
-                    )
-
-                    # check for alignment forum
-                    if len(karma_list) > 2:  # eg. LW: 420 AF: 69, list split by spaces
-                        if self.name == "lesswrong":
-                            json_post_and_comments[current_post_iter][
-                                "source"
-                            ] = "alignment forum"
-                            json_post_and_comments[current_post_iter]["score"] = karma_list[
-                                1
-                            ]
-                            json_post_and_comments[current_post_iter][
-                                "omega_karma"
-                            ] = karma_list[3]
-                        elif self.name == "eaforum":
-                            json_post_and_comments[current_post_iter][
-                                "source"
-                            ] = "eaforum"
-                            json_post_and_comments[current_post_iter]["score"] = karma_list[
-                                1
-                            ]
-                    # Grab comments recursively
-                    comments = soup.select_one(".comment-thread")
-                    if comments:
-                        for comment in comments:
-                            if len(comment.div.get("class")) > 1:
-                                # print("deleted comment at: ", full_url_link, " w/ ", comment)
-                                continue
-                            try:
-                                json_comment = self.recursive_comment(comment)
-                                json_post_and_comments[current_post_iter][
-                                    "comments"
-                                ].append(json_comment)
-                            except:
-                                pass
-                    # Update current post iter since we've actually added 1 post to the json
-                    yield json_post_and_comments[current_post_iter]
-                    current_post_iter += 1
-            # remove url from unprocessed folder
-            os.remove(
-                self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}")
+        # check for alignment forum
+        if len(karma_list) > 2:  # eg. LW: 420 AF: 69, list split by spaces
+            if self.name == "lesswrong":
+                json_post_and_comment[
+                    "source"
+                ] = "alignment forum"
+                json_post_and_comment["score"] = karma_list[
+                    1
+                ]
+                json_post_and_comment[
+                    "omega_karma"
+                ] = karma_list[3]
+            elif self.name == "eaforum":
+                json_post_and_comment[
+                    "source"
+                ] = "eaforum"
+                json_post_and_comment["score"] = karma_list[
+                    1
+                ]
+        # Grab comments recursively
+        comments = soup.select_one(".comment-thread")
+        if comments:
+            for comment in comments:
+                if len(comment.div.get("class")) > 1:
+                    # print("deleted comment at: ", full_url_link, " w/ ", comment)
+                    continue
+                try:
+                    json_comment = self.recursive_comment(comment)
+                    json_post_and_comment[
+                        "comments"
+                    ].append(json_comment)
+                except:
+                    pass
+        # Update current post iter since we've actually added 1 post to the json
+        return json_post_and_comment

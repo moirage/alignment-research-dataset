@@ -8,6 +8,10 @@ import align_data
 from align_data.common.utils import EntryWriter
 from align_data.analysis.count_tokens import count_token
 
+import logging , sys
+
+logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+
 @dataclass
 class AlignmentDataset:
 

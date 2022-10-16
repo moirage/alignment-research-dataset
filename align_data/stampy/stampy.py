@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import requests
 import logging
 from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,7 @@ class Stampy(AlignmentDataset):
     def fetch_entries(self):
         self.setup()
         entries = dict(requests.get(self.index_url).json())
-        for ii, entry in enumerate(entries["results"].keys()):
+        for ii, entry in enumerate(tqdm(entries["results"].keys())):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue

@@ -2,6 +2,7 @@ from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 from dataclasses import dataclass
 from git import Repo
 import logging
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ class AgentModels(AlignmentDataset):
 
     def fetch_entries(self):
         self.setup()
-        for ii, filename in enumerate(self.repo_path.files('*.md')):
+        for ii, filename in enumerate(tqdm(self.repo_path.files('*.md'))):
             if self._entry_done(ii):
                 logger.info(f"Already done {ii}")
                 continue
