@@ -14,6 +14,7 @@ import sys
 from align_data.common.alignment_dataset import AlignmentDataset , DataEntry
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 @dataclass
 class GreaterWrong(AlignmentDataset):
@@ -22,6 +23,8 @@ class GreaterWrong(AlignmentDataset):
     This class allows you to scrape posts and comments from GreaterWrong. 
     GreaterWrong contains all the posts from LessWrong (which contains the Alignment Forum) and the EA Forum.
     """
+
+    COOLDOWN_TIME : int = 1
 
     def setup(self):
         self._setup()
@@ -43,24 +46,25 @@ class GreaterWrong(AlignmentDataset):
         ii = 0
         for url_filename in tqdm(url_filename_list):
             with open(self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}", "r") as file:
-                for url_link in file:
+                for url_link in tqdm(file):
                     if self._entry_done(ii):
                         logger.info(f"Already done {ii}")
+                        ii += 1
                         continue
+                    post = self.get_url(self.name , url_link)
+                    if post is None:
+                        post = {
+                            "text" : "n/a",
+                            "url" : "n/a",
+                            "title" : "n/a",
+                            "authors" : "n/a",
+                            "date_published" : "n/a",
+                            "source" : self.name
+                        }
+                    new_entry = DataEntry(post)
+                    new_entry.add_id()
                     ii += 1
-                post = self.get_url(self.name , url_link)
-                if post is None:
-                    post = {
-                        "text" : "n/a",
-                        "url" : "n/a",
-                        "title" : "n/a",
-                        "authors" : "n/a",
-                        "date_published" : "n/a",
-                        "source" : self.name
-                    }
-                new_entry = DataEntry(post)
-                new_entry.add_id()
-                yield new_entry
+                    yield new_entry
 
     def get_latest_file(self):
         list_of_files = sorted(
@@ -313,7 +317,7 @@ class GreaterWrong(AlignmentDataset):
         
         full_url_link = url_link_prefix + url_link.rstrip("\n")
         r = requests.get(full_url_link)
-        time.sleep(1)
+        time.sleep(self.COOLDOWN_TIME)
 
         html = r.content.decode("utf-8")
         soup = BeautifulSoup(self.cleanHtml(html), "html.parser")
@@ -392,7 +396,9 @@ class GreaterWrong(AlignmentDataset):
                     json_post_and_comment[
                         "comments"
                     ].append(json_comment)
-                except:
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    logger.info(f"Missing comment at: {full_url_link}")
                     pass
         # Update current post iter since we've actually added 1 post to the json
         return json_post_and_comment

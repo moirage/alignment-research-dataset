@@ -32,7 +32,11 @@ class ArxivPapers(AlignmentDataset):
         """
         Get metadata from arxiv
         """
-        search = arxiv.Search(id_list=[paper_id], max_results=1)
+        try:
+            search = arxiv.Search(id_list=[paper_id], max_results=1)
+        except Exception as e:
+            logger.error(e)
+            return None
         return next(search.results())
 
     def fetch_entries(self) -> None:
@@ -55,11 +59,19 @@ class ArxivPapers(AlignmentDataset):
 
             markdown = self.process_id(ids)
 
-            if markdown is None:
-                continue
-
             paper = self._get_arxiv_metadata(ids)
-            new_entry = DataEntry({"url": self._get_arxiv_link(ids),
+            if markdown is None or paper is None:
+                logger.info(f"Skipping {ids}")
+                new_entry = DataEntry({
+                    "url": self._get_arxiv_link(ids),
+                    "title": "n/a",
+                    "authors": "n/a",
+                    "date_published": "n/a",
+                    "source": "arxiv",
+                    "text": "n/a",
+                })
+            else:
+                new_entry = DataEntry({"url": self._get_arxiv_link(ids),
                                    "source": "arxiv",
                                    "source_type": "html",
                                    "converted_with": "markdownify",
@@ -114,7 +126,11 @@ class ArxivPapers(AlignmentDataset):
         """
         v_link = self._get_vanity_link(paper_id)
         logger.info(f"Fetching {v_link}")
-        r = requests.get(v_link, timeout=5 * self.COOLDOWN)
+        try:
+            r = requests.get(v_link, timeout=5 * self.COOLDOWN)
+        except Exception as e:
+            logger.error(e)
+            return None
         markdown = markdownify(r.content)
         if self._is_dud(markdown):
             return None
