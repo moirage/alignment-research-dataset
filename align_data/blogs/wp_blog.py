@@ -16,6 +16,7 @@ class WordpressBlog(AlignmentDataset):
     url: str
     strip: List = field(default_factory=lambda: [])
     max_pages: int = 2000
+    done_key = 'paged_url'
 
     def setup(self):
         """
@@ -34,10 +35,11 @@ class WordpressBlog(AlignmentDataset):
         last_title = ""
         counter = 0
         for ii , page in tqdm(enumerate(range(0, self.max_pages))):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
-                continue
             paged_url = f"{self.feed_url}?paged={page + 1}"
+
+            if self._entry_done(paged_url):
+                logger.info(f"Already done {paged_url}")
+                continue
             logger.info(f"Fetching {paged_url} (max={self.max_pages})")
             d = feedparser.parse(paged_url)
 
@@ -67,6 +69,7 @@ class WordpressBlog(AlignmentDataset):
                     "title": text.split("\n")[0],
                     "source": self.name,
                     "date_published": "n/a",
+                    "paged_url": paged_url,
                 })
                 new_entry.add_id()
 

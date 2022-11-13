@@ -25,7 +25,8 @@ class GreaterWrong(AlignmentDataset):
     """
 
     COOLDOWN_TIME : int = 1
-
+    done_key = "url"
+    
     def setup(self):
         self._setup()
         self.output_dir = self.write_jsonl_path.parent / "raw" / self.name
@@ -47,15 +48,15 @@ class GreaterWrong(AlignmentDataset):
         for url_filename in tqdm(url_filename_list):
             with open(self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}", "r") as file:
                 for url_link in tqdm(file):
-                    if self._entry_done(ii):
-                        logger.info(f"Already done {ii}")
+                    if self._entry_done(url_link):
+                        logger.info(f"Already done {url_link}")
                         ii += 1
                         continue
                     post = self.get_url(self.name , url_link)
                     if post is None:
                         post = {
                             "text" : "n/a",
-                            "url" : "n/a",
+                            "url" : url_link,
                             "title" : "n/a",
                             "authors" : "n/a",
                             "date_published" : "n/a",

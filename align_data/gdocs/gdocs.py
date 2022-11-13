@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 class Gdocs(AlignmentDataset):
 
     gdrive_address : str
+    done_key = "docx_name"
 
     def setup(self):
         self._setup()
@@ -43,8 +44,8 @@ class Gdocs(AlignmentDataset):
     def fetch_entries(self):
         self.setup()
         for ii , docx_filename in enumerate(tqdm(self.gdoc_files.files('*.docx'))):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(docx_filename):
+                logger.info(f"Already done {docx_filename}")
                 continue
 
             logger.info('converting to md...')
@@ -69,6 +70,7 @@ class Gdocs(AlignmentDataset):
                 "date_published": metadata.created if metadata.created else "n/a",
                 "text": text,
                 "url": "n/a",
+                "docx_name": docx_filename,
             })
 
             new_entry.add_id()

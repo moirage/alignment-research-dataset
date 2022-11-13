@@ -23,6 +23,7 @@ class OtherBlog(AlignmentDataset):
 
     url: str
     class_name: str
+    done_key = "url"
 
     def setup(self):
         self._setup()
@@ -38,15 +39,15 @@ class OtherBlog(AlignmentDataset):
             self.url, self.class_name, True
         )
         for ii, post_href in enumerate(tqdm(post_hrefs)):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(post_href):
+                logger.info(f"Already done {post_href}")
                 continue
             content = self._get_article(post_href)
             text = self.cleaner.clean(content, True)
 
             new_entry = DataEntry({
                 "text": text,
-                "url": self.url,
+                "url": post_href,
                 "title": text.split("\n")[0],
                 "source": self.name,
                 "date_published": "n/a",

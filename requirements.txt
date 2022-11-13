@@ -18,3 +18,5 @@ grobid_tei_xml
 python-docx
 transformers
 openpyxl
+seaborn
+matplotlib

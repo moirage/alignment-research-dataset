@@ -32,6 +32,7 @@ class MediumBlog(AlignmentDataset):
     """
 
     url: str
+    done_key = "url"
 
     def setup(self):
         self._setup()
@@ -45,10 +46,7 @@ class MediumBlog(AlignmentDataset):
         logger.info(f"Found {len(self.articles)} articles")
 
         for ii, article in enumerate(tqdm(self.articles)):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
-                continue
-            logger.info(f"Processing {ii}")
+
 
             title = article.find("h2")
             if title is None:
@@ -57,6 +55,12 @@ class MediumBlog(AlignmentDataset):
 
             article_url = article.find_all("a")[0]["href"].split("?")[0]
             article_url = urljoin(self.url, article_url)
+
+            if self._entry_done(article_url):
+                logger.info(f"Already done {article_url}")
+                continue
+            logger.info(f"Processing {ii}")
+
 
             text = self._get_article(article_url)
 

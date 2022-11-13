@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 class MDEBooks(AlignmentDataset):
 
     gdrive_address : str
+    done_key = "file_name"
 
     def setup(self):
         self._setup()
@@ -33,8 +34,8 @@ class MDEBooks(AlignmentDataset):
     def fetch_entries(self):
         self.setup()
         for ii , filename in enumerate(tqdm(self.md_files.files('*.md'))):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(filename):
+                logger.info(f"Already done {filename}")
                 continue
 
             logger.info(f"Fetching {self.name} entry {filename}")
@@ -52,6 +53,7 @@ class MDEBooks(AlignmentDataset):
                 "date_published": str(date),
                 "text": text,
                 "url": "n/a",
+                "filename": filename
             })
             new_entry.add_id()
             yield new_entry

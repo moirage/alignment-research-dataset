@@ -22,6 +22,7 @@ class MarkdownBlogs(AlignmentDataset):
     """
 
     gdrive_address: str
+    done_key = None
 
     def setup(self):
         self._setup()

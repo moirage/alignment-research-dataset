@@ -17,6 +17,7 @@ class GDrive(AlignmentDataset):
     """
 
     gdrive_adress: str
+    done_key = "file_name"
 
     def setup(self):
         self._setup()
@@ -44,8 +45,8 @@ class GDrive(AlignmentDataset):
     def fetch_entries(self):
         self.setup()
         for ii, epub_file in enumerate(tqdm(self.local_out.files('*.epub'))):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(epub_file):
+                logger.info(f"Already done {epub_file}")
                 continue
 
             logger.info(f"Fetching {self.name} entry {epub_file}")
@@ -68,6 +69,7 @@ class GDrive(AlignmentDataset):
                 "chapter_names": [chap["title"] for chap in metadata["toc"]],
                 "text": text,
                 "url": "n/a",
+                "file_name": epub_file
             })
 
             new_entry.add_id()

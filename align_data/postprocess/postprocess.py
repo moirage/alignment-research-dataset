@@ -6,6 +6,10 @@ import logging
 import os
 from path import Path
 
+import pylab as plt
+import seaborn as sns
+import pandas as pd
+
 logger = logging.getLogger(__name__)
 
 @dataclass
@@ -32,7 +36,10 @@ class PostProcesser:
                     self.all_stats[source_name]['num_paragraphs'] = self.all_stats[source_name].get('num_paragraphs' , 0) + len(obj['text'].splitlines())
         
     def plot_statistics(self) -> None:
-        pass
+        all_df = pd.DataFrame(self.all_stats).T
+        plt.figure(figsize = (5 , 5))
+        sns.barplot(x = all_df.index , y = all_df['num_entries'])
+        
 
     def merge_all_files(self , out_dir : str) -> str:
         pass

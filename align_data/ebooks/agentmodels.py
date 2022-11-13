@@ -14,6 +14,7 @@ class AgentModels(AlignmentDataset):
     """
 
     repo: str = 'https://github.com/agentmodels/agentmodels.org.git'
+    done_key = "title"
 
     def setup(self):
         self._setup()
@@ -31,8 +32,8 @@ class AgentModels(AlignmentDataset):
     def fetch_entries(self):
         self.setup()
         for ii, filename in enumerate(tqdm(self.repo_path.files('*.md'))):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(filename.name):
+                logger.info(f"Already done {filename.name}")
                 continue
             with open(filename, 'r') as f:
                 text = f.read()

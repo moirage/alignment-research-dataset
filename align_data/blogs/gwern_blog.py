@@ -15,6 +15,7 @@ class GwernBlog(AlignmentDataset):
     """
 
     COOLDOWN: int = 1
+    done_key = "url"
 
     def setup(self):
         self._setup()
@@ -29,14 +30,14 @@ class GwernBlog(AlignmentDataset):
     def fetch_entries(self):
         self.setup()
         for ii, post_href in enumerate(tqdm(self.post_hrefs)):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(post_href):
+                logger.info(f"Already done {post_href}")
                 continue
             text = self._get_article(post_href)
 
             new_entry = DataEntry({
                 "source": "gwern",
-                "url": "post_href",
+                "url": post_href,
                 "title": text.splitlines()[1].split("title: ")[1],
                 "authors": "Gwern Branwen",
                 "date_published": "n/a",

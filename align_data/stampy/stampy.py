@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 class Stampy(AlignmentDataset):
 
     index_url : str
+    done_key = "entry"
 
     def setup(self):
         self._setup()
@@ -18,8 +19,8 @@ class Stampy(AlignmentDataset):
         self.setup()
         entries = dict(requests.get(self.index_url).json())
         for ii, entry in enumerate(tqdm(entries["results"].keys())):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(entry):
+                logger.info(f"Already done {entry}")
                 continue
             qa_entry = entries["results"][entry]
             qa_entry["question"] = ' '.join(entry.split("to ")[1:])
@@ -42,6 +43,7 @@ class Stampy(AlignmentDataset):
                 "text": qa_entry["text"],
                 "question": qa_entry["question"],
                 "answer": qa_entry["answer"],
+                "entry": entry
             })
             logger.info(f"Processing {entry}")
             new_entry.add_id()

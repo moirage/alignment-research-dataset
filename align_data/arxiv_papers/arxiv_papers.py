@@ -2,11 +2,13 @@ import arxiv
 import requests
 import logging
 import time
+import jsonlines
+
 import pandas as pd
+
 from dataclasses import dataclass
 from markdownify import markdownify
 from tqdm import tqdm
-
 from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 
 logger = logging.getLogger(__name__)
@@ -15,6 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ArxivPapers(AlignmentDataset):
     COOLDOWN: int = 1
+    done_key = "url"
 
     def setup(self) -> None:
         """
@@ -53,8 +56,8 @@ class ArxivPapers(AlignmentDataset):
         self.setup()
         for ii, ids in enumerate(tqdm(self.arxiv_ids)):
             logger.info(f"Processing {ids}")
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(self._get_arxiv_link(ids)):
+                logger.info(f"Already done {self._get_arxiv_link(ids)}")
                 continue
 
             markdown = self.process_id(ids)

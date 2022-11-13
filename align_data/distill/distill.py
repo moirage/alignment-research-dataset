@@ -11,6 +11,9 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class Distill(AlignmentDataset):
+
+    done_key = None
+
     def setup(self):
         self._setup()
         self.DISTILL_POSTS_DIR = self.write_jsonl_path.parent / "raw" / "distill_posts"

@@ -85,6 +85,7 @@ venv.bak/
 # IDEs
 .idea
 launch.json
+.vscode
 
 # System files
 .DS_Store

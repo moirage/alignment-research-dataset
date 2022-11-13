@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 class Reports(AlignmentDataset):
 
     gdrive_url : str
+    done_key = "filename"
 
     def setup(self):
         self._setup()
@@ -36,8 +37,8 @@ class Reports(AlignmentDataset):
     def fetch_entries(self):
         self.setup()
         for ii, filename in enumerate(tqdm((self.local_out / "report_teis").files("*.xml"))):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(filename):
+                logger.info(f"Already done {filename}")
                 continue
 
             logger.info(f"Processing {filename}")
@@ -55,6 +56,7 @@ class Reports(AlignmentDataset):
                     "text": doc_dict["body"],
                     "date_published": "n/a",
                     "url": "n/a",
+                    "filename": filename,
                 })
             except Exception as e:
                 logger.error(f"Error: {e}")
@@ -66,6 +68,7 @@ class Reports(AlignmentDataset):
                     "text": "n/a",
                     "date_published": "n/a",
                     "url": "n/a",
+                    "filename": filename,
                 })
             
             new_entry.add_id()

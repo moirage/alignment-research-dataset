@@ -1,8 +1,10 @@
-from dataclasses import dataclass
-from tqdm import tqdm
-from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 import logging
 import requests
+import jsonlines
+
+from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
+from dataclasses import dataclass
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -10,6 +12,7 @@ logger = logging.getLogger(__name__)
 class Arbital(AlignmentDataset):
 
     ARBITAL_SUBSPACES = ['ai_alignment', 'math', 'rationality']
+    done_key = "alias"
 
     def setup(self):
         self._setup()
@@ -34,8 +37,8 @@ class Arbital(AlignmentDataset):
             aliases += self.get_arbital_page_aliases(subspace=subspace)
 
         for ii, alias in enumerate(tqdm(aliases)):
-            if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+            if self._entry_done(alias):
+                logger.info(f"Already done {alias}")
                 continue
             try:
                 page = self.get_page(alias)
@@ -54,6 +57,7 @@ class Arbital(AlignmentDataset):
                 'source': self.name,
                 'source_filetype': 'text',
                 'authors': 'n/a',
+                'alias': alias,
             })
             new_entry.add_id()
             yield new_entry

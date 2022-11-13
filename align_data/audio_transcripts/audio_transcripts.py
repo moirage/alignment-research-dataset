@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 class AudioTranscripts(AlignmentDataset):
 
     otter_zip_url: str
+    done_key = None
 
     def setup(self):
         self._setup()
