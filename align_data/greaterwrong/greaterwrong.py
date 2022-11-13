@@ -44,11 +44,14 @@ class GreaterWrong(AlignmentDataset):
         # specify url_directory to the specific url_file you want
 
         url_filename_list = self.get_urls(url_directory="")
+        url_link_prefix_public_facing = "https://www.lesswrong.com" if self.name == "lesswrong" else "https://www.forum.effectivealtruism.org"
+        
         ii = 0
         for url_filename in tqdm(url_filename_list):
             with open(self.output_dir / f"unprocessed_{self.name}_urls/{url_filename}", "r") as file:
                 for url_link in tqdm(file):
-                    if self._entry_done(url_link):
+                    if self._entry_done(url_link_prefix_public_facing
+                + url_link.rstrip("\n")):
                         # logger.info(f"Already done {url_link}")
                         ii += 1
                         continue
@@ -56,7 +59,8 @@ class GreaterWrong(AlignmentDataset):
                     if post is None:
                         post = {
                             "text" : "n/a",
-                            "url" : url_link,
+                            "url" : url_link_prefix_public_facing
+                + url_link.rstrip("\n"),
                             "title" : "n/a",
                             "authors" : "n/a",
                             "date_published" : "n/a",

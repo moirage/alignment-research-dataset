@@ -3,11 +3,10 @@ from dataclasses import dataclass
 import jsonlines
 from tqdm import tqdm
 import logging
-import os
 from path import Path
 
 import pylab as plt
-import seaborn as sns
+# import seaborn as sns
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -44,8 +43,13 @@ class PostProcesser:
     def merge_all_files(self , out_dir : str) -> str:
         pass
 
-    def deduplicate(self , merged_dataset_path : str) -> str:
-        pass
+    def deduplicate(self) -> None:
+        for path in tqdm(self.jsonl_list):
+            with jsonlines.open(path , 'r') as reader:
+                all_obj = {obj['id'] : obj for obj in reader}
+            with jsonlines.open(path , 'w') as writer:
+                for obj in all_obj.values():
+                    writer.write(obj)
 
     def clean_dataset(self , merged_dataset_path : str) -> str:
         pass
@@ -55,4 +59,6 @@ pp = PostProcesser()
 pp.source_list
 # %%
 pp.compute_statistics()
+# %%
+pp.deduplicate()
 # %%
