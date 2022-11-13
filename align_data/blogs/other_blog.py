@@ -40,7 +40,7 @@ class OtherBlog(AlignmentDataset):
         )
         for ii, post_href in enumerate(tqdm(post_hrefs)):
             if self._entry_done(post_href):
-                logger.info(f"Already done {post_href}")
+                # logger.info(f"Already done {post_href}")
                 continue
             content = self._get_article(post_href)
             text = self.cleaner.clean(content, True)

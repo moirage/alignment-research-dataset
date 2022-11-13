@@ -38,7 +38,7 @@ class Arbital(AlignmentDataset):
 
         for ii, alias in enumerate(tqdm(aliases)):
             if self._entry_done(alias):
-                logger.info(f"Already done {alias}")
+                # logger.info(f"Already done {alias}")
                 continue
             try:
                 page = self.get_page(alias)

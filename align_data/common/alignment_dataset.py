@@ -38,7 +38,7 @@ class AlignmentDataset:
             for ii , entry in enumerate(reader):
                 if self.done_key and self.done_key not in entry:
                     continue
-                logger.info(f"Found {entry['title']} number {ii} in {self.write_jsonl_path}")
+                # logger.info(f"Found {entry['title']} number {ii} in {self.write_jsonl_path}")
                 self.done_ids.append((self.name , entry[self.done_key] if self.done_key else ii))
     
     def __str__(self) -> str:

@@ -20,7 +20,7 @@ class Stampy(AlignmentDataset):
         entries = dict(requests.get(self.index_url).json())
         for ii, entry in enumerate(tqdm(entries["results"].keys())):
             if self._entry_done(entry):
-                logger.info(f"Already done {entry}")
+                # logger.info(f"Already done {entry}")
                 continue
             qa_entry = entries["results"][entry]
             qa_entry["question"] = ' '.join(entry.split("to ")[1:])

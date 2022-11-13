@@ -38,7 +38,7 @@ class Reports(AlignmentDataset):
         self.setup()
         for ii, filename in enumerate(tqdm((self.local_out / "report_teis").files("*.xml"))):
             if self._entry_done(filename):
-                logger.info(f"Already done {filename}")
+                # logger.info(f"Already done {filename}")
                 continue
 
             logger.info(f"Processing {filename}")

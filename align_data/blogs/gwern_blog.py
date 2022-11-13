@@ -31,7 +31,7 @@ class GwernBlog(AlignmentDataset):
         self.setup()
         for ii, post_href in enumerate(tqdm(self.post_hrefs)):
             if self._entry_done(post_href):
-                logger.info(f"Already done {post_href}")
+                # logger.info(f"Already done {post_href}")
                 continue
             text = self._get_article(post_href)
 

@@ -57,7 +57,7 @@ class MediumBlog(AlignmentDataset):
             article_url = urljoin(self.url, article_url)
 
             if self._entry_done(article_url):
-                logger.info(f"Already done {article_url}")
+                # logger.info(f"Already done {article_url}")
                 continue
             logger.info(f"Processing {ii}")
 

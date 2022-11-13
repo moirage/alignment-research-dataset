@@ -38,7 +38,7 @@ class WordpressBlog(AlignmentDataset):
             paged_url = f"{self.feed_url}?paged={page + 1}"
 
             if self._entry_done(paged_url):
-                logger.info(f"Already done {paged_url}")
+                # logger.info(f"Already done {paged_url}")
                 continue
             logger.info(f"Fetching {paged_url} (max={self.max_pages})")
             d = feedparser.parse(paged_url)
@@ -56,7 +56,7 @@ class WordpressBlog(AlignmentDataset):
 
             for entry in d["entries"]:
                 if self._entry_done(counter):
-                    logger.info(f"Already done {counter}")
+                    # logger.info(f"Already done {counter}")
                     counter += 1
                     continue
 

@@ -57,7 +57,7 @@ class ArxivPapers(AlignmentDataset):
         for ii, ids in enumerate(tqdm(self.arxiv_ids)):
             logger.info(f"Processing {ids}")
             if self._entry_done(self._get_arxiv_link(ids)):
-                logger.info(f"Already done {self._get_arxiv_link(ids)}")
+                # logger.info(f"Already done {self._get_arxiv_link(ids)}")
                 continue
 
             markdown = self.process_id(ids)

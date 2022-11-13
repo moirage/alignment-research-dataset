@@ -26,7 +26,7 @@ class Distill(AlignmentDataset):
         logger.info(f"Fetching {self.name} entries")
         for ii , filename in enumerate(tqdm(self.file_list)):
             if self._entry_done(ii):
-                logger.info(f"Already done {ii}")
+                # logger.info(f"Already done {ii}")
                 continue
             logger.info(f"Fetching {self.name} entry {filename}")
             with open(os.path.join(self.DISTILL_POSTS_DIR, filename), "r") as f:

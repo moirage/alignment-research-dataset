@@ -7,7 +7,7 @@ import align_data
 from align_data.common.utils import EntryWriter
 from align_data.analysis.count_tokens import count_token
 
-import logging , sys
+# import logging , sys
 
 # logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 

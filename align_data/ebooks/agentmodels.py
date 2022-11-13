@@ -33,7 +33,7 @@ class AgentModels(AlignmentDataset):
         self.setup()
         for ii, filename in enumerate(tqdm(self.repo_path.files('*.md'))):
             if self._entry_done(filename.name):
-                logger.info(f"Already done {filename.name}")
+                # logger.info(f"Already done {filename.name}")
                 continue
             with open(filename, 'r') as f:
                 text = f.read()

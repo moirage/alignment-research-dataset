@@ -49,7 +49,7 @@ class MarkdownBlogs(AlignmentDataset):
         self.setup()
         for ii, filename in enumerate(tqdm(self.file_list)):
             if self._entry_done(ii):
-                logger.info(f"Already done {ii} , {filename}")
+                # logger.info(f"Already done {ii} , {filename}")
                 continue
             with open(filename , "r") as f:
                 text = f.read()

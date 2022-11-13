@@ -30,7 +30,7 @@ class AlignmentNewsletter(AlignmentDataset):
         self.setup()
         for ii , row in tqdm(self.df.iterrows()):
             if self._entry_done(row['Title']):
-                logger.info(f"Already done {row['Title']}")
+                # logger.info(f"Already done {row['Title']}")
                 continue
             new_entry = DataEntry({"url": "https://rohinshah.com/alignment-newsletter/",
                    "source": "alignment newsletter",

@@ -45,10 +45,8 @@ class Gdocs(AlignmentDataset):
         self.setup()
         for ii , docx_filename in enumerate(tqdm(self.gdoc_files.files('*.docx'))):
             if self._entry_done(docx_filename):
-                logger.info(f"Already done {docx_filename}")
+                # logger.info(f"Already done {docx_filename}")
                 continue
-
-            logger.info('converting to md...')
 
             logger.info(f"Fetching {self.name} entry {docx_filename}")
             try:

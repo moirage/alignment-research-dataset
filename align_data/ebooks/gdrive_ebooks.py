@@ -46,7 +46,7 @@ class GDrive(AlignmentDataset):
         self.setup()
         for ii, epub_file in enumerate(tqdm(self.local_out.files('*.epub'))):
             if self._entry_done(epub_file):
-                logger.info(f"Already done {epub_file}")
+                # logger.info(f"Already done {epub_file}")
                 continue
 
             logger.info(f"Fetching {self.name} entry {epub_file}")
