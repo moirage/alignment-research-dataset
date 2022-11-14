@@ -1,0 +1,3 @@
+[submodule "classify_scrape/scidocs"]
+	path = classify_scrape/scidocs
+	url = https://github.com/allenai/scidocs.git
