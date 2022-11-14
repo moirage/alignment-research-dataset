@@ -20,3 +20,4 @@ transformers
 openpyxl
 seaborn
 matplotlib
+semanticscholar
