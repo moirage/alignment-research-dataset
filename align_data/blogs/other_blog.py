@@ -1,46 +1,59 @@
+from dataclasses import dataclass
 import requests
 import time
-import re
+import logging
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
-
-from bs4 import BeautifulSoup
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-from urllib.parse import urljoin
+from markdownify import markdownify
+from tqdm import tqdm
+from selenium.webdriver.common.by import By
 
 from align_data.common import utils
+from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
 
+logger = logging.getLogger(__name__)
 
-class OtherBlog:
+@dataclass
+class OtherBlog(AlignmentDataset):
     """
     Fetches articles from a different blog by collecting links to articles from an index page.
-
     """
 
-    def __init__(self, url, class_name, do_scroll=True):
-        self.url = url
-        self.class_name = class_name
-        self.do_scroll = do_scroll
+    url: str
+    class_name: str
+    done_key = "url"
+
+    def setup(self):
+        self._setup()
         self.cleaner = utils.HtmlCleaner(
             ["You might also like\.\.\..*", "\\n+", "\#\# Create your profile.*"],
             ["", "\\n", ""],
             True,
         )
-        self.name = utils.url_to_filename(url)
-
-        self.is_first = True
 
     def fetch_entries(self):
+        self.setup()
         post_hrefs = self._selenium_get_post_hrefs(
-            self.url, self.class_name, self.do_scroll
+            self.url, self.class_name, True
         )
-        for post_href in post_hrefs:
+        for ii, post_href in enumerate(tqdm(post_hrefs)):
+            if self._entry_done(post_href):
+                # logger.info(f"Already done {post_href}")
+                continue
             content = self._get_article(post_href)
             text = self.cleaner.clean(content, True)
-            yield {"text": text, "url": self.url, "title": text.split("\n")[0]}
+
+            new_entry = DataEntry({
+                "text": text,
+                "url": post_href,
+                "title": text.split("\n")[0],
+                "source": self.name,
+                "date_published": "n/a",
+            })
+            new_entry.add_id()
+            yield new_entry
 
     def _selenium_get_post_hrefs(
         self,
@@ -54,10 +67,13 @@ class OtherBlog:
     ):
 
         browser = webdriver.Chrome(ChromeDriverManager().install())
+        browser.implicitly_wait(2) # gives an implicit wait for 20 seconds
+
         browser.get(index_page)
         time.sleep(DELAY_GET)
 
-        elem = browser.find_element_by_tag_name(tag_name)
+        elem = browser.find_element(By.TAG_NAME , tag_name)
+
         if do_scroll:
             [
                 elem.send_keys(Keys.PAGE_DOWN) and time.sleep(SCROLL_SLEEP)
@@ -66,11 +82,12 @@ class OtherBlog:
 
         time.sleep(DELAY_GET)
 
-        post_elems = browser.find_elements_by_class_name(class_name)
+        post_elems = browser.find_elements(By.CLASS_NAME, class_name)
         post_hrefs = [post.get_attribute("href") for post in post_elems]
         if post_hrefs[0] is None:
             post_hrefs = [
-                browser.find_element_by_link_text(post.text).get_attribute("href")
+                browser.find_element(By.LINK_TEXT,
+                    post.text).get_attribute("href")
                 for post in post_elems
             ]
         browser.close()
@@ -78,7 +95,7 @@ class OtherBlog:
         return post_hrefs
 
     def _get_article(self, url):
-        print("Fetching {}".format(url))
+        logger.info("Fetching {}".format(url))
         article = requests.get(url, allow_redirects=True)
 
-        return article.text
+        return markdownify(article.content)

@@ -8,12 +8,14 @@ from urllib.parse import urlparse
 import os
 from functools import reduce
 import operator
-
+import unicodedata
+import re
 
 htmlformatter = html2text.HTML2Text()
 htmlformatter.ignore_links = True
 htmlformatter.ignore_images = True
 htmlformatter.body_width = 0
+
 
 class EntryWriter:
     def __init__(self, name, path, overwrite=False):
@@ -40,7 +42,7 @@ class EntryWriter:
 
     def write(self, entry):
         # Save the entry in JSONL file
-        self.jsonl_writer.write(entry)
+        self.jsonl_writer.write(entry.toJSON())
 
         # Save the entry in plain text, mainly for debugging
         print("[ENTRY {}]".format(self.entry_idx), file=self.text_writer)
@@ -117,3 +119,21 @@ def chdir_up_n(n):
     """Goes up n times in the directory tree."""
     for i in range(n):
         os.chdir("..")
+
+
+
+def slugify(value, allow_unicode=False):
+    """
+    Taken from https://github.com/django/django/blob/master/django/utils/text.py
+    Convert to ASCII if 'allow_unicode' is False. Convert spaces or repeated
+    dashes to single dashes. Remove characters that aren't alphanumerics,
+    underscores, or hyphens. Convert to lowercase. Also strip leading and
+    trailing whitespace, dashes, and underscores.
+    """
+    value = str(value)
+    if allow_unicode:
+        value = unicodedata.normalize('NFKC', value)
+    else:
+        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+    value = re.sub(r'[^\w\s-]', '', value.lower())
+    return re.sub(r'[-\s]+', '-', value).strip('-_')

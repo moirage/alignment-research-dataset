@@ -1,139 +1,80 @@
-import argparse
-import os
-import shutil
+import logging
+import requests
+import jsonlines
+
+from align_data.common.alignment_dataset import AlignmentDataset, DataEntry
+from dataclasses import dataclass
 from tqdm import tqdm
 
-from arbital.download import (
-    ARBITAL_SUBSPACES,
-    get_page,
-    get_arbital_page_aliases,
-)
+logger = logging.getLogger(__name__)
 
+@dataclass
+class Arbital(AlignmentDataset):
 
-class Arbital:
-    def __init__(self):
-        self.name = "arbital"
-        self.DEFAULT_CACHE_DIR = "data/cache/arbital"
-        self.DEFAULT_DATA_DIR = "data/arbital"
+    ARBITAL_SUBSPACES = ['ai_alignment', 'math', 'rationality']
+    done_key = "alias"
 
-    def write_page(page, path):
-        alias = page["alias"]
-        title = page["title"]
-        created = page["pageCreatedAt"]
-        text = page["text"]
-        # TODO: play with formatting here
-        data = f"{title}\n\n{created}\n\n{text}"
-        if not os.path.exists(path):
-            os.makedirs(path, exist_ok=True)
-        fn = os.path.join(path, f"arbital_{alias}.txt")
-        with open(fn, "w") as f:
-            f.write(data)
+    def setup(self):
+        self._setup()
 
-    def cmd_list(args):
-        aliases = get_arbital_page_aliases(
-            subspace=args.subspace,
-            cache_dir=args.cache_dir,
-        )
-        print(f"{len(aliases)} total pages in subspace `{args.subspace}`.")
-        print(aliases)
+        self.headers = {
+            'authority': 'arbital.com',
+            'accept': 'application/json, text/plain, */*',
+            'content-type': 'application/json;charset=UTF-8',
+            'sec-ch-ua-mobile': '?0',
+            'origin': 'https://arbital.com',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-dest': 'empty',
+            'accept-language': 'en-US,en;q=0.9',
+        }
 
-    def cmd_fetch(args):
-        aliases = get_arbital_page_aliases(
-            subspace=args.subspace,
-            cache_dir=args.cache_dir,
-        )
-        assert args.alias in aliases, "Article does not exist for this alias"
-        page = get_page(args.alias, subspace=args.subspace, cache_dir=args.cache_dir)
-        write_page(page=page, path=args.path)
+    def fetch_entries(self):
+        self.setup()
+        
+        aliases = []
+        for subspace in self.ARBITAL_SUBSPACES:
+            aliases += self.get_arbital_page_aliases(subspace=subspace)
 
-    def cmd_fetch_all(args):
-        assert args.subspace in ARBITAL_SUBSPACES, "Not a valid Arbital subspace."
-        aliases = get_arbital_page_aliases(
-            subspace=args.subspace, cache_dir=args.cache_dir
-        )
-        for alias in tqdm(aliases, disable=not args.progress):
-            page = get_page(alias, args.subspace, args.cache_dir)
-            write_page(page=page, path=args.path)
+        for ii, alias in enumerate(tqdm(aliases)):
+            if self._entry_done(alias):
+                # logger.info(f"Already done {alias}")
+                continue
+            try:
+                page = self.get_page(alias)
+            except Exception as e:
+                logger.error(f"Error getting page {alias}: {e}")
+                page = {
+                    'title': 'Error getting page',
+                    'text': 'Error getting page',
+                    'date_published': 'Error getting page',
+                }
+            new_entry = DataEntry({
+                'title': page['title'] if 'title' in page else 'n/a',
+                'text': page['text'] if 'text' in page else 'n/a',
+                'date_published': page['pageCreatedAt'] if 'pageCreatedAt' in page else 'n/a',
+                'url': 'n/a',
+                'source': self.name,
+                'source_filetype': 'text',
+                'authors': 'n/a',
+                'alias': alias,
+            })
+            new_entry.add_id()
+            yield new_entry
 
-    def cmd_clear_cache(args):
-        if os.path.exists(cache_dir):
-            shutil.rmtree(args.cache_dir)
+    def get_arbital_page_aliases(self, subspace):
+        headers = self.headers.copy()
+        headers['referer'] = 'https://arbital.com/explore/{subspace}/'.format(
+            subspace=subspace)
+        data = '{{"pageAlias":"{subspace}"}}'.format(subspace=subspace)
+        response = requests.post(
+            'https://arbital.com/json/explore/', headers=headers, data=data).json()
+        return list(response['pages'].keys())
 
-    def create_arg_parser():
-        parser = argparse.ArgumentParser(description="Fetch Arbital articles.")
-        subparsers = parser.add_subparsers(
-            title="commands", description="valid commands", help="additional help"
-        )
-
-        list_cmd = subparsers.add_parser(
-            "list", help="List available Arbital article aliases."
-        )
-        list_cmd.add_argument(
-            "--subspace",
-            default="ai_alignment",
-            choices=ARBITAL_SUBSPACES,
-            help="Arbital subspace",
-        )
-        list_cmd.set_defaults(func=cmd_list)
-        list_cmd.add_argument(
-            "--cache-dir",
-            default=DEFAULT_CACHE_DIR,
-            help="Path to save cached scrapes.",
-        )
-
-        fetch_cmd = subparsers.add_parser("fetch", help="Fetch Arbital articles.")
-        fetch_cmd.set_defaults(func=cmd_fetch)
-        fetch_cmd.add_argument("alias", help="Alias of Arbital article to fetch.")
-        fetch_cmd.add_argument(
-            "--subspace",
-            default="ai_alignment",
-            choices=ARBITAL_SUBSPACES,
-            help="Arbital subspace",
-        )
-        fetch_cmd.add_argument(
-            "--path", default=DEFAULT_DATA_DIR, help="Path to save article."
-        )
-        fetch_cmd.add_argument(
-            "--cache-dir",
-            default=DEFAULT_CACHE_DIR,
-            help="Path to save cached scrapes.",
-        )
-
-        fetch_all_cmd = subparsers.add_parser(
-            "fetch-all", help="Fetch all Arbital articles."
-        )
-        fetch_all_cmd.set_defaults(func=cmd_fetch_all)
-        fetch_all_cmd.add_argument(
-            "--subspace",
-            default="ai_alignment",
-            choices=ARBITAL_SUBSPACES,
-            help="Arbital subspace",
-        )
-        fetch_all_cmd.add_argument(
-            "--path", default=DEFAULT_DATA_DIR, help="Path to save articles."
-        )
-        fetch_all_cmd.add_argument(
-            "--cache-dir",
-            default=DEFAULT_CACHE_DIR,
-            help="Path to save cached scrapes.",
-        )
-        fetch_all_cmd.add_argument("--progress", default=True, help="Show progress.")
-
-        clear_cache_cmd = subparsers.add_parser("clear-cache", help="Clear the cache.")
-        clear_cache_cmd.set_defaults(func=cmd_clear_cache)
-        clear_cache_cmd.add_argument(
-            "--cache-dir",
-            default=DEFAULT_CACHE_DIR,
-            help="Path to save cached scrapes.",
-        )
-        return parser
-
-    def main():
-        args = create_arg_parser().parse_args()
-
-        if getattr(args, "func", None) is None:
-            # No subcommand was given
-            create_arg_parser().print_help()
-            return
-
-        args.func(args)
+    def get_page(self, alias):
+        headers = self.headers.copy()
+        headers['referer'] = 'https://arbital.com/'
+        data = '{{"pageAlias":"{alias}"}}'.format(alias=alias)
+        response = requests.post(
+            'https://arbital.com/json/primaryPage/', headers=headers, data=data).json()
+        return response['pages'][alias]

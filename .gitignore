@@ -73,9 +73,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Data
-data/
-
 # Environments
 .env
 .venv
@@ -88,6 +85,7 @@ venv.bak/
 # IDEs
 .idea
 launch.json
+.vscode
 
 # System files
 .DS_Store
@@ -106,3 +104,18 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+__MACOSX/
+*.backup
+test.py
+*.zip
+transcripts/
+waitbutwhy/
+carado.moe/
+*.jsonl
+*.txt
+*.xml
+*.docx
+*.md
+*.txt
+*.epub
