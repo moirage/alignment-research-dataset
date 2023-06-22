@@ -27,6 +27,12 @@ class GwernBlog(AlignmentDataset):
                            'https://www.gwern.net/Backstop.page',
                            'https://www.gwern.net/Hyperbolic-Time-Chamber.page']
 
+    def _robust_title(self, text):
+        try: 
+            return text.splitlines()[1].split("title: ")[1]
+        except:
+            return "n/a"
+
     def fetch_entries(self):
         self.setup()
         for ii, post_href in enumerate(tqdm(self.post_hrefs)):
@@ -38,7 +44,7 @@ class GwernBlog(AlignmentDataset):
             new_entry = DataEntry({
                 "source": "gwern",
                 "url": post_href,
-                "title": text.splitlines()[1].split("title: ")[1],
+                "title": self._robust_title(text),
                 "authors": "Gwern Branwen",
                 "date_published": "n/a",
                 "text": text,
