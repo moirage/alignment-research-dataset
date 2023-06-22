@@ -19,6 +19,7 @@ class AudioTranscripts(AlignmentDataset):
         self._setup()
         self.transcript_path = self.write_jsonl_path.parent / 'raw' / "transcripts" / "transcripts"
         if not os.path.exists(self.transcript_path):
+            self.transcript_path.parent.mkdir_p()
             self.transcript_path.mkdir_p()
             self._pull_from_gdrive()
         self.file_list = [xx for xx in self.transcript_path.files('*.md')]
@@ -30,7 +31,7 @@ class AudioTranscripts(AlignmentDataset):
                        quiet=False)
         logger.info("Unzipping")
         with zipfile.ZipFile(self.write_jsonl_path.parent / "transcripts.zip", 'r') as zip_ref:
-            zip_ref.extractall(self.transcript_path)
+            zip_ref.extractall(self.transcript_path.parent)
 
     def fetch_entries(self):
         self.setup()
