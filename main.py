@@ -39,7 +39,7 @@ class AlignmentDataset:
 
         return os.path.join(self.out_path, name + ".jsonl")
 
-    def cmd_fetch_all(self) -> str:
+    def cmd_fetch_all(self, iterative : bool = False) -> str:
         """
         It downloads all the datasets, moves the alignment_newsletter.jsonl file to the processed
         folder, deletes the alignment_newsletter.jsonl file, adds the alignment_newsletter_summaries to
@@ -48,6 +48,8 @@ class AlignmentDataset:
         """
         for name in align_data.ALL_DATASETS:
             print(name)
+            if iterative and os.path.exists(os.path.join(self.out_path, name + ".jsonl")):
+                continue
             self.cmd_fetch(name)
         
         return None #merge_all_files(out_dir = self.out_path)
@@ -73,7 +75,7 @@ def main(command : str , out_path : str = "data" , dataset_name : str = None ) -
     :return: A list of strings.
     """
 
-    assert command in [ "list" , "fetch" , "fetch-all" ] , f"Invalid command: {command}"
+    assert command in [ "list" , "fetch" , "fetch-all" , "fetch-all-iter" ] , f"Invalid command: {command}"
 
     al_dataset = AlignmentDataset(out_path)
 
@@ -83,6 +85,8 @@ def main(command : str , out_path : str = "data" , dataset_name : str = None ) -
         return al_dataset.cmd_fetch(dataset_name)
     elif command == "fetch-all":
         return al_dataset.cmd_fetch_all()
+    elif command == "fetch-all-iter":
+        return al_dataset.cmd_fetch_all(iterative = True)
     elif command == "count-tokens":
         al_dataset.cmd_count_tokens()
         return None
