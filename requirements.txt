@@ -11,6 +11,7 @@ selenium
 webdriver_manager
 GitPython
 pypandoc
+tqdm
 epub_meta
 arxiv
 pandas
